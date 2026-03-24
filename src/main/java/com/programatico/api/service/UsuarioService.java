@@ -27,6 +27,7 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final EmailService emailService;
 
     @Transactional
     public UsuarioDto.LoginResponse login(UsuarioDto.LoginRequest request) {
@@ -63,15 +64,13 @@ public class UsuarioService {
                 .dataAtualizacao(agora)
                 .build();
         usuario = usuarioRepository.save(usuario);
-        // TODO: enviar e-mail com codigoAtivacao
+        emailService.enviarCodigoAtivacao(usuario.getEmail(), usuario.getUsername(), codigoAtivacao);
         return UsuarioDto.Response.fromEntity(usuario);
     }
 
     @Transactional
     public UsuarioDto.MessageResponse ativar(UsuarioDto.AtivacaoRequest request) {
-        Usuario usuario = usuarioRepository.findAll().stream()
-                .filter(u -> request.getCodigo().equals(u.getCodigoAtivacao()))
-                .findFirst()
+        Usuario usuario = usuarioRepository.findByCodigoAtivacao(request.getCodigo())
                 .orElseThrow(() -> new BadRequestException("Código de ativação inválido"));
         usuario.setAtivo(true);
         usuario.setCodigoAtivacao(null);
@@ -87,15 +86,13 @@ public class UsuarioService {
         usuario.setCodigoRedefinicaoSenha(codigo);
         usuario.setDataExpiracaoCodigoRedefinicao(Instant.now().plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
-        // TODO: enviar e-mail com codigo
+        emailService.enviarCodigoRedefinicaoSenha(usuario.getEmail(), usuario.getUsername(), codigo);
         return UsuarioDto.MessageResponse.of("Se o e-mail existir, você receberá um código para redefinir a senha.");
     }
 
     @Transactional
     public UsuarioDto.MessageResponse redefinirSenha(UsuarioDto.NovaSenhaRequest request) {
-        Usuario usuario = usuarioRepository.findAll().stream()
-                .filter(u -> request.getCodigo().equals(u.getCodigoRedefinicaoSenha()))
-                .findFirst()
+        Usuario usuario = usuarioRepository.findByCodigoRedefinicaoSenha(request.getCodigo())
                 .orElseThrow(() -> new BadRequestException("Código inválido ou expirado"));
         if (usuario.getDataExpiracaoCodigoRedefinicao() == null || usuario.getDataExpiracaoCodigoRedefinicao().isBefore(Instant.now())) {
             throw new BadRequestException("Código expirado. Solicite um novo.");
