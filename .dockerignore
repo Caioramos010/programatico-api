@@ -1,0 +1,6 @@
+target/
+api/
+*.md
+.git
+.gitignore
+compose.yaml
