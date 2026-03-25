@@ -1,6 +1,7 @@
 package com.programatico.api.dto;
 
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.NivelHabilidade;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +45,11 @@ public final class UsuarioDto {
         private String email;
 
         @NotBlank(message = "Senha é obrigatória")
-        @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
+        @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
+        @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).+$",
+            message = "Senha deve conter letra maiúscula, minúscula, número e caractere especial"
+        )
         private String senha;
 
         @Min(1)
@@ -80,8 +85,21 @@ public final class UsuarioDto {
         private String codigo;
 
         @NotBlank(message = "Nova senha é obrigatória")
-        @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
+        @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
+        @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).+$",
+            message = "Senha deve conter letra maiúscula, minúscula, número e caractere especial"
+        )
         private String novaSenha;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ConfirmarExclusaoRequest {
+        @NotBlank(message = "Código é obrigatório")
+        private String codigo;
     }
 
     @Data
@@ -95,12 +113,18 @@ public final class UsuarioDto {
         @Email(message = "E-mail inválido")
         private String email;
 
-        @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
+        @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")
+        @Pattern(
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).+$",
+            message = "Senha deve conter letra maiúscula, minúscula, número e caractere especial"
+        )
         private String senha;
 
         @Min(1)
         @Max(120)
         private Integer idade;
+
+        private NivelHabilidade nivelHabilidade;
     }
 
     // ---------- Response ----------
@@ -116,6 +140,7 @@ public final class UsuarioDto {
         private Integer idade;
         private Boolean ativo;
         private Instant dataCriacao;
+        private NivelHabilidade nivelHabilidade;
 
         public static Response fromEntity(Usuario u) {
             return Response.builder()
@@ -125,6 +150,7 @@ public final class UsuarioDto {
                     .idade(u.getIdade())
                     .ativo(u.getAtivo())
                     .dataCriacao(u.getDataCriacao())
+                    .nivelHabilidade(u.getNivelHabilidade())
                     .build();
         }
     }

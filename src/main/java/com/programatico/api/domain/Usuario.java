@@ -1,5 +1,6 @@
 package com.programatico.api.domain;
 
+import com.programatico.api.domain.enums.NivelHabilidade;
 import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import jakarta.persistence.*;
@@ -52,6 +53,11 @@ public class Usuario {
 
     private Instant dataExpiracaoCodigoRedefinicao;
 
+    @Column(length = 20)
+    private String codigoExclusaoConta;
+
+    private Instant dataExpiracaoCodigoExclusao;
+
     @Column(nullable = false, updatable = false)
     private Instant dataCriacao;
 
@@ -59,6 +65,10 @@ public class Usuario {
 
     @Column(length = 500)
     private String icon;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private NivelHabilidade nivelHabilidade;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)

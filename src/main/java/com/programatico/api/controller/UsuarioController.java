@@ -39,4 +39,18 @@ public class UsuarioController {
         usuarioService.excluir(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{id}/solicitar-exclusao")
+    public ResponseEntity<UsuarioDto.MessageResponse> solicitarExclusao(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.solicitarExclusaoConta(id));
+    }
+
+    @PostMapping("/{id}/confirmar-exclusao")
+    public ResponseEntity<Void> confirmarExclusao(
+            @PathVariable Long id,
+            @Valid @RequestBody UsuarioDto.ConfirmarExclusaoRequest request
+    ) {
+        usuarioService.confirmarExclusaoConta(id, request);
+        return ResponseEntity.noContent().build();
+    }
 }

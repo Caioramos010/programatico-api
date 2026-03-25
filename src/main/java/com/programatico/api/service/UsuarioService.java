@@ -140,6 +140,9 @@ public class UsuarioService {
         if (request.getIdade() != null) {
             usuario.setIdade(request.getIdade());
         }
+        if (request.getNivelHabilidade() != null) {
+            usuario.setNivelHabilidade(request.getNivelHabilidade());
+        }
         usuario = usuarioRepository.save(usuario);
         return UsuarioDto.Response.fromEntity(usuario);
     }
@@ -148,6 +151,33 @@ public class UsuarioService {
     public void excluir(Long id) {
         if (!usuarioRepository.existsById(id)) {
             throw new ResourceNotFoundException("Usuário", id);
+        }
+        usuarioRepository.deleteById(id);
+    }
+
+    @Transactional
+    public UsuarioDto.MessageResponse solicitarExclusaoConta(Long id) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário", id));
+        String codigo = gerarCodigo();
+        usuario.setCodigoExclusaoConta(codigo);
+        usuario.setDataExpiracaoCodigoExclusao(Instant.now().plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS));
+        usuarioRepository.save(usuario);
+        emailService.enviarCodigoExclusaoConta(usuario.getEmail(), usuario.getUsername(), codigo);
+        return UsuarioDto.MessageResponse.of("Código de confirmação enviado para o seu e-mail.");
+    }
+
+    @Transactional
+    public void confirmarExclusaoConta(Long id, UsuarioDto.ConfirmarExclusaoRequest request) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário", id));
+        if (usuario.getCodigoExclusaoConta() == null
+                || !usuario.getCodigoExclusaoConta().equals(request.getCodigo())) {
+            throw new BadRequestException("Código inválido");
+        }
+        if (usuario.getDataExpiracaoCodigoExclusao() == null
+                || usuario.getDataExpiracaoCodigoExclusao().isBefore(Instant.now())) {
+            throw new BadRequestException("Código expirado. Solicite um novo.");
         }
         usuarioRepository.deleteById(id);
     }
