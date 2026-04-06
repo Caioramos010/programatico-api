@@ -21,6 +21,10 @@ public class ContentBlock {
     @JoinColumn(name = "module_id", nullable = false)
     private Modulo modulo;
 
+    @ManyToOne
+    @JoinColumn(name = "pagina_id")
+    private TeoriaPagina pagina;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     private LayoutType layoutType;

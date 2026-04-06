@@ -2,6 +2,7 @@ package com.programatico.api.dto;
 
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.NivelHabilidade;
+import com.programatico.api.domain.enums.TipoUsuario;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -125,6 +126,8 @@ public final class UsuarioDto {
         private Integer idade;
 
         private NivelHabilidade nivelHabilidade;
+
+        private String icon;
     }
 
     // ---------- Response ----------
@@ -141,6 +144,8 @@ public final class UsuarioDto {
         private Boolean ativo;
         private Instant dataCriacao;
         private NivelHabilidade nivelHabilidade;
+        private TipoUsuario role;
+        private String icon;
 
         public static Response fromEntity(Usuario u) {
             return Response.builder()
@@ -151,6 +156,8 @@ public final class UsuarioDto {
                     .ativo(u.getAtivo())
                     .dataCriacao(u.getDataCriacao())
                     .nivelHabilidade(u.getNivelHabilidade())
+                    .role(u.getRole())
+                    .icon(u.getIcon())
                     .build();
         }
     }

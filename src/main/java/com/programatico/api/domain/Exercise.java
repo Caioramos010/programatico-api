@@ -33,4 +33,10 @@ public class Exercise {
 
     @Column(nullable = false)
     private Integer xpReward;
+
+    @Column(columnDefinition = "TEXT")
+    private String tags;
+
+    @Column(columnDefinition = "TEXT")
+    private String imageData;
 }

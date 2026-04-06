@@ -143,6 +143,9 @@ public class UsuarioService {
         if (request.getNivelHabilidade() != null) {
             usuario.setNivelHabilidade(request.getNivelHabilidade());
         }
+        if (request.getIcon() != null) {
+            usuario.setIcon(request.getIcon());
+        }
         usuario = usuarioRepository.save(usuario);
         return UsuarioDto.Response.fromEntity(usuario);
     }

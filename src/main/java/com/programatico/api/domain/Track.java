@@ -24,4 +24,7 @@ public class Track {
 
     @Column(nullable = false)
     private Integer displayOrder;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String icon;
 }

@@ -63,7 +63,7 @@ public class Usuario {
 
     private Instant dataAtualizacao;
 
-    @Column(length = 500)
+    @Column(columnDefinition = "LONGTEXT")
     private String icon;
 
     @Enumerated(EnumType.STRING)
