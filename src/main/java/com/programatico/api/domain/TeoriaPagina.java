@@ -1,36 +1,31 @@
 package com.programatico.api.domain;
 
-import com.programatico.api.domain.enums.ModuleType;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "modules")
+@Table(name = "teoria_paginas")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Modulo {
+public class TeoriaPagina {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "track_id", nullable = false)
-    private Track track;
+    @JoinColumn(name = "module_id", nullable = false)
+    private Modulo modulo;
 
     @Column(nullable = false, length = 255)
     private String title;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
-    private ModuleType moduleType;
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Column(nullable = false)
     private Integer displayOrder;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
 }

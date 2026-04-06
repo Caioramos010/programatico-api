@@ -23,4 +23,8 @@ public class Mission {
     private String objectiveType;
 
     private Integer xpReward;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Integer quantidade = 1;
 }

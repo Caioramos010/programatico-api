@@ -24,6 +24,7 @@ public class UsuarioDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmailOrUsername(username, username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
+        String role = "ROLE_" + usuario.getRole().name();
         return new User(
                 usuario.getUsername(),
                 usuario.getSenha(),
@@ -31,7 +32,7 @@ public class UsuarioDetailsService implements UserDetailsService {
                 true,
                 true,
                 true,
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"))
+                Collections.singletonList(new SimpleGrantedAuthority(role))
         );
     }
 }
