@@ -7,7 +7,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_progress")
+@Table(name = "user_progress", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_user_progress", columnNames = {"user_id", "module_id"})
+})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,7 +26,7 @@ public class UserProgress {
     private Usuario usuario;
 
     @ManyToOne
-    @JoinColumn(name = "module_id", nullable = false, unique = true)
+    @JoinColumn(name = "module_id", nullable = false)
     private Modulo modulo;
 
     @Enumerated(EnumType.STRING)

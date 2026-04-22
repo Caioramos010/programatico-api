@@ -31,8 +31,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<Map<String, String>> handleDataIntegrity(DataIntegrityViolationException ex) {
         log.warn("Violação de integridade: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("mensagem", "E-mail ou nome de usuário já cadastrado."));
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Map.of("mensagem", "Operação não permitida: registro duplicado."));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -6,8 +6,11 @@ import com.programatico.api.domain.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserProgressRepository extends JpaRepository<UserProgress, Long> {
 
     List<UserProgress> findByUsuarioAndModuloIn(Usuario usuario, List<Modulo> modulos);
+
+    Optional<UserProgress> findByUsuarioAndModulo(Usuario usuario, Modulo modulo);
 }

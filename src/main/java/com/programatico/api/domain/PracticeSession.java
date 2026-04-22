@@ -23,6 +23,10 @@ public class PracticeSession {
     @JoinColumn(name = "user_id", nullable = false)
     private Usuario usuario;
 
+    @ManyToOne
+    @JoinColumn(name = "module_id")
+    private Modulo modulo;
+
     @Enumerated(EnumType.STRING)
     @Column(length = 15)
     private SessionType sessionType;

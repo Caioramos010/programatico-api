@@ -11,6 +11,8 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     List<Exercise> findByModuloOrderByIdAsc(Modulo modulo);
 
+    List<Exercise> findByModuloAndXpReward(Modulo modulo, Integer xpReward);
+
     long countByModulo(Modulo modulo);
 
     @Query("SELECT COALESCE(SUM(e.xpReward), 0) FROM Exercise e WHERE e.modulo = :modulo")

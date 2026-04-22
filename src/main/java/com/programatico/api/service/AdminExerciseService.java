@@ -6,6 +6,7 @@ import com.programatico.api.dto.ExerciseDto;
 import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class AdminExerciseService {
 
     private final ExerciseRepository exerciseRepository;
     private final ModuloRepository moduloRepository;
+    private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
 
     @Transactional(readOnly = true)
     public List<ExerciseDto.Response> listarPorModulo(Long moduloId) {
@@ -65,9 +67,12 @@ public class AdminExerciseService {
 
     @Transactional
     public void deletar(Long id) {
-        if (!exerciseRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Exercício", id);
-        }
+        Exercise exercise = exerciseRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Exercício", id));
+        // Remove registros de sessões que referenciam este exercício antes de deletar
+        practiceSessionExerciseRepository.deleteAll(
+                practiceSessionExerciseRepository.findByExercise(exercise)
+        );
         exerciseRepository.deleteById(id);
         log.info("Exercício deletado: id={}", id);
     }

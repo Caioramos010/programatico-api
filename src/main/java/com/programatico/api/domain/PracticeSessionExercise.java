@@ -26,7 +26,7 @@ public class PracticeSessionExercise {
 
     private Integer displayOrder;
 
-    @Column(length = 1)
+    @Column(columnDefinition = "TEXT")
     private String userAnswer;
 
     private Boolean isCorrect;
