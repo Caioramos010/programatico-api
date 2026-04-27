@@ -10,7 +10,7 @@ import lombok.*;
 import java.time.Instant;
 
 @Entity
-@Table(name = "usuarios")
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -33,41 +33,44 @@ public class Usuario {
     private String email;
 
     @NotBlank
-    @Column(nullable = false, length = 255)
+    @Column(name = "password", nullable = false, length = 255)
     private String senha;
 
     @Min(value = 12, message = "Idade mínima é 12 anos")
     @Max(120)
-    @Column(nullable = true)
+    @Column(name = "age", nullable = true)
     private Integer idade;
 
-    @Column(nullable = false)
+    @Column(name = "active", nullable = false)
     @Builder.Default
     private Boolean ativo = false;
 
-    @Column(length = 20)
+    @Column(name = "activation_code", length = 20)
     private String codigoAtivacao;
 
-    @Column(length = 20)
+    @Column(name = "password_reset_code", length = 20)
     private String codigoRedefinicaoSenha;
 
+    @Column(name = "password_reset_code_expires_at")
     private Instant dataExpiracaoCodigoRedefinicao;
 
-    @Column(length = 20)
+    @Column(name = "account_deletion_code", length = 20)
     private String codigoExclusaoConta;
 
+    @Column(name = "account_deletion_code_expires_at")
     private Instant dataExpiracaoCodigoExclusao;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Instant dataCriacao;
 
+    @Column(name = "updated_at")
     private Instant dataAtualizacao;
 
     @Column(columnDefinition = "LONGTEXT")
     private String icon;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20)
+    @Column(name = "skill_level", length = 20)
     private NivelHabilidade nivelHabilidade;
 
     @Enumerated(EnumType.STRING)
