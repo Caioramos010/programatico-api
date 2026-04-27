@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
  *   ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_USERNAME
  */
 @Component
+@Order(200)
 @RequiredArgsConstructor
 public class DataInitializer implements ApplicationRunner {
 

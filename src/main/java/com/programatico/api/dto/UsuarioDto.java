@@ -53,7 +53,7 @@ public final class UsuarioDto {
         )
         private String senha;
 
-        @Min(1)
+        @Min(value = 12, message = "Idade mínima é 12 anos")
         @Max(120)
         private Integer idade;
     }
@@ -65,6 +65,16 @@ public final class UsuarioDto {
     public static class AtivacaoRequest {
         @NotBlank(message = "Código de ativação é obrigatório")
         private String codigo;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SolicitarAtivacaoRequest {
+        @NotBlank(message = "E-mail é obrigatório")
+        @Email(message = "E-mail inválido")
+        private String email;
     }
 
     @Data
@@ -121,7 +131,7 @@ public final class UsuarioDto {
         )
         private String senha;
 
-        @Min(1)
+        @Min(value = 12, message = "Idade mínima é 12 anos")
         @Max(120)
         private Integer idade;
 
