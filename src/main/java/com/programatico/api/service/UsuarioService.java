@@ -79,6 +79,20 @@ public class UsuarioService {
     }
 
     @Transactional
+    public UsuarioDto.MessageResponse solicitarAtivacao(UsuarioDto.SolicitarAtivacaoRequest request) {
+        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new BadRequestException("Se o e-mail existir, você receberá um novo código de ativação."));
+        if (Boolean.TRUE.equals(usuario.getAtivo())) {
+            throw new BadRequestException("Conta já ativada. Faça login.");
+        }
+        String codigoAtivacao = gerarCodigo();
+        usuario.setCodigoAtivacao(codigoAtivacao);
+        usuarioRepository.save(usuario);
+        emailService.enviarCodigoAtivacao(usuario.getEmail(), usuario.getUsername(), codigoAtivacao);
+        return UsuarioDto.MessageResponse.of("Se o e-mail existir, você receberá um novo código de ativação.");
+    }
+
+    @Transactional
     public UsuarioDto.MessageResponse solicitarRedefinicaoSenha(UsuarioDto.SolicitarRedefinicaoSenhaRequest request) {
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new BadRequestException("Se o e-mail existir, você receberá um código para redefinir a senha."));

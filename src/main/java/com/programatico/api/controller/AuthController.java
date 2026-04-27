@@ -29,6 +29,11 @@ public class AuthController {
         return ResponseEntity.ok(usuarioService.ativar(request));
     }
 
+    @PostMapping("/ativar/solicitar")
+    public ResponseEntity<UsuarioDto.MessageResponse> solicitarAtivacao(@Valid @RequestBody UsuarioDto.SolicitarAtivacaoRequest request) {
+        return ResponseEntity.ok(usuarioService.solicitarAtivacao(request));
+    }
+
     @PostMapping("/redefinir-senha/solicitar")
     public ResponseEntity<UsuarioDto.MessageResponse> solicitarRedefinicao(@Valid @RequestBody UsuarioDto.SolicitarRedefinicaoSenhaRequest request) {
         return ResponseEntity.ok(usuarioService.solicitarRedefinicaoSenha(request));

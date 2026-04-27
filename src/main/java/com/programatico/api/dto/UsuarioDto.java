@@ -71,6 +71,16 @@ public final class UsuarioDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class SolicitarAtivacaoRequest {
+        @NotBlank(message = "E-mail é obrigatório")
+        @Email(message = "E-mail inválido")
+        private String email;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class SolicitarRedefinicaoSenhaRequest {
         @NotBlank(message = "E-mail é obrigatório")
         @Email(message = "E-mail inválido")
