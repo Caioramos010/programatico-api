@@ -1,0 +1,16 @@
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\config\SecurityConfigIntegrationTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\controller\AdminTrilhaControllerTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\controller\AuthControllerTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\controller\AuthFlowIntegrationTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\controller\LearnControllerTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\controller\UsuarioControllerTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\exception\GlobalExceptionHandlerTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\ProgramaticoApiApplicationTests.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\repository\TrackRepositoryTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\repository\UsuarioRepositoryTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\security\JwtAuthFilterTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\security\JwtUtilTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\service\AdminModuloServiceTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\service\AdminTrilhaServiceTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\service\LearnServiceTest.java
+C:\Users\Bolha\Documents\programatico\programatico-api\src\test\java\com\programatico\api\service\UsuarioServiceTest.java

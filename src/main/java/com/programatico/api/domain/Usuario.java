@@ -36,7 +36,7 @@ public class Usuario {
     @Column(nullable = false, length = 255)
     private String senha;
 
-    @Min(1)
+    @Min(value = 12, message = "Idade mínima é 12 anos")
     @Max(120)
     @Column(nullable = true)
     private Integer idade;
