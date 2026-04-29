@@ -2,7 +2,9 @@ package com.programatico.api.dto;
 
 import com.programatico.api.domain.ContentBlock;
 import com.programatico.api.domain.enums.LayoutType;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +19,11 @@ public final class ContentBlockDto {
         @NotNull(message = "Tipo de layout é obrigatório")
         private LayoutType layoutType;
 
+        @Size(max = 5000, message = "Conteúdo de texto deve ter no máximo 5000 caracteres")
         private String textContent;
 
         @NotNull(message = "Ordem de exibição é obrigatória")
+        @Min(value = 0, message = "Ordem de exibição não pode ser negativa")
         private Integer displayOrder;
     }
 

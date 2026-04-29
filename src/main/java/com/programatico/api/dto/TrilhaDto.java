@@ -2,6 +2,7 @@ package com.programatico.api.dto;
 
 import com.programatico.api.domain.Track;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,9 +18,11 @@ public final class TrilhaDto {
     @AllArgsConstructor
     public static class Request {
         @NotBlank(message = "Título é obrigatório")
+        @Size(max = 255, message = "Título deve ter no máximo 255 caracteres")
         private String title;
 
         @NotBlank(message = "Descrição é obrigatória")
+        @Size(max = 500, message = "Descrição deve ter no máximo 500 caracteres")
         private String description;
 
         private String icon;
