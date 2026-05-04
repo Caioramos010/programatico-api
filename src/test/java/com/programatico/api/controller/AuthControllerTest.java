@@ -35,10 +35,28 @@ class AuthControllerTest {
     private JwtAuthFilter jwtAuthFilter;
 
     @Test
-    void loginDeveRetornar200QuandoRequestValido() throws Exception {
+    void iniciarLoginDeveRetornar200QuandoRequestValido() throws Exception {
         UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
                 .emailOuUsername("user")
                 .senha("Senha@123")
+                .build();
+
+        when(usuarioService.iniciarLogin(any(UsuarioDto.LoginRequest.class)))
+                .thenReturn(UsuarioDto.MessageResponse.of("Código enviado."));
+
+        mockMvc.perform(post("/api/auth/login/iniciar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.mensagem").value("Código enviado."));
+    }
+
+    @Test
+    void confirmarLoginDeveRetornar200QuandoRequestValido() throws Exception {
+        UsuarioDto.LoginConfirmarRequest request = UsuarioDto.LoginConfirmarRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .codigo("123456")
                 .build();
         UsuarioDto.Response usuario = UsuarioDto.Response.builder()
                 .id(1L)
@@ -48,9 +66,9 @@ class AuthControllerTest {
                 .build();
         UsuarioDto.LoginResponse response = new UsuarioDto.LoginResponse("token-123", usuario);
 
-        when(usuarioService.login(any(UsuarioDto.LoginRequest.class))).thenReturn(response);
+        when(usuarioService.confirmarLogin(any(UsuarioDto.LoginConfirmarRequest.class))).thenReturn(response);
 
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/api/auth/login/confirmar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())

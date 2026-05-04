@@ -14,9 +14,19 @@ public class AuthController {
 
     private final UsuarioService usuarioService;
 
-    @PostMapping("/login")
-    public ResponseEntity<UsuarioDto.LoginResponse> login(@Valid @RequestBody UsuarioDto.LoginRequest request) {
-        return ResponseEntity.ok(usuarioService.login(request));
+    @PostMapping("/login/iniciar")
+    public ResponseEntity<UsuarioDto.MessageResponse> iniciarLogin(@Valid @RequestBody UsuarioDto.LoginRequest request) {
+        return ResponseEntity.ok(usuarioService.iniciarLogin(request));
+    }
+
+    @PostMapping("/login/confirmar")
+    public ResponseEntity<UsuarioDto.LoginResponse> confirmarLogin(@Valid @RequestBody UsuarioDto.LoginConfirmarRequest request) {
+        return ResponseEntity.ok(usuarioService.confirmarLogin(request));
+    }
+
+    @PostMapping("/login/reenviar")
+    public ResponseEntity<UsuarioDto.MessageResponse> reenviarCodigoLogin(@Valid @RequestBody UsuarioDto.LoginRequest request) {
+        return ResponseEntity.ok(usuarioService.iniciarLogin(request));
     }
 
     @PostMapping("/registro")

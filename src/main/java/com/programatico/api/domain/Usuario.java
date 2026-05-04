@@ -60,6 +60,12 @@ public class Usuario {
     @Column(name = "account_deletion_code_expires_at")
     private Instant dataExpiracaoCodigoExclusao;
 
+    @Column(name = "login_verification_code", length = 20)
+    private String codigoVerificacaoLogin;
+
+    @Column(name = "login_verification_code_expires_at")
+    private Instant dataExpiracaoCodigoLogin;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant dataCriacao;
 

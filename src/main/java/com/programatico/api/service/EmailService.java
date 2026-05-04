@@ -114,6 +114,34 @@ public class EmailService {
     }
 
     // ─────────────────────────────────────────────────────────────
+    //  Verificação de login (2ª etapa)
+    // ─────────────────────────────────────────────────────────────
+
+    @Async
+    public void enviarCodigoVerificacaoLogin(String destinatario, String username, String codigo) {
+        String assunto = "🔐 Código de verificação — Programático";
+
+        String conteudo = """
+                <p style="margin:0 0 16px;color:#ffffffcc;font-size:16px;line-height:1.6;">
+                  Olá, <strong style="color:#ffffff;">%s</strong>!
+                </p>
+                <p style="margin:0 0 24px;color:#ffffffcc;font-size:15px;line-height:1.6;">
+                  Detectamos uma tentativa de <strong style="color:#ffffff;">acesso à sua conta</strong>.
+                  Use o código abaixo para concluir o login:
+                </p>
+                """.formatted(escapeHtml(username));
+
+        String nota = """
+                <p style="margin:0;color:#9ca3af;font-size:13px;line-height:1.5;text-align:center;">
+                  Este código expira em <strong style="color:#ffffffcc;">1 hora</strong>.<br>
+                  Se você não tentou entrar, altere sua senha e ignore este e-mail.
+                </p>
+                """;
+
+        enviarHtml(destinatario, assunto, montarEmail(conteudo, codigo, nota, "#11604d"));
+    }
+
+    // ─────────────────────────────────────────────────────────────
     //  Template HTML base
     // ─────────────────────────────────────────────────────────────
 

@@ -23,22 +23,50 @@ public class UsuarioService {
 
     private static final int TAMANHO_CODIGO = 6;
     private static final int EXPIRACAO_CODIGO_HORAS = 24;
+    private static final int EXPIRACAO_CODIGO_LOGIN_HORAS = 1;
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final EmailService emailService;
 
-    @Transactional
-    public UsuarioDto.LoginResponse login(UsuarioDto.LoginRequest request) {
-        Usuario usuario = usuarioRepository.findByEmailOrUsername(request.getEmailOuUsername(), request.getEmailOuUsername())
+    private Usuario validarCredenciaisLogin(String emailOuUsername, String senha) {
+        Usuario usuario = usuarioRepository.findByEmailOrUsername(emailOuUsername, emailOuUsername)
                 .orElseThrow(() -> new BadRequestException("E-mail/usuário ou senha inválidos"));
         if (!usuario.getAtivo()) {
             throw new BadRequestException("Conta não ativada. Verifique seu e-mail para o código de ativação.");
         }
-        if (!passwordEncoder.matches(request.getSenha(), usuario.getSenha())) {
+        if (!passwordEncoder.matches(senha, usuario.getSenha())) {
             throw new BadRequestException("E-mail/usuário ou senha inválidos");
         }
+        return usuario;
+    }
+
+    @Transactional
+    public UsuarioDto.MessageResponse iniciarLogin(UsuarioDto.LoginRequest request) {
+        Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
+        String codigo = gerarCodigo();
+        usuario.setCodigoVerificacaoLogin(codigo);
+        usuario.setDataExpiracaoCodigoLogin(Instant.now().plus(EXPIRACAO_CODIGO_LOGIN_HORAS, ChronoUnit.HOURS));
+        usuarioRepository.save(usuario);
+        emailService.enviarCodigoVerificacaoLogin(usuario.getEmail(), usuario.getUsername(), codigo);
+        return UsuarioDto.MessageResponse.of("Enviamos um código de verificação para o seu e-mail.");
+    }
+
+    @Transactional
+    public UsuarioDto.LoginResponse confirmarLogin(UsuarioDto.LoginConfirmarRequest request) {
+        Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
+        if (usuario.getCodigoVerificacaoLogin() == null
+                || !usuario.getCodigoVerificacaoLogin().equals(request.getCodigo())) {
+            throw new BadRequestException("Código inválido");
+        }
+        if (usuario.getDataExpiracaoCodigoLogin() == null
+                || usuario.getDataExpiracaoCodigoLogin().isBefore(Instant.now())) {
+            throw new BadRequestException("Código expirado. Volte à tela de login e tente novamente.");
+        }
+        usuario.setCodigoVerificacaoLogin(null);
+        usuario.setDataExpiracaoCodigoLogin(null);
+        usuarioRepository.save(usuario);
         String token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
         return new UsuarioDto.LoginResponse(token, UsuarioDto.Response.fromEntity(usuario));
     }
