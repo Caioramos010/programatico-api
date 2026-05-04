@@ -36,6 +36,21 @@ public final class UsuarioDto {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class LoginConfirmarRequest {
+        @NotBlank(message = "E-mail ou nome de usuário é obrigatório")
+        private String emailOuUsername;
+
+        @NotBlank(message = "Senha é obrigatória")
+        private String senha;
+
+        @NotBlank(message = "Código é obrigatório")
+        private String codigo;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RegistroRequest {
         @NotBlank(message = "Nome de usuário é obrigatório")
         @Size(min = 2, max = 100)

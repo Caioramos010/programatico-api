@@ -48,7 +48,7 @@ class UsuarioServiceTest {
     private UsuarioService usuarioService;
 
     @Test
-    void loginDeveRetornarTokenQuandoCredenciaisForemValidas() {
+    void iniciarLoginDeveEnviarCodigoQuandoCredenciaisForemValidas() {
         UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
                 .emailOuUsername("user")
                 .senha("Senha@123")
@@ -58,9 +58,35 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        UsuarioDto.MessageResponse response = usuarioService.iniciarLogin(request);
+
+        assertNotNull(response.getMensagem());
+        ArgumentCaptor<Usuario> captor = ArgumentCaptor.forClass(Usuario.class);
+        verify(usuarioRepository).save(captor.capture());
+        assertNotNull(captor.getValue().getCodigoVerificacaoLogin());
+        verify(emailService).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void confirmarLoginDeveRetornarTokenQuandoCodigoValido() {
+        UsuarioDto.LoginConfirmarRequest request = UsuarioDto.LoginConfirmarRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .codigo("123456")
+                .build();
+        Usuario usuario = usuarioBase();
+        usuario.setAtivo(true);
+        usuario.setCodigoVerificacaoLogin("123456");
+        usuario.setDataExpiracaoCodigoLogin(Instant.now().plusSeconds(3600));
+
+        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
 
-        UsuarioDto.LoginResponse response = usuarioService.login(request);
+        UsuarioDto.LoginResponse response = usuarioService.confirmarLogin(request);
 
         assertEquals("jwt-token", response.getToken());
         assertEquals("Bearer", response.getTipo());
@@ -68,7 +94,7 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void loginDeveFalharQuandoContaNaoAtivada() {
+    void iniciarLoginDeveFalharQuandoContaNaoAtivada() {
         UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
                 .emailOuUsername("user")
                 .senha("Senha@123")
@@ -78,7 +104,7 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
 
-        assertThrows(BadRequestException.class, () -> usuarioService.login(request));
+        assertThrows(BadRequestException.class, () -> usuarioService.iniciarLogin(request));
         verify(passwordEncoder, never()).matches(anyString(), anyString());
     }
 

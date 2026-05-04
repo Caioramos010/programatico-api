@@ -44,6 +44,7 @@ class AuthFlowIntegrationTest {
         doNothing().when(emailService).enviarCodigoAtivacao(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
         doNothing().when(emailService).enviarCodigoRedefinicaoSenha(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
         doNothing().when(emailService).enviarCodigoExclusaoConta(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
+        doNothing().when(emailService).enviarCodigoVerificacaoLogin(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
     }
 
     @Test
@@ -84,16 +85,33 @@ class AuthFlowIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.mensagem").isNotEmpty());
 
-        String loginJson = """
+        String loginIniciarJson = """
                 {
                   "emailOuUsername": "%s",
                   "senha": "%s"
                 }
                 """.formatted(email, senha);
 
-        MvcResult loginResult = mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/api/auth/login/iniciar")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(loginJson))
+                        .content(loginIniciarJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.mensagem").isNotEmpty());
+
+        Usuario usuarioAtivo = usuarioRepository.findByEmail(email).orElseThrow();
+        assertNotNull(usuarioAtivo.getCodigoVerificacaoLogin());
+
+        String loginConfirmarJson = """
+                {
+                  "emailOuUsername": "%s",
+                  "senha": "%s",
+                  "codigo": "%s"
+                }
+                """.formatted(email, senha, usuarioAtivo.getCodigoVerificacaoLogin());
+
+        MvcResult loginResult = mockMvc.perform(post("/api/auth/login/confirmar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginConfirmarJson))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").isNotEmpty())
                 .andExpect(jsonPath("$.tipo").value("Bearer"))

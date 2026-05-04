@@ -21,7 +21,7 @@ class SecurityConfigIntegrationTest {
 
     @Test
     void endpointAuthDeveSerPublicoMesmoSemToken() throws Exception {
-        mockMvc.perform(post("/api/auth/login")
+        mockMvc.perform(post("/api/auth/login/iniciar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isBadRequest());
