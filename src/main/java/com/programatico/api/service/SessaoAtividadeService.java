@@ -99,11 +99,11 @@ public class SessaoAtividadeService {
                 .collect(Collectors.toList());
 
         return SessaoDto.InicioResponse.builder()
-                .sessaoId(sessao.getId())
-                .tituloModulo(modulo.getTitle())
-                .vidasIniciais(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
-                .totalExercicios(exerciciosDtos.size())
-                .exercicios(exerciciosDtos)
+                .sessionId(sessao.getId())
+                .moduleTitle(modulo.getTitle())
+                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .totalExercises(exerciciosDtos.size())
+                .exercises(exerciciosDtos)
                 .build();
     }
 
@@ -140,10 +140,10 @@ public class SessaoAtividadeService {
                             .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                                     .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
                     return SessaoDto.RespostaResponse.builder()
-                            .correto(true)
-                            .respostaCorreta("")
-                            .vidasRestantes(statsPartial.getCurrentLives() != null ? statsPartial.getCurrentLives() : MAX_VIDAS)
-                            .assuntosRelacionados(List.of())
+                            .correct(true)
+                            .correctAnswer("")
+                            .remainingLives(statsPartial.getCurrentLives() != null ? statsPartial.getCurrentLives() : MAX_VIDAS)
+                            .relatedTopics(List.of())
                             .build();
                 }
             } catch (Exception e) {
@@ -170,10 +170,10 @@ public class SessaoAtividadeService {
         userStatsRepository.save(stats);
 
         return SessaoDto.RespostaResponse.builder()
-                .correto(correto)
-                .respostaCorreta(respostaCorreta)
-                .vidasRestantes(stats.getCurrentLives())
-                .assuntosRelacionados(parseTags(exercise.getTags()))
+                .correct(correto)
+                .correctAnswer(respostaCorreta)
+                .remainingLives(stats.getCurrentLives())
+                .relatedTopics(parseTags(exercise.getTags()))
                 .build();
     }
 
@@ -222,11 +222,11 @@ public class SessaoAtividadeService {
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
 
         return SessaoDto.ConclusaoResponse.builder()
-                .xpGanho(xpGanho)
-                .taxaAcerto(taxaAcerto)
-                .duracaoSegundos(duracao)
-                .vidasRestantes(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
-                .moduloConcluido(moduloConcluido)
+                .xpEarned(xpGanho)
+                .accuracy(taxaAcerto)
+                .durationSeconds(duracao)
+                .remainingLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .moduleCompleted(moduloConcluido)
                 .build();
     }
 
@@ -300,13 +300,13 @@ public class SessaoAtividadeService {
 
         return SessaoDto.ExercicioSessao.builder()
                 .id(exercise.getId())
-                .ordem(ordem)
-                .enunciado(exercise.getStatement())
+                .order(ordem)
+                .statement(exercise.getStatement())
                 .tipo(exercise.getExerciseType().name())
-                .dadosExibicao(dadosExibicao)
-                .xpRecompensa(exercise.getXpReward())
-                .assuntosRelacionados(parseTags(exercise.getTags()))
-                .imagemData(exercise.getImageData())
+                .displayData(dadosExibicao)
+                .xpReward(exercise.getXpReward())
+                .relatedTopics(parseTags(exercise.getTags()))
+                .imageData(exercise.getImageData())
                 .build();
     }
 
