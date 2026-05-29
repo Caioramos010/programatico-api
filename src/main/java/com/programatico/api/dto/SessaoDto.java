@@ -15,23 +15,23 @@ public final class SessaoDto {
 
     @Data @Builder @NoArgsConstructor @AllArgsConstructor
     public static class InicioResponse {
-        private Long sessaoId;
-        private String tituloModulo;
-        private int vidasIniciais;
-        private int totalExercicios;
-        private List<ExercicioSessao> exercicios;
+        private Long sessionId;
+        private String moduleTitle;
+        private int initialLives;
+        private int totalExercises;
+        private List<ExercicioSessao> exercises;
     }
 
     @Data @Builder @NoArgsConstructor @AllArgsConstructor
     public static class ExercicioSessao {
         private Long id;
-        private int ordem;
-        private String enunciado;
+        private int order;
+        private String statement;
         private String tipo;
-        private String dadosExibicao;
-        private int xpRecompensa;
-        private List<String> assuntosRelacionados;
-        private String imagemData;
+        private String displayData;
+        private int xpReward;
+        private List<String> relatedTopics;
+        private String imageData;
     }
 
     @Data @NoArgsConstructor @AllArgsConstructor
@@ -45,18 +45,18 @@ public final class SessaoDto {
 
     @Data @Builder @NoArgsConstructor @AllArgsConstructor
     public static class RespostaResponse {
-        private boolean correto;
-        private String respostaCorreta;
-        private int vidasRestantes;
-        private List<String> assuntosRelacionados;
+        private boolean correct;
+        private String correctAnswer;
+        private int remainingLives;
+        private List<String> relatedTopics;
     }
 
     @Data @Builder @NoArgsConstructor @AllArgsConstructor
     public static class ConclusaoResponse {
-        private int xpGanho;
-        private int taxaAcerto;
-        private int duracaoSegundos;
-        private int vidasRestantes;
-        private boolean moduloConcluido;
+        private int xpEarned;
+        private int accuracy;
+        private int durationSeconds;
+        private int remainingLives;
+        private boolean moduleCompleted;
     }
 }
