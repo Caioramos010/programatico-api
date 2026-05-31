@@ -2,6 +2,7 @@ package com.programatico.api.dto;
 
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.NivelHabilidade;
+import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -169,6 +170,8 @@ public final class UsuarioDto {
         private Boolean ativo;
         private Instant dataCriacao;
         private NivelHabilidade nivelHabilidade;
+        private SubscriptionType subscriptionType;
+        private Instant subscriptionExpiresAt;
         private TipoUsuario role;
         private String icon;
 
@@ -181,6 +184,8 @@ public final class UsuarioDto {
                     .ativo(u.getAtivo())
                     .dataCriacao(u.getDataCriacao())
                     .nivelHabilidade(u.getNivelHabilidade())
+                    .subscriptionType(u.getSubscriptionType())
+                    .subscriptionExpiresAt(u.getSubscriptionExpiresAt())
                     .role(u.getRole())
                     .icon(u.getIcon())
                     .build();

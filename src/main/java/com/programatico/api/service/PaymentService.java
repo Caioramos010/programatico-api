@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.SubscriptionType;
+import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.UsuarioRepository;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +29,11 @@ import java.util.Map;
 @Slf4j
 public class PaymentService {
 
+    public record CheckoutResult(String url, String billId) {}
+
     private final UsuarioRepository usuarioRepository;
     private final ObjectMapper objectMapper;
+    private final AbacatePayWebhookService abacatePayWebhookService;
 
     @Value("${abacatepay.api-key:}")
     private String apiKey;
@@ -44,11 +50,11 @@ public class PaymentService {
     @Value("${app.frontend-url:http://localhost:5173}")
     private String frontendUrl;
 
-    public String resolveCheckoutUrl(String username) {
+    public CheckoutResult resolveCheckoutUrl(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
 
-        if (usuario.getSubscriptionType() == SubscriptionType.ROOT) {
+        if (usuario.getSubscriptionType() == SubscriptionType.ROOT && assinaturaRootAtiva(usuario)) {
             throw new BadRequestException("Você já possui o plano Root.");
         }
 
@@ -63,10 +69,82 @@ public class PaymentService {
                             + "ou ABACATEPAY_CHECKOUT_URL no ambiente."
             );
         }
-        return url;
+        return new CheckoutResult(url, "");
     }
 
-    private String criarCheckoutAbacatePay(Usuario usuario) {
+    public UsuarioDto.Response sincronizarAssinatura(String username, String billId) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+
+        if (!StringUtils.hasText(apiKey)) {
+            return UsuarioDto.Response.fromEntity(usuario);
+        }
+
+        if (usuario.getSubscriptionType() != SubscriptionType.ROOT || !assinaturaRootAtiva(usuario)) {
+            if (StringUtils.hasText(billId)) {
+                tentarAtivarPorBill(usuario, billId.trim());
+            } else {
+                tentarAtivarPorCheckoutsPagos(usuario);
+            }
+            usuario = usuarioRepository.findById(usuario.getId()).orElseThrow();
+        }
+
+        return UsuarioDto.Response.fromEntity(usuario);
+    }
+
+    private void tentarAtivarPorCheckoutsPagos(Usuario usuario) {
+        String userId = String.valueOf(usuario.getId());
+        try {
+            String uri = UriComponentsBuilder.fromPath("/checkouts/list")
+                    .queryParam("externalId", userId)
+                    .queryParam("limit", 10)
+                    .build()
+                    .toUriString();
+            JsonNode data = abacatePayGet(uri).path("data");
+            if (!data.isArray()) {
+                return;
+            }
+            for (JsonNode checkout : data) {
+                if (checkoutPagoDoUsuario(checkout, userId)) {
+                    abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
+                    log.info("Plano ROOT ativado via sync AbacatePay para usuário id={}", userId);
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            log.warn("Falha ao sincronizar checkouts pagos para userId={}: {}", usuario.getId(), e.getMessage());
+        }
+    }
+
+    private void tentarAtivarPorBill(Usuario usuario, String billId) {
+        String userId = String.valueOf(usuario.getId());
+        try {
+            JsonNode checkout = abacatePayGet("/checkouts/get?id=" + billId).path("data");
+            if (checkoutPagoDoUsuario(checkout, userId)) {
+                abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
+                log.info("Plano ROOT ativado via sync bill {} para usuário id={}", billId, userId);
+            }
+        } catch (Exception e) {
+            log.warn("Falha ao sincronizar bill {} para userId={}: {}", billId, usuario.getId(), e.getMessage());
+        }
+    }
+
+    private boolean checkoutPagoDoUsuario(JsonNode checkout, String userId) {
+        if (checkout == null || checkout.isMissingNode()) {
+            return false;
+        }
+        if (!"PAID".equalsIgnoreCase(checkout.path("status").asText(""))) {
+            return false;
+        }
+        String externalId = checkout.path("externalId").asText("");
+        if (userId.equals(externalId.trim())) {
+            return true;
+        }
+        String metaUserId = checkout.path("metadata").path("userId").asText("");
+        return userId.equals(metaUserId.trim());
+    }
+
+    private CheckoutResult criarCheckoutAbacatePay(Usuario usuario) {
         String userId = String.valueOf(usuario.getId());
         String base = frontendUrl.endsWith("/") ? frontendUrl.substring(0, frontendUrl.length() - 1) : frontendUrl;
 
@@ -75,17 +153,11 @@ public class PaymentService {
         body.put("externalId", userId);
         body.put("metadata", Map.of("userId", userId));
         body.put("returnUrl", base + "/seja-root");
-        body.put("completionUrl", base + "/aprender");
+        body.put("completionUrl", base + "/aprender?root=sync");
         body.put("methods", List.of("PIX", "CARD"));
 
-        RestClient client = RestClient.builder()
-                .baseUrl(apiBaseUrl.endsWith("/") ? apiBaseUrl.substring(0, apiBaseUrl.length() - 1) : apiBaseUrl)
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey.trim())
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .build();
-
         try {
-            String responseBody = client.post()
+            String responseBody = abacatePayClient().post()
                     .uri("/checkouts/create")
                     .body(body)
                     .retrieve()
@@ -98,14 +170,16 @@ public class PaymentService {
                 throw new BadRequestException("Não foi possível criar o pagamento: " + error);
             }
 
-            String url = root.path("data").path("url").asText("").trim();
+            JsonNode data = root.path("data");
+            String url = data.path("url").asText("").trim();
+            String billId = data.path("id").asText("").trim();
             if (!StringUtils.hasText(url)) {
                 log.error("AbacatePay retornou success sem url para userId={}", userId);
                 throw new BadRequestException("Resposta inválida da AbacatePay.");
             }
 
-            log.info("Checkout AbacatePay criado para usuário id={}", userId);
-            return url;
+            log.info("Checkout AbacatePay criado para usuário id={} bill={}", userId, billId);
+            return new CheckoutResult(url, billId);
         } catch (RestClientResponseException e) {
             String abacateError = extrairErroAbacatePay(e.getResponseBodyAsString());
             log.error("HTTP {} ao criar checkout AbacatePay para userId={}: {}",
@@ -120,6 +194,26 @@ public class PaymentService {
             log.error("Erro inesperado ao criar checkout AbacatePay para userId={}", userId, e);
             throw new BadRequestException("Não foi possível criar o pagamento. Tente novamente.");
         }
+    }
+
+    private JsonNode abacatePayGet(String uri) throws Exception {
+        String responseBody = abacatePayClient().get()
+                .uri(uri)
+                .retrieve()
+                .body(String.class);
+        JsonNode root = objectMapper.readTree(responseBody);
+        if (!root.path("success").asBoolean(false)) {
+            throw new BadRequestException(root.path("error").asText("Erro AbacatePay"));
+        }
+        return root;
+    }
+
+    private RestClient abacatePayClient() {
+        return RestClient.builder()
+                .baseUrl(apiBaseUrl.endsWith("/") ? apiBaseUrl.substring(0, apiBaseUrl.length() - 1) : apiBaseUrl)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey.trim())
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
     }
 
     private String extrairErroAbacatePay(String responseBody) {
@@ -140,5 +234,10 @@ public class PaymentService {
                     + "(Painel AbacatePay → Produtos → copiar o id prod_...).";
         }
         return "Não foi possível criar o pagamento: " + error;
+    }
+
+    private static boolean assinaturaRootAtiva(Usuario usuario) {
+        Instant expiresAt = usuario.getSubscriptionExpiresAt();
+        return expiresAt == null || expiresAt.isAfter(Instant.now());
     }
 }

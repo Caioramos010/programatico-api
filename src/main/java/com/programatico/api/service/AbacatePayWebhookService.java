@@ -19,6 +19,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Optional;
 
@@ -41,6 +42,9 @@ public class AbacatePayWebhookService {
 
     @Value("${abacatepay.webhook.require-hmac:true}")
     private boolean requireHmac;
+
+    @Value("${abacatepay.root-duration-days:30}")
+    private int rootDurationDays;
 
     public boolean secretValido(String webhookSecretQuery) {
         if (!StringUtils.hasText(webhookSecretConfig)) {
@@ -113,7 +117,7 @@ public class AbacatePayWebhookService {
             return;
         }
 
-        liberarPlanoRoot(userId.get());
+        ativarPlanoRoot(userId.get());
         processedRepository.save(ProcessedAbacateWebhook.builder()
                 .eventId(eventId)
                 .processedAt(Instant.now())
@@ -175,13 +179,15 @@ public class AbacatePayWebhookService {
         }
     }
 
-    private void liberarPlanoRoot(Long userId) {
+    @Transactional
+    public void ativarPlanoRoot(Long userId) {
         Usuario usuario = usuarioRepository.findById(userId).orElse(null);
         if (usuario == null) {
             log.warn("Webhook: usuário id={} não encontrado; plano não atualizado", userId);
             return;
         }
         usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionExpiresAt(Instant.now().plus(rootDurationDays, ChronoUnit.DAYS));
         usuarioRepository.save(usuario);
         log.info("Plano ROOT ativado via AbacatePay para usuário id={}", userId);
     }

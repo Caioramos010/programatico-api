@@ -28,13 +28,16 @@ public class AbacatePayWebhookController {
             @RequestHeader(value = "X-Webhook-Signature", required = false) String signature
     ) {
         if (!abacatePayWebhookService.secretValido(webhookSecret)) {
+            log.warn("Webhook AbacatePay rejeitado: webhookSecret inválido");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         if (abacatePayWebhookService.isRequireHmac()
                 && !abacatePayWebhookService.assinaturaValida(rawBody, signature)) {
+            log.warn("Webhook AbacatePay rejeitado: assinatura HMAC inválida ou ausente");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         try {
+            log.info("Webhook AbacatePay recebido ({} bytes)", rawBody.length());
             abacatePayWebhookService.processarSeNecessario(rawBody);
         } catch (Exception e) {
             log.error("Erro ao processar webhook AbacatePay", e);
