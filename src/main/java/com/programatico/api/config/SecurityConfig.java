@@ -30,6 +30,9 @@ public class SecurityConfig {
     @Value("${cors.allowed-origins:http://localhost,http://localhost:80,http://localhost:5173,http://127.0.0.1:5173}")
     private String allowedOriginsRaw;
 
+    @Value("${cors.allowed-origin-patterns:http://localhost:*,http://127.0.0.1:*,https://*.ngrok-free.dev,https://*.ngrok-free.app,https://*.ngrok.io}")
+    private String allowedOriginPatternsRaw;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -51,8 +54,16 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        List<String> origins = Arrays.asList(allowedOriginsRaw.split(","));
+        List<String> origins = Arrays.stream(allowedOriginsRaw.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
+        List<String> patterns = Arrays.stream(allowedOriginPatternsRaw.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .toList();
         config.setAllowedOrigins(origins);
+        config.setAllowedOriginPatterns(patterns);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
