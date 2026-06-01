@@ -16,26 +16,26 @@ public final class UserStatsDto {
     @AllArgsConstructor
     public static class Response {
         private int totalXp;
-        private int vidasAtuais;
-        private int sequenciaAtual;
-        private int maxSequencia;
+        private int currentLives;
+        private int currentStreak;
+        private int maxStreak;
 
-        /** Retorna stats zerados com vidas padrão (5) para usuários sem registro. */
+        /** Zeroed stats with default lives (5) for users without a stats row. */
         public static Response padrao() {
             return Response.builder()
                     .totalXp(0)
-                    .vidasAtuais(5)
-                    .sequenciaAtual(0)
-                    .maxSequencia(0)
+                    .currentLives(5)
+                    .currentStreak(0)
+                    .maxStreak(0)
                     .build();
         }
 
         public static Response fromEntity(UserStats stats) {
             return Response.builder()
                     .totalXp(stats.getTotalXp() != null ? stats.getTotalXp() : 0)
-                    .vidasAtuais(stats.getCurrentLives() != null ? stats.getCurrentLives() : 5)
-                    .sequenciaAtual(stats.getCurrentStreak() != null ? stats.getCurrentStreak() : 0)
-                    .maxSequencia(stats.getHighestStreak() != null ? stats.getHighestStreak() : 0)
+                    .currentLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : 5)
+                    .currentStreak(stats.getCurrentStreak() != null ? stats.getCurrentStreak() : 0)
+                    .maxStreak(stats.getHighestStreak() != null ? stats.getHighestStreak() : 0)
                     .build();
         }
     }
