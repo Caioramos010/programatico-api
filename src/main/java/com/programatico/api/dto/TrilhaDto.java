@@ -38,16 +38,16 @@ public final class TrilhaDto {
         private String description;
         private Integer displayOrder;
         private String icon;
-        private Long totalModulos;
+        private Long totalModules;
 
-        public static Response fromEntity(Track track, long totalModulos) {
+        public static Response fromEntity(Track track, long totalModules) {
             return Response.builder()
                     .id(track.getId())
                     .title(track.getTitle())
                     .description(track.getDescription())
                     .displayOrder(track.getDisplayOrder())
                     .icon(track.getIcon())
-                    .totalModulos(totalModulos)
+                    .totalModules(totalModules)
                     .build();
         }
     }

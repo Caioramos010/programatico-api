@@ -43,7 +43,7 @@ class AdminTrilhaServiceTest {
 
         assertEquals(1, response.size());
         assertEquals("Lógica Básica", response.get(0).getTitle());
-        assertEquals(3L, response.get(0).getTotalModulos());
+        assertEquals(3L, response.get(0).getTotalModules());
     }
 
     @Test
