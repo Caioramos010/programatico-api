@@ -12,15 +12,15 @@ public final class TrackDto {
     private TrackDto() {}
 
     /**
-     * Módulo com status de progresso calculado dinamicamente para o usuário autenticado.
+     * Module with progress status calculated dynamically for the authenticated user.
      */
-    public record ModuloComProgresso(
+    public record ModuleWithProgress(
             Long id,
-            String titulo,
-            String tipo,
-            int ordem,
+            String title,
+            String type,
+            int order,
             String status,
-            String descricao,
+            String description,
             long totalXp
     ) {}
 
@@ -30,12 +30,12 @@ public final class TrackDto {
     @AllArgsConstructor
     public static class Response {
         private Long id;
-        private String titulo;
-        private String descricao;
+        private String title;
+        private String description;
         private String icon;
-        private List<ModuloComProgresso> modulos;
-        private int percentualConcluido;
-        private int totalModulos;
-        private int concluidosModulos;
+        private List<ModuleWithProgress> modules;
+        private int completedPercentage;
+        private int totalModules;
+        private int completedModules;
     }
 }

@@ -68,9 +68,9 @@ public class LearnService {
                         .stream()
                         .collect(Collectors.toMap(up -> up.getModulo().getId(), UserProgress::getStatus));
 
-        List<TrackDto.ModuloComProgresso> modulosComProgresso = new ArrayList<>();
-        // O módulo anterior ao primeiro é tratado como "concluído" para desbloquear o primeiro módulo.
-        boolean anteriorConcluido = true;
+        List<TrackDto.ModuleWithProgress> modulesWithProgress = new ArrayList<>();
+        // The module previous to the first is treated as "completed" to unlock the first module.
+        boolean previousCompleted = true;
 
         for (Modulo modulo : modulos) {
             ProgressStatus statusDb = progressoMap.get(modulo.getId());
@@ -78,7 +78,7 @@ public class LearnService {
 
             if (statusDb == ProgressStatus.COMPLETED) {
                 statusFinal = ProgressStatus.COMPLETED;
-            } else if (anteriorConcluido) {
+            } else if (previousCompleted) {
                 statusFinal = ProgressStatus.UNLOCKED;
             } else {
                 statusFinal = ProgressStatus.LOCKED;
@@ -87,7 +87,7 @@ public class LearnService {
             long xpModulo = "ACTIVITY".equals(modulo.getModuleType().name())
                     ? exerciseRepository.sumXpByModulo(modulo)
                     : 0L;
-            modulosComProgresso.add(new TrackDto.ModuloComProgresso(
+            modulesWithProgress.add(new TrackDto.ModuleWithProgress(
                     modulo.getId(),
                     modulo.getTitle(),
                     modulo.getModuleType().name(),
@@ -97,23 +97,23 @@ public class LearnService {
                     xpModulo
             ));
 
-            anteriorConcluido = statusFinal == ProgressStatus.COMPLETED;
+            previousCompleted = statusFinal == ProgressStatus.COMPLETED;
         }
 
-        long concluidos = modulosComProgresso.stream()
+        long completed = modulesWithProgress.stream()
                 .filter(m -> "COMPLETED".equals(m.status()))
                 .count();
-        int percentual = modulos.isEmpty() ? 0 : (int) (concluidos * 100L / modulos.size());
+        int percentage = modulos.isEmpty() ? 0 : (int) (completed * 100L / modulos.size());
 
         return TrackDto.Response.builder()
                 .id(track.getId())
-                .titulo(track.getTitle())
-                .descricao(track.getDescription())
+                .title(track.getTitle())
+                .description(track.getDescription())
                 .icon(track.getIcon())
-                .modulos(modulosComProgresso)
-                .percentualConcluido(percentual)
-                .totalModulos(modulos.size())
-                .concluidosModulos((int) concluidos)
+                .modules(modulesWithProgress)
+                .completedPercentage(percentage)
+                .totalModules(modulos.size())
+                .completedModules((int) completed)
                 .build();
     }
 
@@ -145,12 +145,12 @@ public class LearnService {
                     UserMission um = userMissionMap.get(mission.getId());
                     return UserMissionDto.Response.builder()
                             .missionId(mission.getId())
-                            .titulo(mission.getTitle())
-                            .tipo(mission.getObjectiveType())
-                            .progressoAtual(um != null && um.getCurrentProgress() != null ? um.getCurrentProgress() : 0)
-                            .meta(META_MISSOES_DIARIAS)
-                            .recompensaXp(mission.getXpReward() != null ? mission.getXpReward() : 5)
-                            .concluida(um != null && Boolean.TRUE.equals(um.getIsCompleted()))
+                            .title(mission.getTitle())
+                            .type(mission.getObjectiveType())
+                            .currentProgress(um != null && um.getCurrentProgress() != null ? um.getCurrentProgress() : 0)
+                            .goal(META_MISSOES_DIARIAS)
+                            .xpReward(mission.getXpReward() != null ? mission.getXpReward() : 5)
+                            .completed(um != null && Boolean.TRUE.equals(um.getIsCompleted()))
                             .build();
                 })
                 .collect(Collectors.toList());

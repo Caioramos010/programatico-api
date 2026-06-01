@@ -71,10 +71,10 @@ class LearnServiceTest {
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
         assertNotNull(response);
-        assertEquals("Lógica Básica", response.getTitulo());
-        assertEquals(1, response.getModulos().size());
-        assertEquals("UNLOCKED", response.getModulos().get(0).status());
-        assertEquals(0, response.getPercentualConcluido());
+        assertEquals("Lógica Básica", response.getTitle());
+        assertEquals(1, response.getModules().size());
+        assertEquals("UNLOCKED", response.getModules().get(0).status());
+        assertEquals(0, response.getCompletedPercentage());
     }
 
     @Test
@@ -115,9 +115,9 @@ class LearnServiceTest {
 
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
-        assertEquals("COMPLETED", response.getModulos().get(0).status());
-        assertEquals("UNLOCKED", response.getModulos().get(1).status());
-        assertEquals(50, response.getPercentualConcluido());
+        assertEquals("COMPLETED", response.getModules().get(0).status());
+        assertEquals("UNLOCKED", response.getModules().get(1).status());
+        assertEquals(50, response.getCompletedPercentage());
     }
 
     @Test
@@ -136,8 +136,8 @@ class LearnServiceTest {
 
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
-        assertEquals("UNLOCKED", response.getModulos().get(0).status());
-        assertEquals("LOCKED", response.getModulos().get(1).status());
+        assertEquals("UNLOCKED", response.getModules().get(0).status());
+        assertEquals("LOCKED", response.getModules().get(1).status());
     }
 
     @Test
@@ -148,8 +148,8 @@ class LearnServiceTest {
 
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
-        assertEquals(0, response.getModulos().size());
-        assertEquals(0, response.getPercentualConcluido());
+        assertEquals(0, response.getModules().size());
+        assertEquals(0, response.getCompletedPercentage());
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -173,8 +173,8 @@ class LearnServiceTest {
         UserStatsDto.Response response = learnService.getEstatisticas("user");
 
         assertEquals(150, response.getTotalXp());
-        assertEquals(5, response.getVidasAtuais());
-        assertEquals(3, response.getSequenciaAtual());
+        assertEquals(5, response.getCurrentLives());
+        assertEquals(3, response.getCurrentStreak());
     }
 
     @Test
@@ -215,9 +215,9 @@ class LearnServiceTest {
         List<UserMissionDto.Response> response = learnService.getMissoes("user");
 
         assertEquals(1, response.size());
-        assertEquals("Complete 3 módulos", response.get(0).getTitulo());
-        assertEquals(1, response.get(0).getProgressoAtual());
-        assertEquals(10, response.get(0).getRecompensaXp());
+        assertEquals("Complete 3 módulos", response.get(0).getTitle());
+        assertEquals(1, response.get(0).getCurrentProgress());
+        assertEquals(10, response.get(0).getXpReward());
     }
 
     @Test

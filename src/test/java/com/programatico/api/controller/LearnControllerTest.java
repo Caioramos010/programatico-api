@@ -39,21 +39,21 @@ class LearnControllerTest {
     void getTrilhaDeveRetornar200ComTrilhaDadosValidos() throws Exception {
         TrackDto.Response response = TrackDto.Response.builder()
                 .id(1L)
-                .titulo("Lógica Básica")
-                .descricao("Introdução")
-                .percentualConcluido(0)
-                .totalModulos(2)
-                .concluidosModulos(0)
-                .modulos(List.of())
+                .title("Lógica Básica")
+                .description("Introdução")
+                .completedPercentage(0)
+                .totalModules(2)
+                .completedModules(0)
+                .modules(List.of())
                 .build();
 
         when(learnService.getTrilhaComProgresso(anyString())).thenReturn(response);
 
         mockMvc.perform(get("/api/aprender/trilha"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.titulo").value("Lógica Básica"))
-                .andExpect(jsonPath("$.percentualConcluido").value(0))
-                .andExpect(jsonPath("$.totalModulos").value(2));
+                .andExpect(jsonPath("$.title").value("Lógica Básica"))
+                .andExpect(jsonPath("$.completedPercentage").value(0))
+                .andExpect(jsonPath("$.totalModules").value(2));
     }
 
     @Test
@@ -61,9 +61,9 @@ class LearnControllerTest {
     void getStatsDeveRetornar200ComEstatisticasDoUsuario() throws Exception {
         UserStatsDto.Response response = UserStatsDto.Response.builder()
                 .totalXp(100)
-                .vidasAtuais(5)
-                .sequenciaAtual(2)
-                .maxSequencia(5)
+                .currentLives(5)
+                .currentStreak(2)
+                .maxStreak(5)
                 .build();
 
         when(learnService.getEstatisticas(anyString())).thenReturn(response);
@@ -71,7 +71,7 @@ class LearnControllerTest {
         mockMvc.perform(get("/api/aprender/stats"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totalXp").value(100))
-                .andExpect(jsonPath("$.vidasAtuais").value(5));
+                .andExpect(jsonPath("$.currentLives").value(5));
     }
 
     @Test
@@ -79,19 +79,19 @@ class LearnControllerTest {
     void getMissoesDeveRetornar200ComListaDeMissoes() throws Exception {
         UserMissionDto.Response missao = UserMissionDto.Response.builder()
                 .missionId(1L)
-                .titulo("Complete 3 módulos")
-                .progressoAtual(1)
-                .meta(3)
-                .recompensaXp(10)
-                .concluida(false)
+                .title("Complete 3 módulos")
+                .currentProgress(1)
+                .goal(3)
+                .xpReward(10)
+                .completed(false)
                 .build();
 
         when(learnService.getMissoes(anyString())).thenReturn(List.of(missao));
 
         mockMvc.perform(get("/api/aprender/missoes"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].titulo").value("Complete 3 módulos"))
-                .andExpect(jsonPath("$[0].progressoAtual").value(1))
-                .andExpect(jsonPath("$[0].recompensaXp").value(10));
+                .andExpect(jsonPath("$[0].title").value("Complete 3 módulos"))
+                .andExpect(jsonPath("$[0].currentProgress").value(1))
+                .andExpect(jsonPath("$[0].xpReward").value(10));
     }
 }
