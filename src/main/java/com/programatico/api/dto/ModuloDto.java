@@ -35,10 +35,10 @@ public final class ModuloDto {
         private ModuleType moduleType;
         private Integer displayOrder;
         private String description;
-        private Long totalComponentes;
+        private Long totalComponents;
         private Long totalXp;
 
-        public static Response fromEntity(Modulo modulo, long totalComponentes, long totalXp) {
+        public static Response fromEntity(Modulo modulo, long totalComponents, long totalXp) {
             return Response.builder()
                     .id(modulo.getId())
                     .trackId(modulo.getTrack().getId())
@@ -46,7 +46,7 @@ public final class ModuloDto {
                     .moduleType(modulo.getModuleType())
                     .displayOrder(modulo.getDisplayOrder())
                     .description(modulo.getDescription())
-                    .totalComponentes(totalComponentes)
+                    .totalComponents(totalComponents)
                     .totalXp(totalXp)
                     .build();
         }
