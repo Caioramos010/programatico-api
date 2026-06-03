@@ -1,21 +1,27 @@
 package com.programatico.api.service;
 
+import com.programatico.api.domain.ContentBlock;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.Mission;
+import com.programatico.api.domain.TeoriaPagina;
 import com.programatico.api.domain.Track;
 import com.programatico.api.domain.UserMission;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.ModuleType;
 import com.programatico.api.domain.enums.ProgressStatus;
+import com.programatico.api.dto.TheoryDto;
 import com.programatico.api.dto.TrackDto;
 import com.programatico.api.dto.UserMissionDto;
 import com.programatico.api.dto.UserStatsDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
+import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserProgressRepository;
@@ -27,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +54,8 @@ public class LearnService {
     private final MissionRepository missionRepository;
     private final UserMissionRepository userMissionRepository;
     private final ExerciseRepository exerciseRepository;
+    private final TeoriaPaginaRepository teoriaPaginaRepository;
+    private final ContentBlockRepository contentBlockRepository;
 
     /**
      * Retorna a primeira trilha (por displayOrder) com o status de cada módulo
@@ -154,5 +163,78 @@ public class LearnService {
                             .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public TheoryDto.Response getTeorico(Long moduleId, String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+
+        Modulo modulo = moduloRepository.findById(moduleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Módulo não encontrado."));
+
+        if (modulo.getModuleType() != ModuleType.STUDY) {
+            throw new BadRequestException("Este módulo não é teórico.");
+        }
+
+        ProgressStatus status = userProgressRepository.findByUsuarioAndModulo(usuario, modulo)
+                .map(UserProgress::getStatus)
+                .orElse(ProgressStatus.UNLOCKED);
+        if (status == ProgressStatus.LOCKED) {
+            throw new BadRequestException("Módulo bloqueado.");
+        }
+
+        List<TeoriaPagina> pages = teoriaPaginaRepository.findByModuloOrderByDisplayOrderAsc(modulo);
+
+        List<TheoryDto.Page> pageDtos = pages.stream()
+                .map(page -> {
+                    List<ContentBlock> blocks = contentBlockRepository.findByPaginaOrderByDisplayOrderAsc(page);
+                    List<TheoryDto.Block> blockDtos = blocks.stream()
+                            .map(block -> TheoryDto.Block.builder()
+                                    .id(block.getId())
+                                    .layoutType(block.getLayoutType())
+                                    .textContent(block.getTextContent())
+                                    .imageUrl(block.getImageUrl())
+                                    .order(block.getDisplayOrder() != null ? block.getDisplayOrder() : 0)
+                                    .build())
+                            .collect(Collectors.toList());
+                    return TheoryDto.Page.builder()
+                            .id(page.getId())
+                            .title(page.getTitle())
+                            .description(page.getDescription())
+                            .order(page.getDisplayOrder() != null ? page.getDisplayOrder() : 0)
+                            .blocks(blockDtos)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return TheoryDto.Response.builder()
+                .moduleId(modulo.getId())
+                .moduleTitle(modulo.getTitle())
+                .pages(pageDtos)
+                .build();
+    }
+
+    @Transactional
+    public void concluirTeorico(Long moduleId, String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+
+        Modulo modulo = moduloRepository.findById(moduleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Módulo não encontrado."));
+
+        if (modulo.getModuleType() != ModuleType.STUDY) {
+            throw new BadRequestException("Este módulo não é teórico.");
+        }
+
+        UserProgress progress = userProgressRepository.findByUsuarioAndModulo(usuario, modulo)
+                .orElseGet(() -> UserProgress.builder()
+                        .usuario(usuario)
+                        .modulo(modulo)
+                        .build());
+
+        progress.setStatus(ProgressStatus.COMPLETED);
+        progress.setCompletedAt(LocalDateTime.now());
+        userProgressRepository.save(progress);
     }
 }
