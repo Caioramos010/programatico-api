@@ -1,5 +1,6 @@
 package com.programatico.api.controller;
 
+import com.programatico.api.dto.TheoryDto;
 import com.programatico.api.dto.TrackDto;
 import com.programatico.api.dto.UserMissionDto;
 import com.programatico.api.dto.UserStatsDto;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +37,20 @@ public class LearnController {
     @GetMapping("/missoes")
     public ResponseEntity<List<UserMissionDto.Response>> getMissoes(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(learnService.getMissoes(userDetails.getUsername()));
+    }
+
+    @GetMapping("/modulos/{moduloId}/teorico")
+    public ResponseEntity<TheoryDto.Response> getTeorico(
+            @PathVariable Long moduloId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(learnService.getTeorico(moduloId, userDetails.getUsername()));
+    }
+
+    @PostMapping("/modulos/{moduloId}/teorico/concluir")
+    public ResponseEntity<Void> concluirTeorico(
+            @PathVariable Long moduloId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        learnService.concluirTeorico(moduloId, userDetails.getUsername());
+        return ResponseEntity.noContent().build();
     }
 }

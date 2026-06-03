@@ -15,11 +15,11 @@ public final class UserMissionDto {
     @AllArgsConstructor
     public static class Response {
         private Long missionId;
-        private String titulo;
-        private String tipo;
-        private int progressoAtual;
-        private int meta;
-        private int recompensaXp;
-        private boolean concluida;
+        private String title;
+        private String type;
+        private int currentProgress;
+        private int goal;
+        private int xpReward;
+        private boolean completed;
     }
 }

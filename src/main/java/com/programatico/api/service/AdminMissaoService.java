@@ -33,7 +33,7 @@ public class AdminMissaoService {
                 .title(request.getTitle())
                 .objectiveType(request.getObjectiveType())
                 .xpReward(request.getXpReward())
-                .quantidade(request.getQuantidade())
+                .quantidade(request.getQuantity())
                 .build();
         Mission salva = missionRepository.save(mission);
         log.info("Missão criada: id={}, type={}", salva.getId(), salva.getObjectiveType());
@@ -47,7 +47,7 @@ public class AdminMissaoService {
         mission.setTitle(request.getTitle());
         mission.setObjectiveType(request.getObjectiveType());
         mission.setXpReward(request.getXpReward());
-        mission.setQuantidade(request.getQuantidade());
+        mission.setQuantidade(request.getQuantity());
         return MissaoDto.Response.fromEntity(missionRepository.save(mission));
     }
 

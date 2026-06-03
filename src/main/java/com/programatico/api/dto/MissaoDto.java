@@ -30,7 +30,7 @@ public final class MissaoDto {
 
         @NotNull(message = "Quantidade é obrigatória")
         @Min(value = 1, message = "Quantidade deve ser maior que zero")
-        private Integer quantidade;
+        private Integer quantity;
     }
 
     @Data
@@ -42,7 +42,7 @@ public final class MissaoDto {
         private String title;
         private String objectiveType;
         private Integer xpReward;
-        private Integer quantidade;
+        private Integer quantity;
 
         public static Response fromEntity(Mission mission) {
             return Response.builder()
@@ -50,7 +50,7 @@ public final class MissaoDto {
                     .title(mission.getTitle())
                     .objectiveType(mission.getObjectiveType())
                     .xpReward(mission.getXpReward())
-                    .quantidade(mission.getQuantidade())
+                    .quantity(mission.getQuantidade())
                     .build();
         }
     }

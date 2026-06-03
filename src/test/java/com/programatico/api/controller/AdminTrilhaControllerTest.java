@@ -45,14 +45,14 @@ class AdminTrilhaControllerTest {
     void listarDeveRetornar200ComListaDeTrilhas() throws Exception {
         TrilhaDto.Response trilha = TrilhaDto.Response.builder()
                 .id(1L).title("Lógica Básica").description("Desc")
-                .displayOrder(1).totalModulos(3L).build();
+                .displayOrder(1).totalModules(3L).build();
 
         when(adminTrilhaService.listarTodas()).thenReturn(List.of(trilha));
 
         mockMvc.perform(get("/api/admin/trilhas"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value("Lógica Básica"))
-                .andExpect(jsonPath("$[0].totalModulos").value(3));
+                .andExpect(jsonPath("$[0].totalModules").value(3));
     }
 
     @Test
@@ -61,7 +61,7 @@ class AdminTrilhaControllerTest {
                 .title("Nova Trilha").description("Desc").build();
         TrilhaDto.Response response = TrilhaDto.Response.builder()
                 .id(2L).title("Nova Trilha").description("Desc")
-                .displayOrder(2).totalModulos(0L).build();
+                .displayOrder(2).totalModules(0L).build();
 
         when(adminTrilhaService.criar(any(TrilhaDto.Request.class))).thenReturn(response);
 
@@ -91,7 +91,7 @@ class AdminTrilhaControllerTest {
                 .title("Atualizada").description("Nova desc").build();
         TrilhaDto.Response response = TrilhaDto.Response.builder()
                 .id(1L).title("Atualizada").description("Nova desc")
-                .displayOrder(1).totalModulos(2L).build();
+                .displayOrder(1).totalModules(2L).build();
 
         when(adminTrilhaService.atualizar(eq(1L), any(TrilhaDto.Request.class))).thenReturn(response);
 
