@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.programatico.api.service.ReviewServiceTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.701 s -- in com.programatico.api.service.ReviewServiceTest
