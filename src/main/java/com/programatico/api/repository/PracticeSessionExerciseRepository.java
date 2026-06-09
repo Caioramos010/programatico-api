@@ -15,6 +15,8 @@ public interface PracticeSessionExerciseRepository extends JpaRepository<Practic
 
     List<PracticeSessionExercise> findByPracticeSessionOrderByDisplayOrderAsc(PracticeSession session);
 
+    List<PracticeSessionExercise> findByPracticeSessionIn(List<PracticeSession> sessions);
+
     Optional<PracticeSessionExercise> findByPracticeSessionAndExerciseId(PracticeSession session, Long exerciseId);
 
     List<PracticeSessionExercise> findByExercise(Exercise exercise);

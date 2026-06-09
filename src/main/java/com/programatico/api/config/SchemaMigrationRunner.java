@@ -48,6 +48,7 @@ public class SchemaMigrationRunner implements ApplicationRunner {
         }
 
         ensureUsersColumnsInEnglish();
+        backfillRootSubscriptionExpiresAt();
 
         if (legacyTable != null) {
             mergeLegacyData(legacyTable);
@@ -125,6 +126,21 @@ public class SchemaMigrationRunner implements ApplicationRunner {
                 execute("ALTER TABLE users RENAME COLUMN " + oldColumn + " TO " + newColumn);
                 log.info("Coluna 'users.{}' renomeada para 'users.{}'.", oldColumn, newColumn);
             }
+        }
+    }
+
+    private void backfillRootSubscriptionExpiresAt() {
+        if (!columnExists("users", "subscription_expires_at")) {
+            return;
+        }
+        int updated = jdbcTemplate.update("""
+                UPDATE users
+                SET subscription_expires_at = DATE_ADD(NOW(), INTERVAL 30 DAY)
+                WHERE subscription_type = 'ROOT'
+                  AND subscription_expires_at IS NULL
+                """);
+        if (updated > 0) {
+            log.info("Preenchido subscription_expires_at para {} usuário(s) ROOT existente(s).", updated);
         }
     }
 
