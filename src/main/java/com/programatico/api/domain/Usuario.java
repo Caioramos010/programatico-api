@@ -84,6 +84,9 @@ public class Usuario {
     @Builder.Default
     private SubscriptionType subscriptionType = SubscriptionType.FREE;
 
+    @Column(name = "subscription_expires_at")
+    private Instant subscriptionExpiresAt;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     @Builder.Default
