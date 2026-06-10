@@ -72,6 +72,9 @@ public class Usuario {
     @Column(name = "updated_at")
     private Instant dataAtualizacao;
 
+    @Column(name = "deleted_at")
+    private Instant deletedAt;
+
     @Column(columnDefinition = "LONGTEXT")
     private String icon;
 
