@@ -26,6 +26,10 @@ public class UserStats {
 
     private Integer currentLives;
 
+    /** Marco da recarga: instante a partir do qual a próxima vida é contada. Nulo quando as vidas estão cheias. */
+    @Column(name = "lives_updated_at")
+    private LocalDateTime livesUpdatedAt;
+
     private Integer currentStreak;
 
     private Integer highestStreak;

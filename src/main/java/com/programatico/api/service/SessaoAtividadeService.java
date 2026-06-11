@@ -10,6 +10,7 @@ import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
+import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.domain.enums.SessionType;
 import com.programatico.api.dto.SessaoDto;
@@ -47,7 +48,7 @@ public class SessaoAtividadeService {
     private static final int QUANTIDADE_XP_7 = 3;
     private static final int QUANTIDADE_XP_5 = 3;
     private static final int QUANTIDADE_XP_3 = 4;
-    private static final int MAX_VIDAS = 5;
+    private static final int MAX_VIDAS = VidasService.MAX_VIDAS;
 
     private final UsuarioRepository usuarioRepository;
     private final ModuloRepository moduloRepository;
@@ -56,6 +57,8 @@ public class SessaoAtividadeService {
     private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     private final UserProgressRepository userProgressRepository;
     private final UserStatsRepository userStatsRepository;
+    private final NotificationService notificationService;
+    private final VidasService vidasService;
     private final ObjectMapper objectMapper;
 
     @Transactional
@@ -72,9 +75,8 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
-        if (stats.getId() == null) {
-            userStatsRepository.save(stats);
-        }
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
 
         PracticeSession sessao = PracticeSession.builder()
                 .usuario(usuario)
@@ -158,6 +160,7 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
 
         if (correto) {
             // Replay de módulo já concluído não pontua de novo.
@@ -165,9 +168,16 @@ public class SessaoAtividadeService {
                 int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
                 stats.setTotalXp(xpAtual + exercise.getXpReward());
             }
-        } else {
-            int vidasAtuais = stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS;
-            stats.setCurrentLives(Math.max(0, vidasAtuais - 1));
+        } else if (!vidasService.temVidasIlimitadas(usuario)) {
+            vidasService.registrarPerdaDeVida(stats);
+            if (stats.getCurrentLives() != null && stats.getCurrentLives() == 0) {
+                notificationService.criarNotificacaoSistema(
+                        usuario,
+                        "Sem vidas",
+                        "Você ficou sem vidas. Aguarde a recarga para continuar estudando.",
+                        NotificationKind.EXERCICIO
+                );
+            }
         }
         stats.setLastActivityDate(LocalDateTime.now());
         userStatsRepository.save(stats);
@@ -225,6 +235,33 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
+
+        if (sessao.getModulo() != null) {
+            notificationService.criarNotificacaoSistema(
+                    usuario,
+                    "Exercícios concluídos",
+                    "Voce ganhou %d XP no módulo \"%s\" com %d%% de acerto.".formatted(
+                            xpGanho,
+                            sessao.getModulo().getTitle(),
+                            taxaAcerto
+                    ),
+                    NotificationKind.EXERCICIO
+            );
+
+            if (moduloConcluido) {
+                notificationService.criarNotificacaoSistema(
+                        usuario,
+                        "Módulo concluído",
+                        "Voce concluiu o módulo \"%s\" com %d%% de acerto.".formatted(
+                                sessao.getModulo().getTitle(),
+                                taxaAcerto
+                        ),
+                        NotificationKind.TRILHA
+                );
+            }
+        }
 
         return SessaoDto.ConclusaoResponse.builder()
                 .xpEarned(xpGanho)

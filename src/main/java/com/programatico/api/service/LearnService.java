@@ -10,6 +10,7 @@ import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ModuleType;
+import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.dto.TheoryDto;
 import com.programatico.api.dto.TrackDto;
@@ -56,6 +57,8 @@ public class LearnService {
     private final ExerciseRepository exerciseRepository;
     private final TeoriaPaginaRepository teoriaPaginaRepository;
     private final ContentBlockRepository contentBlockRepository;
+    private final NotificationService notificationService;
+    private final VidasService vidasService;
 
     /**
      * Retorna a primeira trilha (por displayOrder) com o status de cada módulo
@@ -126,14 +129,21 @@ public class LearnService {
                 .build();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public UserStatsDto.Response getEstatisticas(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
 
+        boolean vidasIlimitadas = vidasService.temVidasIlimitadas(usuario);
+
         return userStatsRepository.findByUsuario(usuario)
-                .map(UserStatsDto.Response::fromEntity)
-                .orElseGet(UserStatsDto.Response::padrao);
+                .map(stats -> {
+                    vidasService.aplicarRecarga(stats);
+                    userStatsRepository.save(stats);
+                    return UserStatsDto.Response.fromEntity(
+                            stats, vidasService.segundosAteProximaVida(stats), vidasIlimitadas);
+                })
+                .orElseGet(() -> UserStatsDto.Response.padrao(vidasIlimitadas));
     }
 
     @Transactional(readOnly = true)
@@ -236,5 +246,12 @@ public class LearnService {
         progress.setStatus(ProgressStatus.COMPLETED);
         progress.setCompletedAt(LocalDateTime.now());
         userProgressRepository.save(progress);
+
+        notificationService.criarNotificacaoSistema(
+                usuario,
+                "Módulo teórico concluído",
+                "Voce concluiu o módulo teórico \"%s\".".formatted(modulo.getTitle()),
+                NotificationKind.TRILHA
+        );
     }
 }
