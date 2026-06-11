@@ -167,6 +167,14 @@ public class SessaoAtividadeService {
             stats.setTotalXp(xpAtual + exercise.getXpReward());
         } else if (!vidasService.temVidasIlimitadas(usuario)) {
             vidasService.registrarPerdaDeVida(stats);
+            if (stats.getCurrentLives() != null && stats.getCurrentLives() == 0) {
+                notificationService.criarNotificacaoSistema(
+                        usuario,
+                        "Sem vidas",
+                        "Você ficou sem vidas. Aguarde a recarga para continuar estudando.",
+                        NotificationKind.EXERCICIO
+                );
+            }
         }
         stats.setLastActivityDate(LocalDateTime.now());
         userStatsRepository.save(stats);
