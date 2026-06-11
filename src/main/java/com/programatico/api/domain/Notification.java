@@ -33,7 +33,8 @@ public class Notification {
     @Column(nullable = false, length = 20)
     private NotificationKind kind;
 
-    @Column(nullable = false)
+    // "read" é palavra reservada no MySQL — sem o alias a criação da tabela falha
+    @Column(name = "is_read", nullable = false)
     @Builder.Default
     private Boolean read = false;
 
