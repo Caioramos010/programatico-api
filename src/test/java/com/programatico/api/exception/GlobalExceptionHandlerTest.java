@@ -38,11 +38,11 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
-    void deveMapearDataIntegrityPara400() {
+    void deveMapearDataIntegrityPara409() {
         ResponseEntity<Map<String, String>> response =
                 handler.handleDataIntegrity(new DataIntegrityViolationException("constraint"));
 
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertNotNull(response.getBody().get("mensagem"));
     }
 
