@@ -228,14 +228,26 @@ public class SessaoAtividadeService {
         if (sessao.getModulo() != null) {
             notificationService.criarNotificacaoSistema(
                     usuario,
-                    "Exercicios concluidos",
-                    "Voce ganhou %d XP no modulo \"%s\" com %d%% de acerto.".formatted(
+                    "Exercícios concluídos",
+                    "Voce ganhou %d XP no módulo \"%s\" com %d%% de acerto.".formatted(
                             xpGanho,
                             sessao.getModulo().getTitle(),
                             taxaAcerto
                     ),
                     NotificationKind.EXERCICIO
             );
+
+            if (moduloConcluido) {
+                notificationService.criarNotificacaoSistema(
+                        usuario,
+                        "Módulo concluído",
+                        "Voce concluiu o módulo \"%s\" com %d%% de acerto.".formatted(
+                                sessao.getModulo().getTitle(),
+                                taxaAcerto
+                        ),
+                        NotificationKind.TRILHA
+                );
+            }
         }
 
         return SessaoDto.ConclusaoResponse.builder()
