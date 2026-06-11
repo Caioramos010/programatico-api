@@ -21,9 +21,6 @@ public final class NotificationDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Request {
-        @NotNull(message = "ID do usuário é obrigatório")
-        private Long userId;
-
         @NotBlank(message = "Título é obrigatório")
         @Size(max = 255, message = "Título deve ter no máximo 255 caracteres")
         private String title;

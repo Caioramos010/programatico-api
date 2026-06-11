@@ -25,21 +25,22 @@ public class NotificationService {
     private final UsuarioRepository usuarioRepository;
 
     @Transactional(readOnly = true)
-    public List<NotificationDto.Response> listarPorUsuario(Long userId) {
-        Usuario usuario = buscarUsuario(userId);
+    public List<NotificationDto.Response> listarPorUsuario(String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
         return notificationRepository.findByUsuarioOrderByCreatedAtDesc(usuario).stream()
                 .map(NotificationDto.Response::fromEntity)
                 .toList();
     }
 
     @Transactional(readOnly = true)
-    public NotificationDto.Response buscarPorId(Long id) {
-        return NotificationDto.Response.fromEntity(buscarNotificacao(id));
+    public NotificationDto.Response buscarPorId(Long id, String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
+        return NotificationDto.Response.fromEntity(buscarNotificacao(id, usuario));
     }
 
     @Transactional
-    public NotificationDto.Response criar(NotificationDto.Request request) {
-        Usuario usuario = buscarUsuario(request.getUserId());
+    public NotificationDto.Response criar(NotificationDto.Request request, String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
 
         Notification notification = Notification.builder()
                 .usuario(usuario)
@@ -56,8 +57,9 @@ public class NotificationService {
     }
 
     @Transactional
-    public NotificationDto.Response atualizar(Long id, NotificationDto.UpdateRequest request) {
-        Notification notification = buscarNotificacao(id);
+    public NotificationDto.Response atualizar(Long id, NotificationDto.UpdateRequest request, String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
+        Notification notification = buscarNotificacao(id, usuario);
 
         if (request.getTitle() != null) {
             notification.setTitle(request.getTitle());
@@ -78,8 +80,9 @@ public class NotificationService {
     }
 
     @Transactional
-    public NotificationDto.Response marcarComoLida(Long id) {
-        Notification notification = buscarNotificacao(id);
+    public NotificationDto.Response marcarComoLida(Long id, String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
+        Notification notification = buscarNotificacao(id, usuario);
         notification.setRead(true);
         if (notification.getReadAt() == null) {
             notification.setReadAt(Instant.now());
@@ -88,8 +91,8 @@ public class NotificationService {
     }
 
     @Transactional
-    public void marcarTodasComoLidas(Long userId) {
-        Usuario usuario = buscarUsuario(userId);
+    public void marcarTodasComoLidas(String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
         List<Notification> notifications = notificationRepository.findByUsuarioOrderByCreatedAtDesc(usuario);
 
         Instant readAt = Instant.now();
@@ -101,23 +104,24 @@ public class NotificationService {
         });
 
         notificationRepository.saveAll(notifications);
-        log.info("Notificações marcadas como lidas: userId={}, total={}", userId, notifications.size());
+        log.info("Notificações marcadas como lidas: userId={}, total={}", usuario.getId(), notifications.size());
     }
 
     @Transactional
-    public void deletar(Long id) {
-        Notification notification = buscarNotificacao(id);
+    public void deletar(Long id, String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
+        Notification notification = buscarNotificacao(id, usuario);
         notificationRepository.delete(notification);
         log.info("Notificação deletada: id={}", id);
     }
 
-    private Usuario buscarUsuario(Long userId) {
-        return usuarioRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuário", userId));
+    private Usuario buscarUsuarioPorUsername(String username) {
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
     }
 
-    private Notification buscarNotificacao(Long id) {
-        return notificationRepository.findById(id)
+    private Notification buscarNotificacao(Long id, Usuario usuario) {
+        return notificationRepository.findByIdAndUsuario(id, usuario)
                 .orElseThrow(() -> new ResourceNotFoundException("Notificação", id));
     }
 }

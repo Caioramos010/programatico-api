@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,41 +20,52 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping
-    public ResponseEntity<List<NotificationDto.Response>> listarPorUsuario(@RequestParam Long userId) {
-        return ResponseEntity.ok(notificationService.listarPorUsuario(userId));
+    public ResponseEntity<List<NotificationDto.Response>> listarPorUsuario(
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(notificationService.listarPorUsuario(userDetails.getUsername()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<NotificationDto.Response> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(notificationService.buscarPorId(id));
+    public ResponseEntity<NotificationDto.Response> buscarPorId(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(notificationService.buscarPorId(id, userDetails.getUsername()));
     }
 
     @PostMapping
-    public ResponseEntity<NotificationDto.Response> criar(@Valid @RequestBody NotificationDto.Request request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(notificationService.criar(request));
+    public ResponseEntity<NotificationDto.Response> criar(
+            @Valid @RequestBody NotificationDto.Request request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(notificationService.criar(request, userDetails.getUsername()));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<NotificationDto.Response> atualizar(
             @PathVariable Long id,
-            @Valid @RequestBody NotificationDto.UpdateRequest request) {
-        return ResponseEntity.ok(notificationService.atualizar(id, request));
+            @Valid @RequestBody NotificationDto.UpdateRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(notificationService.atualizar(id, request, userDetails.getUsername()));
     }
 
     @PatchMapping("/{id}/marcar-como-lida")
-    public ResponseEntity<NotificationDto.Response> marcarComoLida(@PathVariable Long id) {
-        return ResponseEntity.ok(notificationService.marcarComoLida(id));
+    public ResponseEntity<NotificationDto.Response> marcarComoLida(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(notificationService.marcarComoLida(id, userDetails.getUsername()));
     }
 
-    @PatchMapping("/usuarios/{userId}/marcar-todas-como-lidas")
-    public ResponseEntity<Void> marcarTodasComoLidas(@PathVariable Long userId) {
-        notificationService.marcarTodasComoLidas(userId);
+    @PatchMapping("/marcar-todas-como-lidas")
+    public ResponseEntity<Void> marcarTodasComoLidas(@AuthenticationPrincipal UserDetails userDetails) {
+        notificationService.marcarTodasComoLidas(userDetails.getUsername());
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        notificationService.deletar(id);
+    public ResponseEntity<Void> deletar(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        notificationService.deletar(id, userDetails.getUsername());
         return ResponseEntity.noContent().build();
     }
 }
