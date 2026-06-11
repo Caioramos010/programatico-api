@@ -61,6 +61,7 @@ class LearnServiceTest {
     @Mock private TeoriaPaginaRepository teoriaPaginaRepository;
     @Mock private ContentBlockRepository contentBlockRepository;
     @Spy private VidasService vidasService = new VidasService();
+    @Mock private NotificationService notificationService;
 
     @InjectMocks
     private LearnService learnService;
