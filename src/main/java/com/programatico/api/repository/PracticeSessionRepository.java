@@ -16,6 +16,8 @@ public interface PracticeSessionRepository extends JpaRepository<PracticeSession
 
     Optional<PracticeSession> findByIdAndUsuario(Long id, Usuario usuario);
 
+    long countByEndedAtIsNullAndStartedAtAfter(LocalDateTime startedAt);
+
     List<PracticeSession> findByUsuarioAndStartedAtGreaterThanEqualOrderByStartedAtAsc(
             Usuario usuario,
             LocalDateTime startedAt

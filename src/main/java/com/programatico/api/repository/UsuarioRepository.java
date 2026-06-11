@@ -3,9 +3,12 @@ package com.programatico.api.repository;
 import com.programatico.api.domain.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.Instant;
 import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
+    long countByDataCriacaoAfter(Instant data);
 
     Optional<Usuario> findByEmail(String email);
 

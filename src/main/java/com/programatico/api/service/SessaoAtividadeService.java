@@ -47,7 +47,7 @@ public class SessaoAtividadeService {
     private static final int QUANTIDADE_XP_7 = 3;
     private static final int QUANTIDADE_XP_5 = 3;
     private static final int QUANTIDADE_XP_3 = 4;
-    private static final int MAX_VIDAS = 5;
+    private static final int MAX_VIDAS = VidasService.MAX_VIDAS;
 
     private final UsuarioRepository usuarioRepository;
     private final ModuloRepository moduloRepository;
@@ -56,6 +56,7 @@ public class SessaoAtividadeService {
     private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     private final UserProgressRepository userProgressRepository;
     private final UserStatsRepository userStatsRepository;
+    private final VidasService vidasService;
     private final ObjectMapper objectMapper;
 
     @Transactional
@@ -72,9 +73,8 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
-        if (stats.getId() == null) {
-            userStatsRepository.save(stats);
-        }
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
 
         PracticeSession sessao = PracticeSession.builder()
                 .usuario(usuario)
@@ -158,13 +158,13 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
 
         if (correto) {
             int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
             stats.setTotalXp(xpAtual + exercise.getXpReward());
-        } else {
-            int vidasAtuais = stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS;
-            stats.setCurrentLives(Math.max(0, vidasAtuais - 1));
+        } else if (!vidasService.temVidasIlimitadas(usuario)) {
+            vidasService.registrarPerdaDeVida(stats);
         }
         stats.setLastActivityDate(LocalDateTime.now());
         userStatsRepository.save(stats);
@@ -220,6 +220,8 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
 
         return SessaoDto.ConclusaoResponse.builder()
                 .xpEarned(xpGanho)
