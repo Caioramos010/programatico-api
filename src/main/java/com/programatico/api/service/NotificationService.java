@@ -2,6 +2,7 @@ package com.programatico.api.service;
 
 import com.programatico.api.domain.Notification;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.dto.NotificationDto;
 import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.NotificationRepository;
@@ -58,6 +59,17 @@ public class NotificationService {
 
         notificationRepository.saveAll(notifications);
         log.info("Notificações marcadas como lidas: userId={}, total={}", usuario.getId(), notifications.size());
+    }
+
+    @Transactional
+    public void criarNotificacaoSistema(Usuario usuario, String title, String message, NotificationKind kind) {
+        Notification notification = Notification.builder()
+                .usuario(usuario)
+                .title(title)
+                .message(message)
+                .kind(kind)
+                .build();
+        notificationRepository.save(notification);
     }
 
     private Usuario buscarUsuarioPorUsername(String username) {
