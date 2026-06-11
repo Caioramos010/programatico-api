@@ -76,6 +76,8 @@ public class UsuarioService {
         }
         usuario.setCodigoVerificacaoLogin(null);
         usuario.setDataExpiracaoCodigoLogin(null);
+        // Conta excluída logicamente pelo admin volta ao fazer login com sucesso.
+        usuario.setDeletedAt(null);
         usuarioRepository.save(usuario);
         String token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
         return new UsuarioDto.LoginResponse(token, UsuarioDto.Response.fromEntity(usuario));
