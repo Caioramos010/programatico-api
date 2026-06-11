@@ -160,8 +160,11 @@ public class SessaoAtividadeService {
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
 
         if (correto) {
-            int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
-            stats.setTotalXp(xpAtual + exercise.getXpReward());
+            // Replay de módulo já concluído não pontua de novo.
+            if (!moduloJaConcluido(usuario, sessao)) {
+                int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
+                stats.setTotalXp(xpAtual + exercise.getXpReward());
+            }
         } else {
             int vidasAtuais = stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS;
             stats.setCurrentLives(Math.max(0, vidasAtuais - 1));
@@ -195,7 +198,9 @@ public class SessaoAtividadeService {
 
         long corretos = todos.stream().filter(e -> Boolean.TRUE.equals(e.getIsCorrect())).count();
         int taxaAcerto = todos.isEmpty() ? 0 : (int) (corretos * 100L / todos.size());
-        int xpGanho = todos.stream()
+        // Replay de módulo já concluído não pontuou em responder(); o relatório reflete isso.
+        boolean replay = moduloJaConcluido(usuario, sessao);
+        int xpGanho = replay ? 0 : todos.stream()
                 .filter(e -> Boolean.TRUE.equals(e.getIsCorrect()))
                 .mapToInt(e -> e.getExercise().getXpReward())
                 .sum();
@@ -231,6 +236,13 @@ public class SessaoAtividadeService {
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────────
+
+    private boolean moduloJaConcluido(Usuario usuario, PracticeSession sessao) {
+        return sessao.getModulo() != null && userProgressRepository
+                .findByUsuarioAndModulo(usuario, sessao.getModulo())
+                .map(p -> p.getStatus() == ProgressStatus.COMPLETED)
+                .orElse(false);
+    }
 
     private Usuario buscarUsuario(String username) {
         return usuarioRepository.findByUsername(username)
