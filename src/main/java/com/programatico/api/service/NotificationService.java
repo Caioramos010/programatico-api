@@ -32,53 +32,6 @@ public class NotificationService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
-    public NotificationDto.Response buscarPorId(Long id, String username) {
-        Usuario usuario = buscarUsuarioPorUsername(username);
-        return NotificationDto.Response.fromEntity(buscarNotificacao(id, usuario));
-    }
-
-    @Transactional
-    public NotificationDto.Response criar(NotificationDto.Request request, String username) {
-        Usuario usuario = buscarUsuarioPorUsername(username);
-
-        Notification notification = Notification.builder()
-                .usuario(usuario)
-                .title(request.getTitle())
-                .message(request.getMessage())
-                .kind(request.getKind())
-                .read(Boolean.TRUE.equals(request.getRead()))
-                .readAt(Boolean.TRUE.equals(request.getRead()) ? Instant.now() : null)
-                .build();
-
-        Notification salva = notificationRepository.save(notification);
-        log.info("Notificação criada: id={}, userId={}, kind={}", salva.getId(), usuario.getId(), salva.getKind());
-        return NotificationDto.Response.fromEntity(salva);
-    }
-
-    @Transactional
-    public NotificationDto.Response atualizar(Long id, NotificationDto.UpdateRequest request, String username) {
-        Usuario usuario = buscarUsuarioPorUsername(username);
-        Notification notification = buscarNotificacao(id, usuario);
-
-        if (request.getTitle() != null) {
-            notification.setTitle(request.getTitle());
-        }
-        if (request.getMessage() != null) {
-            notification.setMessage(request.getMessage());
-        }
-        if (request.getKind() != null) {
-            notification.setKind(request.getKind());
-        }
-        if (request.getRead() != null) {
-            notification.setRead(request.getRead());
-            notification.setReadAt(Boolean.TRUE.equals(request.getRead()) ? Instant.now() : null);
-        }
-
-        Notification atualizada = notificationRepository.save(notification);
-        return NotificationDto.Response.fromEntity(atualizada);
-    }
-
     @Transactional
     public NotificationDto.Response marcarComoLida(Long id, String username) {
         Usuario usuario = buscarUsuarioPorUsername(username);
@@ -105,14 +58,6 @@ public class NotificationService {
 
         notificationRepository.saveAll(notifications);
         log.info("Notificações marcadas como lidas: userId={}, total={}", usuario.getId(), notifications.size());
-    }
-
-    @Transactional
-    public void deletar(Long id, String username) {
-        Usuario usuario = buscarUsuarioPorUsername(username);
-        Notification notification = buscarNotificacao(id, usuario);
-        notificationRepository.delete(notification);
-        log.info("Notificação deletada: id={}", id);
     }
 
     private Usuario buscarUsuarioPorUsername(String username) {
