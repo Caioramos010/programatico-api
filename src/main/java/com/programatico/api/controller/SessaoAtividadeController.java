@@ -23,6 +23,15 @@ public class SessaoAtividadeController {
         return ResponseEntity.ok(sessaoAtividadeService.iniciarSessao(moduloId, userDetails.getUsername()));
     }
 
+    // Esqueleto Práticas (Hyorran): inicia uma sessão de prática por modo
+    // (erros | fixacao | cronometrado). responder/concluir abaixo são reaproveitados.
+    @PostMapping("/pratica/{modo}/iniciar")
+    public ResponseEntity<SessaoDto.InicioResponse> iniciarPratica(
+            @PathVariable String modo,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(sessaoAtividadeService.iniciarPratica(modo, userDetails.getUsername()));
+    }
+
     @PostMapping("/sessoes/{sessaoId}/responder")
     public ResponseEntity<SessaoDto.RespostaResponse> responder(
             @PathVariable Long sessaoId,

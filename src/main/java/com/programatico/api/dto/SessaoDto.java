@@ -19,6 +19,8 @@ public final class SessaoDto {
         private String moduleTitle;
         private int initialLives;
         private int totalExercises;
+        /** Nulo em sessões normais; preenchido na prática CRONOMETRADO. */
+        private Integer timeLimitSeconds;
         private List<ExercicioSessao> exercises;
     }
 
