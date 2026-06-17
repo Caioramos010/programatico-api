@@ -60,6 +60,7 @@ public class SessaoAtividadeService {
     private final NotificationService notificationService;
     private final VidasService vidasService;
     private final ObjectMapper objectMapper;
+    private final OpenAiOrganizacaoService openAiOrganizacaoService;
 
     @Transactional
     public SessaoDto.InicioResponse iniciarSessao(Long moduloId, String username) {
@@ -67,16 +68,16 @@ public class SessaoAtividadeService {
         Modulo modulo = moduloRepository.findById(moduloId)
                 .orElseThrow(() -> new ResourceNotFoundException("Módulo", moduloId));
 
-        List<Exercise> selecionados = selecionarExercicios(modulo);
-        if (selecionados.isEmpty()) {
-            throw new BadRequestException("Este módulo não possui exercícios cadastrados.");
-        }
-
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
         vidasService.aplicarRecarga(stats);
         userStatsRepository.save(stats);
+
+        List<Exercise> selecionados = organizarExercicios(modulo, usuario, stats);
+        if (selecionados.isEmpty()) {
+            throw new BadRequestException("Este módulo não possui exercícios cadastrados.");
+        }
 
         PracticeSession sessao = PracticeSession.builder()
                 .usuario(usuario)
@@ -377,6 +378,26 @@ public class SessaoAtividadeService {
     private Usuario buscarUsuario(String username) {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+    }
+
+    /**
+     * Define a seleção/ordem dos exercícios da sessão. Com a IA (OpenAI) configurada,
+     * ela organiza de forma adaptativa a partir do contexto do aluno; sem ela — ou se a
+     * IA falhar — usa o algoritmo determinístico {@link #selecionarExercicios(Modulo)}.
+     */
+    private List<Exercise> organizarExercicios(Modulo modulo, Usuario usuario, UserStats stats) {
+        List<Exercise> candidatos = exerciseRepository.findByModuloOrderByIdAsc(modulo);
+        if (candidatos.isEmpty()) {
+            return List.of();
+        }
+        List<Exercise> organizadosIa = openAiOrganizacaoService.organizar(
+                candidatos, usuario, stats, QUANTIDADE_EXERCICIOS);
+        if (!organizadosIa.isEmpty()) {
+            log.info("Sessão organizada pela IA (OpenAI) — módulo={} usuário={}",
+                    modulo.getId(), usuario.getUsername());
+            return organizadosIa;
+        }
+        return selecionarExercicios(modulo);
     }
 
     /**
