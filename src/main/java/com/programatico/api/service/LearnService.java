@@ -1,21 +1,28 @@
 package com.programatico.api.service;
 
+import com.programatico.api.domain.ContentBlock;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.Mission;
+import com.programatico.api.domain.TeoriaPagina;
 import com.programatico.api.domain.Track;
 import com.programatico.api.domain.UserMission;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.ModuleType;
+import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.ProgressStatus;
+import com.programatico.api.dto.TheoryDto;
 import com.programatico.api.dto.TrackDto;
 import com.programatico.api.dto.UserMissionDto;
 import com.programatico.api.dto.UserStatsDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
+import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserProgressRepository;
@@ -27,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +55,10 @@ public class LearnService {
     private final MissionRepository missionRepository;
     private final UserMissionRepository userMissionRepository;
     private final ExerciseRepository exerciseRepository;
+    private final TeoriaPaginaRepository teoriaPaginaRepository;
+    private final ContentBlockRepository contentBlockRepository;
+    private final NotificationService notificationService;
+    private final VidasService vidasService;
 
     /**
      * Retorna a primeira trilha (por displayOrder) com o status de cada módulo
@@ -68,9 +80,9 @@ public class LearnService {
                         .stream()
                         .collect(Collectors.toMap(up -> up.getModulo().getId(), UserProgress::getStatus));
 
-        List<TrackDto.ModuloComProgresso> modulosComProgresso = new ArrayList<>();
-        // O módulo anterior ao primeiro é tratado como "concluído" para desbloquear o primeiro módulo.
-        boolean anteriorConcluido = true;
+        List<TrackDto.ModuleWithProgress> modulesWithProgress = new ArrayList<>();
+        // The module previous to the first is treated as "completed" to unlock the first module.
+        boolean previousCompleted = true;
 
         for (Modulo modulo : modulos) {
             ProgressStatus statusDb = progressoMap.get(modulo.getId());
@@ -78,7 +90,7 @@ public class LearnService {
 
             if (statusDb == ProgressStatus.COMPLETED) {
                 statusFinal = ProgressStatus.COMPLETED;
-            } else if (anteriorConcluido) {
+            } else if (previousCompleted) {
                 statusFinal = ProgressStatus.UNLOCKED;
             } else {
                 statusFinal = ProgressStatus.LOCKED;
@@ -87,7 +99,7 @@ public class LearnService {
             long xpModulo = "ACTIVITY".equals(modulo.getModuleType().name())
                     ? exerciseRepository.sumXpByModulo(modulo)
                     : 0L;
-            modulosComProgresso.add(new TrackDto.ModuloComProgresso(
+            modulesWithProgress.add(new TrackDto.ModuleWithProgress(
                     modulo.getId(),
                     modulo.getTitle(),
                     modulo.getModuleType().name(),
@@ -97,34 +109,41 @@ public class LearnService {
                     xpModulo
             ));
 
-            anteriorConcluido = statusFinal == ProgressStatus.COMPLETED;
+            previousCompleted = statusFinal == ProgressStatus.COMPLETED;
         }
 
-        long concluidos = modulosComProgresso.stream()
+        long completed = modulesWithProgress.stream()
                 .filter(m -> "COMPLETED".equals(m.status()))
                 .count();
-        int percentual = modulos.isEmpty() ? 0 : (int) (concluidos * 100L / modulos.size());
+        int percentage = modulos.isEmpty() ? 0 : (int) (completed * 100L / modulos.size());
 
         return TrackDto.Response.builder()
                 .id(track.getId())
-                .titulo(track.getTitle())
-                .descricao(track.getDescription())
+                .title(track.getTitle())
+                .description(track.getDescription())
                 .icon(track.getIcon())
-                .modulos(modulosComProgresso)
-                .percentualConcluido(percentual)
-                .totalModulos(modulos.size())
-                .concluidosModulos((int) concluidos)
+                .modules(modulesWithProgress)
+                .completedPercentage(percentage)
+                .totalModules(modulos.size())
+                .completedModules((int) completed)
                 .build();
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public UserStatsDto.Response getEstatisticas(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
 
+        boolean vidasIlimitadas = vidasService.temVidasIlimitadas(usuario);
+
         return userStatsRepository.findByUsuario(usuario)
-                .map(UserStatsDto.Response::fromEntity)
-                .orElseGet(UserStatsDto.Response::padrao);
+                .map(stats -> {
+                    vidasService.aplicarRecarga(stats);
+                    userStatsRepository.save(stats);
+                    return UserStatsDto.Response.fromEntity(
+                            stats, vidasService.segundosAteProximaVida(stats), vidasIlimitadas);
+                })
+                .orElseGet(() -> UserStatsDto.Response.padrao(vidasIlimitadas));
     }
 
     @Transactional(readOnly = true)
@@ -145,14 +164,94 @@ public class LearnService {
                     UserMission um = userMissionMap.get(mission.getId());
                     return UserMissionDto.Response.builder()
                             .missionId(mission.getId())
-                            .titulo(mission.getTitle())
-                            .tipo(mission.getObjectiveType())
-                            .progressoAtual(um != null && um.getCurrentProgress() != null ? um.getCurrentProgress() : 0)
-                            .meta(META_MISSOES_DIARIAS)
-                            .recompensaXp(mission.getXpReward() != null ? mission.getXpReward() : 5)
-                            .concluida(um != null && Boolean.TRUE.equals(um.getIsCompleted()))
+                            .title(mission.getTitle())
+                            .type(mission.getObjectiveType())
+                            .currentProgress(um != null && um.getCurrentProgress() != null ? um.getCurrentProgress() : 0)
+                            .goal(META_MISSOES_DIARIAS)
+                            .xpReward(mission.getXpReward() != null ? mission.getXpReward() : 5)
+                            .completed(um != null && Boolean.TRUE.equals(um.getIsCompleted()))
                             .build();
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public TheoryDto.Response getTeorico(Long moduleId, String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+
+        Modulo modulo = moduloRepository.findById(moduleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Módulo não encontrado."));
+
+        if (modulo.getModuleType() != ModuleType.STUDY) {
+            throw new BadRequestException("Este módulo não é teórico.");
+        }
+
+        ProgressStatus status = userProgressRepository.findByUsuarioAndModulo(usuario, modulo)
+                .map(UserProgress::getStatus)
+                .orElse(ProgressStatus.UNLOCKED);
+        if (status == ProgressStatus.LOCKED) {
+            throw new BadRequestException("Módulo bloqueado.");
+        }
+
+        List<TeoriaPagina> pages = teoriaPaginaRepository.findByModuloOrderByDisplayOrderAsc(modulo);
+
+        List<TheoryDto.Page> pageDtos = pages.stream()
+                .map(page -> {
+                    List<ContentBlock> blocks = contentBlockRepository.findByPaginaOrderByDisplayOrderAsc(page);
+                    List<TheoryDto.Block> blockDtos = blocks.stream()
+                            .map(block -> TheoryDto.Block.builder()
+                                    .id(block.getId())
+                                    .layoutType(block.getLayoutType())
+                                    .textContent(block.getTextContent())
+                                    .imageUrl(block.getImageUrl())
+                                    .order(block.getDisplayOrder() != null ? block.getDisplayOrder() : 0)
+                                    .build())
+                            .collect(Collectors.toList());
+                    return TheoryDto.Page.builder()
+                            .id(page.getId())
+                            .title(page.getTitle())
+                            .description(page.getDescription())
+                            .order(page.getDisplayOrder() != null ? page.getDisplayOrder() : 0)
+                            .blocks(blockDtos)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        return TheoryDto.Response.builder()
+                .moduleId(modulo.getId())
+                .moduleTitle(modulo.getTitle())
+                .pages(pageDtos)
+                .build();
+    }
+
+    @Transactional
+    public void concluirTeorico(Long moduleId, String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+
+        Modulo modulo = moduloRepository.findById(moduleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Módulo não encontrado."));
+
+        if (modulo.getModuleType() != ModuleType.STUDY) {
+            throw new BadRequestException("Este módulo não é teórico.");
+        }
+
+        UserProgress progress = userProgressRepository.findByUsuarioAndModulo(usuario, modulo)
+                .orElseGet(() -> UserProgress.builder()
+                        .usuario(usuario)
+                        .modulo(modulo)
+                        .build());
+
+        progress.setStatus(ProgressStatus.COMPLETED);
+        progress.setCompletedAt(LocalDateTime.now());
+        userProgressRepository.save(progress);
+
+        notificationService.criarNotificacaoSistema(
+                usuario,
+                "Módulo teórico concluído",
+                "Voce concluiu o módulo teórico \"%s\".".formatted(modulo.getTitle()),
+                NotificationKind.TRILHA
+        );
     }
 }

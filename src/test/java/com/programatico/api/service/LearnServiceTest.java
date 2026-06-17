@@ -1,22 +1,28 @@
 package com.programatico.api.service;
 
+import com.programatico.api.domain.ContentBlock;
 import com.programatico.api.domain.Mission;
 import com.programatico.api.domain.Modulo;
+import com.programatico.api.domain.TeoriaPagina;
 import com.programatico.api.domain.Track;
 import com.programatico.api.domain.UserMission;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.LayoutType;
 import com.programatico.api.domain.enums.ModuleType;
 import com.programatico.api.domain.enums.ProgressStatus;
+import com.programatico.api.dto.TheoryDto;
 import com.programatico.api.dto.TrackDto;
 import com.programatico.api.dto.UserMissionDto;
 import com.programatico.api.dto.UserStatsDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
+import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserProgressRepository;
@@ -24,8 +30,10 @@ import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -36,6 +44,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,6 +58,10 @@ class LearnServiceTest {
     @Mock private MissionRepository missionRepository;
     @Mock private UserMissionRepository userMissionRepository;
     @Mock private ExerciseRepository exerciseRepository;
+    @Mock private TeoriaPaginaRepository teoriaPaginaRepository;
+    @Mock private ContentBlockRepository contentBlockRepository;
+    @Spy private VidasService vidasService = new VidasService();
+    @Mock private NotificationService notificationService;
 
     @InjectMocks
     private LearnService learnService;
@@ -71,10 +84,10 @@ class LearnServiceTest {
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
         assertNotNull(response);
-        assertEquals("Lógica Básica", response.getTitulo());
-        assertEquals(1, response.getModulos().size());
-        assertEquals("UNLOCKED", response.getModulos().get(0).status());
-        assertEquals(0, response.getPercentualConcluido());
+        assertEquals("Lógica Básica", response.getTitle());
+        assertEquals(1, response.getModules().size());
+        assertEquals("UNLOCKED", response.getModules().get(0).status());
+        assertEquals(0, response.getCompletedPercentage());
     }
 
     @Test
@@ -115,9 +128,9 @@ class LearnServiceTest {
 
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
-        assertEquals("COMPLETED", response.getModulos().get(0).status());
-        assertEquals("UNLOCKED", response.getModulos().get(1).status());
-        assertEquals(50, response.getPercentualConcluido());
+        assertEquals("COMPLETED", response.getModules().get(0).status());
+        assertEquals("UNLOCKED", response.getModules().get(1).status());
+        assertEquals(50, response.getCompletedPercentage());
     }
 
     @Test
@@ -136,8 +149,8 @@ class LearnServiceTest {
 
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
-        assertEquals("UNLOCKED", response.getModulos().get(0).status());
-        assertEquals("LOCKED", response.getModulos().get(1).status());
+        assertEquals("UNLOCKED", response.getModules().get(0).status());
+        assertEquals("LOCKED", response.getModules().get(1).status());
     }
 
     @Test
@@ -148,8 +161,8 @@ class LearnServiceTest {
 
         TrackDto.Response response = learnService.getTrilhaComProgresso("user");
 
-        assertEquals(0, response.getModulos().size());
-        assertEquals(0, response.getPercentualConcluido());
+        assertEquals(0, response.getModules().size());
+        assertEquals(0, response.getCompletedPercentage());
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -173,8 +186,8 @@ class LearnServiceTest {
         UserStatsDto.Response response = learnService.getEstatisticas("user");
 
         assertEquals(150, response.getTotalXp());
-        assertEquals(5, response.getVidasAtuais());
-        assertEquals(3, response.getSequenciaAtual());
+        assertEquals(5, response.getCurrentLives());
+        assertEquals(3, response.getCurrentStreak());
     }
 
     @Test
@@ -215,9 +228,9 @@ class LearnServiceTest {
         List<UserMissionDto.Response> response = learnService.getMissoes("user");
 
         assertEquals(1, response.size());
-        assertEquals("Complete 3 módulos", response.get(0).getTitulo());
-        assertEquals(1, response.get(0).getProgressoAtual());
-        assertEquals(10, response.get(0).getRecompensaXp());
+        assertEquals("Complete 3 módulos", response.get(0).getTitle());
+        assertEquals(1, response.get(0).getCurrentProgress());
+        assertEquals(10, response.get(0).getXpReward());
     }
 
     @Test
@@ -225,6 +238,164 @@ class LearnServiceTest {
         when(usuarioRepository.findByUsername("inexistente")).thenReturn(Optional.empty());
 
         assertThrows(ResourceNotFoundException.class, () -> learnService.getMissoes("inexistente"));
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // getTeorico
+    // ──────────────────────────────────────────────────────────────────
+
+    @Test
+    void getTeoricoDeveRetornarPaginasComBlocosQuandoModuloStudyDesbloqueado() {
+        Usuario usuario = usuarioBase();
+        Track track = trackBase();
+        Modulo modulo = moduloBase(track, ModuleType.STUDY, 1);
+
+        TeoriaPagina page = TeoriaPagina.builder()
+                .id(10L)
+                .modulo(modulo)
+                .title("Página 1")
+                .description("Intro")
+                .displayOrder(1)
+                .build();
+
+        ContentBlock block = ContentBlock.builder()
+                .id(100L)
+                .modulo(modulo)
+                .pagina(page)
+                .layoutType(LayoutType.TEXT)
+                .textContent("Olá mundo")
+                .displayOrder(1)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+        when(userProgressRepository.findByUsuarioAndModulo(usuario, modulo)).thenReturn(Optional.empty());
+        when(teoriaPaginaRepository.findByModuloOrderByDisplayOrderAsc(modulo)).thenReturn(List.of(page));
+        when(contentBlockRepository.findByPaginaOrderByDisplayOrderAsc(page)).thenReturn(List.of(block));
+
+        TheoryDto.Response response = learnService.getTeorico(1L, "user");
+
+        assertNotNull(response);
+        assertEquals(1L, response.getModuleId());
+        assertEquals("Módulo 1", response.getModuleTitle());
+        assertEquals(1, response.getPages().size());
+        TheoryDto.Page firstPage = response.getPages().get(0);
+        assertEquals("Página 1", firstPage.getTitle());
+        assertEquals(1, firstPage.getBlocks().size());
+        TheoryDto.Block firstBlock = firstPage.getBlocks().get(0);
+        assertEquals(LayoutType.TEXT, firstBlock.getLayoutType());
+        assertEquals("Olá mundo", firstBlock.getTextContent());
+    }
+
+    @Test
+    void getTeoricoDeveLancarExcecaoQuandoModuloNaoEStudy() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(trackBase(), ModuleType.ACTIVITY, 1);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> learnService.getTeorico(1L, "user"));
+        assertEquals("Este módulo não é teórico.", ex.getMessage());
+    }
+
+    @Test
+    void getTeoricoDeveLancarExcecaoQuandoModuloLocked() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(trackBase(), ModuleType.STUDY, 1);
+        UserProgress progresso = UserProgress.builder()
+                .usuario(usuario)
+                .modulo(modulo)
+                .status(ProgressStatus.LOCKED)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+        when(userProgressRepository.findByUsuarioAndModulo(usuario, modulo)).thenReturn(Optional.of(progresso));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> learnService.getTeorico(1L, "user"));
+        assertEquals("Módulo bloqueado.", ex.getMessage());
+    }
+
+    @Test
+    void getTeoricoDeveLancarExcecaoQuandoUsuarioNaoExiste() {
+        when(usuarioRepository.findByUsername("inexistente")).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> learnService.getTeorico(1L, "inexistente"));
+    }
+
+    @Test
+    void getTeoricoDeveLancarExcecaoQuandoModuloNaoExiste() {
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuarioBase()));
+        when(moduloRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> learnService.getTeorico(99L, "user"));
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // concluirTeorico
+    // ──────────────────────────────────────────────────────────────────
+
+    @Test
+    void concluirTeoricoDeveSalvarProgressoComoCompletedCriandoRegistroSeNaoExiste() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(trackBase(), ModuleType.STUDY, 1);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+        when(userProgressRepository.findByUsuarioAndModulo(usuario, modulo)).thenReturn(Optional.empty());
+
+        learnService.concluirTeorico(1L, "user");
+
+        ArgumentCaptor<UserProgress> captor = ArgumentCaptor.forClass(UserProgress.class);
+        verify(userProgressRepository).save(captor.capture());
+        UserProgress saved = captor.getValue();
+        assertEquals(ProgressStatus.COMPLETED, saved.getStatus());
+        assertNotNull(saved.getCompletedAt());
+        assertEquals(usuario, saved.getUsuario());
+        assertEquals(modulo, saved.getModulo());
+    }
+
+    @Test
+    void concluirTeoricoDeveAtualizarProgressoExistente() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(trackBase(), ModuleType.STUDY, 1);
+        UserProgress existente = UserProgress.builder()
+                .id(50L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .status(ProgressStatus.UNLOCKED)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+        when(userProgressRepository.findByUsuarioAndModulo(usuario, modulo)).thenReturn(Optional.of(existente));
+
+        learnService.concluirTeorico(1L, "user");
+
+        ArgumentCaptor<UserProgress> captor = ArgumentCaptor.forClass(UserProgress.class);
+        verify(userProgressRepository).save(captor.capture());
+        UserProgress saved = captor.getValue();
+        assertEquals(50L, saved.getId());
+        assertEquals(ProgressStatus.COMPLETED, saved.getStatus());
+        assertNotNull(saved.getCompletedAt());
+    }
+
+    @Test
+    void concluirTeoricoDeveLancarExcecaoQuandoModuloNaoEStudy() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(trackBase(), ModuleType.ACTIVITY, 1);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> learnService.concluirTeorico(1L, "user"));
+        assertEquals("Este módulo não é teórico.", ex.getMessage());
     }
 
     // ──────────────────────────────────────────────────────────────────

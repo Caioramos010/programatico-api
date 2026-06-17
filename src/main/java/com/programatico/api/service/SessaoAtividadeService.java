@@ -10,6 +10,7 @@ import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
+import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.domain.enums.SessionType;
 import com.programatico.api.dto.SessaoDto;
@@ -47,7 +48,7 @@ public class SessaoAtividadeService {
     private static final int QUANTIDADE_XP_7 = 3;
     private static final int QUANTIDADE_XP_5 = 3;
     private static final int QUANTIDADE_XP_3 = 4;
-    private static final int MAX_VIDAS = 5;
+    private static final int MAX_VIDAS = VidasService.MAX_VIDAS;
 
     private final UsuarioRepository usuarioRepository;
     private final ModuloRepository moduloRepository;
@@ -56,7 +57,10 @@ public class SessaoAtividadeService {
     private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     private final UserProgressRepository userProgressRepository;
     private final UserStatsRepository userStatsRepository;
+    private final NotificationService notificationService;
+    private final VidasService vidasService;
     private final ObjectMapper objectMapper;
+    private final OpenAiOrganizacaoService openAiOrganizacaoService;
 
     @Transactional
     public SessaoDto.InicioResponse iniciarSessao(Long moduloId, String username) {
@@ -64,16 +68,15 @@ public class SessaoAtividadeService {
         Modulo modulo = moduloRepository.findById(moduloId)
                 .orElseThrow(() -> new ResourceNotFoundException("Módulo", moduloId));
 
-        List<Exercise> selecionados = selecionarExercicios(modulo);
-        if (selecionados.isEmpty()) {
-            throw new BadRequestException("Este módulo não possui exercícios cadastrados.");
-        }
-
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
-        if (stats.getId() == null) {
-            userStatsRepository.save(stats);
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
+
+        List<Exercise> selecionados = organizarExercicios(modulo, usuario, stats);
+        if (selecionados.isEmpty()) {
+            throw new BadRequestException("Este módulo não possui exercícios cadastrados.");
         }
 
         PracticeSession sessao = PracticeSession.builder()
@@ -99,11 +102,11 @@ public class SessaoAtividadeService {
                 .collect(Collectors.toList());
 
         return SessaoDto.InicioResponse.builder()
-                .sessaoId(sessao.getId())
-                .tituloModulo(modulo.getTitle())
-                .vidasIniciais(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
-                .totalExercicios(exerciciosDtos.size())
-                .exercicios(exerciciosDtos)
+                .sessionId(sessao.getId())
+                .moduleTitle(modulo.getTitle())
+                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .totalExercises(exerciciosDtos.size())
+                .exercises(exerciciosDtos)
                 .build();
     }
 
@@ -140,10 +143,10 @@ public class SessaoAtividadeService {
                             .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                                     .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
                     return SessaoDto.RespostaResponse.builder()
-                            .correto(true)
-                            .respostaCorreta("")
-                            .vidasRestantes(statsPartial.getCurrentLives() != null ? statsPartial.getCurrentLives() : MAX_VIDAS)
-                            .assuntosRelacionados(List.of())
+                            .correct(true)
+                            .correctAnswer("")
+                            .remainingLives(statsPartial.getCurrentLives() != null ? statsPartial.getCurrentLives() : MAX_VIDAS)
+                            .relatedTopics(List.of())
                             .build();
                 }
             } catch (Exception e) {
@@ -158,22 +161,33 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
 
         if (correto) {
-            int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
-            stats.setTotalXp(xpAtual + exercise.getXpReward());
-        } else {
-            int vidasAtuais = stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS;
-            stats.setCurrentLives(Math.max(0, vidasAtuais - 1));
+            // Replay de módulo já concluído não pontua de novo.
+            if (!moduloJaConcluido(usuario, sessao)) {
+                int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
+                stats.setTotalXp(xpAtual + exercise.getXpReward());
+            }
+        } else if (!vidasService.temVidasIlimitadas(usuario)) {
+            vidasService.registrarPerdaDeVida(stats);
+            if (stats.getCurrentLives() != null && stats.getCurrentLives() == 0) {
+                notificationService.criarNotificacaoSistema(
+                        usuario,
+                        "Sem vidas",
+                        "Você ficou sem vidas. Aguarde a recarga para continuar estudando.",
+                        NotificationKind.EXERCICIO
+                );
+            }
         }
         stats.setLastActivityDate(LocalDateTime.now());
         userStatsRepository.save(stats);
 
         return SessaoDto.RespostaResponse.builder()
-                .correto(correto)
-                .respostaCorreta(respostaCorreta)
-                .vidasRestantes(stats.getCurrentLives())
-                .assuntosRelacionados(parseTags(exercise.getTags()))
+                .correct(correto)
+                .correctAnswer(respostaCorreta)
+                .remainingLives(stats.getCurrentLives())
+                .relatedTopics(parseTags(exercise.getTags()))
                 .build();
     }
 
@@ -195,7 +209,9 @@ public class SessaoAtividadeService {
 
         long corretos = todos.stream().filter(e -> Boolean.TRUE.equals(e.getIsCorrect())).count();
         int taxaAcerto = todos.isEmpty() ? 0 : (int) (corretos * 100L / todos.size());
-        int xpGanho = todos.stream()
+        // Replay de módulo já concluído não pontuou em responder(); o relatório reflete isso.
+        boolean replay = moduloJaConcluido(usuario, sessao);
+        int xpGanho = replay ? 0 : todos.stream()
                 .filter(e -> Boolean.TRUE.equals(e.getIsCorrect()))
                 .mapToInt(e -> e.getExercise().getXpReward())
                 .sum();
@@ -220,21 +236,168 @@ public class SessaoAtividadeService {
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
+
+        if (sessao.getModulo() != null) {
+            notificationService.criarNotificacaoSistema(
+                    usuario,
+                    "Exercícios concluídos",
+                    "Voce ganhou %d XP no módulo \"%s\" com %d%% de acerto.".formatted(
+                            xpGanho,
+                            sessao.getModulo().getTitle(),
+                            taxaAcerto
+                    ),
+                    NotificationKind.EXERCICIO
+            );
+
+            if (moduloConcluido) {
+                notificationService.criarNotificacaoSistema(
+                        usuario,
+                        "Módulo concluído",
+                        "Voce concluiu o módulo \"%s\" com %d%% de acerto.".formatted(
+                                sessao.getModulo().getTitle(),
+                                taxaAcerto
+                        ),
+                        NotificationKind.TRILHA
+                );
+            }
+        }
 
         return SessaoDto.ConclusaoResponse.builder()
-                .xpGanho(xpGanho)
-                .taxaAcerto(taxaAcerto)
-                .duracaoSegundos(duracao)
-                .vidasRestantes(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
-                .moduloConcluido(moduloConcluido)
+                .xpEarned(xpGanho)
+                .accuracy(taxaAcerto)
+                .durationSeconds(duracao)
+                .remainingLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .moduleCompleted(moduloConcluido)
+                .build();
+    }
+
+    // ── Práticas (esqueleto para Hyorran) ───────────────────────────────────────
+    // O fluxo responder()/concluir() já é agnóstico de módulo (todos os acessos a
+    // sessao.getModulo() têm guard de null), então cada modo de prática só precisa de
+    // um "iniciar" próprio que produza um InicioResponse. ERROS está implementado como
+    // referência; FIXAÇÃO e CRONOMETRADO ficam como TODO(hyorran).
+
+    @Transactional
+    public SessaoDto.InicioResponse iniciarPratica(String modo, String username) {
+        Usuario usuario = buscarUsuario(username);
+        return switch (modo == null ? "" : modo.toLowerCase()) {
+            case "erros" -> iniciarPraticaErros(usuario);
+            case "fixacao" -> iniciarPraticaFixacao(usuario);
+            case "cronometrado" -> iniciarPraticaCronometrada(usuario);
+            default -> throw new BadRequestException("Modo de prática inválido: " + modo);
+        };
+    }
+
+    /** Referência: pratica os exercícios que o usuário errou. */
+    private SessaoDto.InicioResponse iniciarPraticaErros(Usuario usuario) {
+        List<Exercise> exercicios = practiceSessionExerciseRepository
+                .findExerciciosErradosDoUsuario(usuario)
+                .stream().distinct().limit(QUANTIDADE_EXERCICIOS).collect(Collectors.toList());
+        if (exercicios.isEmpty()) {
+            throw new BadRequestException("Você ainda não tem erros para praticar.");
+        }
+        return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Prática: Erros");
+    }
+
+    /**
+     * TODO(hyorran): sortear ~5 exercícios de módulos que o usuário já CONCLUIU.
+     * Passos: módulos com UserProgress.status=COMPLETED → exercícios desses módulos
+     * (exerciseRepository.findByModuloOrderByIdAsc) → embaralhar → limitar a 5.
+     * Lançar BadRequestException("Conclua um módulo antes de praticar a fixação.") se vazio.
+     * Por fim: return montarSessaoPratica(usuario, selecionados, SessionType.QUICK_FIX, null, "Prática: Fixação");
+     */
+    private SessaoDto.InicioResponse iniciarPraticaFixacao(Usuario usuario) {
+        throw new BadRequestException("Fixação rápida ainda não implementada.");
+    }
+
+    /**
+     * TODO(hyorran): reutilizar a seleção padrão (extraia selecionarExercicios para aceitar
+     * um conjunto de módulos, ou sorteie de módulos liberados) e inicie com tempo limite.
+     * return montarSessaoPratica(usuario, selecionados, SessionType.TIMED, 120, "Prática: Cronometrado");
+     */
+    private SessaoDto.InicioResponse iniciarPraticaCronometrada(Usuario usuario) {
+        throw new BadRequestException("Prática cronometrada ainda não implementada.");
+    }
+
+    /** Plumbing compartilhado: transforma uma lista de exercícios numa sessão sem módulo. */
+    private SessaoDto.InicioResponse montarSessaoPratica(Usuario usuario, List<Exercise> exercicios,
+            SessionType tipo, Integer timeLimitSeconds, String titulo) {
+        List<Exercise> ordenados = embaralharSemTiposConsecutivos(new ArrayList<>(exercicios));
+
+        UserStats stats = userStatsRepository.findByUsuario(usuario)
+                .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
+                        .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
+
+        PracticeSession sessao = PracticeSession.builder()
+                .usuario(usuario)
+                .modulo(null)
+                .sessionType(tipo)
+                .startedAt(LocalDateTime.now())
+                .timeLimitSeconds(timeLimitSeconds)
+                .build();
+        practiceSessionRepository.save(sessao);
+
+        List<PracticeSessionExercise> sessionExercises = new ArrayList<>();
+        for (int i = 0; i < ordenados.size(); i++) {
+            sessionExercises.add(PracticeSessionExercise.builder()
+                    .practiceSession(sessao)
+                    .exercise(ordenados.get(i))
+                    .displayOrder(i + 1)
+                    .build());
+        }
+        practiceSessionExerciseRepository.saveAll(sessionExercises);
+
+        List<SessaoDto.ExercicioSessao> dtos = new ArrayList<>();
+        for (int i = 0; i < ordenados.size(); i++) {
+            dtos.add(toExercicioSessao(ordenados.get(i), i + 1));
+        }
+
+        return SessaoDto.InicioResponse.builder()
+                .sessionId(sessao.getId())
+                .moduleTitle(titulo)
+                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .totalExercises(dtos.size())
+                .timeLimitSeconds(timeLimitSeconds)
+                .exercises(dtos)
                 .build();
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────────
 
+    private boolean moduloJaConcluido(Usuario usuario, PracticeSession sessao) {
+        return sessao.getModulo() != null && userProgressRepository
+                .findByUsuarioAndModulo(usuario, sessao.getModulo())
+                .map(p -> p.getStatus() == ProgressStatus.COMPLETED)
+                .orElse(false);
+    }
+
     private Usuario buscarUsuario(String username) {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+    }
+
+    /**
+     * Define a seleção/ordem dos exercícios da sessão. Com a IA (OpenAI) configurada,
+     * ela organiza de forma adaptativa a partir do contexto do aluno; sem ela — ou se a
+     * IA falhar — usa o algoritmo determinístico {@link #selecionarExercicios(Modulo)}.
+     */
+    private List<Exercise> organizarExercicios(Modulo modulo, Usuario usuario, UserStats stats) {
+        List<Exercise> candidatos = exerciseRepository.findByModuloOrderByIdAsc(modulo);
+        if (candidatos.isEmpty()) {
+            return List.of();
+        }
+        List<Exercise> organizadosIa = openAiOrganizacaoService.organizar(
+                candidatos, usuario, stats, QUANTIDADE_EXERCICIOS);
+        if (!organizadosIa.isEmpty()) {
+            log.info("Sessão organizada pela IA (OpenAI) — módulo={} usuário={}",
+                    modulo.getId(), usuario.getUsername());
+            return organizadosIa;
+        }
+        return selecionarExercicios(modulo);
     }
 
     /**
@@ -300,13 +463,13 @@ public class SessaoAtividadeService {
 
         return SessaoDto.ExercicioSessao.builder()
                 .id(exercise.getId())
-                .ordem(ordem)
-                .enunciado(exercise.getStatement())
+                .order(ordem)
+                .statement(exercise.getStatement())
                 .tipo(exercise.getExerciseType().name())
-                .dadosExibicao(dadosExibicao)
-                .xpRecompensa(exercise.getXpReward())
-                .assuntosRelacionados(parseTags(exercise.getTags()))
-                .imagemData(exercise.getImageData())
+                .displayData(dadosExibicao)
+                .xpReward(exercise.getXpReward())
+                .relatedTopics(parseTags(exercise.getTags()))
+                .imageData(exercise.getImageData())
                 .build();
     }
 

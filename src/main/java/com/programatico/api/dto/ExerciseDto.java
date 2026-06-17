@@ -2,8 +2,11 @@ package com.programatico.api.dto;
 
 import com.programatico.api.domain.Exercise;
 import com.programatico.api.domain.enums.ExerciseType;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +19,7 @@ public final class ExerciseDto {
     @Data @Builder @NoArgsConstructor @AllArgsConstructor
     public static class Request {
         @NotBlank(message = "Enunciado é obrigatório")
+        @Size(max = 2000, message = "Enunciado deve ter no máximo 2000 caracteres")
         private String statement;
 
         @NotNull(message = "Tipo de exercício é obrigatório")
@@ -25,6 +29,8 @@ public final class ExerciseDto {
         private String exerciseData;
 
         @NotNull(message = "XP é obrigatório")
+        @Min(value = 1, message = "XP deve ser maior que zero")
+        @Max(value = 1000, message = "XP deve ser no máximo 1000")
         private Integer xpReward;
 
         private String tags;

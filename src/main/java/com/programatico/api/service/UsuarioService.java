@@ -4,6 +4,11 @@ import com.programatico.api.domain.Usuario;
 import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
+import com.programatico.api.repository.PracticeSessionExerciseRepository;
+import com.programatico.api.repository.PracticeSessionRepository;
+import com.programatico.api.repository.UserMissionRepository;
+import com.programatico.api.repository.UserProgressRepository;
+import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +34,11 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final EmailService emailService;
+    private final UserMissionRepository userMissionRepository;
+    private final UserProgressRepository userProgressRepository;
+    private final UserStatsRepository userStatsRepository;
+    private final PracticeSessionRepository practiceSessionRepository;
+    private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
 
     private Usuario validarCredenciaisLogin(String emailOuUsername, String senha) {
         Usuario usuario = usuarioRepository.findByEmailOrUsername(emailOuUsername, emailOuUsername)
@@ -66,6 +76,8 @@ public class UsuarioService {
         }
         usuario.setCodigoVerificacaoLogin(null);
         usuario.setDataExpiracaoCodigoLogin(null);
+        // Conta excluída logicamente pelo admin volta ao fazer login com sucesso.
+        usuario.setDeletedAt(null);
         usuarioRepository.save(usuario);
         String token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
         return new UsuarioDto.LoginResponse(token, UsuarioDto.Response.fromEntity(usuario));
@@ -197,6 +209,7 @@ public class UsuarioService {
         if (!usuarioRepository.existsById(id)) {
             throw new ResourceNotFoundException("Usuário", id);
         }
+        excluirRegistrosVinculados(id);
         usuarioRepository.deleteById(id);
     }
 
@@ -224,7 +237,16 @@ public class UsuarioService {
                 || usuario.getDataExpiracaoCodigoExclusao().isBefore(Instant.now())) {
             throw new BadRequestException("Código expirado. Solicite um novo.");
         }
+        excluirRegistrosVinculados(id);
         usuarioRepository.deleteById(id);
+    }
+
+    private void excluirRegistrosVinculados(Long userId) {
+        practiceSessionExerciseRepository.deleteByPracticeSessionUsuarioId(userId);
+        practiceSessionRepository.deleteByUsuarioId(userId);
+        userMissionRepository.deleteByUsuarioId(userId);
+        userProgressRepository.deleteByUsuarioId(userId);
+        userStatsRepository.deleteByUsuarioId(userId);
     }
 
     private static String gerarCodigo() {
