@@ -3,8 +3,7 @@ package com.programatico.api.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,11 +13,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailService {
 
-    private static final Logger log = LoggerFactory.getLogger(EmailService.class);
-
     private final JavaMailSender mailSender;
+    private final UserSettingsService userSettingsService;
 
     @Value("${spring.mail.username}")
     private String remetente;
@@ -139,6 +138,19 @@ public class EmailService {
                 """;
 
         enviarHtml(destinatario, assunto, montarEmail(conteudo, codigo, nota, "#11604d"));
+    }
+
+    /**
+     * E-mails opcionais (lembretes, novidades). Respeita {@code disableEmailNotifications}.
+     * E-mails de segurança (login, ativação, senha, exclusão) usam {@link #enviarHtml} diretamente.
+     */
+    @Async
+    public void enviarEmailInformativo(String destinatario, String username, String assunto, String html) {
+        if (!userSettingsService.podeNotificar(username, UserSettingsService.NotificationKind.EMAIL)) {
+            log.debug("E-mail informativo não enviado — preferência do usuário {}", username);
+            return;
+        }
+        enviarHtml(destinatario, assunto, html);
     }
 
     // ─────────────────────────────────────────────────────────────
