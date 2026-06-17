@@ -60,6 +60,7 @@ public class SessaoAtividadeService {
     private final NotificationService notificationService;
     private final VidasService vidasService;
     private final ObjectMapper objectMapper;
+    private final OpenAiOrganizacaoService openAiOrganizacaoService;
 
     @Transactional
     public SessaoDto.InicioResponse iniciarSessao(Long moduloId, String username) {
@@ -67,16 +68,16 @@ public class SessaoAtividadeService {
         Modulo modulo = moduloRepository.findById(moduloId)
                 .orElseThrow(() -> new ResourceNotFoundException("Módulo", moduloId));
 
-        List<Exercise> selecionados = selecionarExercicios(modulo);
-        if (selecionados.isEmpty()) {
-            throw new BadRequestException("Este módulo não possui exercícios cadastrados.");
-        }
-
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
         vidasService.aplicarRecarga(stats);
         userStatsRepository.save(stats);
+
+        List<Exercise> selecionados = organizarExercicios(modulo, usuario, stats);
+        if (selecionados.isEmpty()) {
+            throw new BadRequestException("Este módulo não possui exercícios cadastrados.");
+        }
 
         PracticeSession sessao = PracticeSession.builder()
                 .usuario(usuario)
@@ -272,6 +273,99 @@ public class SessaoAtividadeService {
                 .build();
     }
 
+    // ── Práticas (esqueleto para Hyorran) ───────────────────────────────────────
+    // O fluxo responder()/concluir() já é agnóstico de módulo (todos os acessos a
+    // sessao.getModulo() têm guard de null), então cada modo de prática só precisa de
+    // um "iniciar" próprio que produza um InicioResponse. ERROS está implementado como
+    // referência; FIXAÇÃO e CRONOMETRADO ficam como TODO(hyorran).
+
+    @Transactional
+    public SessaoDto.InicioResponse iniciarPratica(String modo, String username) {
+        Usuario usuario = buscarUsuario(username);
+        return switch (modo == null ? "" : modo.toLowerCase()) {
+            case "erros" -> iniciarPraticaErros(usuario);
+            case "fixacao" -> iniciarPraticaFixacao(usuario);
+            case "cronometrado" -> iniciarPraticaCronometrada(usuario);
+            default -> throw new BadRequestException("Modo de prática inválido: " + modo);
+        };
+    }
+
+    /** Referência: pratica os exercícios que o usuário errou. */
+    private SessaoDto.InicioResponse iniciarPraticaErros(Usuario usuario) {
+        List<Exercise> exercicios = practiceSessionExerciseRepository
+                .findExerciciosErradosDoUsuario(usuario)
+                .stream().distinct().limit(QUANTIDADE_EXERCICIOS).collect(Collectors.toList());
+        if (exercicios.isEmpty()) {
+            throw new BadRequestException("Você ainda não tem erros para praticar.");
+        }
+        return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Prática: Erros");
+    }
+
+    /**
+     * TODO(hyorran): sortear ~5 exercícios de módulos que o usuário já CONCLUIU.
+     * Passos: módulos com UserProgress.status=COMPLETED → exercícios desses módulos
+     * (exerciseRepository.findByModuloOrderByIdAsc) → embaralhar → limitar a 5.
+     * Lançar BadRequestException("Conclua um módulo antes de praticar a fixação.") se vazio.
+     * Por fim: return montarSessaoPratica(usuario, selecionados, SessionType.QUICK_FIX, null, "Prática: Fixação");
+     */
+    private SessaoDto.InicioResponse iniciarPraticaFixacao(Usuario usuario) {
+        throw new BadRequestException("Fixação rápida ainda não implementada.");
+    }
+
+    /**
+     * TODO(hyorran): reutilizar a seleção padrão (extraia selecionarExercicios para aceitar
+     * um conjunto de módulos, ou sorteie de módulos liberados) e inicie com tempo limite.
+     * return montarSessaoPratica(usuario, selecionados, SessionType.TIMED, 120, "Prática: Cronometrado");
+     */
+    private SessaoDto.InicioResponse iniciarPraticaCronometrada(Usuario usuario) {
+        throw new BadRequestException("Prática cronometrada ainda não implementada.");
+    }
+
+    /** Plumbing compartilhado: transforma uma lista de exercícios numa sessão sem módulo. */
+    private SessaoDto.InicioResponse montarSessaoPratica(Usuario usuario, List<Exercise> exercicios,
+            SessionType tipo, Integer timeLimitSeconds, String titulo) {
+        List<Exercise> ordenados = embaralharSemTiposConsecutivos(new ArrayList<>(exercicios));
+
+        UserStats stats = userStatsRepository.findByUsuario(usuario)
+                .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
+                        .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
+        vidasService.aplicarRecarga(stats);
+        userStatsRepository.save(stats);
+
+        PracticeSession sessao = PracticeSession.builder()
+                .usuario(usuario)
+                .modulo(null)
+                .sessionType(tipo)
+                .startedAt(LocalDateTime.now())
+                .timeLimitSeconds(timeLimitSeconds)
+                .build();
+        practiceSessionRepository.save(sessao);
+
+        List<PracticeSessionExercise> sessionExercises = new ArrayList<>();
+        for (int i = 0; i < ordenados.size(); i++) {
+            sessionExercises.add(PracticeSessionExercise.builder()
+                    .practiceSession(sessao)
+                    .exercise(ordenados.get(i))
+                    .displayOrder(i + 1)
+                    .build());
+        }
+        practiceSessionExerciseRepository.saveAll(sessionExercises);
+
+        List<SessaoDto.ExercicioSessao> dtos = new ArrayList<>();
+        for (int i = 0; i < ordenados.size(); i++) {
+            dtos.add(toExercicioSessao(ordenados.get(i), i + 1));
+        }
+
+        return SessaoDto.InicioResponse.builder()
+                .sessionId(sessao.getId())
+                .moduleTitle(titulo)
+                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .totalExercises(dtos.size())
+                .timeLimitSeconds(timeLimitSeconds)
+                .exercises(dtos)
+                .build();
+    }
+
     // ── Helpers ────────────────────────────────────────────────────────────────
 
     private boolean moduloJaConcluido(Usuario usuario, PracticeSession sessao) {
@@ -284,6 +378,26 @@ public class SessaoAtividadeService {
     private Usuario buscarUsuario(String username) {
         return usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+    }
+
+    /**
+     * Define a seleção/ordem dos exercícios da sessão. Com a IA (OpenAI) configurada,
+     * ela organiza de forma adaptativa a partir do contexto do aluno; sem ela — ou se a
+     * IA falhar — usa o algoritmo determinístico {@link #selecionarExercicios(Modulo)}.
+     */
+    private List<Exercise> organizarExercicios(Modulo modulo, Usuario usuario, UserStats stats) {
+        List<Exercise> candidatos = exerciseRepository.findByModuloOrderByIdAsc(modulo);
+        if (candidatos.isEmpty()) {
+            return List.of();
+        }
+        List<Exercise> organizadosIa = openAiOrganizacaoService.organizar(
+                candidatos, usuario, stats, QUANTIDADE_EXERCICIOS);
+        if (!organizadosIa.isEmpty()) {
+            log.info("Sessão organizada pela IA (OpenAI) — módulo={} usuário={}",
+                    modulo.getId(), usuario.getUsername());
+            return organizadosIa;
+        }
+        return selecionarExercicios(modulo);
     }
 
     /**
