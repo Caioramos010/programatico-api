@@ -1,0 +1,930 @@
+{
+  "modules": [
+    {
+      "title": "Ordenação lógica — colocando tudo em ordem",
+      "moduleType": "STUDY",
+      "displayOrder": 17,
+      "description": "Aprenda a ordenar coisas por tamanho, valor e etapa — do menor ao maior, do antes ao depois.",
+      "pages": [
+        {
+          "title": "O que é ordenar",
+          "description": "Colocar as coisas numa sequência que faz sentido.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Ordenar é organizar uma lista de coisas seguindo uma regra. A regra diz qual vem primeiro e qual vem depois.\n\nPodemos ordenar por tamanho (do menor ao maior), por valor (do mais barato ao mais caro) ou por etapa (do primeiro passo ao último)."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e12.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "O urso Téo gosta de empilhar seus blocos do menor ao maior. Assim a pilha fica firme e fácil de entender.\n\nQuando você ordena, sempre escolhe um critério: tamanho, valor ou momento. Sem critério, não dá para ordenar."
+            }
+          ]
+        },
+        {
+          "title": "Do menor ao maior",
+          "description": "Comparar de dois em dois para achar a ordem.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Para ordenar do menor ao maior, a gente compara as coisas de duas em duas. A menor vai para a frente, a maior vai para trás.\n\nO lobo Rex compara dois números por vez: 8 é maior que 3, então o 3 fica na frente e o 8 fica atrás."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e18.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Repetindo a comparação várias vezes, a lista inteira fica em ordem. É como organizar cartas na mão: você troca de lugar até ficar tudo certinho.\n\nDo maior ao menor é só inverter: a maior vem primeiro."
+            },
+            {
+              "layout": "TEXT",
+              "text": "A coruja Olívia coloca cartas numéricas em sequência: 1, 2, 3, 4. Cada carta sabe seu lugar por causa do seu valor."
+            }
+          ]
+        },
+        {
+          "title": "Antes e depois",
+          "description": "Ordenar etapas no tempo certo.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Nem toda ordem é de tamanho. Muitas vezes ordenamos etapas: o que vem antes e o que vem depois.\n\nO gato Pixel segue o checklist da cozinha: primeiro lava as mãos, depois separa os ingredientes, por último cozinha. A ordem das etapas importa."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e03.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Se você troca a ordem dos passos, o resultado pode dar errado. Não dá para servir o prato antes de cozinhar.\n\nOrdenar etapas é pensar: qual é o primeiro passo? E o próximo? Até chegar ao último."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos exercícios a seguir você vai treinar: ordenar por tamanho, por valor e por etapa — sempre escolhendo a regra certa e descobrindo o que vem antes e o que vem depois."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Ordenação lógica — ordene, relacione e arraste",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 18,
+      "description": "Coloque coisas em ordem por tamanho, valor e etapa: do menor ao maior, do antes ao depois.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo tem blocos de tamanhos 2, 5 e 1. Qual é a ordem do MENOR ao MAIOR?",
+          "data": {
+            "options": [
+              {
+                "description": "1, 2, 5",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "5, 2, 1",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "2, 1, 5",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "1, 5, 2",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, do menor ao maior, tamanho, blocos, números",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia organiza cartas com os números 4, 1, 3 e 2. Qual fica em PRIMEIRO lugar do menor ao maior?",
+          "data": {
+            "options": [
+              {
+                "description": "A carta 1",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A carta 4",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A carta 3",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A carta 2",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, do menor ao maior, valor, cartas, primeiro",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex compara dois números: 8 e 3. Qual deles vai na FRENTE quando ordenamos do menor ao maior?",
+          "data": {
+            "options": [
+              {
+                "description": "O 3, porque é menor",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O 8, porque é maior",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Os dois ao mesmo tempo",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum dos dois",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, comparar, do menor ao maior, números, frente",
+          "img": "m1-e18.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina quer ordenar do MAIOR ao MENOR os valores 6, 9 e 4. Qual é a ordem certa?",
+          "data": {
+            "options": [
+              {
+                "description": "9, 6, 4",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "4, 6, 9",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "6, 9, 4",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "9, 4, 6",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, do maior ao menor, valor, números, sequência",
+          "img": "m2-e54.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel tem caixas pequena, média e grande. Para empilhar firme, qual fica EMBAIXO de tudo?",
+          "data": {
+            "options": [
+              {
+                "description": "A caixa grande",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A caixa pequena",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A caixa média",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Tanto faz a ordem",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, tamanho, empilhar, caixas, do maior ao menor",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel segue um checklist na cozinha. Qual etapa vem ANTES de cozinhar?",
+          "data": {
+            "options": [
+              {
+                "description": "Separar os ingredientes",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Servir o prato pronto",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Lavar a louça suja",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Guardar as sobras",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, etapas, antes e depois, cozinha, checklist",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O dálmata Pongo tem três tarefas na lista. Para ordenar por etapa, o que ele pergunta primeiro?",
+          "data": {
+            "options": [
+              {
+                "description": "Qual é o primeiro passo a fazer?",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Qual é o passo mais bonito?",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Qual passo tem a letra maior?",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Qual passo é mais colorido?",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, etapas, antes e depois, tarefas, primeiro passo",
+          "img": "m2-e55.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Para ordenar uma lista, o que sempre precisamos escolher antes de começar?",
+          "data": {
+            "options": [
+              {
+                "description": "Uma regra ou critério (tamanho, valor ou etapa)",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A cor preferida da girafa",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O nome do mascote mais alto",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nada, basta misturar tudo",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, critério, regra, conceito, lógica",
+          "img": "m1-e09.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina tem três frutas com pesos 100 g, 50 g e 200 g. Qual é a mais LEVE, que vai primeiro?",
+          "data": {
+            "options": [
+              {
+                "description": "A de 50 g",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A de 200 g",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A de 100 g",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todas têm o mesmo peso",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, do menor ao maior, peso, balança, valor",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo está ordenando do menor ao maior: 1, 4, 7, ?. Qual número vem por último?",
+          "data": {
+            "options": [
+              {
+                "description": "9",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "2",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "0",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "5",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, do menor ao maior, maior valor, sequência, último",
+          "img": "m2-e56.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada conjunto de números à sua ordenação do menor ao maior.",
+          "data": {
+            "lefts": [
+              "3, 1, 2",
+              "9, 7, 8",
+              "5, 4, 6",
+              "2, 0, 1"
+            ],
+            "rights": [
+              "7, 8, 9",
+              "0, 1, 2",
+              "1, 2, 3",
+              "4, 5, 6"
+            ],
+            "pairs": [
+              {
+                "left": "3, 1, 2",
+                "right": "1, 2, 3"
+              },
+              {
+                "left": "9, 7, 8",
+                "right": "7, 8, 9"
+              },
+              {
+                "left": "5, 4, 6",
+                "right": "4, 5, 6"
+              },
+              {
+                "left": "2, 0, 1",
+                "right": "0, 1, 2"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, do menor ao maior, números, pares, sequência",
+          "img": "m2-e57.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada tamanho à sua posição na fila do menor ao maior.",
+          "data": {
+            "lefts": [
+              "Caixa pequena",
+              "Caixa média",
+              "Caixa grande",
+              "Caixa gigante"
+            ],
+            "rights": [
+              "Segundo lugar",
+              "Quarto lugar",
+              "Primeiro lugar",
+              "Terceiro lugar"
+            ],
+            "pairs": [
+              {
+                "left": "Caixa pequena",
+                "right": "Primeiro lugar"
+              },
+              {
+                "left": "Caixa média",
+                "right": "Segundo lugar"
+              },
+              {
+                "left": "Caixa grande",
+                "right": "Terceiro lugar"
+              },
+              {
+                "left": "Caixa gigante",
+                "right": "Quarto lugar"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, tamanho, posição, fila, do menor ao maior",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada etapa da cozinha do Pixel à sua posição no tempo.",
+          "data": {
+            "lefts": [
+              "Lavar as mãos",
+              "Separar ingredientes",
+              "Cozinhar",
+              "Servir o prato"
+            ],
+            "rights": [
+              "Depois de cozinhar",
+              "Logo no começo",
+              "Antes de cozinhar",
+              "No meio, ao fogo"
+            ],
+            "pairs": [
+              {
+                "left": "Lavar as mãos",
+                "right": "Logo no começo"
+              },
+              {
+                "left": "Separar ingredientes",
+                "right": "Antes de cozinhar"
+              },
+              {
+                "left": "Cozinhar",
+                "right": "No meio, ao fogo"
+              },
+              {
+                "left": "Servir o prato",
+                "right": "Depois de cozinhar"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "ordenação, etapas, antes e depois, cozinha, pares",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada comparação ao número que vem na frente (o menor).",
+          "data": {
+            "lefts": [
+              "8 e 3",
+              "5 e 9",
+              "2 e 7",
+              "6 e 1"
+            ],
+            "rights": [
+              "1",
+              "3",
+              "2",
+              "5"
+            ],
+            "pairs": [
+              {
+                "left": "8 e 3",
+                "right": "3"
+              },
+              {
+                "left": "5 e 9",
+                "right": "5"
+              },
+              {
+                "left": "2 e 7",
+                "right": "2"
+              },
+              {
+                "left": "6 e 1",
+                "right": "1"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, comparar, do menor ao maior, números, pares",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada critério de ordenação ao exemplo certo.",
+          "data": {
+            "lefts": [
+              "Por tamanho",
+              "Por valor",
+              "Por etapa",
+              "Por peso"
+            ],
+            "rights": [
+              "Primeiro lavar, depois cozinhar",
+              "Da fruta leve à pesada",
+              "Do bloco pequeno ao grande",
+              "Da carta 1 à carta 9"
+            ],
+            "pairs": [
+              {
+                "left": "Por tamanho",
+                "right": "Do bloco pequeno ao grande"
+              },
+              {
+                "left": "Por valor",
+                "right": "Da carta 1 à carta 9"
+              },
+              {
+                "left": "Por etapa",
+                "right": "Primeiro lavar, depois cozinhar"
+              },
+              {
+                "left": "Por peso",
+                "right": "Da fruta leve à pesada"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "ordenação, critério, tamanho, valor, etapa, pares",
+          "img": "m2-e54.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada conjunto à sua ordenação do MAIOR ao MENOR.",
+          "data": {
+            "lefts": [
+              "2, 5, 1",
+              "7, 3, 9",
+              "4, 8, 6",
+              "1, 0, 2"
+            ],
+            "rights": [
+              "8, 6, 4",
+              "5, 2, 1",
+              "2, 1, 0",
+              "9, 7, 3"
+            ],
+            "pairs": [
+              {
+                "left": "2, 5, 1",
+                "right": "5, 2, 1"
+              },
+              {
+                "left": "7, 3, 9",
+                "right": "9, 7, 3"
+              },
+              {
+                "left": "4, 8, 6",
+                "right": "8, 6, 4"
+              },
+              {
+                "left": "1, 0, 2",
+                "right": "2, 1, 0"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "ordenação, do maior ao menor, números, pares, sequência",
+          "img": "m2-e02.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada posição da fila à palavra que a descreve.",
+          "data": {
+            "lefts": [
+              "Quem vem primeiro",
+              "Quem vem por último",
+              "Quem vem na frente do segundo",
+              "Quem vem depois do segundo"
+            ],
+            "rights": [
+              "Terceiro",
+              "Último",
+              "Primeiro",
+              "Antes"
+            ],
+            "pairs": [
+              {
+                "left": "Quem vem primeiro",
+                "right": "Primeiro"
+              },
+              {
+                "left": "Quem vem por último",
+                "right": "Último"
+              },
+              {
+                "left": "Quem vem na frente do segundo",
+                "right": "Antes"
+              },
+              {
+                "left": "Quem vem depois do segundo",
+                "right": "Terceiro"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, posição, antes e depois, fila, pares",
+          "img": "m2-e55.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada animal pela altura à sua posição do mais BAIXO ao mais ALTO.",
+          "data": {
+            "lefts": [
+              "Gato Pixel (baixo)",
+              "Lobo Rex (médio)",
+              "Urso Téo (alto)",
+              "Girafa Gina (altíssima)"
+            ],
+            "rights": [
+              "Quarto, o mais alto",
+              "Primeiro, o mais baixo",
+              "Terceiro",
+              "Segundo"
+            ],
+            "pairs": [
+              {
+                "left": "Gato Pixel (baixo)",
+                "right": "Primeiro, o mais baixo"
+              },
+              {
+                "left": "Lobo Rex (médio)",
+                "right": "Segundo"
+              },
+              {
+                "left": "Urso Téo (alto)",
+                "right": "Terceiro"
+              },
+              {
+                "left": "Girafa Gina (altíssima)",
+                "right": "Quarto, o mais alto"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, tamanho, altura, do menor ao maior, pares",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada preço à sua posição do mais BARATO ao mais CARO.",
+          "data": {
+            "lefts": [
+              "R$ 2",
+              "R$ 5",
+              "R$ 8",
+              "R$ 12"
+            ],
+            "rights": [
+              "Quarto, o mais caro",
+              "Primeiro, o mais barato",
+              "Terceiro",
+              "Segundo"
+            ],
+            "pairs": [
+              {
+                "left": "R$ 2",
+                "right": "Primeiro, o mais barato"
+              },
+              {
+                "left": "R$ 5",
+                "right": "Segundo"
+              },
+              {
+                "left": "R$ 8",
+                "right": "Terceiro"
+              },
+              {
+                "left": "R$ 12",
+                "right": "Quarto, o mais caro"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, valor, preço, do menor ao maior, pares",
+          "img": "m2-e56.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada etapa da entrega do dálmata Pongo ao seu momento.",
+          "data": {
+            "lefts": [
+              "Pegar as cartas",
+              "Conferir os endereços",
+              "Entregar nas caixas de correio",
+              "Voltar para o posto"
+            ],
+            "rights": [
+              "Por último",
+              "Primeiro de tudo",
+              "Depois de conferir",
+              "Logo após pegar"
+            ],
+            "pairs": [
+              {
+                "left": "Pegar as cartas",
+                "right": "Primeiro de tudo"
+              },
+              {
+                "left": "Conferir os endereços",
+                "right": "Logo após pegar"
+              },
+              {
+                "left": "Entregar nas caixas de correio",
+                "right": "Depois de conferir"
+              },
+              {
+                "left": "Voltar para o posto",
+                "right": "Por último"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "ordenação, etapas, antes e depois, entrega, pares",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Arraste os números na ordem do MENOR ao MAIOR.",
+          "data": {
+            "items": [
+              "1",
+              "4",
+              "7",
+              "9"
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, do menor ao maior, números, valor, arrastar",
+          "img": "m2-e02.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O urso Téo quer empilhar do MENOR ao MAIOR. Ordene os blocos.",
+          "data": {
+            "items": [
+              "Bloco pequeno",
+              "Bloco médio",
+              "Bloco grande"
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, tamanho, blocos, do menor ao maior, arrastar",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque as caixas em ordem do MAIOR ao MENOR para empilhar firme.",
+          "data": {
+            "items": [
+              "Caixa gigante",
+              "Caixa grande",
+              "Caixa média",
+              "Caixa pequena"
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, tamanho, caixas, do maior ao menor, arrastar",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Arraste as cartas numéricas da coruja Olívia na ordem crescente.",
+          "data": {
+            "items": [
+              "Carta 2",
+              "Carta 3",
+              "Carta 5",
+              "Carta 8"
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, valor, cartas, do menor ao maior, arrastar",
+          "img": "m2-e57.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene as etapas da receita do gato Pixel, do primeiro ao último passo.",
+          "data": {
+            "items": [
+              "Lavar as mãos",
+              "Separar os ingredientes",
+              "Cozinhar",
+              "Servir o prato"
+            ]
+          },
+          "xp": 7,
+          "tags": "ordenação, etapas, antes e depois, cozinha, arrastar",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque os pesos em ordem da fruta mais LEVE à mais PESADA.",
+          "data": {
+            "items": [
+              "50 g",
+              "120 g",
+              "300 g"
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, peso, do menor ao maior, balança, arrastar",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os preços do mais BARATO ao mais CARO para a girafa Gina comprar com cuidado.",
+          "data": {
+            "items": [
+              "R$ 3",
+              "R$ 7",
+              "R$ 10",
+              "R$ 15"
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, valor, preço, do menor ao maior, arrastar",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Arraste as etapas da entrega do dálmata Pongo na ordem certa.",
+          "data": {
+            "items": [
+              "Pegar as cartas",
+              "Conferir os endereços",
+              "Entregar nas caixas de correio",
+              "Voltar para o posto"
+            ]
+          },
+          "xp": 7,
+          "tags": "ordenação, etapas, antes e depois, entrega, arrastar",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os animais pela altura, do mais BAIXO ao mais ALTO.",
+          "data": {
+            "items": [
+              "Gato Pixel",
+              "Lobo Rex",
+              "Urso Téo",
+              "Girafa Gina"
+            ]
+          },
+          "xp": 5,
+          "tags": "ordenação, altura, tamanho, do menor ao maior, arrastar",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Arraste os números na ordem do MAIOR ao MENOR.",
+          "data": {
+            "items": [
+              "9",
+              "6",
+              "4",
+              "2"
+            ]
+          },
+          "xp": 3,
+          "tags": "ordenação, do maior ao menor, números, valor, arrastar",
+          "img": "m1-e18.png"
+        }
+      ]
+    }
+  ]
+}

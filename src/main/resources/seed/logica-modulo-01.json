@@ -15,27 +15,54 @@
           "title": "Ler com atenção",
           "description": "O ponto de partida de qualquer problema.",
           "blocks": [
-            {"layout": "TEXT", "text": "Interpretar um texto é entender o que ele realmente diz — não só passar os olhos pelas palavras.\n\nEm lógica de programação tudo começa aqui: antes de resolver um problema, você precisa entender o que ele está pedindo."},
-            {"layout": "IMAGE", "image": "m1-e09.png"},
-            {"layout": "TEXT", "text": "Dica: leia devagar e releia se precisar. Repare nas informações importantes — números, nomes e condições como \"se\", \"quando\" e \"até\"."}
+            {
+              "layout": "TEXT",
+              "text": "Interpretar um texto é entender o que ele realmente diz — não só passar os olhos pelas palavras.\n\nEm lógica de programação tudo começa aqui: antes de resolver um problema, você precisa entender o que ele está pedindo."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e09.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Dica: leia devagar e releia se precisar. Repare nas informações importantes — números, nomes e condições como \"se\", \"quando\" e \"até\"."
+            }
           ]
         },
         {
           "title": "A ideia principal",
           "description": "A mensagem central do texto.",
           "blocks": [
-            {"layout": "TEXT", "text": "A ideia principal é a mensagem central do texto — o que ele quer dizer no geral, e não um detalhe pequeno.\n\nPara encontrá-la, pergunte: \"sobre o que isso fala, no fundo?\""},
-            {"layout": "IMAGE", "image": "m1-e01.png"},
-            {"layout": "TEXT", "text": "Exemplo: \"Ana organiza os livros por cor antes de estudar.\"\n\nA ideia principal é que Ana tem uma rotina organizada — não a cor dos livros."}
+            {
+              "layout": "TEXT",
+              "text": "A ideia principal é a mensagem central do texto — o que ele quer dizer no geral, e não um detalhe pequeno.\n\nPara encontrá-la, pergunte: \"sobre o que isso fala, no fundo?\""
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e01.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: \"Ana organiza os livros por cor antes de estudar.\"\n\nA ideia principal é que Ana tem uma rotina organizada — não a cor dos livros."
+            }
           ]
         },
         {
           "title": "Por que isso importa na lógica",
           "description": "Entender o problema é metade da solução.",
           "blocks": [
-            {"layout": "TEXT", "text": "Programar é resolver problemas, e todo problema vem descrito em palavras.\n\nSe você entende mal o enunciado, resolve a coisa errada — por mais que o resto esteja certo."},
-            {"layout": "IMAGE", "image": "m1-e06.png"},
-            {"layout": "TEXT", "text": "Por isso, interpretar bem é o primeiro passo de qualquer algoritmo. Nos próximos exercícios você vai treinar isso: ler, achar a ideia principal, ordenar e relacionar."}
+            {
+              "layout": "TEXT",
+              "text": "Programar é resolver problemas, e todo problema vem descrito em palavras.\n\nSe você entende mal o enunciado, resolve a coisa errada — por mais que o resto esteja certo."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e06.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Por isso, interpretar bem é o primeiro passo de qualquer algoritmo. Nos próximos exercícios você vai treinar isso: ler, achar a ideia principal, ordenar e relacionar."
+            }
           ]
         }
       ]
@@ -49,276 +76,828 @@
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"Antes de atravessar, o jacaré Dado olha para os dois lados. Só atravessa quando não vem nenhum carro.\"\n\nA ideia principal é:",
-          "data": {"options": [
-            {"description": "Dado verifica uma condição antes de agir.", "image": "", "correct": true},
-            {"description": "Dado atravessa correndo a qualquer momento.", "image": "", "correct": false},
-            {"description": "Dado tem medo de carros.", "image": "", "correct": false},
-            {"description": "Dado nunca atravessa a rua.", "image": "", "correct": false}
-          ]},
-          "xp": 3, "tags": "interpretação textual, ideia principal, condição, decisão, se então", "img": "m1-e04.png"
+          "data": {
+            "options": [
+              {
+                "description": "Dado verifica uma condição antes de agir.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Dado atravessa correndo a qualquer momento.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Dado tem medo de carros.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Dado nunca atravessa a rua.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "interpretação textual, ideia principal, condição, decisão, se então",
+          "img": "m1-e04.png"
         },
         {
           "type": "PAIRS",
           "statement": "A coruja Olívia organiza os livros por cor. Combine cada livro à sua cor.",
-          "data": {"lefts": ["Livro de capa vermelha", "Livro de capa azul", "Livro de capa verde", "Livro de capa amarela"], "rights": ["Azul", "Verde", "Vermelho", "Amarelo"], "pairs": [
-            {"left": "Livro de capa vermelha", "right": "Vermelho"},
-            {"left": "Livro de capa azul", "right": "Azul"},
-            {"left": "Livro de capa verde", "right": "Verde"},
-            {"left": "Livro de capa amarela", "right": "Amarelo"}
-          ]},
-          "xp": 3, "tags": "interpretação textual, organização, classificação, associação", "img": "m1-e01.png"
+          "data": {
+            "lefts": [
+              "Livro de capa vermelha",
+              "Livro de capa azul",
+              "Livro de capa verde",
+              "Livro de capa amarela"
+            ],
+            "rights": [
+              "Azul",
+              "Verde",
+              "Vermelho",
+              "Amarelo"
+            ],
+            "pairs": [
+              {
+                "left": "Livro de capa vermelha",
+                "right": "Vermelho"
+              },
+              {
+                "left": "Livro de capa azul",
+                "right": "Azul"
+              },
+              {
+                "left": "Livro de capa verde",
+                "right": "Verde"
+              },
+              {
+                "left": "Livro de capa amarela",
+                "right": "Amarelo"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "interpretação textual, organização, classificação, associação",
+          "img": "m1-e01.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "O gato Pixel anotou os passos para fazer um suco. Ordene as etapas na ordem em que aparecem no texto.",
-          "data": {"items": ["Pegar as frutas", "Descascar as frutas", "Bater no liquidificador", "Servir no copo"]},
-          "xp": 5, "tags": "interpretação textual, sequência de passos, ordem, algoritmo, receita", "img": "m1-e03.png"
+          "data": {
+            "items": [
+              "Pegar as frutas",
+              "Descascar as frutas",
+              "Bater no liquidificador",
+              "Servir no copo"
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, sequência de passos, ordem, algoritmo, receita",
+          "img": "m1-e03.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"Quando a bateria está baixa, o robô vai sozinho até a tomada. Se estiver cheia, ele continua trabalhando.\"\n\nA ideia principal é:",
-          "data": {"options": [
-            {"description": "O robô age conforme a condição da bateria.", "image": "", "correct": true},
-            {"description": "O robô nunca recarrega.", "image": "", "correct": false},
-            {"description": "O robô trabalha sem parar.", "image": "", "correct": false},
-            {"description": "O robô está sempre quebrado.", "image": "", "correct": false}
-          ]},
-          "xp": 5, "tags": "interpretação textual, ideia principal, condição, se senão, decisão", "img": "m1-e08.png"
+          "data": {
+            "options": [
+              {
+                "description": "O robô age conforme a condição da bateria.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O robô nunca recarrega.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O robô trabalha sem parar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O robô está sempre quebrado.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, ideia principal, condição, se senão, decisão",
+          "img": "m1-e08.png"
         },
         {
           "type": "PAIRS",
           "statement": "O lobo Rex separou o problema em partes. Combine cada mini-texto à sua ideia principal.",
-          "data": {"lefts": ["\"Rex revisa o erro e tenta de novo.\"", "\"Pixel guarda cada coisa numa caixa.\"", "\"Conta até 10 e para.\"", "\"Se chover, leva guarda-chuva.\""], "rights": ["Organização", "Repetição com limite", "Persistência", "Decisão por condição"], "pairs": [
-            {"left": "\"Rex revisa o erro e tenta de novo.\"", "right": "Persistência"},
-            {"left": "\"Pixel guarda cada coisa numa caixa.\"", "right": "Organização"},
-            {"left": "\"Conta até 10 e para.\"", "right": "Repetição com limite"},
-            {"left": "\"Se chover, leva guarda-chuva.\"", "right": "Decisão por condição"}
-          ]},
-          "xp": 7, "tags": "interpretação textual, ideia principal, classificação, associação", "img": "m1-e06.png"
+          "data": {
+            "lefts": [
+              "\"Rex revisa o erro e tenta de novo.\"",
+              "\"Pixel guarda cada coisa numa caixa.\"",
+              "\"Conta até 10 e para.\"",
+              "\"Se chover, leva guarda-chuva.\""
+            ],
+            "rights": [
+              "Organização",
+              "Repetição com limite",
+              "Persistência",
+              "Decisão por condição"
+            ],
+            "pairs": [
+              {
+                "left": "\"Rex revisa o erro e tenta de novo.\"",
+                "right": "Persistência"
+              },
+              {
+                "left": "\"Pixel guarda cada coisa numa caixa.\"",
+                "right": "Organização"
+              },
+              {
+                "left": "\"Conta até 10 e para.\"",
+                "right": "Repetição com limite"
+              },
+              {
+                "left": "\"Se chover, leva guarda-chuva.\"",
+                "right": "Decisão por condição"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, ideia principal, classificação, associação",
+          "img": "m1-e06.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "O texto descreve como trocar uma lâmpada. Ordene os passos.",
-          "data": {"items": ["Desligar a luz", "Esperar esfriar", "Remover a lâmpada velha", "Colocar a lâmpada nova"]},
-          "xp": 5, "tags": "interpretação textual, sequência de passos, instruções, algoritmo", "img": "m1-e11.png"
+          "data": {
+            "items": [
+              "Desligar a luz",
+              "Esperar esfriar",
+              "Remover a lâmpada velha",
+              "Colocar a lâmpada nova"
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, sequência de passos, instruções, algoritmo",
+          "img": "m1-e11.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"A girafa Gina leu o problema duas vezes antes de responder, para ter certeza do que era pedido.\"\n\nO texto mostra que:",
-          "data": {"options": [
-            {"description": "entender o enunciado vem antes de responder.", "image": "", "correct": true},
-            {"description": "responder rápido é o mais importante.", "image": "", "correct": false},
-            {"description": "ler o problema é perda de tempo.", "image": "", "correct": false},
-            {"description": "Gina não entendeu nada.", "image": "", "correct": false}
-          ]},
-          "xp": 5, "tags": "interpretação textual, ideia principal, enunciado, compreensão do problema", "img": "m1-e09.png"
+          "data": {
+            "options": [
+              {
+                "description": "entender o enunciado vem antes de responder.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "responder rápido é o mais importante.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "ler o problema é perda de tempo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Gina não entendeu nada.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, ideia principal, enunciado, compreensão do problema",
+          "img": "m1-e09.png"
         },
         {
           "type": "PAIRS",
           "statement": "O dálmata Pongo confere a lista de tarefas. Combine cada tarefa ao seu status.",
-          "data": {"lefts": ["Arrumar a mochila", "Estudar lógica", "Regar a planta", "Lavar a louça"], "rights": ["Pendente", "Concluída", "Concluída", "Pendente"], "pairs": [
-            {"left": "Arrumar a mochila", "right": "Concluída"},
-            {"left": "Estudar lógica", "right": "Pendente"},
-            {"left": "Regar a planta", "right": "Concluída"},
-            {"left": "Lavar a louça", "right": "Pendente"}
-          ]},
-          "xp": 5, "tags": "interpretação textual, lista de tarefas, status, associação", "img": "m1-e07.png"
+          "data": {
+            "lefts": [
+              "Arrumar a mochila",
+              "Estudar lógica",
+              "Regar a planta",
+              "Lavar a louça"
+            ],
+            "rights": [
+              "Pendente",
+              "Concluída",
+              "Concluída",
+              "Pendente"
+            ],
+            "pairs": [
+              {
+                "left": "Arrumar a mochila",
+                "right": "Concluída"
+              },
+              {
+                "left": "Estudar lógica",
+                "right": "Pendente"
+              },
+              {
+                "left": "Regar a planta",
+                "right": "Concluída"
+              },
+              {
+                "left": "Lavar a louça",
+                "right": "Pendente"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, lista de tarefas, status, associação",
+          "img": "m1-e07.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "Leia a rotina de estudo da Gina: \"primeiro ela lê o problema, depois pensa, então responde e por fim confere\". Ordene os passos.",
-          "data": {"items": ["Ler o problema", "Pensar na solução", "Responder", "Conferir a resposta"]},
-          "xp": 5, "tags": "interpretação textual, sequência, ordem, processo", "img": "m1-e05.png"
+          "data": {
+            "items": [
+              "Ler o problema",
+              "Pensar na solução",
+              "Responder",
+              "Conferir a resposta"
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, sequência, ordem, processo",
+          "img": "m1-e05.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"O jacaré Dado tem três caminhos. Ele escolhe sempre o mais curto para chegar mais rápido.\"\n\nA ideia central é:",
-          "data": {"options": [
-            {"description": "Dado decide com base em um critério (o mais curto).", "image": "", "correct": true},
-            {"description": "Dado escolhe sem pensar.", "image": "", "correct": false},
-            {"description": "Dado nunca chega ao destino.", "image": "", "correct": false},
-            {"description": "Todos os caminhos são iguais.", "image": "", "correct": false}
-          ]},
-          "xp": 5, "tags": "interpretação textual, ideia principal, decisão, critério, otimização", "img": "m1-e12.png"
+          "data": {
+            "options": [
+              {
+                "description": "Dado decide com base em um critério (o mais curto).",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Dado escolhe sem pensar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Dado nunca chega ao destino.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todos os caminhos são iguais.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, ideia principal, decisão, critério, otimização",
+          "img": "m1-e12.png"
         },
         {
           "type": "PAIRS",
           "statement": "O gato Pixel guarda tudo em caixas etiquetadas. Combine cada objeto à sua caixa.",
-          "data": {"lefts": ["Lápis e canetas", "Meias", "Bolas", "Pratos"], "rights": ["Cozinha", "Material escolar", "Brinquedos", "Roupas"], "pairs": [
-            {"left": "Lápis e canetas", "right": "Material escolar"},
-            {"left": "Meias", "right": "Roupas"},
-            {"left": "Bolas", "right": "Brinquedos"},
-            {"left": "Pratos", "right": "Cozinha"}
-          ]},
-          "xp": 5, "tags": "interpretação textual, organização, categorização, associação", "img": "m1-e10.png"
+          "data": {
+            "lefts": [
+              "Lápis e canetas",
+              "Meias",
+              "Bolas",
+              "Pratos"
+            ],
+            "rights": [
+              "Cozinha",
+              "Material escolar",
+              "Brinquedos",
+              "Roupas"
+            ],
+            "pairs": [
+              {
+                "left": "Lápis e canetas",
+                "right": "Material escolar"
+              },
+              {
+                "left": "Meias",
+                "right": "Roupas"
+              },
+              {
+                "left": "Bolas",
+                "right": "Brinquedos"
+              },
+              {
+                "left": "Pratos",
+                "right": "Cozinha"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, organização, categorização, associação",
+          "img": "m1-e10.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "O texto diz: \"o bichinho vira à direita, anda três passos e para\". Ordene os comandos.",
-          "data": {"items": ["Virar à direita", "Andar três passos", "Parar"]},
-          "xp": 7, "tags": "interpretação textual, instruções, comandos, algoritmo", "img": "m1-e17.png"
+          "data": {
+            "items": [
+              "Virar à direita",
+              "Andar três passos",
+              "Parar"
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, instruções, comandos, algoritmo",
+          "img": "m1-e17.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"Antes de cada jogo, Gina verifica se tem vidas suficientes. Sem vidas, ela espera a recarga.\"\n\nQual a ideia principal?",
-          "data": {"options": [
-            {"description": "Gina checa um recurso antes de continuar.", "image": "", "correct": true},
-            {"description": "Gina joga mesmo sem vidas.", "image": "", "correct": false},
-            {"description": "Gina nunca joga.", "image": "", "correct": false},
-            {"description": "As vidas nunca acabam.", "image": "", "correct": false}
-          ]},
-          "xp": 5, "tags": "interpretação textual, ideia principal, condição, verificação, recurso", "img": "m1-e14.png"
+          "data": {
+            "options": [
+              {
+                "description": "Gina checa um recurso antes de continuar.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Gina joga mesmo sem vidas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Gina nunca joga.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "As vidas nunca acabam.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, ideia principal, condição, verificação, recurso",
+          "img": "m1-e14.png"
         },
         {
           "type": "PAIRS",
           "statement": "O lobo Rex compara pares de números e fica com o maior. Combine cada par ao seu maior valor.",
-          "data": {"lefts": ["7 e 3", "5 e 9", "10 e 2", "4 e 6"], "rights": ["9", "6", "7", "10"], "pairs": [
-            {"left": "7 e 3", "right": "7"},
-            {"left": "5 e 9", "right": "9"},
-            {"left": "10 e 2", "right": "10"},
-            {"left": "4 e 6", "right": "6"}
-          ]},
-          "xp": 7, "tags": "interpretação textual, comparação, maior, associação", "img": "m1-e18.png"
+          "data": {
+            "lefts": [
+              "7 e 3",
+              "5 e 9",
+              "10 e 2",
+              "4 e 6"
+            ],
+            "rights": [
+              "9",
+              "6",
+              "7",
+              "10"
+            ],
+            "pairs": [
+              {
+                "left": "7 e 3",
+                "right": "7"
+              },
+              {
+                "left": "5 e 9",
+                "right": "9"
+              },
+              {
+                "left": "10 e 2",
+                "right": "10"
+              },
+              {
+                "left": "4 e 6",
+                "right": "6"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, comparação, maior, associação",
+          "img": "m1-e18.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "O urso Téo conta de um em um até dez e então para. Ordene as ações descritas.",
-          "data": {"items": ["Começar em 1", "Contar somando 1", "Chegar a 10", "Parar"]},
-          "xp": 7, "tags": "interpretação textual, repetição, laço, condição de parada", "img": "m1-e13.png"
+          "data": {
+            "items": [
+              "Começar em 1",
+              "Contar somando 1",
+              "Chegar a 10",
+              "Parar"
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, repetição, laço, condição de parada",
+          "img": "m1-e13.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"Se chover, Olívia leva o guarda-chuva. Se fizer sol, leva o boné.\"\n\nO texto mostra principalmente que Olívia:",
-          "data": {"options": [
-            {"description": "escolhe o que levar conforme o tempo.", "image": "", "correct": true},
-            {"description": "leva sempre as duas coisas.", "image": "", "correct": false},
-            {"description": "nunca sai de casa.", "image": "", "correct": false},
-            {"description": "não se importa com o clima.", "image": "", "correct": false}
-          ]},
-          "xp": 5, "tags": "interpretação textual, ideia principal, condição, alternativas, se senão", "img": "m1-e16.png"
+          "data": {
+            "options": [
+              {
+                "description": "escolhe o que levar conforme o tempo.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "leva sempre as duas coisas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "nunca sai de casa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "não se importa com o clima.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, ideia principal, condição, alternativas, se senão",
+          "img": "m1-e16.png"
         },
         {
           "type": "PAIRS",
           "statement": "Combine cada atitude do urso Téo à sua descrição.",
-          "data": {"lefts": ["Revisar o erro e tentar de novo", "Estudar todos os dias", "Começar pela parte mais fácil", "Conferir antes de entregar"], "rights": ["Constância", "Estratégia", "Persistência", "Cuidado"], "pairs": [
-            {"left": "Revisar o erro e tentar de novo", "right": "Persistência"},
-            {"left": "Estudar todos os dias", "right": "Constância"},
-            {"left": "Começar pela parte mais fácil", "right": "Estratégia"},
-            {"left": "Conferir antes de entregar", "right": "Cuidado"}
-          ]},
-          "xp": 5, "tags": "interpretação textual, atitudes, associação, aprendizado", "img": "m1-e02.png"
+          "data": {
+            "lefts": [
+              "Revisar o erro e tentar de novo",
+              "Estudar todos os dias",
+              "Começar pela parte mais fácil",
+              "Conferir antes de entregar"
+            ],
+            "rights": [
+              "Constância",
+              "Estratégia",
+              "Persistência",
+              "Cuidado"
+            ],
+            "pairs": [
+              {
+                "left": "Revisar o erro e tentar de novo",
+                "right": "Persistência"
+              },
+              {
+                "left": "Estudar todos os dias",
+                "right": "Constância"
+              },
+              {
+                "left": "Começar pela parte mais fácil",
+                "right": "Estratégia"
+              },
+              {
+                "left": "Conferir antes de entregar",
+                "right": "Cuidado"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, atitudes, associação, aprendizado",
+          "img": "m1-e02.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "Pongo entrega as cartas na ordem da rua, sem pular nenhuma casa. Ordene as casas.",
-          "data": {"items": ["Casa 1", "Casa 2", "Casa 3", "Casa 4"]},
-          "xp": 5, "tags": "interpretação textual, sequência, ordem, iteração", "img": "m1-e15.png"
+          "data": {
+            "items": [
+              "Casa 1",
+              "Casa 2",
+              "Casa 3",
+              "Casa 4"
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, sequência, ordem, iteração",
+          "img": "m1-e15.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "\"O parágrafo todo fala sobre uma horta: como plantar, regar e colher.\" Qual seria um bom TÍTULO para o texto?",
-          "data": {"options": [
-            {"description": "Cuidando de uma horta", "image": "", "correct": true},
-            {"description": "A história do cinema", "image": "", "correct": false},
-            {"description": "Como trocar um pneu", "image": "", "correct": false},
-            {"description": "Regras de futebol", "image": "", "correct": false}
-          ]},
-          "xp": 3, "tags": "interpretação textual, ideia principal, título, tema, resumo"
+          "data": {
+            "options": [
+              {
+                "description": "Cuidando de uma horta",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A história do cinema",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Como trocar um pneu",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Regras de futebol",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "interpretação textual, ideia principal, título, tema, resumo",
+          "img": "m1-e01.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"O texto inteiro mostra que, para resolver um problema, primeiro é preciso entender o que ele pede.\"\n\nA mensagem principal é:",
-          "data": {"options": [
-            {"description": "compreender o problema é o primeiro passo.", "image": "", "correct": true},
-            {"description": "resolver vem antes de entender.", "image": "", "correct": false},
-            {"description": "não é preciso ler o problema.", "image": "", "correct": false},
-            {"description": "problemas não têm solução.", "image": "", "correct": false}
-          ]},
-          "xp": 3, "tags": "interpretação textual, ideia principal, compreensão, resolução de problemas"
+          "data": {
+            "options": [
+              {
+                "description": "compreender o problema é o primeiro passo.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "resolver vem antes de entender.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "não é preciso ler o problema.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "problemas não têm solução.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "interpretação textual, ideia principal, compreensão, resolução de problemas",
+          "img": "m1-e02.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"Enquanto houver pratos sujos, Pixel continua lavando. Quando acabam, descansa.\"\n\nO texto descreve:",
-          "data": {"options": [
-            {"description": "uma ação que se repete enquanto uma condição é verdadeira.", "image": "", "correct": true},
-            {"description": "uma ação feita uma única vez.", "image": "", "correct": false},
-            {"description": "Pixel descansando o tempo todo.", "image": "", "correct": false},
-            {"description": "pratos que nunca ficam limpos.", "image": "", "correct": false}
-          ]},
-          "xp": 7, "tags": "interpretação textual, ideia principal, laço enquanto, condição"
+          "data": {
+            "options": [
+              {
+                "description": "uma ação que se repete enquanto uma condição é verdadeira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "uma ação feita uma única vez.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pixel descansando o tempo todo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "pratos que nunca ficam limpos.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, ideia principal, laço enquanto, condição",
+          "img": "m1-e05.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Qual frase resume melhor a ideia de \"seguir uma receita\"?",
-          "data": {"options": [
-            {"description": "Executar passos numa ordem definida para chegar a um resultado.", "image": "", "correct": true},
-            {"description": "Fazer tudo ao mesmo tempo sem ordem.", "image": "", "correct": false},
-            {"description": "Pular todos os passos.", "image": "", "correct": false},
-            {"description": "Inventar passos aleatórios.", "image": "", "correct": false}
-          ]},
-          "xp": 3, "tags": "interpretação textual, ideia principal, receita, algoritmo, ordem"
+          "data": {
+            "options": [
+              {
+                "description": "Executar passos numa ordem definida para chegar a um resultado.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Fazer tudo ao mesmo tempo sem ordem.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pular todos os passos.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Inventar passos aleatórios.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "interpretação textual, ideia principal, receita, algoritmo, ordem",
+          "img": "m1-e09.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "Ordene as frases do menor para o maior grau de organização descrito: \"bagunça\", \"algumas pilhas\", \"caixas separadas\", \"tudo etiquetado\".",
-          "data": {"items": ["Bagunça", "Algumas pilhas", "Caixas separadas", "Tudo etiquetado"]},
-          "xp": 5, "tags": "interpretação textual, ordenação, organização, gradação"
+          "data": {
+            "items": [
+              "Bagunça",
+              "Algumas pilhas",
+              "Caixas separadas",
+              "Tudo etiquetado"
+            ]
+          },
+          "xp": 5,
+          "tags": "interpretação textual, ordenação, organização, gradação",
+          "img": "m2-e17.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "O texto narra o dia da Gina: \"acordou, estudou, almoçou e dormiu\". Ordene os acontecimentos.",
-          "data": {"items": ["Acordou", "Estudou", "Almoçou", "Dormiu"]},
-          "xp": 3, "tags": "interpretação textual, sequência, narrativa, ordem dos fatos"
+          "data": {
+            "items": [
+              "Acordou",
+              "Estudou",
+              "Almoçou",
+              "Dormiu"
+            ]
+          },
+          "xp": 3,
+          "tags": "interpretação textual, sequência, narrativa, ordem dos fatos",
+          "img": "m2-e18.png"
         },
         {
           "type": "DRAG_DROP",
           "statement": "Ordene as etapas de resolver um problema, segundo o texto: \"ler, separar em partes, resolver cada parte, juntar a resposta\".",
-          "data": {"items": ["Ler o problema", "Separar em partes", "Resolver cada parte", "Juntar a resposta"]},
-          "xp": 7, "tags": "interpretação textual, decomposição, algoritmo, sequência"
+          "data": {
+            "items": [
+              "Ler o problema",
+              "Separar em partes",
+              "Resolver cada parte",
+              "Juntar a resposta"
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, decomposição, algoritmo, sequência",
+          "img": "m2-e19.png"
         },
         {
           "type": "PAIRS",
           "statement": "Relacione cada texto ao melhor título.",
-          "data": {"lefts": ["\"Como plantar, regar e colher.\"", "\"Olha os dois lados antes de atravessar.\"", "\"Junta o valor de cada dia da semana.\"", "\"Separa o problema em partes menores.\""], "rights": ["Somando a mesada", "Cuidando da horta", "Dividir para resolver", "Atravessar com segurança"], "pairs": [
-            {"left": "\"Como plantar, regar e colher.\"", "right": "Cuidando da horta"},
-            {"left": "\"Olha os dois lados antes de atravessar.\"", "right": "Atravessar com segurança"},
-            {"left": "\"Junta o valor de cada dia da semana.\"", "right": "Somando a mesada"},
-            {"left": "\"Separa o problema em partes menores.\"", "right": "Dividir para resolver"}
-          ]},
-          "xp": 7, "tags": "interpretação textual, ideia principal, título, tema, associação"
+          "data": {
+            "lefts": [
+              "\"Como plantar, regar e colher.\"",
+              "\"Olha os dois lados antes de atravessar.\"",
+              "\"Junta o valor de cada dia da semana.\"",
+              "\"Separa o problema em partes menores.\""
+            ],
+            "rights": [
+              "Somando a mesada",
+              "Cuidando da horta",
+              "Dividir para resolver",
+              "Atravessar com segurança"
+            ],
+            "pairs": [
+              {
+                "left": "\"Como plantar, regar e colher.\"",
+                "right": "Cuidando da horta"
+              },
+              {
+                "left": "\"Olha os dois lados antes de atravessar.\"",
+                "right": "Atravessar com segurança"
+              },
+              {
+                "left": "\"Junta o valor de cada dia da semana.\"",
+                "right": "Somando a mesada"
+              },
+              {
+                "left": "\"Separa o problema em partes menores.\"",
+                "right": "Dividir para resolver"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, ideia principal, título, tema, associação",
+          "img": "m2-e20.png"
         },
         {
           "type": "PAIRS",
           "statement": "Combine cada palavra do texto ao seu significado.",
-          "data": {"lefts": ["Sequência", "Condição", "Repetição", "Organização"], "rights": ["Fazer de novo várias vezes", "Ordem dos passos", "Manter tudo arrumado", "Algo que pode ser verdadeiro ou falso"], "pairs": [
-            {"left": "Sequência", "right": "Ordem dos passos"},
-            {"left": "Condição", "right": "Algo que pode ser verdadeiro ou falso"},
-            {"left": "Repetição", "right": "Fazer de novo várias vezes"},
-            {"left": "Organização", "right": "Manter tudo arrumado"}
-          ]},
-          "xp": 7, "tags": "interpretação textual, vocabulário, significado, associação"
+          "data": {
+            "lefts": [
+              "Sequência",
+              "Condição",
+              "Repetição",
+              "Organização"
+            ],
+            "rights": [
+              "Fazer de novo várias vezes",
+              "Ordem dos passos",
+              "Manter tudo arrumado",
+              "Algo que pode ser verdadeiro ou falso"
+            ],
+            "pairs": [
+              {
+                "left": "Sequência",
+                "right": "Ordem dos passos"
+              },
+              {
+                "left": "Condição",
+                "right": "Algo que pode ser verdadeiro ou falso"
+              },
+              {
+                "left": "Repetição",
+                "right": "Fazer de novo várias vezes"
+              },
+              {
+                "left": "Organização",
+                "right": "Manter tudo arrumado"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, vocabulário, significado, associação",
+          "img": "m2-e21.png"
         },
         {
           "type": "PAIRS",
           "statement": "Combine cada situação ao tipo de raciocínio que ela descreve.",
-          "data": {"lefts": ["\"Se está escuro, acende a luz.\"", "\"Repete o exercício até acertar.\"", "\"Faz na ordem: 1, 2, 3.\"", "\"Guarda cada coisa no seu lugar.\""], "rights": ["Sequência", "Condição", "Organização", "Repetição"], "pairs": [
-            {"left": "\"Se está escuro, acende a luz.\"", "right": "Condição"},
-            {"left": "\"Repete o exercício até acertar.\"", "right": "Repetição"},
-            {"left": "\"Faz na ordem: 1, 2, 3.\"", "right": "Sequência"},
-            {"left": "\"Guarda cada coisa no seu lugar.\"", "right": "Organização"}
-          ]},
-          "xp": 7, "tags": "interpretação textual, raciocínio, classificação, associação"
+          "data": {
+            "lefts": [
+              "\"Se está escuro, acende a luz.\"",
+              "\"Repete o exercício até acertar.\"",
+              "\"Faz na ordem: 1, 2, 3.\"",
+              "\"Guarda cada coisa no seu lugar.\""
+            ],
+            "rights": [
+              "Sequência",
+              "Condição",
+              "Organização",
+              "Repetição"
+            ],
+            "pairs": [
+              {
+                "left": "\"Se está escuro, acende a luz.\"",
+                "right": "Condição"
+              },
+              {
+                "left": "\"Repete o exercício até acertar.\"",
+                "right": "Repetição"
+              },
+              {
+                "left": "\"Faz na ordem: 1, 2, 3.\"",
+                "right": "Sequência"
+              },
+              {
+                "left": "\"Guarda cada coisa no seu lugar.\"",
+                "right": "Organização"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "interpretação textual, raciocínio, classificação, associação",
+          "img": "m2-e22.png"
         },
         {
           "type": "MULTIPLE_CHOICE",
           "statement": "Leia: \"Téo treina todos os dias. Mesmo quando erra, revisa e tenta de novo.\"\n\nA ideia principal é que Téo é:",
-          "data": {"options": [
-            {"description": "persistente e aprende com os erros.", "image": "", "correct": true},
-            {"description": "preguiçoso e desiste fácil.", "image": "", "correct": false},
-            {"description": "alguém que nunca erra.", "image": "", "correct": false},
-            {"description": "rápido, mas distraído.", "image": "", "correct": false}
-          ]},
-          "xp": 3, "tags": "interpretação textual, ideia principal, persistência, aprender com erros"
+          "data": {
+            "options": [
+              {
+                "description": "persistente e aprende com os erros.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "preguiçoso e desiste fácil.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "alguém que nunca erra.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "rápido, mas distraído.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "interpretação textual, ideia principal, persistência, aprender com erros",
+          "img": "m1-e01.png"
         }
       ]
     }

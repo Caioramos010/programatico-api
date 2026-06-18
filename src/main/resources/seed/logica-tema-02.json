@@ -1,0 +1,942 @@
+{
+  "modules": [
+    {
+      "title": "Sequências e padrões — entendendo a regra",
+      "moduleType": "STUDY",
+      "displayOrder": 3,
+      "description": "Aprenda a enxergar a regra escondida em sequências de números e figuras para descobrir o que vem a seguir.",
+      "pages": [
+        {
+          "title": "O que é uma sequência",
+          "description": "Uma ordem que segue uma lógica.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Uma sequência é uma lista de elementos colocados em uma certa ordem — podem ser números, letras, cores ou figuras.\n\nO que faz uma sequência ser interessante é que ela segue uma regra: cada elemento aparece por causa do anterior."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e02.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: 2, 4, 6, 8... A regra é \"somar 2 a cada passo\". Quando você descobre a regra, consegue prever o próximo número: 10!"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Na lógica de programação, perceber padrões é essencial — computadores adoram repetir regras simples muitas vezes."
+            }
+          ]
+        },
+        {
+          "title": "Descobrindo a regra",
+          "description": "Como achar o padrão escondido.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Para descobrir a regra de uma sequência, compare cada elemento com o anterior e pergunte: \"o que mudou de um para o outro?\".\n\nÀs vezes você soma sempre o mesmo número, às vezes multiplica, e às vezes os passos se repetem em ciclos."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e08.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Em 1, 2, 4, 8... cada número é o dobro do anterior. Em vermelho, azul, vermelho, azul... as cores se repetem em ciclo.\n\nTeste a sua regra em todos os elementos: se ela funciona do começo ao fim, você acertou!"
+            }
+          ]
+        },
+        {
+          "title": "Padrões de figuras e ciclos",
+          "description": "Nem todo padrão é de números.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Padrões também aparecem em figuras e formas: um quadrado, um círculo, um triângulo e tudo começa de novo.\n\nQuando o padrão se repete em ciclo, basta contar a posição para saber qual figura vem em seguida."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e01.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Saber identificar padrões ajuda você a prever, organizar e automatizar tarefas — a base de pensar como um programador.\n\nNos próximos exercícios você vai praticar: achar o próximo, completar o que falta e descobrir a regra."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Sequências e padrões — praticando",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 4,
+      "description": "Descubra o próximo elemento, complete o que falta e identifique a regra de cada sequência.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia montou as cartas: 2, 4, 6, 8, ___\n\nQual número vem a seguir?",
+          "data": {
+            "options": [
+              {
+                "description": "10",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "9",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "12",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "16",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "sequência numérica, próximo número, soma de 2, números pares, padrão",
+          "img": "m2-e02.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel apontou para as formas: círculo, quadrado, círculo, quadrado, ___\n\nQual forma vem a seguir?",
+          "data": {
+            "options": [
+              {
+                "description": "Círculo",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Quadrado",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Triângulo",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Estrela",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "padrão de figuras, ciclo, formas, próximo elemento, alternância",
+          "img": "m2-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina treina no tablet: 5, 10, 15, 20, ___\n\nQual é o próximo número?",
+          "data": {
+            "options": [
+              {
+                "description": "25",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "30",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "21",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "24",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "sequência numérica, soma de 5, próximo número, contagem, padrão",
+          "img": "m2-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex empurra os dominós: 1, 2, 4, 8, ___\n\nCada número é o dobro do anterior. Qual vem agora?",
+          "data": {
+            "options": [
+              {
+                "description": "16",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "10",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "12",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "9",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, dobro, multiplicação, próximo número, regra",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo ordenou os blocos: 10, 8, 6, 4, ___\n\nA sequência está diminuindo. Qual número falta?",
+          "data": {
+            "options": [
+              {
+                "description": "2",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "3",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "5",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "0",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, subtração, decrescente, próximo número, regra",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Olívia detetive achou o padrão das luzes: verde, amarelo, vermelho, verde, amarelo, ___\n\nQual cor vem em seguida?",
+          "data": {
+            "options": [
+              {
+                "description": "Vermelho",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Verde",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Amarelo",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Azul",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "padrão de cores, ciclo, semáforo, próximo elemento, repetição",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia mostrou: 1, 3, 5, 7, ___\n\nSão os números ímpares. Qual vem a seguir?",
+          "data": {
+            "options": [
+              {
+                "description": "9",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "8",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "10",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "11",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "sequência numérica, números ímpares, soma de 2, próximo número",
+          "img": "m2-e02.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado segue o mapa do tesouro com os passos: 3, 6, 9, 12, ___\n\nQual é o próximo passo?",
+          "data": {
+            "options": [
+              {
+                "description": "15",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "14",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "18",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "13",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, soma de 3, tabuada, próximo número, padrão",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Gina rega as plantinhas em ciclo: alta, baixa, média, alta, baixa, ___\n\nQual tamanho vem agora?",
+          "data": {
+            "options": [
+              {
+                "description": "Média",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Alta",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Baixa",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Gigante",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "padrão, ciclo de três, sequência, próximo elemento, repetição",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo conta nos dedos: 2, 4, 8, 16, ___\n\nCada número dobra. Qual vem depois?",
+          "data": {
+            "options": [
+              {
+                "description": "32",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "18",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "24",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "20",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "sequência numérica, dobro, multiplicação, próximo número, regra",
+          "img": "m1-e13.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Pixel separa bolas em ciclo: 1, 2, 3, 1, 2, 3, ___\n\nQual número reinicia o ciclo?",
+          "data": {
+            "options": [
+              {
+                "description": "1",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "4",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "2",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "0",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "padrão, ciclo, repetição, próximo número, sequência",
+          "img": "m2-e23.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A coruja Olívia organizou várias sequências. Combine cada uma ao seu próximo número.",
+          "data": {
+            "lefts": [
+              "1, 2, 3, 4, ...",
+              "10, 20, 30, ...",
+              "5, 10, 15, ...",
+              "2, 4, 6, ..."
+            ],
+            "rights": [
+              "40",
+              "20",
+              "5",
+              "8"
+            ],
+            "pairs": [
+              {
+                "left": "1, 2, 3, 4, ...",
+                "right": "5"
+              },
+              {
+                "left": "10, 20, 30, ...",
+                "right": "40"
+              },
+              {
+                "left": "5, 10, 15, ...",
+                "right": "20"
+              },
+              {
+                "left": "2, 4, 6, ...",
+                "right": "8"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, próximo número, soma, associação, padrão",
+          "img": "m2-e24.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O lobo Rex tem várias sequências do dobro. Combine cada uma ao número que vem a seguir.",
+          "data": {
+            "lefts": [
+              "1, 2, 4, ...",
+              "3, 6, 12, ...",
+              "5, 10, 20, ...",
+              "2, 4, 8, ..."
+            ],
+            "rights": [
+              "16",
+              "8",
+              "24",
+              "40"
+            ],
+            "pairs": [
+              {
+                "left": "1, 2, 4, ...",
+                "right": "8"
+              },
+              {
+                "left": "3, 6, 12, ...",
+                "right": "24"
+              },
+              {
+                "left": "5, 10, 20, ...",
+                "right": "40"
+              },
+              {
+                "left": "2, 4, 8, ...",
+                "right": "16"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "sequência numérica, dobro, multiplicação, próximo número, associação",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O gato Pixel separou padrões de formas. Combine cada sequência à forma que vem a seguir.",
+          "data": {
+            "lefts": [
+              "círculo, quadrado, círculo, ...",
+              "triângulo, triângulo, círculo, triângulo, triângulo, ...",
+              "estrela, lua, estrela, lua, ...",
+              "quadrado, círculo, triângulo, quadrado, círculo, ..."
+            ],
+            "rights": [
+              "círculo",
+              "estrela",
+              "quadrado",
+              "triângulo"
+            ],
+            "pairs": [
+              {
+                "left": "círculo, quadrado, círculo, ...",
+                "right": "quadrado"
+              },
+              {
+                "left": "triângulo, triângulo, círculo, triângulo, triângulo, ...",
+                "right": "círculo"
+              },
+              {
+                "left": "estrela, lua, estrela, lua, ...",
+                "right": "estrela"
+              },
+              {
+                "left": "quadrado, círculo, triângulo, quadrado, círculo, ...",
+                "right": "triângulo"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "padrão de figuras, ciclo, formas, próximo elemento, associação",
+          "img": "m2-e01.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A girafa Gina quer relacionar cada sequência à sua regra. Combine corretamente.",
+          "data": {
+            "lefts": [
+              "2, 4, 6, 8",
+              "1, 2, 4, 8",
+              "10, 9, 8, 7",
+              "5, 10, 15, 20"
+            ],
+            "rights": [
+              "dobra a cada passo",
+              "soma 2 a cada passo",
+              "soma 5 a cada passo",
+              "diminui 1 a cada passo"
+            ],
+            "pairs": [
+              {
+                "left": "2, 4, 6, 8",
+                "right": "soma 2 a cada passo"
+              },
+              {
+                "left": "1, 2, 4, 8",
+                "right": "dobra a cada passo"
+              },
+              {
+                "left": "10, 9, 8, 7",
+                "right": "diminui 1 a cada passo"
+              },
+              {
+                "left": "5, 10, 15, 20",
+                "right": "soma 5 a cada passo"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "sequência numérica, regra, padrão, identificar regra, associação",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O urso Téo na balança comparou sequências decrescentes. Combine cada uma ao próximo número.",
+          "data": {
+            "lefts": [
+              "20, 16, 12, ...",
+              "9, 7, 5, ...",
+              "30, 25, 20, ...",
+              "8, 6, 4, ..."
+            ],
+            "rights": [
+              "15",
+              "8",
+              "2",
+              "3"
+            ],
+            "pairs": [
+              {
+                "left": "20, 16, 12, ...",
+                "right": "8"
+              },
+              {
+                "left": "9, 7, 5, ...",
+                "right": "3"
+              },
+              {
+                "left": "30, 25, 20, ...",
+                "right": "15"
+              },
+              {
+                "left": "8, 6, 4, ...",
+                "right": "2"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "sequência numérica, decrescente, subtração, próximo número, associação",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O jacaré Dado verifica padrões com check verde e X vermelho. Combine cada sequência ao seu próximo passo do mapa.",
+          "data": {
+            "lefts": [
+              "3, 6, 9, ...",
+              "4, 8, 12, ...",
+              "7, 14, 21, ...",
+              "2, 4, 6, ..."
+            ],
+            "rights": [
+              "16",
+              "28",
+              "8",
+              "12"
+            ],
+            "pairs": [
+              {
+                "left": "3, 6, 9, ...",
+                "right": "12"
+              },
+              {
+                "left": "4, 8, 12, ...",
+                "right": "16"
+              },
+              {
+                "left": "7, 14, 21, ...",
+                "right": "28"
+              },
+              {
+                "left": "2, 4, 6, ...",
+                "right": "8"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, tabuada, soma, próximo número, associação",
+          "img": "m2-e25.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A coruja detetive Olívia liga cada sequência de cores ao que vem a seguir.",
+          "data": {
+            "lefts": [
+              "azul, vermelho, azul, ...",
+              "verde, verde, amarelo, verde, verde, ...",
+              "rosa, roxo, rosa, roxo, ...",
+              "preto, branco, cinza, preto, branco, ..."
+            ],
+            "rights": [
+              "amarelo",
+              "rosa",
+              "vermelho",
+              "cinza"
+            ],
+            "pairs": [
+              {
+                "left": "azul, vermelho, azul, ...",
+                "right": "vermelho"
+              },
+              {
+                "left": "verde, verde, amarelo, verde, verde, ...",
+                "right": "amarelo"
+              },
+              {
+                "left": "rosa, roxo, rosa, roxo, ...",
+                "right": "rosa"
+              },
+              {
+                "left": "preto, branco, cinza, preto, branco, ...",
+                "right": "cinza"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "padrão de cores, ciclo, próximo elemento, repetição, associação",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Pixel separa bolas em caixas por ciclos. Combine cada sequência ao número que falta.",
+          "data": {
+            "lefts": [
+              "1, 2, 3, 1, 2, ...",
+              "5, 6, 7, 5, 6, ...",
+              "2, 4, 2, 4, ...",
+              "9, 8, 9, 8, ..."
+            ],
+            "rights": [
+              "7",
+              "9",
+              "3",
+              "2"
+            ],
+            "pairs": [
+              {
+                "left": "1, 2, 3, 1, 2, ...",
+                "right": "3"
+              },
+              {
+                "left": "5, 6, 7, 5, 6, ...",
+                "right": "7"
+              },
+              {
+                "left": "2, 4, 2, 4, ...",
+                "right": "2"
+              },
+              {
+                "left": "9, 8, 9, 8, ...",
+                "right": "9"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "padrão, ciclo, repetição, próximo número, associação",
+          "img": "m2-e26.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O lobo Rex compara duas formas de descrever a mesma regra. Combine cada sequência à sua descrição.",
+          "data": {
+            "lefts": [
+              "100, 90, 80, ...",
+              "1, 10, 100, ...",
+              "0, 5, 10, 15",
+              "12, 9, 6, 3"
+            ],
+            "rights": [
+              "multiplica por 10",
+              "soma 5",
+              "diminui 10",
+              "diminui 3"
+            ],
+            "pairs": [
+              {
+                "left": "100, 90, 80, ...",
+                "right": "diminui 10"
+              },
+              {
+                "left": "1, 10, 100, ...",
+                "right": "multiplica por 10"
+              },
+              {
+                "left": "0, 5, 10, 15",
+                "right": "soma 5"
+              },
+              {
+                "left": "12, 9, 6, 3",
+                "right": "diminui 3"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "sequência numérica, regra, identificar padrão, multiplicação, associação",
+          "img": "m2-e27.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A girafa Gina relaciona cada padrão de figuras à quantidade que se repete antes de reiniciar.",
+          "data": {
+            "lefts": [
+              "A, B, A, B, A, B",
+              "X, Y, Z, X, Y, Z",
+              "O, O, X, O, O, X",
+              "1, 2, 3, 4, 1, 2, 3, 4"
+            ],
+            "rights": [
+              "ciclo de 4",
+              "ciclo de 2",
+              "ciclo de 3",
+              "ciclo de 3"
+            ],
+            "pairs": [
+              {
+                "left": "A, B, A, B, A, B",
+                "right": "ciclo de 2"
+              },
+              {
+                "left": "X, Y, Z, X, Y, Z",
+                "right": "ciclo de 3"
+              },
+              {
+                "left": "O, O, X, O, O, X",
+                "right": "ciclo de 3"
+              },
+              {
+                "left": "1, 2, 3, 4, 1, 2, 3, 4",
+                "right": "ciclo de 4"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "padrão, ciclo, tamanho do ciclo, repetição, associação",
+          "img": "m2-e01.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja Olívia embaralhou as cartas. Ordene os números para formar a sequência crescente de 2 em 2.",
+          "data": {
+            "items": [
+              "2",
+              "4",
+              "6",
+              "8"
+            ]
+          },
+          "xp": 3,
+          "tags": "sequência numérica, ordenar, crescente, soma de 2, padrão",
+          "img": "m2-e02.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O urso Téo precisa colocar os blocos do menor para o maior. Ordene-os.",
+          "data": {
+            "items": [
+              "3",
+              "6",
+              "9",
+              "12"
+            ]
+          },
+          "xp": 3,
+          "tags": "sequência numérica, ordenar, crescente, menor para maior, padrão",
+          "img": "m2-e01.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O lobo Rex derruba os dominós na sequência do dobro. Ordene do primeiro ao último.",
+          "data": {
+            "items": [
+              "1",
+              "2",
+              "4",
+              "8"
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, dobro, ordenar, crescente, padrão",
+          "img": "m2-e02.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A girafa Gina rega as plantinhas em ordem decrescente de altura. Ordene da maior para a menor.",
+          "data": {
+            "items": [
+              "10",
+              "8",
+              "6",
+              "4"
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, decrescente, ordenar, maior para menor, padrão",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Pixel descobriu um ciclo de formas. Coloque na ordem em que elas aparecem antes de repetir.",
+          "data": {
+            "items": [
+              "círculo",
+              "quadrado",
+              "triângulo"
+            ]
+          },
+          "xp": 5,
+          "tags": "padrão de figuras, ciclo, ordenar, formas, sequência",
+          "img": "m2-e23.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O jacaré Dado segue o mapa contando de 5 em 5. Ordene os números da menor para a maior parada.",
+          "data": {
+            "items": [
+              "5",
+              "10",
+              "15",
+              "20"
+            ]
+          },
+          "xp": 5,
+          "tags": "sequência numérica, soma de 5, ordenar, crescente, mapa",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja detetive Olívia segue os passos para descobrir a regra de uma sequência. Ordene o raciocínio.",
+          "data": {
+            "items": [
+              "Olhar os números da sequência",
+              "Comparar cada número com o anterior",
+              "Descobrir o que muda a cada passo",
+              "Aplicar a regra para achar o próximo"
+            ]
+          },
+          "xp": 7,
+          "tags": "descobrir regra, raciocínio, passos, padrão, método",
+          "img": "m2-e24.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O urso Téo organiza a sequência de cores do semáforo na ordem certa do ciclo. Ordene as luzes.",
+          "data": {
+            "items": [
+              "verde",
+              "amarelo",
+              "vermelho"
+            ]
+          },
+          "xp": 5,
+          "tags": "padrão de cores, ciclo, semáforo, ordenar, sequência",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O lobo Rex sobe a escada de 10 em 10. Ordene os degraus do primeiro ao último.",
+          "data": {
+            "items": [
+              "10",
+              "20",
+              "30",
+              "40"
+            ]
+          },
+          "xp": 7,
+          "tags": "sequência numérica, soma de 10, ordenar, crescente, padrão",
+          "img": "m2-e25.png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,920 @@
+{
+  "modules": [
+    {
+      "title": "Dedução e silogismos — tirando conclusões",
+      "moduleType": "STUDY",
+      "displayOrder": 11,
+      "description": "Aprenda a partir de premissas a chegar em conclusões certas: silogismos simples e o poder de deduzir.",
+      "pages": [
+        {
+          "title": "O que é deduzir",
+          "description": "Chegar a uma conclusão a partir do que já se sabe.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Deduzir é tirar uma conclusão a partir de informações que já temos como verdadeiras.\n\nEssas informações de partida se chamam premissas. A conclusão é o que descobrimos a partir delas — sem precisar de nada além do que foi dito."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e08.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: \"Todo dia de chuva o chão fica molhado. Hoje choveu.\" Logo, podemos deduzir: \"o chão está molhado.\"\n\nRepare: a conclusão não inventa nada novo — ela só junta o que as premissas já garantiam."
+            }
+          ]
+        },
+        {
+          "title": "O silogismo simples",
+          "description": "Duas premissas, uma conclusão.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Um silogismo é o jeito mais clássico de deduzir: você parte de duas premissas e chega a uma conclusão.\n\nO modelo é: \"Todo A é B. X é A. Logo, X é B.\""
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: \"Todo mamífero respira. A girafa é mamífera. Logo, a girafa respira.\"\n\nSe as duas premissas forem verdadeiras e o encaixe estiver certo, a conclusão é obrigatória — não dá para fugir dela."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e07.png"
+            }
+          ]
+        },
+        {
+          "title": "Cuidado com as conclusões erradas",
+          "description": "Nem tudo que parece deduzido está certo.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Uma conclusão só é válida se sai mesmo das premissas. Conclusões \"apressadas\" são uma armadilha comum.\n\nPreste atenção em palavras como \"todo\", \"algum\" e \"nenhum\": elas mudam totalmente o que pode ser deduzido."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo de erro: \"Todo gato é animal. O urso é animal. Logo, o urso é gato.\" Isso está ERRADO — ser animal não obriga a ser gato.\n\nDeduzir bem é a base de qualquer decisão lógica num programa: o computador só conclui o que as regras realmente garantem."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e03.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Dedução e silogismos — praticando conclusões",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 12,
+      "description": "Parta das premissas, encaixe os termos e deduza a conclusão certa.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Todo mamífero respira. A girafa Gina é mamífera.\"\n\nO que se deduz?",
+          "data": {
+            "options": [
+              {
+                "description": "Gina respira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Gina não respira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Gina é uma planta.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nada pode ser deduzido.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "dedução, silogismo, premissa, conclusão, todo",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Toda vez que chove, o chão fica molhado. Hoje choveu.\"\n\nA conclusão correta é:",
+          "data": {
+            "options": [
+              {
+                "description": "O chão está molhado.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O chão está seco.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não choveu.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O sol apareceu.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "dedução, premissa, conclusão, condição, causa e efeito",
+          "img": "m2-e06.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A coruja detetive Olívia juntou pistas. Combine cada premissa à conclusão que ela permite.",
+          "data": {
+            "lefts": [
+              "\"Todo peixe nada.\"",
+              "\"Todo pássaro tem penas.\"",
+              "\"Todo número par é divisível por 2.\"",
+              "\"Todo triângulo tem 3 lados.\""
+            ],
+            "rights": [
+              "O 8 é divisível por 2",
+              "Este triângulo tem 3 lados",
+              "Este peixe nada",
+              "Este pássaro tem penas"
+            ],
+            "pairs": [
+              {
+                "left": "\"Todo peixe nada.\"",
+                "right": "Este peixe nada"
+              },
+              {
+                "left": "\"Todo pássaro tem penas.\"",
+                "right": "Este pássaro tem penas"
+              },
+              {
+                "left": "\"Todo número par é divisível por 2.\"",
+                "right": "O 8 é divisível por 2"
+              },
+              {
+                "left": "\"Todo triângulo tem 3 lados.\"",
+                "right": "Este triângulo tem 3 lados"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos de uma dedução, do começo ao fim.",
+          "data": {
+            "items": [
+              "Ler a primeira premissa",
+              "Ler a segunda premissa",
+              "Encaixar os termos",
+              "Escrever a conclusão"
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, passos, raciocínio, sequência",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Nenhum lobo é gato. O Rex é lobo.\"\n\nO que se deduz sobre o Rex?",
+          "data": {
+            "options": [
+              {
+                "description": "Rex não é gato.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Rex é gato.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Rex pode ser gato às vezes.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Rex é um peixe.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, nenhum, negação, conclusão",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O dálmata Pongo separou afirmações em grupos. Combine cada frase ao quantificador que ela usa.",
+          "data": {
+            "lefts": [
+              "\"Todos os ursos dormem.\"",
+              "\"Alguns gatos são pretos.\"",
+              "\"Nenhum peixe voa.\"",
+              "\"Todo triângulo tem 3 lados.\""
+            ],
+            "rights": [
+              "Algum",
+              "Nenhum",
+              "Todo",
+              "Todos"
+            ],
+            "pairs": [
+              {
+                "left": "\"Todos os ursos dormem.\"",
+                "right": "Todos"
+              },
+              {
+                "left": "\"Alguns gatos são pretos.\"",
+                "right": "Algum"
+              },
+              {
+                "left": "\"Nenhum peixe voa.\"",
+                "right": "Nenhum"
+              },
+              {
+                "left": "\"Todo triângulo tem 3 lados.\"",
+                "right": "Todo"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, quantificadores, todo, algum, nenhum, associação",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Todo gato é animal. O urso Téo é animal.\"\n\nPode-se deduzir que Téo é gato?",
+          "data": {
+            "options": [
+              {
+                "description": "Não, ser animal não obriga a ser gato.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Sim, com certeza Téo é gato.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Sim, todo animal é gato.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Téo não é animal.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, silogismo, conclusão inválida, armadilha, todo",
+          "img": "m1-e02.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O lobo Rex empurra os dominós da dedução. Ordene a cadeia: \"Todo A é B\", \"Todo B é C\", \"X é A\", logo \"X é C\".",
+          "data": {
+            "items": [
+              "Todo A é B",
+              "Todo B é C",
+              "X é A",
+              "Logo, X é C"
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, cadeia lógica, silogismo, transitividade, sequência",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Toda fruta madura está doce. Esta manga está madura.\"\n\nA conclusão é:",
+          "data": {
+            "options": [
+              {
+                "description": "Esta manga está doce.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Esta manga está azeda.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Esta manga não está madura.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhuma fruta é doce.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "dedução, silogismo, premissa, conclusão, todo",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A jacaré marca com verde o que se deduz e com vermelho o que não se deduz. Combine cada raciocínio ao seu veredito.",
+          "data": {
+            "lefts": [
+              "\"Todo cão late. Pongo é cão. Logo, Pongo late.\"",
+              "\"Todo cão late. Pongo late. Logo, Pongo é cão.\"",
+              "\"Nenhum pássaro é réptil. Dado é réptil. Logo, Dado não é pássaro.\"",
+              "\"Alguns gatos dormem. Pixel é gato. Logo, Pixel dorme.\""
+            ],
+            "rights": [
+              "Inválido",
+              "Válido",
+              "Válido",
+              "Inválido"
+            ],
+            "pairs": [
+              {
+                "left": "\"Todo cão late. Pongo é cão. Logo, Pongo late.\"",
+                "right": "Válido"
+              },
+              {
+                "left": "\"Todo cão late. Pongo late. Logo, Pongo é cão.\"",
+                "right": "Inválido"
+              },
+              {
+                "left": "\"Nenhum pássaro é réptil. Dado é réptil. Logo, Dado não é pássaro.\"",
+                "right": "Válido"
+              },
+              {
+                "left": "\"Alguns gatos dormem. Pixel é gato. Logo, Pixel dorme.\"",
+                "right": "Inválido"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, validade, silogismo, conclusão válida, associação",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte um silogismo válido na ordem certa, terminando na conclusão.",
+          "data": {
+            "items": [
+              "Todo estudante de lógica pensa",
+              "A girafa Gina estuda lógica",
+              "Logo, Gina pensa"
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, montar argumento, conclusão, sequência",
+          "img": "m1-e09.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte o silogismo do gato Pixel na ordem certa, da regra ao fato e à conclusão.",
+          "data": {
+            "items": [
+              "Todo animal que mia é gato",
+              "O Pixel mia",
+              "Logo, Pixel é gato"
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, premissa, conclusão, sequência",
+          "img": "m2-e01.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O urso Téo usa a balança da lógica. Combine cada par de premissas à conclusão certa.",
+          "data": {
+            "lefts": [
+              "\"Todo número par + par\"",
+              "\"Todo metal conduz. O cobre é metal.\"",
+              "\"Nenhum réptil tem penas. Dado é réptil.\"",
+              "\"Toda planta verde faz fotossíntese. Esta planta é verde.\""
+            ],
+            "rights": [
+              "Esta planta faz fotossíntese",
+              "O cobre conduz",
+              "Dado não tem penas",
+              "Resulta em número par"
+            ],
+            "pairs": [
+              {
+                "left": "\"Todo número par + par\"",
+                "right": "Resulta em número par"
+              },
+              {
+                "left": "\"Todo metal conduz. O cobre é metal.\"",
+                "right": "O cobre conduz"
+              },
+              {
+                "left": "\"Nenhum réptil tem penas. Dado é réptil.\"",
+                "right": "Dado não tem penas"
+              },
+              {
+                "left": "\"Toda planta verde faz fotossíntese. Esta planta é verde.\"",
+                "right": "Esta planta faz fotossíntese"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja detetive Olívia reconstrói a dedução. Ordene da pista geral à conclusão sobre o suspeito.",
+          "data": {
+            "items": [
+              "Todo ladrão deixou pegadas",
+              "Encontramos pegadas na cena",
+              "Há um suspeito com sapatos sujos",
+              "Logo, ele pode ser o ladrão"
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, investigação, premissa, conclusão, sequência",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Alguns ursos são pardos. O Téo é urso.\"\n\nPode-se garantir que Téo é pardo?",
+          "data": {
+            "options": [
+              {
+                "description": "Não, \"alguns\" não garante que todos sejam.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Sim, com certeza é pardo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Sim, todo urso é pardo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Téo não é urso.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, algum, quantificador, conclusão inválida, cuidado",
+          "img": "m1-e02.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada quantificador ao seu significado.",
+          "data": {
+            "lefts": [
+              "Todo",
+              "Algum",
+              "Nenhum",
+              "Apenas um"
+            ],
+            "rights": [
+              "Pelo menos um",
+              "Zero deles",
+              "Exatamente um",
+              "Sem exceção"
+            ],
+            "pairs": [
+              {
+                "left": "Todo",
+                "right": "Sem exceção"
+              },
+              {
+                "left": "Algum",
+                "right": "Pelo menos um"
+              },
+              {
+                "left": "Nenhum",
+                "right": "Zero deles"
+              },
+              {
+                "left": "Apenas um",
+                "right": "Exatamente um"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, quantificadores, significado, vocabulário, associação",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene a dedução do Dado, da regra geral até o caso particular concluído.",
+          "data": {
+            "items": [
+              "Todo semáforo vermelho manda parar",
+              "O semáforo está vermelho",
+              "Logo, devo parar"
+            ]
+          },
+          "xp": 3,
+          "tags": "dedução, silogismo, regra, conclusão, sequência",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Todo dia que Gina treina, ela melhora. Hoje Gina treinou.\"\n\nDeduz-se que:",
+          "data": {
+            "options": [
+              {
+                "description": "Hoje Gina melhorou.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Hoje Gina piorou.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Gina não treinou hoje.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Gina nunca treina.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "dedução, premissa, conclusão, condição, todo",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada conclusão deduzida ao par de premissas que a gerou.",
+          "data": {
+            "lefts": [
+              "Logo, Olívia voa",
+              "Logo, o 6 é par",
+              "Logo, Pongo é um cão",
+              "Logo, Dado não voa"
+            ],
+            "rights": [
+              "\"Todo dálmata é cão. Pongo é dálmata.\"",
+              "\"Nenhum jacaré voa. Dado é jacaré.\"",
+              "\"Toda coruja voa. Olívia é coruja.\"",
+              "\"Todo número terminado em 6 é par. Este é 6.\""
+            ],
+            "pairs": [
+              {
+                "left": "Logo, Olívia voa",
+                "right": "\"Toda coruja voa. Olívia é coruja.\""
+              },
+              {
+                "left": "Logo, o 6 é par",
+                "right": "\"Todo número terminado em 6 é par. Este é 6.\""
+              },
+              {
+                "left": "Logo, Pongo é um cão",
+                "right": "\"Todo dálmata é cão. Pongo é dálmata.\""
+              },
+              {
+                "left": "Logo, Dado não voa",
+                "right": "\"Nenhum jacaré voa. Dado é jacaré.\""
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte a dedução em cadeia: \"Todo dálmata é cão\", \"Todo cão é animal\", \"Pongo é dálmata\", logo \"Pongo é animal\".",
+          "data": {
+            "items": [
+              "Todo dálmata é cão",
+              "Todo cão é animal",
+              "Pongo é dálmata",
+              "Logo, Pongo é animal"
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, cadeia lógica, transitividade, conclusão, sequência",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Nenhum peixe respira fora da água. O Nemo é peixe.\"\n\nA conclusão correta é:",
+          "data": {
+            "options": [
+              {
+                "description": "Nemo não respira fora da água.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Nemo respira fora da água.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nemo é um pássaro.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todo peixe voa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, nenhum, negação, conclusão",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O gato Pixel separa raciocínios válidos e inválidos em caixas. Combine cada dedução ao seu rótulo.",
+          "data": {
+            "lefts": [
+              "\"Todo A é B. X é A. Logo, X é B.\"",
+              "\"Todo A é B. X é B. Logo, X é A.\"",
+              "\"Nenhum A é B. X é A. Logo, X não é B.\"",
+              "\"Algum A é B. X é A. Logo, X é B.\""
+            ],
+            "rights": [
+              "Válido",
+              "Inválido",
+              "Válido",
+              "Inválido"
+            ],
+            "pairs": [
+              {
+                "left": "\"Todo A é B. X é A. Logo, X é B.\"",
+                "right": "Válido"
+              },
+              {
+                "left": "\"Todo A é B. X é B. Logo, X é A.\"",
+                "right": "Inválido"
+              },
+              {
+                "left": "\"Nenhum A é B. X é A. Logo, X não é B.\"",
+                "right": "Válido"
+              },
+              {
+                "left": "\"Algum A é B. X é A. Logo, X é B.\"",
+                "right": "Inválido"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, validade, silogismo, padrão, associação",
+          "img": "m2-e01.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene a investigação da Olívia, da regra geral à acusação final.",
+          "data": {
+            "items": [
+              "Todo quem entrou molhou o tapete",
+              "O tapete está molhado",
+              "Téo estava com as patas molhadas",
+              "Logo, Téo provavelmente entrou"
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, investigação, raciocínio, conclusão, sequência",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O gato Pixel guarda cada conclusão na caixa do quantificador certo. Combine a premissa de partida ao quantificador.",
+          "data": {
+            "lefts": [
+              "\"Cada pato nada.\"",
+              "\"Há gatos que dormem de dia.\"",
+              "\"Não existe peixe voador aqui.\"",
+              "\"Todos sem exceção comem.\""
+            ],
+            "rights": [
+              "Nenhum",
+              "Todo",
+              "Algum",
+              "Todos"
+            ],
+            "pairs": [
+              {
+                "left": "\"Cada pato nada.\"",
+                "right": "Todo"
+              },
+              {
+                "left": "\"Há gatos que dormem de dia.\"",
+                "right": "Algum"
+              },
+              {
+                "left": "\"Não existe peixe voador aqui.\"",
+                "right": "Nenhum"
+              },
+              {
+                "left": "\"Todos sem exceção comem.\"",
+                "right": "Todos"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, quantificadores, todo, algum, nenhum, associação",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O urso Téo ordena os blocos do silogismo do mais geral ao mais específico, terminando na conclusão.",
+          "data": {
+            "items": [
+              "Todo bloco maior fica embaixo",
+              "O bloco azul é o maior de todos",
+              "Logo, o bloco azul fica embaixo"
+            ]
+          },
+          "xp": 3,
+          "tags": "dedução, silogismo, premissa, conclusão, sequência",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada palavra-chave do enunciado ao papel que ela tem no silogismo.",
+          "data": {
+            "lefts": [
+              "\"Todo...\"",
+              "\"...é...\"",
+              "\"Logo,...\"",
+              "\"...não é...\""
+            ],
+            "rights": [
+              "Marca a conclusão",
+              "Liga sujeito e predicado",
+              "Indica negação",
+              "Indica algo universal"
+            ],
+            "pairs": [
+              {
+                "left": "\"Todo...\"",
+                "right": "Indica algo universal"
+              },
+              {
+                "left": "\"...é...\"",
+                "right": "Liga sujeito e predicado"
+              },
+              {
+                "left": "\"Logo,...\"",
+                "right": "Marca a conclusão"
+              },
+              {
+                "left": "\"...não é...\"",
+                "right": "Indica negação"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, estrutura, palavras-chave, associação",
+          "img": "m2-e42.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos para checar se uma conclusão é válida.",
+          "data": {
+            "items": [
+              "Identificar as premissas",
+              "Verificar se são verdadeiras",
+              "Ver se a conclusão sai delas",
+              "Aceitar ou rejeitar a conclusão"
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, validade, verificação, conclusão, sequência",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Todo herói da turma é corajoso. O Rex é herói da turma.\"\n\nQual conclusão é VÁLIDA?",
+          "data": {
+            "options": [
+              {
+                "description": "Rex é corajoso.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Todo corajoso é herói.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Rex tem medo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum herói é corajoso.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "dedução, silogismo, conclusão válida, todo, raciocínio",
+          "img": "m1-e11.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Premissas: \"Se o portão está aberto, o cachorro pode sair. O portão está fechado.\"\n\nO que se pode deduzir com segurança?",
+          "data": {
+            "options": [
+              {
+                "description": "Não temos como garantir só por isso que o cachorro saiu.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O cachorro com certeza saiu.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O portão está aberto.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O cachorro virou gato.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, condição, negação, conclusão, cuidado",
+          "img": "m2-e43.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O lobo Rex resolve cada pista do labirinto deduzindo. Combine cada par de premissas à conclusão correta.",
+          "data": {
+            "lefts": [
+              "\"Toda saída tem luz. Aqui não há luz.\"",
+              "\"Todo caminho certo tem seta. Este tem seta.\"",
+              "\"Nenhuma parede some. Aqui sumiu algo.\"",
+              "\"Todo atalho é mais curto. Este é atalho.\""
+            ],
+            "rights": [
+              "Logo, este é mais curto",
+              "Logo, aqui não é uma saída",
+              "Logo, este é um caminho certo",
+              "Logo, o que sumiu não é parede"
+            ],
+            "pairs": [
+              {
+                "left": "\"Toda saída tem luz. Aqui não há luz.\"",
+                "right": "Logo, aqui não é uma saída"
+              },
+              {
+                "left": "\"Todo caminho certo tem seta. Este tem seta.\"",
+                "right": "Logo, este é um caminho certo"
+              },
+              {
+                "left": "\"Nenhuma parede some. Aqui sumiu algo.\"",
+                "right": "Logo, o que sumiu não é parede"
+              },
+              {
+                "left": "\"Todo atalho é mais curto. Este é atalho.\"",
+                "right": "Logo, este é mais curto"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "img": "m2-e16.png"
+        }
+      ]
+    }
+  ]
+}
