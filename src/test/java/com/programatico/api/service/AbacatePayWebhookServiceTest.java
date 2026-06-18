@@ -1,0 +1,319 @@
+package com.programatico.api.service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programatico.api.domain.ProcessedAbacateWebhook;
+import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.SubscriptionType;
+import com.programatico.api.domain.enums.TipoUsuario;
+import com.programatico.api.repository.ProcessedAbacateWebhookRepository;
+import com.programatico.api.repository.UsuarioRepository;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Base64;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+class AbacatePayWebhookServiceTest {
+
+    private static final String WEBHOOK_SECRET = "segredo-webhook-teste";
+    private static final String HMAC_KEY = "chave-hmac-teste";
+
+    @Mock private ProcessedAbacateWebhookRepository processedRepository;
+    @Mock private UsuarioRepository usuarioRepository;
+    @Spy private ObjectMapper objectMapper = new ObjectMapper();
+
+    @InjectMocks
+    private AbacatePayWebhookService webhookService;
+
+    @BeforeEach
+    void configurarPropriedades() {
+        ReflectionTestUtils.setField(webhookService, "webhookSecretConfig", WEBHOOK_SECRET);
+        ReflectionTestUtils.setField(webhookService, "hmacKey", HMAC_KEY);
+        ReflectionTestUtils.setField(webhookService, "requireHmac", true);
+        ReflectionTestUtils.setField(webhookService, "rootDurationDays", 30);
+    }
+
+    @Test
+    void secretValidoDeveAceitarSegredoCorreto() {
+        assertTrue(webhookService.secretValido(WEBHOOK_SECRET));
+    }
+
+    @Test
+    void secretValidoDeveRejeitarSegredoIncorreto() {
+        assertFalse(webhookService.secretValido("outro-segredo"));
+    }
+
+    @Test
+    void secretValidoDeveRejeitarQuandoNaoConfigurado() {
+        ReflectionTestUtils.setField(webhookService, "webhookSecretConfig", "");
+        assertFalse(webhookService.secretValido(WEBHOOK_SECRET));
+    }
+
+    @Test
+    void assinaturaValidaDeveAceitarHmacCorreto() throws Exception {
+        String body = "{\"event\":\"checkout.completed\"}";
+        String assinatura = calcularHmac(body, HMAC_KEY);
+        assertTrue(webhookService.assinaturaValida(body, assinatura));
+    }
+
+    @Test
+    void assinaturaValidaDeveRejeitarHmacIncorreto() {
+        assertFalse(webhookService.assinaturaValida("{}", "assinatura-invalida"));
+    }
+
+    @Test
+    void assinaturaValidaDeveRejeitarQuandoHeaderAusente() {
+        assertFalse(webhookService.assinaturaValida("{}", null));
+    }
+
+    @Test
+    void assinaturaValidaDeveRejeitarQuandoChaveHmacNaoConfigurada() {
+        ReflectionTestUtils.setField(webhookService, "hmacKey", "");
+        assertFalse(webhookService.assinaturaValida("{}", "qualquer"));
+    }
+
+    @Test
+    void processarCheckoutCompletoPagoDeveAtivarPlanoRoot() throws Exception {
+        Usuario usuario = usuarioFree(42L);
+        when(processedRepository.existsById("evt-1")).thenReturn(false);
+        when(usuarioRepository.findById(42L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        String body = """
+                {
+                  "id": "evt-1",
+                  "event": "checkout.completed",
+                  "data": {
+                    "checkout": {
+                      "status": "PAID",
+                      "externalId": "42"
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+        assertNotNull(usuario.getSubscriptionExpiresAt());
+        verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
+        verify(usuarioRepository).save(usuario);
+    }
+
+    @Test
+    void processarEventoDuplicadoNaoDeveReativarPlano() throws Exception {
+        when(processedRepository.existsById("evt-dup")).thenReturn(true);
+
+        String body = """
+                {
+                  "id": "evt-dup",
+                  "event": "checkout.completed",
+                  "data": { "checkout": { "status": "PAID", "externalId": "1" } }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        verify(usuarioRepository, never()).findById(any());
+        verify(processedRepository, never()).save(any());
+    }
+
+    @Test
+    void processarEventoNaoPagoDeveMarcarComoProcessadoSemAtivar() throws Exception {
+        when(processedRepository.existsById("evt-pending")).thenReturn(false);
+
+        String body = """
+                {
+                  "id": "evt-pending",
+                  "event": "checkout.completed",
+                  "data": { "checkout": { "status": "PENDING", "externalId": "7" } }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        verify(usuarioRepository, never()).save(any());
+        verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
+    }
+
+    @Test
+    void processarPagoSemUserIdDeveIgnorarAtivacao() throws Exception {
+        when(processedRepository.existsById("evt-sem-user")).thenReturn(false);
+
+        String body = """
+                {
+                  "id": "evt-sem-user",
+                  "event": "checkout.completed",
+                  "data": { "checkout": { "status": "PAID", "externalId": "nao-numerico" } }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        verify(usuarioRepository, never()).save(any());
+        verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
+    }
+
+    @Test
+    void processarDeveExtrairUserIdDeMetadata() throws Exception {
+        Usuario usuario = usuarioFree(99L);
+        when(processedRepository.existsById("evt-meta")).thenReturn(false);
+        when(usuarioRepository.findById(99L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        String body = """
+                {
+                  "id": "evt-meta",
+                  "event": "checkout.completed",
+                  "metadata": { "userId": "99" },
+                  "data": { "checkout": { "status": "PAID" } }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+    }
+
+    @Test
+    void processarDeveAceitarConvençãoUserUnderscore() throws Exception {
+        Usuario usuario = usuarioFree(15L);
+        when(processedRepository.existsById("evt-conv")).thenReturn(false);
+        when(usuarioRepository.findById(15L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        String body = """
+                {
+                  "id": "evt-conv",
+                  "event": "transparent.completed",
+                  "data": {
+                    "transparent": {
+                      "status": "PAID",
+                      "externalId": "user_15"
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+    }
+
+    @Test
+    void processarSubscriptionRenewedDeveAtivarQuandoPagamentoPago() throws Exception {
+        Usuario usuario = usuarioFree(3L);
+        when(processedRepository.existsById("evt-sub")).thenReturn(false);
+        when(usuarioRepository.findById(3L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        String body = """
+                {
+                  "id": "evt-sub",
+                  "event": "subscription.renewed",
+                  "data": {
+                    "payment": { "status": "PAID", "externalId": "3" }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+    }
+
+    @Test
+    void processarSemIdDeveUsarEventIdSintetico() throws Exception {
+        Usuario usuario = usuarioFree(8L);
+        String eventIdEsperado = "synthetic:checkout.completed:chk_abc:2025-01-01T00:00:00Z";
+        when(processedRepository.existsById(eventIdEsperado)).thenReturn(false);
+        when(usuarioRepository.findById(8L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        String body = """
+                {
+                  "event": "checkout.completed",
+                  "data": {
+                    "checkout": {
+                      "id": "chk_abc",
+                      "status": "PAID",
+                      "externalId": "8",
+                      "updatedAt": "2025-01-01T00:00:00Z"
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        ArgumentCaptor<ProcessedAbacateWebhook> captor = ArgumentCaptor.forClass(ProcessedAbacateWebhook.class);
+        verify(processedRepository).save(captor.capture());
+        assertEquals(eventIdEsperado, captor.getValue().getEventId());
+        assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+    }
+
+    @Test
+    void ativarPlanoRootDeveDefinirExpiracaoConformeConfiguracao() {
+        Usuario usuario = usuarioFree(1L);
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        Instant antes = Instant.now();
+        webhookService.ativarPlanoRoot(1L);
+        Instant depois = Instant.now().plus(30, ChronoUnit.DAYS);
+
+        assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+        assertTrue(usuario.getSubscriptionExpiresAt().isAfter(antes.plus(29, ChronoUnit.DAYS)));
+        assertTrue(usuario.getSubscriptionExpiresAt().isBefore(depois.plus(1, ChronoUnit.DAYS)));
+    }
+
+    @Test
+    void ativarPlanoRootDeveIgnorarUsuarioInexistente() {
+        when(usuarioRepository.findById(999L)).thenReturn(Optional.empty());
+
+        webhookService.ativarPlanoRoot(999L);
+
+        verify(usuarioRepository, never()).save(any());
+    }
+
+    private static Usuario usuarioFree(Long id) {
+        return Usuario.builder()
+                .id(id)
+                .username("user-" + id)
+                .email("user" + id + "@test.com")
+                .senha("hash")
+                .ativo(true)
+                .role(TipoUsuario.USER)
+                .subscriptionType(SubscriptionType.FREE)
+                .build();
+    }
+
+    private static String calcularHmac(String body, String key) throws Exception {
+        Mac mac = Mac.getInstance("HmacSHA256");
+        mac.init(new SecretKeySpec(key.getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
+        byte[] digest = mac.doFinal(body.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(digest);
+    }
+}
