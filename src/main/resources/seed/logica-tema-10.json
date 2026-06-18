@@ -1,0 +1,934 @@
+{
+  "modules": [
+    {
+      "title": "Algoritmo passo a passo — uma receita de instruções",
+      "moduleType": "STUDY",
+      "displayOrder": 19,
+      "description": "Um algoritmo é uma sequência de passos na ordem certa para resolver uma tarefa. Aprenda a pensar como uma receita.",
+      "pages": [
+        {
+          "title": "O que é um algoritmo",
+          "description": "Uma sequência de passos para realizar uma tarefa.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Um algoritmo é uma lista de instruções, na ordem certa, para realizar uma tarefa do começo ao fim.\n\nVocê já segue algoritmos no dia a dia: escovar os dentes, fazer um sanduíche ou se arrumar para sair são sequências de passos."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e03.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Cada passo é uma instrução simples e clara. O gato Pixel, ao seguir um checklist na cozinha, faz um passo de cada vez até terminar a receita.\n\nQuando os passos são claros, qualquer um consegue repetir a tarefa e chegar ao mesmo resultado."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Pensar em algoritmo é o coração da lógica de programação: dividir uma tarefa grande em passos pequenos e organizados."
+            }
+          ]
+        },
+        {
+          "title": "A ordem dos passos importa",
+          "description": "Trocar a ordem pode estragar o resultado.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Em um algoritmo, a ordem dos passos faz toda a diferença. Alguns passos só fazem sentido depois de outros.\n\nO urso Téo precisa colocar a água antes de ferver o macarrão — fazer o contrário não funciona."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e02.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Antes de sair de casa, você calça os sapatos depois de vestir as meias. Trocar a ordem deixaria a meia por cima do sapato!\n\nPor isso, ao montar um algoritmo, pergunte sempre: o que precisa vir primeiro? E o que só pode vir depois?"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Quando cada passo está no lugar certo, a tarefa flui sem erros do início ao fim."
+            }
+          ]
+        },
+        {
+          "title": "Passos claros e completos",
+          "description": "Sem pular etapas e sem deixar dúvidas.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Um bom algoritmo não pula etapas e não deixa dúvidas. Cada passo precisa ser claro o bastante para ser seguido sem adivinhação.\n\nA coruja Olívia, ao organizar os livros, escreve cada passo com cuidado: pegar o livro, ler o título, colocar na prateleira certa."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e01.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Se um passo estiver faltando, a tarefa não termina direito. Esquecer de molhar o pincel antes de pintar deixa o desenho seco e sem cor.\n\nÉ útil revisar o algoritmo do começo ao fim, imaginando-se seguindo cada instrução."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos exercícios a seguir você vai praticar: identificar o primeiro passo, ordenar receitas, ligar tarefas aos seus passos e descobrir o que acontece quando a ordem é trocada."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Algoritmo passo a passo — ordene, relacione e escolha",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 20,
+      "description": "Coloque os passos na ordem certa, ligue cada tarefa às suas etapas e escolha o passo correto em cada cenário com os mascotes.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel vai fazer um sanduíche. Qual deve ser o PRIMEIRO passo?",
+          "data": {
+            "options": [
+              {
+                "description": "Pegar as fatias de pão.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Dar uma mordida no sanduíche.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Guardar o sanduíche na geladeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Lavar o prato sujo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, primeiro passo, sequência, receita, sanduíche",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O que é um algoritmo?",
+          "data": {
+            "options": [
+              {
+                "description": "Uma sequência de passos na ordem certa para fazer uma tarefa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Um único passo solto, sem ordem nenhuma.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Um desenho colorido sem instruções.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Uma lista de passos embaralhados ao acaso.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, conceito, definição, passo a passo",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo está se arrumando. Qual passo deve vir ANTES de calçar o sapato?",
+          "data": {
+            "options": [
+              {
+                "description": "Vestir a meia.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Amarrar o cadarço do sapato.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Sair correndo pela porta.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Tirar o sapato do pé.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, ordem dos passos, antes e depois, vestir",
+          "img": "m1-e02.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia vai guardar um livro na prateleira. Qual é o ÚLTIMO passo?",
+          "data": {
+            "options": [
+              {
+                "description": "Colocar o livro na prateleira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Pegar o livro da caixa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Ler o título do livro.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Procurar a prateleira certa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, último passo, sequência, organizar livros",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Por que a ORDEM dos passos é importante em um algoritmo?",
+          "data": {
+            "options": [
+              {
+                "description": "Porque alguns passos só funcionam depois de outros.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Porque a ordem nunca muda o resultado.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque os passos podem ficar em qualquer ordem.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque só o último passo conta de verdade.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, ordem dos passos, importância, sequência",
+          "img": "m2-e58.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina vai escovar os dentes. Qual passo está NA POSIÇÃO ERRADA?",
+          "data": {
+            "options": [
+              {
+                "description": "Enxaguar a boca antes de colocar a pasta na escova.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Pegar a escova de dentes.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Colocar a pasta na escova.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Escovar os dentes.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, ordem errada, passo fora de lugar, escovar dentes",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado quer atravessar a rua com segurança. Qual deve ser o PRIMEIRO passo?",
+          "data": {
+            "options": [
+              {
+                "description": "Olhar para os dois lados.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Correr sem olhar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Atravessar de olhos fechados.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Sentar no meio da faixa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, primeiro passo, segurança, atravessar rua",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O que acontece com a receita se o gato Pixel TROCAR a ordem dos passos?",
+          "data": {
+            "options": [
+              {
+                "description": "A receita pode dar errado ou não funcionar.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A receita fica sempre igual, sem mudar nada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A receita fica pronta mais rápido e perfeita.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Os passos somem e não precisam mais existir.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, trocar ordem, consequência, receita",
+          "img": "m2-e59.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O dálmata Pongo está cumprindo sua lista de tarefas. O que torna um passo BEM ESCRITO?",
+          "data": {
+            "options": [
+              {
+                "description": "Ser claro e fácil de seguir, sem deixar dúvidas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Ser confuso e cheio de adivinhações.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pular etapas importantes da tarefa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Estar escrito de cabeça para baixo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, passo claro, instrução, lista de tarefas",
+          "img": "m1-e07.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo escreveu uma receita, mas ESQUECEU um passo. Qual é o problema?",
+          "data": {
+            "options": [
+              {
+                "description": "A tarefa pode não terminar direito por causa da etapa faltando.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Faltar um passo deixa a receita melhor.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não muda nada esquecer um passo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O algoritmo termina mais rápido e sem erros.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, passo faltando, etapa esquecida, completude",
+          "img": "m1-e09.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque na ordem certa os passos do gato Pixel para fazer um sanduíche.",
+          "data": {
+            "items": [
+              "Pegar as fatias de pão",
+              "Colocar o recheio entre as fatias",
+              "Fechar o sanduíche",
+              "Comer o sanduíche"
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, ordenar passos, receita, sanduíche, sequência",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do urso Téo para se arrumar para sair.",
+          "data": {
+            "items": [
+              "Vestir a meia",
+              "Calçar o sapato",
+              "Amarrar o cadarço"
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, ordenar passos, vestir, sequência, sapato",
+          "img": "m1-e02.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem os passos da girafa Gina para escovar os dentes.",
+          "data": {
+            "items": [
+              "Pegar a escova",
+              "Colocar a pasta na escova",
+              "Escovar os dentes",
+              "Enxaguar a boca"
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, ordenar passos, escovar dentes, sequência, higiene",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do jacaré Dado para atravessar a rua com segurança.",
+          "data": {
+            "items": [
+              "Parar na beira da calçada",
+              "Olhar para os dois lados",
+              "Esperar não vir nenhum carro",
+              "Atravessar pela faixa"
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, ordenar passos, atravessar rua, segurança, faixa",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque na ordem certa os passos da coruja Olívia para guardar um livro.",
+          "data": {
+            "items": [
+              "Pegar o livro da caixa",
+              "Ler o título do livro",
+              "Encontrar a prateleira certa",
+              "Colocar o livro na prateleira"
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, ordenar passos, organizar livros, sequência, biblioteca",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do urso Téo para preparar e ferver o macarrão.",
+          "data": {
+            "items": [
+              "Colocar água na panela",
+              "Esperar a água ferver",
+              "Pôr o macarrão na água",
+              "Escorrer o macarrão pronto"
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, ordenar passos, receita, macarrão, sequência",
+          "img": "m2-e60.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem os passos do dálmata Pongo para regar uma plantinha.",
+          "data": {
+            "items": [
+              "Pegar o regador",
+              "Encher o regador com água",
+              "Regar a plantinha"
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, ordenar passos, regar planta, sequência, tarefa",
+          "img": "m1-e07.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do lobo Rex para montar um quebra-cabeça.",
+          "data": {
+            "items": [
+              "Abrir a caixa do quebra-cabeça",
+              "Separar as peças das bordas",
+              "Montar a moldura primeiro",
+              "Encaixar as peças do meio"
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, ordenar passos, quebra-cabeça, sequência, montar",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque na ordem certa os passos do gato Pixel para fazer um suco de laranja.",
+          "data": {
+            "items": [
+              "Cortar as laranjas ao meio",
+              "Espremer as laranjas",
+              "Coar o suco no copo",
+              "Beber o suco"
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, ordenar passos, receita, suco, sequência",
+          "img": "m2-e61.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos da girafa Gina para resolver um exercício no tablet.",
+          "data": {
+            "items": [
+              "Ler o enunciado do problema",
+              "Pensar na resposta certa",
+              "Tocar na opção escolhida",
+              "Confirmar a resposta"
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, ordenar passos, estudar, sequência, tablet",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada tarefa ao seu PRIMEIRO passo correto.",
+          "data": {
+            "lefts": [
+              "Fazer um sanduíche",
+              "Regar a planta",
+              "Atravessar a rua",
+              "Guardar um livro"
+            ],
+            "rights": [
+              "Pegar o regador",
+              "Olhar para os dois lados",
+              "Pegar as fatias de pão",
+              "Pegar o livro da caixa"
+            ],
+            "pairs": [
+              {
+                "left": "Fazer um sanduíche",
+                "right": "Pegar as fatias de pão"
+              },
+              {
+                "left": "Regar a planta",
+                "right": "Pegar o regador"
+              },
+              {
+                "left": "Atravessar a rua",
+                "right": "Olhar para os dois lados"
+              },
+              {
+                "left": "Guardar um livro",
+                "right": "Pegar o livro da caixa"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, primeiro passo, relacionar, pares, tarefas",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada tarefa, encontre o ÚLTIMO passo correspondente.",
+          "data": {
+            "lefts": [
+              "Fazer um suco",
+              "Escovar os dentes",
+              "Montar quebra-cabeça",
+              "Ferver o macarrão"
+            ],
+            "rights": [
+              "Enxaguar a boca",
+              "Encaixar as peças do meio",
+              "Beber o suco",
+              "Escorrer o macarrão"
+            ],
+            "pairs": [
+              {
+                "left": "Fazer um suco",
+                "right": "Beber o suco"
+              },
+              {
+                "left": "Escovar os dentes",
+                "right": "Enxaguar a boca"
+              },
+              {
+                "left": "Montar quebra-cabeça",
+                "right": "Encaixar as peças do meio"
+              },
+              {
+                "left": "Ferver o macarrão",
+                "right": "Escorrer o macarrão"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, último passo, relacionar, pares, tarefas",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada mascote à tarefa que ele está realizando.",
+          "data": {
+            "lefts": [
+              "Gato Pixel",
+              "Jacaré Dado",
+              "Coruja Olívia",
+              "Dálmata Pongo"
+            ],
+            "rights": [
+              "Segue a lista de tarefas",
+              "Cozinha com checklist",
+              "Atravessa na faixa",
+              "Organiza os livros"
+            ],
+            "pairs": [
+              {
+                "left": "Gato Pixel",
+                "right": "Cozinha com checklist"
+              },
+              {
+                "left": "Jacaré Dado",
+                "right": "Atravessa na faixa"
+              },
+              {
+                "left": "Coruja Olívia",
+                "right": "Organiza os livros"
+              },
+              {
+                "left": "Dálmata Pongo",
+                "right": "Segue a lista de tarefas"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "algoritmo, mascotes, tarefas, relacionar, pares",
+          "img": "m2-e62.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada passo ao MOMENTO em que ele acontece na receita do sanduíche.",
+          "data": {
+            "lefts": [
+              "Pegar as fatias de pão",
+              "Colocar o recheio",
+              "Fechar o sanduíche",
+              "Comer o sanduíche"
+            ],
+            "rights": [
+              "Segundo passo",
+              "Quarto passo",
+              "Primeiro passo",
+              "Terceiro passo"
+            ],
+            "pairs": [
+              {
+                "left": "Pegar as fatias de pão",
+                "right": "Primeiro passo"
+              },
+              {
+                "left": "Colocar o recheio",
+                "right": "Segundo passo"
+              },
+              {
+                "left": "Fechar o sanduíche",
+                "right": "Terceiro passo"
+              },
+              {
+                "left": "Comer o sanduíche",
+                "right": "Quarto passo"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, ordem dos passos, momento, relacionar, sanduíche",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada passo da girafa Gina à sua posição na sequência de escovar os dentes.",
+          "data": {
+            "lefts": [
+              "Pegar a escova",
+              "Colocar a pasta",
+              "Escovar os dentes",
+              "Enxaguar a boca"
+            ],
+            "rights": [
+              "Quarto passo",
+              "Primeiro passo",
+              "Terceiro passo",
+              "Segundo passo"
+            ],
+            "pairs": [
+              {
+                "left": "Pegar a escova",
+                "right": "Primeiro passo"
+              },
+              {
+                "left": "Colocar a pasta",
+                "right": "Segundo passo"
+              },
+              {
+                "left": "Escovar os dentes",
+                "right": "Terceiro passo"
+              },
+              {
+                "left": "Enxaguar a boca",
+                "right": "Quarto passo"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, posição do passo, sequência, relacionar, higiene",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada passo de ferver o macarrão, encontre o passo que vem LOGO DEPOIS.",
+          "data": {
+            "lefts": [
+              "Colocar água na panela",
+              "Esperar a água ferver",
+              "Pôr o macarrão na água",
+              "Escorrer o macarrão"
+            ],
+            "rights": [
+              "Esperar a água ferver",
+              "Servir no prato",
+              "Pôr o macarrão na água",
+              "Escorrer o macarrão"
+            ],
+            "pairs": [
+              {
+                "left": "Colocar água na panela",
+                "right": "Esperar a água ferver"
+              },
+              {
+                "left": "Esperar a água ferver",
+                "right": "Pôr o macarrão na água"
+              },
+              {
+                "left": "Pôr o macarrão na água",
+                "right": "Escorrer o macarrão"
+              },
+              {
+                "left": "Escorrer o macarrão",
+                "right": "Servir no prato"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, próximo passo, sequência, relacionar, macarrão",
+          "img": "m1-e02.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada tarefa do dia a dia ao passo que NÃO pode faltar nela.",
+          "data": {
+            "lefts": [
+              "Regar a planta",
+              "Fazer um suco",
+              "Montar quebra-cabeça",
+              "Atravessar a rua"
+            ],
+            "rights": [
+              "Espremer as laranjas",
+              "Encher o regador com água",
+              "Esperar não vir carro",
+              "Encaixar as peças"
+            ],
+            "pairs": [
+              {
+                "left": "Regar a planta",
+                "right": "Encher o regador com água"
+              },
+              {
+                "left": "Fazer um suco",
+                "right": "Espremer as laranjas"
+              },
+              {
+                "left": "Montar quebra-cabeça",
+                "right": "Encaixar as peças"
+              },
+              {
+                "left": "Atravessar a rua",
+                "right": "Esperar não vir carro"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, passo essencial, relacionar, pares, tarefas",
+          "img": "m1-e07.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada palavra de ordem ao passo que ela representa numa sequência.",
+          "data": {
+            "lefts": [
+              "Primeiro",
+              "Depois",
+              "Em seguida",
+              "Por último"
+            ],
+            "rights": [
+              "O passo do meio",
+              "O passo inicial",
+              "O passo final",
+              "O passo após o início"
+            ],
+            "pairs": [
+              {
+                "left": "Primeiro",
+                "right": "O passo inicial"
+              },
+              {
+                "left": "Depois",
+                "right": "O passo após o início"
+              },
+              {
+                "left": "Em seguida",
+                "right": "O passo do meio"
+              },
+              {
+                "left": "Por último",
+                "right": "O passo final"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, palavras de ordem, sequência, relacionar, vocabulário",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada mascote ao primeiro passo da tarefa que ele faz.",
+          "data": {
+            "lefts": [
+              "Urso Téo se arrumando",
+              "Coruja Olívia organizando",
+              "Gato Pixel cozinhando",
+              "Lobo Rex montando"
+            ],
+            "rights": [
+              "Pegar o livro da caixa",
+              "Vestir a meia",
+              "Abrir a caixa do quebra-cabeça",
+              "Pegar as fatias de pão"
+            ],
+            "pairs": [
+              {
+                "left": "Urso Téo se arrumando",
+                "right": "Vestir a meia"
+              },
+              {
+                "left": "Coruja Olívia organizando",
+                "right": "Pegar o livro da caixa"
+              },
+              {
+                "left": "Gato Pixel cozinhando",
+                "right": "Pegar as fatias de pão"
+              },
+              {
+                "left": "Lobo Rex montando",
+                "right": "Abrir a caixa do quebra-cabeça"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "algoritmo, primeiro passo, mascotes, relacionar, pares",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada problema de ordem, ligue à correção certa.",
+          "data": {
+            "lefts": [
+              "Calçar o sapato antes da meia",
+              "Comer antes de fechar o sanduíche",
+              "Atravessar antes de olhar",
+              "Beber o suco antes de coar"
+            ],
+            "rights": [
+              "Olhar e depois atravessar",
+              "Vestir a meia e depois o sapato",
+              "Coar e depois beber",
+              "Fechar e depois comer"
+            ],
+            "pairs": [
+              {
+                "left": "Calçar o sapato antes da meia",
+                "right": "Vestir a meia e depois o sapato"
+              },
+              {
+                "left": "Comer antes de fechar o sanduíche",
+                "right": "Fechar e depois comer"
+              },
+              {
+                "left": "Atravessar antes de olhar",
+                "right": "Olhar e depois atravessar"
+              },
+              {
+                "left": "Beber o suco antes de coar",
+                "right": "Coar e depois beber"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "algoritmo, corrigir ordem, sequência, relacionar, erro",
+          "img": "m2-e58.png"
+        }
+      ]
+    }
+  ]
+}

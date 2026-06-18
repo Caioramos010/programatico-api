@@ -1,0 +1,929 @@
+{
+  "modules": [
+    {
+      "title": "Repetição (laços) — fazer de novo até dar certo",
+      "moduleType": "STUDY",
+      "displayOrder": 21,
+      "description": "Em vez de repetir o mesmo passo várias vezes escrevendo tudo, usamos um laço: repetir até uma condição, contar e saber a hora de parar.",
+      "pages": [
+        {
+          "title": "O que é repetir (laço)",
+          "description": "Fazer a mesma ação várias vezes sem reescrever tudo.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Repetir é fazer a mesma ação de novo, mais de uma vez. Em lógica de programação chamamos isso de laço (ou repetição).\n\nEm vez de escrever \"dá um passo, dá um passo, dá um passo, dá um passo\", dizemos só: \"dá um passo, repita\". É mais curto e mais fácil de entender."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e14.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Pense no lobo Rex correndo numa pista em formato de seta que volta para o começo: cada volta ele faz a mesma coisa de novo. Isso é um laço.\n\nO laço serve para qualquer tarefa repetida: regar várias plantas, separar várias bolas, contar vários degraus."
+            }
+          ]
+        },
+        {
+          "title": "Repetir até uma condição e contar",
+          "description": "O laço precisa saber quando continuar e quando parar.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Todo laço repete ENQUANTO uma condição for verdadeira. Quando a condição deixa de valer, o laço para.\n\nExemplo: a girafa Gina rega plantas \"enquanto ainda houver planta com sede\". Assim que todas estiverem regadas, ela para."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e10.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Muitas vezes usamos um contador: um número que aumenta a cada repetição. \"Repita 5 vezes\" quer dizer: comece em 1, faça a ação, soma 1 no contador, e pare quando chegar em 5.\n\nO urso Téo conta nos dedos: 1, 2, 3… cada dedo é uma volta do laço."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Contar é a forma mais comum de repetir um número exato de vezes. Repetir até uma condição é melhor quando você não sabe quantas vezes vai precisar."
+            }
+          ]
+        },
+        {
+          "title": "A hora de parar (limite)",
+          "description": "Todo laço precisa de uma saída, senão repete para sempre.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Um laço sem condição de parada nunca termina — fica repetindo para sempre. Isso é um laço infinito, e é um erro.\n\nPor isso todo laço precisa de um limite: um número máximo de voltas ou uma condição que uma hora deixa de valer."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e08.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "O robô do urso Téo anda \"enquanto a bateria não acabar\". A bateria descarregando é o limite: uma hora ela acaba e o laço para sozinho.\n\nSe o contador sempre aumenta e a condição é \"pare ao chegar em 10\", o laço com certeza vai parar — porque o contador chega lá."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos exercícios a seguir você vai treinar: identificar o que se repete, descobrir a condição de parada, contar as voltas e colocar os passos de um laço na ordem certa."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Repetição (laços) — conte, repita e saiba a hora de parar",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 22,
+      "description": "Pratique laços com os mascotes: descubra o que se repete, conte as voltas, encontre a condição de parada e organize os passos.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina precisa regar 5 plantas, uma de cada vez. O que é a parte REPETIDA dessa tarefa?",
+          "data": {
+            "options": [
+              {
+                "description": "Regar uma planta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Comprar plantas novas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Jogar fora o regador.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Trocar de jardim.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, laço, ação repetida, regar plantas",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo conta nos dedos: 1, 2, 3, 4, 5. Cada vez que ele soma 1, isso é o quê?",
+          "data": {
+            "options": [
+              {
+                "description": "Uma volta do laço (uma repetição).",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O fim do laço.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Um erro de contagem.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Um número que diminui.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, contador, contar, laço",
+          "img": "m1-e13.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Um laço diz: \"dê um passo, REPITA\", mas não diz quando parar. O que vai acontecer?",
+          "data": {
+            "options": [
+              {
+                "description": "Vai repetir para sempre (laço infinito).",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Vai parar depois de um passo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Vai dar exatamente 3 passos.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não vai dar nenhum passo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, laço infinito, condição de parada, erro",
+          "img": "m2-e14.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel separa bolas em caixas \"enquanto ainda houver bola na mesa\". Quando o laço para?",
+          "data": {
+            "options": [
+              {
+                "description": "Quando não sobrar nenhuma bola na mesa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Logo na primeira bola.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nunca, ele separa para sempre.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Quando aparece uma bola nova.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, enquanto, separar bolas",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia quer ler exatamente 3 livros. Qual instrução conta certo as repetições?",
+          "data": {
+            "options": [
+              {
+                "description": "Repita \"ler um livro\" 3 vezes.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Repita \"ler um livro\" para sempre.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Leia meio livro e pare.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não leia nenhum livro.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, contar, número exato de vezes, livros",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O robô do urso Téo anda \"enquanto a bateria não acabar\". O que faz o laço parar sozinho?",
+          "data": {
+            "options": [
+              {
+                "description": "A bateria descarregar até acabar.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O robô ganhar mais bateria.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O robô andar mais rápido.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nada, ele anda para sempre.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, limite, bateria",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do lobo Rex correndo na pista em laço até completar 3 voltas.",
+          "data": {
+            "items": [
+              "Rex corre uma volta na pista",
+              "Soma 1 ao número de voltas",
+              "Volta ao começo e corre de novo",
+              "Para ao completar 3 voltas"
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, laço, contar voltas, ordem dos passos, corrida",
+          "img": "m2-e14.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Um contador começa em 1 e aumenta de 1 em 1. A regra é: \"pare ao chegar em 4\". Quantas voltas o laço faz?",
+          "data": {
+            "options": [
+              {
+                "description": "4 voltas (1, 2, 3 e 4).",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "1 volta só.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Infinitas voltas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhuma volta.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, contador, contar voltas, limite",
+          "img": "m2-e63.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O dálmata Pongo entrega cartas \"enquanto a bolsa não estiver vazia\". Qual frase descreve a condição de parada?",
+          "data": {
+            "options": [
+              {
+                "description": "Parar quando a bolsa ficar vazia.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Parar quando a bolsa estiver cheia.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nunca parar de entregar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Parar na primeira carta.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, enquanto, entregar cartas",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Por que usar um laço é melhor do que escrever a mesma ação 100 vezes?",
+          "data": {
+            "options": [
+              {
+                "description": "Fica mais curto e fácil de entender e mudar.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Porque o computador fica mais lento.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque deixa de fazer a ação.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque some com os passos.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, laço, vantagem, organização",
+          "img": "m2-e64.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado precisa subir uma escada \"enquanto não chegar no último degrau\". O que é o LIMITE desse laço?",
+          "data": {
+            "options": [
+              {
+                "description": "Chegar no último degrau.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O primeiro degrau.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Descer a escada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não existe limite.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, limite, condição de parada, escada",
+          "img": "m2-e65.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada tarefa repetida com o que se repete a cada volta.",
+          "data": {
+            "lefts": [
+              "Regar 5 plantas",
+              "Entregar várias cartas",
+              "Separar bolas em caixas",
+              "Subir uma escada"
+            ],
+            "rights": [
+              "Colocar uma bola na caixa",
+              "Regar uma planta",
+              "Subir um degrau",
+              "Entregar uma carta"
+            ],
+            "pairs": [
+              {
+                "left": "Regar 5 plantas",
+                "right": "Regar uma planta"
+              },
+              {
+                "left": "Entregar várias cartas",
+                "right": "Entregar uma carta"
+              },
+              {
+                "left": "Separar bolas em caixas",
+                "right": "Colocar uma bola na caixa"
+              },
+              {
+                "left": "Subir uma escada",
+                "right": "Subir um degrau"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, ação repetida, relacionar, pares",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada laço, ligue à sua condição de parada.",
+          "data": {
+            "lefts": [
+              "Regar plantas",
+              "Robô andando",
+              "Entregar cartas",
+              "Subir escada"
+            ],
+            "rights": [
+              "Quando a bateria acaba",
+              "Quando não há mais planta com sede",
+              "Quando chega no último degrau",
+              "Quando a bolsa fica vazia"
+            ],
+            "pairs": [
+              {
+                "left": "Regar plantas",
+                "right": "Quando não há mais planta com sede"
+              },
+              {
+                "left": "Robô andando",
+                "right": "Quando a bateria acaba"
+              },
+              {
+                "left": "Entregar cartas",
+                "right": "Quando a bolsa fica vazia"
+              },
+              {
+                "left": "Subir escada",
+                "right": "Quando chega no último degrau"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, relacionar, pares",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada instrução de contagem ao número de voltas que ela faz.",
+          "data": {
+            "lefts": [
+              "Repita 2 vezes",
+              "Repita 3 vezes",
+              "Repita 5 vezes",
+              "Repita 1 vez"
+            ],
+            "rights": [
+              "3 voltas",
+              "1 volta",
+              "5 voltas",
+              "2 voltas"
+            ],
+            "pairs": [
+              {
+                "left": "Repita 2 vezes",
+                "right": "2 voltas"
+              },
+              {
+                "left": "Repita 3 vezes",
+                "right": "3 voltas"
+              },
+              {
+                "left": "Repita 5 vezes",
+                "right": "5 voltas"
+              },
+              {
+                "left": "Repita 1 vez",
+                "right": "1 volta"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, contar, número de voltas, pares",
+          "img": "m2-e66.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada mascote tem uma tarefa repetida. Ligue ao mascote certo.",
+          "data": {
+            "lefts": [
+              "Conta nos dedos",
+              "Rega a plantinha",
+              "Corre na pista em laço",
+              "Entrega cartas nas caixas"
+            ],
+            "rights": [
+              "Lobo Rex",
+              "Urso Téo",
+              "Dálmata Pongo",
+              "Girafa Gina"
+            ],
+            "pairs": [
+              {
+                "left": "Conta nos dedos",
+                "right": "Urso Téo"
+              },
+              {
+                "left": "Rega a plantinha",
+                "right": "Girafa Gina"
+              },
+              {
+                "left": "Corre na pista em laço",
+                "right": "Lobo Rex"
+              },
+              {
+                "left": "Entrega cartas nas caixas",
+                "right": "Dálmata Pongo"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, mascotes, tarefa repetida, pares",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada situação ao tipo de laço mais adequado.",
+          "data": {
+            "lefts": [
+              "Ler exatamente 3 livros",
+              "Regar até não ter planta com sede",
+              "Dar 10 passos",
+              "Andar até a bateria acabar"
+            ],
+            "rights": [
+              "Contar 10 vezes",
+              "Repetir até uma condição",
+              "Contar 3 vezes",
+              "Repetir até a bateria acabar"
+            ],
+            "pairs": [
+              {
+                "left": "Ler exatamente 3 livros",
+                "right": "Contar 3 vezes"
+              },
+              {
+                "left": "Regar até não ter planta com sede",
+                "right": "Repetir até uma condição"
+              },
+              {
+                "left": "Dar 10 passos",
+                "right": "Contar 10 vezes"
+              },
+              {
+                "left": "Andar até a bateria acabar",
+                "right": "Repetir até a bateria acabar"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "repetição, contar, repetir até condição, pares",
+          "img": "m2-e14.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada contador final ao número de voltas que o laço fez.",
+          "data": {
+            "lefts": [
+              "Parou ao chegar em 2",
+              "Parou ao chegar em 4",
+              "Parou ao chegar em 6",
+              "Parou ao chegar em 8"
+            ],
+            "rights": [
+              "6 voltas",
+              "2 voltas",
+              "8 voltas",
+              "4 voltas"
+            ],
+            "pairs": [
+              {
+                "left": "Parou ao chegar em 2",
+                "right": "2 voltas"
+              },
+              {
+                "left": "Parou ao chegar em 4",
+                "right": "4 voltas"
+              },
+              {
+                "left": "Parou ao chegar em 6",
+                "right": "6 voltas"
+              },
+              {
+                "left": "Parou ao chegar em 8",
+                "right": "8 voltas"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, contador, contar voltas, pares",
+          "img": "m2-e63.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada termo de laço à sua explicação.",
+          "data": {
+            "lefts": [
+              "Repetição",
+              "Contador",
+              "Condição de parada",
+              "Laço infinito"
+            ],
+            "rights": [
+              "Número que aumenta a cada volta",
+              "Quando nunca para",
+              "Fazer a mesma ação de novo",
+              "O que diz a hora de parar"
+            ],
+            "pairs": [
+              {
+                "left": "Repetição",
+                "right": "Fazer a mesma ação de novo"
+              },
+              {
+                "left": "Contador",
+                "right": "Número que aumenta a cada volta"
+              },
+              {
+                "left": "Condição de parada",
+                "right": "O que diz a hora de parar"
+              },
+              {
+                "left": "Laço infinito",
+                "right": "Quando nunca para"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, conceitos, contador, condição de parada, pares",
+          "img": "m2-e64.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada tarefa tem um \"enquanto\". Ligue corretamente.",
+          "data": {
+            "lefts": [
+              "Separar bolas",
+              "Subir degraus",
+              "Empurrar dominós",
+              "Ordenar blocos"
+            ],
+            "rights": [
+              "Enquanto a fila não estiver toda caída",
+              "Enquanto houver bola na mesa",
+              "Enquanto não estiverem em ordem",
+              "Enquanto não chegar no topo"
+            ],
+            "pairs": [
+              {
+                "left": "Separar bolas",
+                "right": "Enquanto houver bola na mesa"
+              },
+              {
+                "left": "Subir degraus",
+                "right": "Enquanto não chegar no topo"
+              },
+              {
+                "left": "Empurrar dominós",
+                "right": "Enquanto a fila não estiver toda caída"
+              },
+              {
+                "left": "Ordenar blocos",
+                "right": "Enquanto não estiverem em ordem"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "repetição, enquanto, condição, pares",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada quantidade de itens ao número de repetições necessárias (uma por item).",
+          "data": {
+            "lefts": [
+              "3 cartas para entregar",
+              "5 plantas para regar",
+              "4 bolas para guardar",
+              "2 livros para ler"
+            ],
+            "rights": [
+              "5 repetições",
+              "2 repetições",
+              "3 repetições",
+              "4 repetições"
+            ],
+            "pairs": [
+              {
+                "left": "3 cartas para entregar",
+                "right": "3 repetições"
+              },
+              {
+                "left": "5 plantas para regar",
+                "right": "5 repetições"
+              },
+              {
+                "left": "4 bolas para guardar",
+                "right": "4 repetições"
+              },
+              {
+                "left": "2 livros para ler",
+                "right": "2 repetições"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, contar, uma por item, pares",
+          "img": "m2-e65.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada laço ao seu resultado ao terminar.",
+          "data": {
+            "lefts": [
+              "Regar enquanto houver sede",
+              "Empurrar dominós em fila",
+              "Subir até o último degrau",
+              "Entregar até a bolsa vaziar"
+            ],
+            "rights": [
+              "Chega ao topo da escada",
+              "Todas as plantas regadas",
+              "Todas as cartas entregues",
+              "Toda a fila caída"
+            ],
+            "pairs": [
+              {
+                "left": "Regar enquanto houver sede",
+                "right": "Todas as plantas regadas"
+              },
+              {
+                "left": "Empurrar dominós em fila",
+                "right": "Toda a fila caída"
+              },
+              {
+                "left": "Subir até o último degrau",
+                "right": "Chega ao topo da escada"
+              },
+              {
+                "left": "Entregar até a bolsa vaziar",
+                "right": "Todas as cartas entregues"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "repetição, resultado do laço, condição de parada, pares",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque na ordem certa os passos de um laço que conta de 1 a 3.",
+          "data": {
+            "items": [
+              "Começa o contador em 1",
+              "Faz a ação e soma 1 no contador",
+              "Chega em 3 e para o laço"
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, contador, ordem dos passos, contar",
+          "img": "m1-e13.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos da girafa Gina regando todas as plantas com um laço.",
+          "data": {
+            "items": [
+              "Olha se ainda há planta com sede",
+              "Rega a próxima planta",
+              "Repete até não sobrar planta com sede",
+              "Para porque todas estão regadas"
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, ordem dos passos, regar plantas",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Organize a sequência do robô do urso Téo andando até a bateria acabar.",
+          "data": {
+            "items": [
+              "O robô dá um passo",
+              "A bateria gasta um pouco",
+              "Repete enquanto a bateria não acaba",
+              "A bateria acaba e o robô para"
+            ]
+          },
+          "xp": 7,
+          "tags": "repetição, condição de parada, limite, ordem dos passos, bateria",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem como o gato Pixel separa todas as bolas em caixas.",
+          "data": {
+            "items": [
+              "Pega uma bola da mesa",
+              "Coloca a bola na caixa certa",
+              "Repete enquanto houver bola na mesa",
+              "Para quando a mesa fica vazia"
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, ordem dos passos, separar bolas",
+          "img": "m2-e66.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do dálmata Pongo entregando 3 cartas, uma por vez.",
+          "data": {
+            "items": [
+              "Pega uma carta da bolsa",
+              "Entrega a carta na caixa de correio",
+              "Repete até entregar as 3 cartas"
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, contar, ordem dos passos, entregar cartas",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Organize a corrente de dominós que o lobo Rex derruba num laço.",
+          "data": {
+            "items": [
+              "Rex empurra o primeiro dominó",
+              "Cada dominó derruba o próximo",
+              "Repete enquanto houver dominó de pé",
+              "A fila inteira está caída e para"
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, ordem dos passos, dominó",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem o laço do jacaré Dado subindo a escada até o topo.",
+          "data": {
+            "items": [
+              "Dado sobe um degrau",
+              "Verifica se já chegou no último",
+              "Repete enquanto não estiver no topo",
+              "Chega no topo e para"
+            ]
+          },
+          "xp": 7,
+          "tags": "repetição, limite, condição de parada, ordem dos passos, escada",
+          "img": "m2-e14.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos da coruja Olívia lendo exatamente 3 livros com um laço de contagem.",
+          "data": {
+            "items": [
+              "Começa com 0 livro lido",
+              "Lê um livro e soma 1",
+              "Repete até ler 3 livros"
+            ]
+          },
+          "xp": 3,
+          "tags": "repetição, contar, número exato, ordem dos passos, livros",
+          "img": "m2-e63.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Organize os passos do urso Téo ordenando blocos do menor ao maior, repetindo a troca.",
+          "data": {
+            "items": [
+              "Compara dois blocos vizinhos",
+              "Troca de lugar se estiverem fora de ordem",
+              "Repete enquanto houver bloco fora de ordem",
+              "Para quando tudo está em ordem"
+            ]
+          },
+          "xp": 5,
+          "tags": "repetição, condição de parada, ordem dos passos, ordenar blocos",
+          "img": "m2-e12.png"
+        }
+      ]
+    }
+  ]
+}

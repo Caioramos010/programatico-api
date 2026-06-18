@@ -22,19 +22,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.InputStream;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Comparator;
 
 /**
- * Carrega a trilha "Lógica de Programação" a partir dos arquivos JSON em resources/seed/.
+ * Carrega a trilha "Lógica de Programação" a partir de TODOS os arquivos resources/seed/logica-*.json.
  *
- * Cada arquivo tem uma trilha e uma lista de módulos. Módulos STUDY trazem páginas com blocos
- * (texto e imagem); módulos ACTIVITY trazem exercícios. Idempotente: a trilha é reaproveitada
- * por título e cada módulo só é criado se ainda não existir. Atrás da flag SEED_LOGICA_ENABLED.
+ * O arquivo da trilha traz o nó "track"; os arquivos de tema trazem só "modules" (e se anexam à trilha
+ * existente). Módulos STUDY trazem páginas com blocos (texto e imagem); ACTIVITY trazem exercícios.
+ * Idempotente: trilha por título, cada módulo só é criado se ainda não existir. Atrás de SEED_LOGICA_ENABLED.
  */
 @Component
 @Order(310)
@@ -42,7 +44,7 @@ import java.util.List;
 public class LogicaContentRunner implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(LogicaContentRunner.class);
-    private static final List<String> ARQUIVOS = List.of("seed/logica-modulo-01.json");
+    private static final String TRILHA_TITULO = "Lógica de Programação";
 
     private final TrackRepository trackRepository;
     private final ModuloRepository moduloRepository;
@@ -61,20 +63,34 @@ public class LogicaContentRunner implements ApplicationRunner {
             log.info("Seed de lógica desativado. Setar SEED_LOGICA_ENABLED=true pra carregar.");
             return;
         }
-        for (String arquivo : ARQUIVOS) {
-            carregar(arquivo);
+        try {
+            Resource[] recursos = new PathMatchingResourcePatternResolver()
+                    .getResources("classpath*:seed/logica-*.json");
+            // Ordem por nome de arquivo: 'logica-modulo-01' (com a trilha) antes de 'logica-tema-NN'.
+            Arrays.sort(recursos, Comparator.comparing(r -> r.getFilename() == null ? "" : r.getFilename()));
+            for (Resource r : recursos) {
+                carregar(r);
+            }
+        } catch (Exception e) {
+            log.error("Falha ao listar os seeds de lógica: {}", e.getMessage(), e);
         }
     }
 
-    private void carregar(String arquivo) {
-        try (InputStream in = new ClassPathResource(arquivo).getInputStream()) {
+    private void carregar(Resource recurso) {
+        try (InputStream in = recurso.getInputStream()) {
             JsonNode root = objectMapper.readTree(in);
-            Track track = obterOuCriarTrack(root.get("track"));
+            Track track = root.has("track")
+                    ? obterOuCriarTrack(root.get("track"))
+                    : trackPorTitulo(TRILHA_TITULO);
+            if (track == null) {
+                log.warn("Trilha '{}' não existe ainda — pulando {}.", TRILHA_TITULO, recurso.getFilename());
+                return;
+            }
             for (JsonNode m : root.get("modules")) {
                 carregarModulo(track, m);
             }
         } catch (Exception e) {
-            log.error("Falha ao carregar seed de lógica {}: {}", arquivo, e.getMessage(), e);
+            log.error("Falha ao carregar seed {}: {}", recurso.getFilename(), e.getMessage(), e);
         }
     }
 
@@ -141,16 +157,24 @@ public class LogicaContentRunner implements ApplicationRunner {
         }
     }
 
+    private Track trackPorTitulo(String titulo) {
+        return trackRepository.findAll().stream()
+                .filter(t -> titulo.equals(t.getTitle()))
+                .findFirst()
+                .orElse(null);
+    }
+
     private Track obterOuCriarTrack(JsonNode t) {
         String title = t.get("title").asText();
-        return trackRepository.findAll().stream()
-                .filter(tr -> title.equals(tr.getTitle()))
-                .findFirst()
-                .orElseGet(() -> trackRepository.save(Track.builder()
-                        .title(title)
-                        .description(t.get("description").asText())
-                        .displayOrder(t.get("displayOrder").asInt())
-                        .icon(null)
-                        .build()));
+        Track existente = trackPorTitulo(title);
+        if (existente != null) {
+            return existente;
+        }
+        return trackRepository.save(Track.builder()
+                .title(title)
+                .description(t.get("description").asText())
+                .displayOrder(t.get("displayOrder").asInt())
+                .icon(null)
+                .build());
     }
 }
