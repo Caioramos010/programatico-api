@@ -49,6 +49,7 @@ public class SchemaMigrationRunner implements ApplicationRunner {
 
         ensureUsersColumnsInEnglish();
         backfillRootSubscriptionExpiresAt();
+        ensureUserSettingsColumns();
 
         if (legacyTable != null) {
             mergeLegacyData(legacyTable);
@@ -141,6 +142,31 @@ public class SchemaMigrationRunner implements ApplicationRunner {
                 """);
         if (updated > 0) {
             log.info("Preenchido subscription_expires_at para {} usuário(s) ROOT existente(s).", updated);
+        }
+    }
+
+    private void ensureUserSettingsColumns() {
+        if (!tableExists("user_settings")) {
+            return;
+        }
+        addColumnIfMissing("user_settings", "disable_update_notifications",
+                "ALTER TABLE user_settings ADD COLUMN disable_update_notifications BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "disable_daystreak_notifications",
+                "ALTER TABLE user_settings ADD COLUMN disable_daystreak_notifications BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "disable_mission_notifications",
+                "ALTER TABLE user_settings ADD COLUMN disable_mission_notifications BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "disable_subscription_notifications",
+                "ALTER TABLE user_settings ADD COLUMN disable_subscription_notifications BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "disable_email_notifications",
+                "ALTER TABLE user_settings ADD COLUMN disable_email_notifications BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "disable_all_notifications",
+                "ALTER TABLE user_settings ADD COLUMN disable_all_notifications BIT(1) NOT NULL DEFAULT 0");
+    }
+
+    private void addColumnIfMissing(String table, String column, String ddl) {
+        if (!columnExists(table, column)) {
+            execute(ddl);
+            log.info("Coluna '{}.{}' adicionada.", table, column);
         }
     }
 
