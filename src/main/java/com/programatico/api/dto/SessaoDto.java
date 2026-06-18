@@ -34,6 +34,8 @@ public final class SessaoDto {
         private int xpReward;
         private List<String> relatedTopics;
         private String imageData;
+        /** Preenchido por exercício na prática CRONOMETRADO; nulo nos demais modos. */
+        private Integer timeLimitSeconds;
     }
 
     @Data @NoArgsConstructor @AllArgsConstructor
