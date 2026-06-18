@@ -1,0 +1,422 @@
+{
+  "track": {
+    "title": "Lógica de Programação",
+    "description": "Pense como um programador antes de escrever código: interpretação, padrões, lógica e algoritmos — sem sintaxe.",
+    "displayOrder": 2
+  },
+  "module": {
+    "title": "Interpretação textual — ideia principal",
+    "moduleType": "ACTIVITY",
+    "displayOrder": 1,
+    "description": "Leia com atenção e identifique a ideia central de cada texto. A base de toda lógica é entender o problema."
+  },
+  "exercises": [
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"A coruja Olívia acorda cedo, organiza seus livros por cor e só depois começa a estudar lógica.\"\n\nQual é a ideia principal?",
+      "data": {"options": [
+        {"description": "Olívia estuda durante a noite.", "image": "", "correct": false},
+        {"description": "Olívia organiza os livros por cor antes de estudar.", "image": "", "correct": true},
+        {"description": "Olívia não gosta de ler.", "image": "", "correct": false},
+        {"description": "Olívia perdeu seus livros.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, leitura, compreensão, rotina",
+      "char": "coruja.png",
+      "scene": "the owl mascot at a small wooden desk early morning, organizing a neat stack of colorful books sorted by color, a window with soft sunrise light behind",
+      "img": "m1-e01.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O urso Téo treina lógica todos os dias. Mesmo quando erra, ele revisa o exercício e tenta de novo.\"\n\nA ideia principal do texto é que Téo é:",
+      "data": {"options": [
+        {"description": "preguiçoso e desiste fácil.", "image": "", "correct": false},
+        {"description": "persistente e aprende com os erros.", "image": "", "correct": true},
+        {"description": "rápido, mas distraído.", "image": "", "correct": false},
+        {"description": "alguém que nunca erra.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, persistência, aprender com erros",
+      "char": "urso.png",
+      "scene": "the bear mascot at a desk studying with determination, a small chalkboard with a checkmark, focused happy expression",
+      "img": "m1-e02.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O gato Pixel anotou cada passo da receita antes de cozinhar. Assim, não esqueceu nenhum ingrediente.\"\n\nQual a ideia central?",
+      "data": {"options": [
+        {"description": "Planejar os passos evita esquecimentos.", "image": "", "correct": true},
+        {"description": "Pixel não sabe cozinhar.", "image": "", "correct": false},
+        {"description": "Receitas são sempre difíceis.", "image": "", "correct": false},
+        {"description": "Pixel esqueceu os ingredientes.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, planejamento, passo a passo, algoritmo",
+      "char": "gato.png",
+      "scene": "the cat mascot in a kitchen holding a checklist notepad, ingredients neatly lined up on the counter",
+      "img": "m1-e03.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Antes de atravessar, o jacaré Dado olha para os dois lados. Só atravessa quando não vem nenhum carro.\"\n\nA ideia principal é:",
+      "data": {"options": [
+        {"description": "Dado atravessa correndo a qualquer momento.", "image": "", "correct": false},
+        {"description": "Dado verifica uma condição antes de agir.", "image": "", "correct": true},
+        {"description": "Dado tem medo de carros.", "image": "", "correct": false},
+        {"description": "Dado nunca atravessa a rua.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, condição, decisão, se então",
+      "char": "jacare.png",
+      "scene": "the alligator mascot at a crosswalk looking carefully to both sides, a traffic light nearby, cautious expression",
+      "img": "m1-e04.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"A girafa Gina repetiu o mesmo exercício cinco vezes até acertar sem pensar.\"\n\nO texto fala principalmente sobre:",
+      "data": {"options": [
+        {"description": "praticar por repetição até dominar.", "image": "", "correct": true},
+        {"description": "fazer um exercício só uma vez.", "image": "", "correct": false},
+        {"description": "desistir após o primeiro erro.", "image": "", "correct": false},
+        {"description": "estudar coisas diferentes.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, repetição, prática, fixação",
+      "char": "gina.png",
+      "scene": "the giraffe mascot with glasses practicing on a tablet, several small repeated icons floating, satisfied expression",
+      "img": "m1-e05.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O lobo Rex separou os problemas em pequenos pedaços. Resolveu um de cada vez e, no fim, juntou tudo.\"\n\nQual a ideia principal?",
+      "data": {"options": [
+        {"description": "Resolver tudo de uma vez é melhor.", "image": "", "correct": false},
+        {"description": "Dividir um problema em partes ajuda a resolvê-lo.", "image": "", "correct": true},
+        {"description": "Rex não conseguiu resolver nada.", "image": "", "correct": false},
+        {"description": "Problemas grandes não têm solução.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, decomposição, dividir para conquistar",
+      "char": "lobo.png",
+      "scene": "the wolf mascot at a table breaking a big puzzle into smaller puzzle pieces, organized groups, thoughtful expression",
+      "img": "m1-e06.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O dálmata Pongo confere a lista de tarefas e marca cada item concluído.\"\n\nA ideia central é que Pongo:",
+      "data": {"options": [
+        {"description": "acompanha o progresso marcando o que terminou.", "image": "", "correct": true},
+        {"description": "não tem nenhuma tarefa.", "image": "", "correct": false},
+        {"description": "esquece tudo o que faz.", "image": "", "correct": false},
+        {"description": "faz tarefas em ordem aleatória sem controle.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, lista de tarefas, progresso, controle",
+      "char": "dalmata.png",
+      "scene": "the dalmatian dog mascot holding a to-do list with checkmarks, proud expression",
+      "img": "m1-e07.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Quando a bateria está baixa, o robô vai sozinho até a tomada. Se estiver cheia, ele continua trabalhando.\"\n\nA ideia principal é:",
+      "data": {"options": [
+        {"description": "O robô age conforme a condição da bateria.", "image": "", "correct": true},
+        {"description": "O robô nunca recarrega.", "image": "", "correct": false},
+        {"description": "O robô trabalha sem parar.", "image": "", "correct": false},
+        {"description": "O robô está sempre quebrado.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, condição, se senão, decisão",
+      "char": "urso.png",
+      "scene": "the bear mascot looking at a friendly little robot plugging itself into a wall socket, a battery icon above",
+      "img": "m1-e08.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Gina leu o problema duas vezes antes de responder. Ela queria ter certeza do que estava sendo pedido.\"\n\nO texto mostra que:",
+      "data": {"options": [
+        {"description": "entender o enunciado vem antes de responder.", "image": "", "correct": true},
+        {"description": "responder rápido é o mais importante.", "image": "", "correct": false},
+        {"description": "ler o problema é perda de tempo.", "image": "", "correct": false},
+        {"description": "Gina não entendeu nada.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, enunciado, compreensão do problema",
+      "char": "gina.png",
+      "scene": "the giraffe mascot with glasses reading a problem card attentively, a thought bubble with a question mark",
+      "img": "m1-e09.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Pixel guarda cada brinquedo em uma caixa etiquetada. Quando precisa de um, sabe exatamente onde está.\"\n\nIdeia principal:",
+      "data": {"options": [
+        {"description": "Organizar com etiquetas facilita encontrar as coisas.", "image": "", "correct": true},
+        {"description": "Pixel perde todos os brinquedos.", "image": "", "correct": false},
+        {"description": "Caixas são inúteis.", "image": "", "correct": false},
+        {"description": "Pixel não tem brinquedos.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, organização, etiquetas, variáveis",
+      "char": "gato.png",
+      "scene": "the cat mascot next to labeled storage boxes neatly stacked, picking the right one with a smile",
+      "img": "m1-e10.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O texto explica como trocar uma lâmpada: desligar a luz, esperar esfriar, remover a velha e colocar a nova.\"\n\nO texto é principalmente:",
+      "data": {"options": [
+        {"description": "uma sequência de passos a seguir.", "image": "", "correct": true},
+        {"description": "uma história de terror.", "image": "", "correct": false},
+        {"description": "uma lista de compras.", "image": "", "correct": false},
+        {"description": "uma opinião sobre lâmpadas.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, sequência de passos, instruções, algoritmo",
+      "char": "lobo.png",
+      "scene": "the wolf mascot holding a lightbulb, a numbered step diagram floating beside him, helpful expression",
+      "img": "m1-e11.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Dado tem três opções de caminho. Ele escolhe sempre o mais curto para chegar mais rápido.\"\n\nA ideia central é:",
+      "data": {"options": [
+        {"description": "Dado decide com base em um critério (o mais curto).", "image": "", "correct": true},
+        {"description": "Dado escolhe sem pensar.", "image": "", "correct": false},
+        {"description": "Dado nunca chega ao destino.", "image": "", "correct": false},
+        {"description": "Todos os caminhos são iguais.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, decisão, critério, otimização",
+      "char": "jacare.png",
+      "scene": "the alligator mascot at a fork with three paths, choosing the shortest one marked with a green arrow",
+      "img": "m1-e12.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Téo conta de um em um até chegar a dez. Quando chega, ele para.\"\n\nA ideia principal descreve:",
+      "data": {"options": [
+        {"description": "uma repetição que termina quando atinge um limite.", "image": "", "correct": true},
+        {"description": "uma contagem que nunca acaba.", "image": "", "correct": false},
+        {"description": "Téo não sabe contar.", "image": "", "correct": false},
+        {"description": "uma soma de números aleatórios.", "image": "", "correct": false}
+      ]},
+      "xp": 7,
+      "tags": "interpretação textual, ideia principal, repetição, laço, condição de parada",
+      "char": "urso.png",
+      "scene": "the bear mascot counting on fingers with numbers one to ten floating around, a stop sign at ten",
+      "img": "m1-e13.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Antes de cada jogo, Gina verifica se tem vidas suficientes. Sem vidas, ela espera a recarga.\"\n\nQual a ideia principal?",
+      "data": {"options": [
+        {"description": "Gina checa um recurso antes de continuar.", "image": "", "correct": true},
+        {"description": "Gina joga mesmo sem vidas.", "image": "", "correct": false},
+        {"description": "Gina nunca joga.", "image": "", "correct": false},
+        {"description": "As vidas nunca acabam.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, condição, verificação, recurso",
+      "char": "gina.png",
+      "scene": "the giraffe mascot with glasses looking at a heart/lives counter on a screen, waiting calmly",
+      "img": "m1-e14.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Pongo entrega as cartas na ordem da rua: número 1, depois 2, depois 3, sem pular nenhum.\"\n\nA ideia central é:",
+      "data": {"options": [
+        {"description": "seguir uma ordem sequencial sem pular etapas.", "image": "", "correct": true},
+        {"description": "entregar tudo de uma vez.", "image": "", "correct": false},
+        {"description": "entregar em ordem aleatória.", "image": "", "correct": false},
+        {"description": "Pongo não entrega cartas.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, sequência, ordem, iteração",
+      "char": "dalmata.png",
+      "scene": "the dalmatian dog mascot delivering letters to numbered mailboxes 1, 2, 3 in a row on a street",
+      "img": "m1-e15.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Se chover, Olívia leva o guarda-chuva. Se fizer sol, leva o boné.\"\n\nO texto mostra principalmente que Olívia:",
+      "data": {"options": [
+        {"description": "escolhe o que levar conforme o tempo.", "image": "", "correct": true},
+        {"description": "leva sempre as duas coisas.", "image": "", "correct": false},
+        {"description": "nunca sai de casa.", "image": "", "correct": false},
+        {"description": "não se importa com o clima.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, condição, alternativas, se senão",
+      "char": "coruja.png",
+      "scene": "the owl mascot choosing between an umbrella and a cap, with a sky split half rainy half sunny behind",
+      "img": "m1-e16.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O texto descreve um bichinho que segue setas no chão: vira à direita, anda três passos e para.\"\n\nO texto é principalmente:",
+      "data": {"options": [
+        {"description": "um conjunto de instruções a executar.", "image": "", "correct": true},
+        {"description": "uma poesia sobre setas.", "image": "", "correct": false},
+        {"description": "uma reclamação.", "image": "", "correct": false},
+        {"description": "uma propaganda.", "image": "", "correct": false}
+      ]},
+      "xp": 7,
+      "tags": "interpretação textual, ideia principal, instruções, comandos, algoritmo",
+      "char": "gato.png",
+      "scene": "the cat mascot following arrow tiles on the floor, turning right, a small path of arrows ahead",
+      "img": "m1-e17.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Rex compara dois números e fica sempre com o maior.\"\n\nA ideia principal é que Rex:",
+      "data": {"options": [
+        {"description": "seleciona um valor com base em uma comparação.", "image": "", "correct": true},
+        {"description": "soma os dois números.", "image": "", "correct": false},
+        {"description": "ignora os números.", "image": "", "correct": false},
+        {"description": "escolhe sempre o menor.", "image": "", "correct": false}
+      ]},
+      "xp": 7,
+      "tags": "interpretação textual, ideia principal, comparação, maior, decisão",
+      "char": "lobo.png",
+      "scene": "the wolf mascot holding two number cards and pointing at the larger one, a greater-than symbol nearby",
+      "img": "m1-e18.png"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "\"O parágrafo todo fala sobre uma horta: como plantar, regar e colher.\" Qual seria um bom TÍTULO para esse texto?",
+      "data": {"options": [
+        {"description": "Cuidando de uma horta", "image": "", "correct": true},
+        {"description": "A história do cinema", "image": "", "correct": false},
+        {"description": "Como trocar um pneu", "image": "", "correct": false},
+        {"description": "Regras de futebol", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, título, tema, resumo"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Não importa o tamanho do problema: Téo sempre começa pela parte que entende melhor.\"\n\nA ideia principal é:",
+      "data": {"options": [
+        {"description": "começar pelo que se domina ajuda a destravar.", "image": "", "correct": true},
+        {"description": "problemas grandes são impossíveis.", "image": "", "correct": false},
+        {"description": "Téo nunca começa.", "image": "", "correct": false},
+        {"description": "o tamanho do problema não muda nada.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, estratégia, decomposição"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Enquanto houver pratos sujos, Pixel continua lavando. Quando acabam, ele descansa.\"\n\nO texto descreve:",
+      "data": {"options": [
+        {"description": "uma ação que se repete enquanto uma condição é verdadeira.", "image": "", "correct": true},
+        {"description": "uma ação feita uma única vez.", "image": "", "correct": false},
+        {"description": "Pixel descansando o tempo todo.", "image": "", "correct": false},
+        {"description": "pratos que nunca ficam limpos.", "image": "", "correct": false}
+      ]},
+      "xp": 7,
+      "tags": "interpretação textual, ideia principal, laço enquanto, condição, repetição"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"Gina só libera o próximo módulo depois de concluir o atual.\"\n\nA ideia principal é:",
+      "data": {"options": [
+        {"description": "há uma ordem de pré-requisito entre as etapas.", "image": "", "correct": true},
+        {"description": "todos os módulos abrem juntos.", "image": "", "correct": false},
+        {"description": "nenhum módulo abre.", "image": "", "correct": false},
+        {"description": "a ordem não importa.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, pré-requisito, ordem, dependência"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O texto diz que, para somar a mesada da semana, Dado junta o valor de cada dia.\"\n\nA ideia central é:",
+      "data": {"options": [
+        {"description": "um total é formado pela soma das partes.", "image": "", "correct": true},
+        {"description": "Dado gasta tudo num dia.", "image": "", "correct": false},
+        {"description": "a mesada é sempre zero.", "image": "", "correct": false},
+        {"description": "somar é impossível.", "image": "", "correct": false}
+      ]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, acumulador, soma, total"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Qual frase resume melhor a ideia de \"seguir uma receita\"?",
+      "data": {"options": [
+        {"description": "Executar passos em uma ordem definida para chegar a um resultado.", "image": "", "correct": true},
+        {"description": "Fazer tudo ao mesmo tempo sem ordem.", "image": "", "correct": false},
+        {"description": "Pular todos os passos.", "image": "", "correct": false},
+        {"description": "Inventar passos aleatórios.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, receita, algoritmo, ordem"
+    },
+    {
+      "type": "PAIRS",
+      "statement": "Combine cada mini-texto com a sua ideia principal.",
+      "data": {
+        "lefts": ["\"Rex revisa o erro e tenta de novo.\"", "\"Pixel guarda cada coisa numa caixa etiquetada.\"", "\"Se chover, leva guarda-chuva.\"", "\"Conta até 10 e para.\""],
+        "rights": ["Organização", "Repetição com limite", "Persistência", "Decisão por condição"],
+        "pairs": [
+          {"left": "\"Rex revisa o erro e tenta de novo.\"", "right": "Persistência"},
+          {"left": "\"Pixel guarda cada coisa numa caixa etiquetada.\"", "right": "Organização"},
+          {"left": "\"Se chover, leva guarda-chuva.\"", "right": "Decisão por condição"},
+          {"left": "\"Conta até 10 e para.\"", "right": "Repetição com limite"}
+        ]
+      },
+      "xp": 7,
+      "tags": "interpretação textual, ideia principal, classificação, associação"
+    },
+    {
+      "type": "PAIRS",
+      "statement": "Relacione cada texto ao melhor título.",
+      "data": {
+        "lefts": ["\"Como plantar, regar e colher.\"", "\"Olha os dois lados antes de atravessar.\"", "\"Junta o valor de cada dia da semana.\"", "\"Separa o problema em partes menores.\""],
+        "rights": ["Somando a mesada", "Cuidando da horta", "Dividir para resolver", "Atravessar com segurança"],
+        "pairs": [
+          {"left": "\"Como plantar, regar e colher.\"", "right": "Cuidando da horta"},
+          {"left": "\"Olha os dois lados antes de atravessar.\"", "right": "Atravessar com segurança"},
+          {"left": "\"Junta o valor de cada dia da semana.\"", "right": "Somando a mesada"},
+          {"left": "\"Separa o problema em partes menores.\"", "right": "Dividir para resolver"}
+        ]
+      },
+      "xp": 7,
+      "tags": "interpretação textual, ideia principal, título, tema, associação"
+    },
+    {
+      "type": "DRAG_DROP",
+      "statement": "O texto descreve o passo a passo de fazer um suco. Ordene as etapas na ordem em que aparecem.",
+      "data": {"items": ["Pegar as frutas", "Descascar as frutas", "Bater no liquidificador", "Servir no copo"]},
+      "xp": 7,
+      "tags": "interpretação textual, ideia principal, sequência de passos, ordem, algoritmo"
+    },
+    {
+      "type": "DRAG_DROP",
+      "statement": "Leia a rotina de estudo da Gina e ordene os passos: \"primeiro ela lê o problema, depois pensa, então responde e por fim confere.\"",
+      "data": {"items": ["Ler o problema", "Pensar na solução", "Responder", "Conferir a resposta"]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, sequência, ordem, processo"
+    },
+    {
+      "type": "DRAG_DROP",
+      "statement": "Ordene as frases do menor para o maior grau de organização descrito no texto: \"bagunça\", \"algumas pilhas\", \"caixas separadas\", \"tudo etiquetado\".",
+      "data": {"items": ["Bagunça", "Algumas pilhas", "Caixas separadas", "Tudo etiquetado"]},
+      "xp": 5,
+      "tags": "interpretação textual, ideia principal, ordenação, organização, gradação"
+    },
+    {
+      "type": "MULTIPLE_CHOICE",
+      "statement": "Leia: \"O texto inteiro mostra que, para resolver um problema, primeiro é preciso entender o que ele pede.\"\n\nA mensagem principal é:",
+      "data": {"options": [
+        {"description": "compreender o problema é o primeiro passo para resolvê-lo.", "image": "", "correct": true},
+        {"description": "resolver vem antes de entender.", "image": "", "correct": false},
+        {"description": "não é preciso ler o problema.", "image": "", "correct": false},
+        {"description": "problemas não têm solução.", "image": "", "correct": false}
+      ]},
+      "xp": 3,
+      "tags": "interpretação textual, ideia principal, compreensão, resolução de problemas"
+    }
+  ]
+}
