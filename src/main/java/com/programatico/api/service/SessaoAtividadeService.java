@@ -533,6 +533,7 @@ public class SessaoAtividadeService {
                     clean.remove("correct");
                     return clean;
                 }).collect(Collectors.toList());
+                Collections.shuffle(displayOptions); // posição da correta varia a cada sessão
                 return objectMapper.writeValueAsString(Map.of("options", displayOptions));
             }
         } catch (Exception e) {
