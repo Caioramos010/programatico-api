@@ -2,13 +2,18 @@ package com.programatico.api.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programatico.api.domain.ContentBlock;
 import com.programatico.api.domain.Exercise;
 import com.programatico.api.domain.Modulo;
+import com.programatico.api.domain.TeoriaPagina;
 import com.programatico.api.domain.Track;
 import com.programatico.api.domain.enums.ExerciseType;
+import com.programatico.api.domain.enums.LayoutType;
 import com.programatico.api.domain.enums.ModuleType;
+import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -27,9 +32,9 @@ import java.util.List;
 /**
  * Carrega a trilha "Lógica de Programação" a partir dos arquivos JSON em resources/seed/.
  *
- * Idempotente em dois níveis: a trilha é reaproveitada por título e cada módulo só é criado
- * se ainda não existir (por título) dentro da trilha — reruns não duplicam.
- * Atrás da flag SEED_LOGICA_ENABLED (independente do SeedContentRunner de exemplo).
+ * Cada arquivo tem uma trilha e uma lista de módulos. Módulos STUDY trazem páginas com blocos
+ * (texto e imagem); módulos ACTIVITY trazem exercícios. Idempotente: a trilha é reaproveitada
+ * por título e cada módulo só é criado se ainda não existir. Atrás da flag SEED_LOGICA_ENABLED.
  */
 @Component
 @Order(310)
@@ -37,15 +42,13 @@ import java.util.List;
 public class LogicaContentRunner implements ApplicationRunner {
 
     private static final Logger log = LoggerFactory.getLogger(LogicaContentRunner.class);
-
-    /** Arquivos de módulo a carregar, na ordem. Adicionar os próximos módulos aqui. */
-    private static final List<String> ARQUIVOS = List.of(
-            "seed/logica-modulo-01.json"
-    );
+    private static final List<String> ARQUIVOS = List.of("seed/logica-modulo-01.json");
 
     private final TrackRepository trackRepository;
     private final ModuloRepository moduloRepository;
     private final ExerciseRepository exerciseRepository;
+    private final TeoriaPaginaRepository teoriaPaginaRepository;
+    private final ContentBlockRepository contentBlockRepository;
     private final ObjectMapper objectMapper;
 
     @Value("${seed.logica.enabled:false}")
@@ -66,28 +69,62 @@ public class LogicaContentRunner implements ApplicationRunner {
     private void carregar(String arquivo) {
         try (InputStream in = new ClassPathResource(arquivo).getInputStream()) {
             JsonNode root = objectMapper.readTree(in);
-
             Track track = obterOuCriarTrack(root.get("track"));
-
-            JsonNode m = root.get("module");
-            String moduloTitle = m.get("title").asText();
-            boolean jaExiste = moduloRepository.findByTrackOrderByDisplayOrderAsc(track).stream()
-                    .anyMatch(x -> moduloTitle.equals(x.getTitle()));
-            if (jaExiste) {
-                log.info("Módulo '{}' já existe — pulando ({}).", moduloTitle, arquivo);
-                return;
+            for (JsonNode m : root.get("modules")) {
+                carregarModulo(track, m);
             }
+        } catch (Exception e) {
+            log.error("Falha ao carregar seed de lógica {}: {}", arquivo, e.getMessage(), e);
+        }
+    }
 
-            Modulo modulo = moduloRepository.save(Modulo.builder()
-                    .track(track)
-                    .title(moduloTitle)
-                    .moduleType(ModuleType.valueOf(m.get("moduleType").asText()))
-                    .displayOrder(m.get("displayOrder").asInt())
-                    .description(m.hasNonNull("description") ? m.get("description").asText() : null)
-                    .build());
+    private void carregarModulo(Track track, JsonNode m) throws Exception {
+        String titulo = m.get("title").asText();
+        boolean existe = moduloRepository.findByTrackOrderByDisplayOrderAsc(track).stream()
+                .anyMatch(x -> titulo.equals(x.getTitle()));
+        if (existe) {
+            log.info("Módulo '{}' já existe — pulando.", titulo);
+            return;
+        }
 
+        Modulo modulo = moduloRepository.save(Modulo.builder()
+                .track(track)
+                .title(titulo)
+                .moduleType(ModuleType.valueOf(m.get("moduleType").asText()))
+                .displayOrder(m.get("displayOrder").asInt())
+                .description(m.hasNonNull("description") ? m.get("description").asText() : null)
+                .build());
+
+        if (m.has("pages")) {
+            int ordemPagina = 1;
+            int totalPaginas = 0;
+            for (JsonNode p : m.get("pages")) {
+                TeoriaPagina pagina = teoriaPaginaRepository.save(TeoriaPagina.builder()
+                        .modulo(modulo)
+                        .title(p.get("title").asText())
+                        .description(p.hasNonNull("description") ? p.get("description").asText() : null)
+                        .displayOrder(ordemPagina++)
+                        .build());
+                int ordemBloco = 1;
+                for (JsonNode b : p.get("blocks")) {
+                    String img = b.hasNonNull("image") ? "/img/exercicios/" + b.get("image").asText() : null;
+                    contentBlockRepository.save(ContentBlock.builder()
+                            .modulo(modulo)
+                            .pagina(pagina)
+                            .layoutType(LayoutType.valueOf(b.get("layout").asText()))
+                            .textContent(b.hasNonNull("text") ? b.get("text").asText() : null)
+                            .imageUrl(img)
+                            .displayOrder(ordemBloco++)
+                            .build());
+                }
+                totalPaginas++;
+            }
+            log.info("Módulo de teoria '{}' carregado com {} páginas.", titulo, totalPaginas);
+        }
+
+        if (m.has("exercises")) {
             int total = 0;
-            for (JsonNode ex : root.get("exercises")) {
+            for (JsonNode ex : m.get("exercises")) {
                 String img = ex.hasNonNull("img") ? "/img/exercicios/" + ex.get("img").asText() : null;
                 exerciseRepository.save(Exercise.builder()
                         .modulo(modulo)
@@ -100,9 +137,7 @@ public class LogicaContentRunner implements ApplicationRunner {
                         .build());
                 total++;
             }
-            log.info("Módulo '{}' carregado com {} exercícios.", moduloTitle, total);
-        } catch (Exception e) {
-            log.error("Falha ao carregar seed de lógica {}: {}", arquivo, e.getMessage(), e);
+            log.info("Módulo de atividade '{}' carregado com {} exercícios.", titulo, total);
         }
     }
 
