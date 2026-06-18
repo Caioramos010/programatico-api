@@ -3,6 +3,7 @@ package com.programatico.api.repository;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.ProgressStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,8 @@ import java.util.Optional;
 public interface UserProgressRepository extends JpaRepository<UserProgress, Long> {
 
     List<UserProgress> findByUsuarioAndModuloIn(Usuario usuario, List<Modulo> modulos);
+
+    List<UserProgress> findByUsuarioAndStatus(Usuario usuario, ProgressStatus status);
 
     Optional<UserProgress> findByUsuarioAndModulo(Usuario usuario, Modulo modulo);
 

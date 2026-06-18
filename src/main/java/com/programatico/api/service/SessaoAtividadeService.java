@@ -45,6 +45,7 @@ public class SessaoAtividadeService {
 
     private static final Logger log = LoggerFactory.getLogger(SessaoAtividadeService.class);
     private static final int QUANTIDADE_EXERCICIOS = 10;
+    private static final int QUANTIDADE_EXERCICIOS_FIXACAO = 5;
     private static final int QUANTIDADE_XP_7 = 3;
     private static final int QUANTIDADE_XP_5 = 3;
     private static final int QUANTIDADE_XP_3 = 4;
@@ -276,8 +277,7 @@ public class SessaoAtividadeService {
     // ── Práticas (esqueleto para Hyorran) ───────────────────────────────────────
     // O fluxo responder()/concluir() já é agnóstico de módulo (todos os acessos a
     // sessao.getModulo() têm guard de null), então cada modo de prática só precisa de
-    // um "iniciar" próprio que produza um InicioResponse. ERROS está implementado como
-    // referência; FIXAÇÃO e CRONOMETRADO ficam como TODO(hyorran).
+    // um "iniciar" próprio que produza um InicioResponse. CRONOMETRADO fica como TODO(hyorran).
 
     @Transactional
     public SessaoDto.InicioResponse iniciarPratica(String modo, String username) {
@@ -301,15 +301,31 @@ public class SessaoAtividadeService {
         return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Prática: Erros");
     }
 
-    /**
-     * TODO(hyorran): sortear ~5 exercícios de módulos que o usuário já CONCLUIU.
-     * Passos: módulos com UserProgress.status=COMPLETED → exercícios desses módulos
-     * (exerciseRepository.findByModuloOrderByIdAsc) → embaralhar → limitar a 5.
-     * Lançar BadRequestException("Conclua um módulo antes de praticar a fixação.") se vazio.
-     * Por fim: return montarSessaoPratica(usuario, selecionados, SessionType.QUICK_FIX, null, "Prática: Fixação");
-     */
     private SessaoDto.InicioResponse iniciarPraticaFixacao(Usuario usuario) {
-        throw new BadRequestException("Fixação rápida ainda não implementada.");
+        List<Modulo> modulosConcluidos = userProgressRepository
+                .findByUsuarioAndStatus(usuario, ProgressStatus.COMPLETED)
+                .stream()
+                .map(UserProgress::getModulo)
+                .toList();
+        if (modulosConcluidos.isEmpty()) {
+            throw new BadRequestException("Conclua um módulo antes de praticar a fixação.");
+        }
+
+        List<Exercise> pool = new ArrayList<>();
+        for (Modulo modulo : modulosConcluidos) {
+            pool.addAll(exerciseRepository.findByModuloOrderByIdAsc(modulo));
+        }
+        if (pool.isEmpty()) {
+            throw new BadRequestException("Conclua um módulo antes de praticar a fixação.");
+        }
+
+        Collections.shuffle(pool);
+        List<Exercise> selecionados = pool.stream()
+                .distinct()
+                .limit(QUANTIDADE_EXERCICIOS_FIXACAO)
+                .collect(Collectors.toList());
+
+        return montarSessaoPratica(usuario, selecionados, SessionType.QUICK_FIX, null, "Prática: Fixação");
     }
 
     /**
