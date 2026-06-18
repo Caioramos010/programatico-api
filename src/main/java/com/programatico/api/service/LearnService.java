@@ -96,8 +96,9 @@ public class LearnService {
                 statusFinal = ProgressStatus.LOCKED;
             }
 
+            // XP de UMA sessão (10 exercícios: 3×7 + 3×5 + 4×3 = 48), não a soma de todos os exercícios.
             long xpModulo = "ACTIVITY".equals(modulo.getModuleType().name())
-                    ? exerciseRepository.sumXpByModulo(modulo)
+                    ? Math.min(exerciseRepository.sumXpByModulo(modulo), 48L)
                     : 0L;
             modulesWithProgress.add(new TrackDto.ModuleWithProgress(
                     modulo.getId(),
