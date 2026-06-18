@@ -63,4 +63,45 @@ class SessaoAtividadeControllerTest {
                 .andExpect(jsonPath("$.initialLives").value(5))
                 .andExpect(jsonPath("$.exercises[0].statement").value("Enunciado 1"));
     }
+
+    @Test
+    @WithMockUser(username = "user")
+    void iniciarPraticaCronometradaDeveRetornar200ComTempoPorExercicio() throws Exception {
+        SessaoDto.InicioResponse response = SessaoDto.InicioResponse.builder()
+                .sessionId(77L)
+                .moduleTitle("Prática: Cronometrado")
+                .initialLives(5)
+                .totalExercises(2)
+                .exercises(List.of(
+                        SessaoDto.ExercicioSessao.builder()
+                                .id(1L)
+                                .order(1)
+                                .statement("Enunciado 3xp")
+                                .tipo("MULTIPLE_CHOICE")
+                                .displayData("{\"options\":[]}")
+                                .xpReward(3)
+                                .timeLimitSeconds(60)
+                                .relatedTopics(List.of())
+                                .build(),
+                        SessaoDto.ExercicioSessao.builder()
+                                .id(2L)
+                                .order(2)
+                                .statement("Enunciado 7xp")
+                                .tipo("MULTIPLE_CHOICE")
+                                .displayData("{\"options\":[]}")
+                                .xpReward(7)
+                                .timeLimitSeconds(120)
+                                .relatedTopics(List.of())
+                                .build()
+                ))
+                .build();
+
+        when(sessaoAtividadeService.iniciarPratica(eq("cronometrado"), eq("user"))).thenReturn(response);
+
+        mockMvc.perform(post("/api/aprender/pratica/cronometrado/iniciar"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.moduleTitle").value("Prática: Cronometrado"))
+                .andExpect(jsonPath("$.exercises[0].timeLimitSeconds").value(60))
+                .andExpect(jsonPath("$.exercises[1].timeLimitSeconds").value(120));
+    }
 }

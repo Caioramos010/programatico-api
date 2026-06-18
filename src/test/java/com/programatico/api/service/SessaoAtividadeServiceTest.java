@@ -133,7 +133,7 @@ class SessaoAtividadeServiceTest {
         BadRequestException ex = assertThrows(BadRequestException.class,
                 () -> sessaoAtividadeService.iniciarPratica("fixacao", "user"));
 
-        assertEquals("Conclua um módulo antes de praticar a fixação.", ex.getMessage());
+        assertEquals("Conclua um módulo antes de praticar.", ex.getMessage());
     }
 
     @Test
@@ -149,7 +149,7 @@ class SessaoAtividadeServiceTest {
         BadRequestException ex = assertThrows(BadRequestException.class,
                 () -> sessaoAtividadeService.iniciarPratica("fixacao", "user"));
 
-        assertEquals("Conclua um módulo antes de praticar a fixação.", ex.getMessage());
+        assertEquals("Conclua um módulo antes de praticar.", ex.getMessage());
     }
 
     @Test
@@ -182,6 +182,55 @@ class SessaoAtividadeServiceTest {
 
         assertNotNull(response);
         assertEquals(2, response.getTotalExercises());
+    }
+
+    @Test
+    void iniciarPraticaCronometradaDeveRetornarTempoLimitePorXp() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        List<Exercise> exercicios = List.of(
+                exercicioComXp(modulo, 1L, 3),
+                exercicioComXp(modulo, 2L, 5),
+                exercicioComXp(modulo, 3L, 7)
+        );
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(userProgressRepository.findByUsuarioAndStatus(usuario, ProgressStatus.COMPLETED))
+                .thenReturn(List.of(progressoConcluido(usuario, modulo)));
+        when(exerciseRepository.findByModuloOrderByIdAsc(modulo)).thenReturn(exercicios);
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(50L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarPratica("cronometrado", "user");
+
+        assertEquals("Prática: Cronometrado", response.getModuleTitle());
+        assertEquals(3, response.getTotalExercises());
+        assertTrue(response.getExercises().stream().allMatch(e -> e.getTimeLimitSeconds() != null));
+        assertEquals(60, response.getExercises().stream().filter(e -> e.getXpReward() == 3).findFirst().orElseThrow().getTimeLimitSeconds());
+        assertEquals(90, response.getExercises().stream().filter(e -> e.getXpReward() == 5).findFirst().orElseThrow().getTimeLimitSeconds());
+        assertEquals(120, response.getExercises().stream().filter(e -> e.getXpReward() == 7).findFirst().orElseThrow().getTimeLimitSeconds());
+
+        ArgumentCaptor<PracticeSession> sessaoCaptor = ArgumentCaptor.forClass(PracticeSession.class);
+        verify(practiceSessionRepository).save(sessaoCaptor.capture());
+        assertEquals(SessionType.TIMED, sessaoCaptor.getValue().getSessionType());
+    }
+
+    @Test
+    void iniciarPraticaCronometradaDeveLancarExcecaoQuandoNaoHaModulosConcluidos() {
+        Usuario usuario = usuarioBase();
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(userProgressRepository.findByUsuarioAndStatus(usuario, ProgressStatus.COMPLETED))
+                .thenReturn(List.of());
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.iniciarPratica("cronometrado", "user"));
+
+        assertEquals("Conclua um módulo antes de praticar.", ex.getMessage());
     }
 
     private Usuario usuarioBase() {
@@ -245,5 +294,18 @@ class SessaoAtividadeServiceTest {
                     .build());
         }
         return exercicios;
+    }
+
+    private Exercise exercicioComXp(Modulo modulo, long id, int xpReward) {
+        return Exercise.builder()
+                .id(id)
+                .modulo(modulo)
+                .statement("Enunciado " + id)
+                .exerciseType(ExerciseType.MULTIPLE_CHOICE)
+                .exerciseData("""
+                        {"options":[{"description":"A","correct":true},{"description":"B","correct":false}]}
+                        """)
+                .xpReward(xpReward)
+                .build();
     }
 }

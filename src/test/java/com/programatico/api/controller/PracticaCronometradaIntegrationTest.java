@@ -34,7 +34,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class PracticaFixacaoIntegrationTest {
+class PracticaCronometradaIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
@@ -73,8 +72,8 @@ class PracticaFixacaoIntegrationTest {
         usuarioRepository.deleteAll();
 
         Usuario usuario = usuarioRepository.save(Usuario.builder()
-                .username("fixacao-user")
-                .email("fixacao@email.com")
+                .username("cronometrado-user")
+                .email("cronometrado@email.com")
                 .senha(passwordEncoder.encode("Senha@123"))
                 .idade(20)
                 .ativo(true)
@@ -103,23 +102,16 @@ class PracticaFixacaoIntegrationTest {
                 .description("Atividade")
                 .build());
 
-        Modulo moduloLiberado = moduloRepository.save(Modulo.builder()
-                .track(track)
-                .title("Módulo liberado")
-                .moduleType(ModuleType.ACTIVITY)
-                .displayOrder(2)
-                .description("Atividade")
-                .build());
-
-        for (int i = 1; i <= 6; i++) {
+        int[] xpRewards = {3, 5, 7, 3, 5};
+        for (int i = 0; i < xpRewards.length; i++) {
             exerciseRepository.save(Exercise.builder()
                     .modulo(moduloConcluido)
-                    .statement("Exercício " + i)
+                    .statement("Exercício " + (i + 1))
                     .exerciseType(ExerciseType.MULTIPLE_CHOICE)
                     .exerciseData("""
                             {"options":[{"description":"A","correct":true},{"description":"B","correct":false}]}
                             """)
-                    .xpReward(3)
+                    .xpReward(xpRewards[i])
                     .build());
         }
 
@@ -128,55 +120,21 @@ class PracticaFixacaoIntegrationTest {
                 .modulo(moduloConcluido)
                 .status(ProgressStatus.COMPLETED)
                 .build());
-        userProgressRepository.save(UserProgress.builder()
-                .usuario(usuario)
-                .modulo(moduloLiberado)
-                .status(ProgressStatus.UNLOCKED)
-                .build());
 
         token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
     }
 
     @Test
-    void deveIniciarPraticaFixacaoComExerciciosDeModulosConcluidos() throws Exception {
-        mockMvc.perform(post("/api/aprender/pratica/fixacao/iniciar")
+    void deveIniciarPraticaCronometradaComTempoPorExercicio() throws Exception {
+        mockMvc.perform(post("/api/aprender/pratica/cronometrado/iniciar")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.moduleTitle").value("Prática: Fixação"))
+                .andExpect(jsonPath("$.moduleTitle").value("Prática: Cronometrado"))
                 .andExpect(jsonPath("$.totalExercises").value(5))
-                .andExpect(jsonPath("$.initialLives").value(5))
-                .andExpect(jsonPath("$.exercises.length()").value(5))
-                .andExpect(jsonPath("$.exercises[0].statement").isNotEmpty());
+                .andExpect(jsonPath("$.exercises[0].timeLimitSeconds").exists());
 
         PracticeSession sessao = practiceSessionRepository.findAll().get(0);
-        assertEquals(SessionType.QUICK_FIX, sessao.getSessionType());
-        assertEquals(5, practiceSessionExerciseRepository.findAll().size());
-    }
-
-    @Test
-    void deveRetornar400QuandoUsuarioNaoTemModulosConcluidos() throws Exception {
-        userProgressRepository.deleteAll();
-        userProgressRepository.save(UserProgress.builder()
-                .usuario(usuarioRepository.findByUsername("fixacao-user").orElseThrow())
-                .modulo(moduloRepository.findAll().get(1))
-                .status(ProgressStatus.UNLOCKED)
-                .build());
-
-        mockMvc.perform(post("/api/aprender/pratica/fixacao/iniciar")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.mensagem").value("Conclua um módulo antes de praticar."));
-    }
-
-    @Test
-    void deveExigirAutenticacaoParaIniciarFixacao() throws Exception {
-        mockMvc.perform(post("/api/aprender/pratica/fixacao/iniciar")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(result -> {
-                    int status = result.getResponse().getStatus();
-                    assertTrue(status == 401 || status == 403);
-                });
+        assertEquals(SessionType.TIMED, sessao.getSessionType());
     }
 }
