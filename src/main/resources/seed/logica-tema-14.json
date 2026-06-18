@@ -1,0 +1,922 @@
+{
+  "modules": [
+    {
+      "title": "Decomposição — quebrar o problema grande em partes",
+      "moduleType": "STUDY",
+      "displayOrder": 27,
+      "description": "Um problema grande assusta. Mas se a gente o divide em partes menores, cada parte vira fácil. Decompor é separar o todo em pedaços e resolver um de cada vez.",
+      "pages": [
+        {
+          "title": "O que é decompor um problema",
+          "description": "Dividir um problema grande em partes menores e mais fáceis.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Decompor é dividir um problema grande em partes menores. Em vez de tentar resolver tudo de uma vez, a gente separa o problema em pedaços e cuida de um pedaço por vez.\n\nUm problema grande parece difícil. Mas cada pedacinho dele costuma ser simples de resolver."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e09.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Pense no lobo Rex montando um quebra-cabeça. Ele não tenta encaixar tudo de uma vez: separa as peças por cor, monta as bordas primeiro e depois o meio.\n\nCada parte resolvida deixa o problema todo mais perto do fim."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplos do dia a dia: arrumar o quarto vira \"guardar os brinquedos\", \"fazer a cama\" e \"organizar a estante\". Cada tarefa pequena é fácil sozinha."
+            }
+          ]
+        },
+        {
+          "title": "Resolver por partes, uma de cada vez",
+          "description": "Cada parte vira uma tarefa pequena que você resolve sozinha.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Depois de dividir, a gente resolve cada parte separadamente. Termina uma, passa para a próxima. Assim você não se perde nem se assusta com o tamanho do problema.\n\nÉ como o gato Pixel cozinhando: primeiro separa os ingredientes, depois mistura, depois leva ao fogo. Um passo de cada vez."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e03.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Quando você junta todas as partes resolvidas, o problema grande está resolvido. Cada pedaço foi um passo rumo à solução completa.\n\nO dálmata Pongo entrega cartas em muitas casas: ele decompõe a rota em \"entregar em uma casa\" e repete para cada endereço da lista."
+            }
+          ]
+        },
+        {
+          "title": "Por que decompor ajuda tanto",
+          "description": "Partes menores são mais fáceis de entender, fazer e corrigir.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Decompor traz várias vantagens. Partes pequenas são fáceis de entender. Se algo der errado, você acha o problema só naquela parte, sem mexer no resto.\n\nTambém dá para dividir o trabalho: cada um cuida de uma parte ao mesmo tempo."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e06.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "A coruja Olívia organiza uma estante enorme de livros. Sozinha parece impossível, mas dividindo por prateleira e por cor, cada parte fica simples.\n\nSe um livro estiver fora do lugar, ela só precisa olhar aquela prateleira — não a estante inteira."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Resumindo: divida o problema grande em partes menores, resolva cada parte sozinha e depois junte tudo. Esse é o segredo de quem resolve problemas difíceis com calma."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Praticando decomposição com os mascotes",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 28,
+      "description": "Pratique dividir problemas grandes em partes menores: identifique os pedaços, ordene as etapas e relacione cada tarefa com suas partes.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex precisa montar um quebra-cabeça enorme. Qual é a melhor ideia para começar?",
+          "data": {
+            "options": [
+              {
+                "description": "Dividir em partes: separar peças por cor e montar as bordas primeiro.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Tentar encaixar todas as peças ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Desistir porque é grande demais.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Misturar todas as peças e fechar os olhos.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, dividir em partes, quebra-cabeça, começar",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O que significa DECOMPOR um problema?",
+          "data": {
+            "options": [
+              {
+                "description": "Dividir um problema grande em partes menores e mais fáceis.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Resolver tudo de uma vez, sem dividir.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Aumentar o tamanho do problema.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Ignorar o problema.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, conceito, dividir em partes, definição",
+          "img": "m1-e09.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia precisa organizar uma estante gigante de livros. Como decompor essa tarefa?",
+          "data": {
+            "options": [
+              {
+                "description": "Organizar uma prateleira de cada vez.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Jogar todos os livros no chão e deixar lá.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Comprar uma estante nova.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Tentar arrumar a estante inteira num segundo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, organizar livros, partes menores, prateleira",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel vai cozinhar seguindo um checklist. Por que dividir a receita em passos ajuda?",
+          "data": {
+            "options": [
+              {
+                "description": "Cada passo fica simples e ele faz um de cada vez.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Porque deixa a comida queimada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque faz a receita sumir.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque atrapalha o cozinheiro.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, passos, receita, resolver por partes",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Depois de dividir um problema em partes, qual é o jeito certo de resolver?",
+          "data": {
+            "options": [
+              {
+                "description": "Resolver uma parte de cada vez, até terminar todas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Resolver todas as partes ao mesmo tempo, confuso.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Deixar todas as partes sem resolver.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Resolver só a parte mais difícil e parar.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, resolver por partes, uma de cada vez, etapas",
+          "img": "m2-e16.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Uma vantagem de decompor: se algo der errado em uma parte, o que fica mais fácil?",
+          "data": {
+            "options": [
+              {
+                "description": "Achar o erro só naquela parte, sem mexer no resto.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Precisar refazer o problema inteiro.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Esconder o erro para sempre.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Deixar o problema maior.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, encontrar erro, vantagem, partes menores",
+          "img": "m2-e71.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O dálmata Pongo entrega cartas em 10 casas diferentes. Qual é a parte pequena que se repete?",
+          "data": {
+            "options": [
+              {
+                "description": "Entregar uma carta em uma casa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Construir uma casa nova.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Jogar fora todas as cartas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Trocar de bairro.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, parte que se repete, entregar cartas, rota",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina quer organizar uma festa grande. Qual lista mostra uma boa DECOMPOSIÇÃO?",
+          "data": {
+            "options": [
+              {
+                "description": "Convidar amigos, comprar comida, enfeitar a sala.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Fazer a festa inteira num só passo gigante.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não planejar nada e esperar dar certo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Cancelar a festa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, planejar festa, lista de partes, dividir tarefas",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo está montando um robô e precisa decompor a tarefa. Qual é uma parte menor desse problema?",
+          "data": {
+            "options": [
+              {
+                "description": "Colocar a bateria no lugar.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Construir o robô inteiro de uma vez.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não fazer nada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Desmontar a oficina toda.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, robô, parte menor, montar",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ajude o lobo Rex a decompor a montagem do quebra-cabeça. Coloque os passos na ordem.",
+          "data": {
+            "items": [
+              "Separar as peças por cor",
+              "Montar as bordas primeiro",
+              "Encaixar as peças do meio",
+              "Conferir o quebra-cabeça completo"
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, quebra-cabeça, ordem dos passos, montar por partes",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O gato Pixel vai cozinhar. Ordene a decomposição da receita em partes.",
+          "data": {
+            "items": [
+              "Separar os ingredientes",
+              "Misturar tudo na tigela",
+              "Levar ao fogo para assar",
+              "Servir o prato pronto"
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, receita, passos, cozinhar por partes",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene as etapas para a coruja Olívia organizar a estante de livros por partes.",
+          "data": {
+            "items": [
+              "Tirar todos os livros da estante",
+              "Separar os livros por cor",
+              "Colocar cada grupo na prateleira certa",
+              "Conferir se ficou tudo organizado"
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, organizar livros, etapas, prateleira",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A girafa Gina vai planejar uma festa. Ordene os passos da decomposição.",
+          "data": {
+            "items": [
+              "Fazer a lista de convidados",
+              "Comprar a comida",
+              "Enfeitar a sala",
+              "Receber os amigos"
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, planejar festa, ordem, dividir tarefas",
+          "img": "m2-e72.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene como o urso Téo deve montar o robô, parte por parte.",
+          "data": {
+            "items": [
+              "Encaixar o corpo do robô",
+              "Colocar a bateria no lugar",
+              "Ligar os braços e as pernas",
+              "Testar se o robô anda"
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, robô, montar por partes, ordem",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O dálmata Pongo precisa entregar várias cartas. Ordene a parte que se repete em cada casa.",
+          "data": {
+            "items": [
+              "Pegar a próxima carta da bolsa",
+              "Ir até a casa do endereço",
+              "Colocar a carta na caixa de correio"
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, entregar cartas, parte repetida, rota",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O jacaré Dado quer atravessar a rua com segurança. Ordene as partes da tarefa.",
+          "data": {
+            "items": [
+              "Ir até a faixa de pedestre",
+              "Olhar para os dois lados",
+              "Esperar os carros pararem",
+              "Atravessar a rua"
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, atravessar a rua, segurança, ordem das partes",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene como o gato Pixel deve etiquetar e guardar as caixas, dividindo em passos.",
+          "data": {
+            "items": [
+              "Separar os objetos por tipo",
+              "Escrever a etiqueta de cada caixa",
+              "Guardar cada objeto na caixa certa"
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, organizar caixas, etiquetar, passos",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A girafa Gina vai estudar um problema grande no tablet. Ordene como decompor o estudo.",
+          "data": {
+            "items": [
+              "Ler o problema todo com calma",
+              "Dividir o problema em partes menores",
+              "Resolver uma parte de cada vez",
+              "Juntar as partes na solução final"
+            ]
+          },
+          "xp": 7,
+          "tags": "decomposição, estudar, dividir em partes, juntar solução",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene o jeito certo de resolver qualquer problema grande usando decomposição.",
+          "data": {
+            "items": [
+              "Entender o problema grande",
+              "Quebrar em partes menores",
+              "Resolver cada parte sozinha",
+              "Conferir o resultado completo"
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, método, resolver por partes, ordem",
+          "img": "m2-e73.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada problema grande com uma de suas partes menores.",
+          "data": {
+            "lefts": [
+              "Organizar a estante de livros",
+              "Entregar muitas cartas",
+              "Montar o quebra-cabeça",
+              "Cozinhar uma receita"
+            ],
+            "rights": [
+              "Encaixar uma peça",
+              "Arrumar uma prateleira",
+              "Misturar os ingredientes",
+              "Entregar uma carta"
+            ],
+            "pairs": [
+              {
+                "left": "Organizar a estante de livros",
+                "right": "Arrumar uma prateleira"
+              },
+              {
+                "left": "Entregar muitas cartas",
+                "right": "Entregar uma carta"
+              },
+              {
+                "left": "Montar o quebra-cabeça",
+                "right": "Encaixar uma peça"
+              },
+              {
+                "left": "Cozinhar uma receita",
+                "right": "Misturar os ingredientes"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, problema e parte, relacionar, pares",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada mascote à tarefa grande que ele está decompondo.",
+          "data": {
+            "lefts": [
+              "Coruja Olívia",
+              "Gato Pixel",
+              "Dálmata Pongo",
+              "Lobo Rex"
+            ],
+            "rights": [
+              "Entregar as cartas",
+              "Organizar os livros",
+              "Montar o quebra-cabeça",
+              "Cozinhar a receita"
+            ],
+            "pairs": [
+              {
+                "left": "Coruja Olívia",
+                "right": "Organizar os livros"
+              },
+              {
+                "left": "Gato Pixel",
+                "right": "Cozinhar a receita"
+              },
+              {
+                "left": "Dálmata Pongo",
+                "right": "Entregar as cartas"
+              },
+              {
+                "left": "Lobo Rex",
+                "right": "Montar o quebra-cabeça"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, mascotes, tarefa grande, pares",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada parte de uma tarefa à etapa seguinte que vem logo depois.",
+          "data": {
+            "lefts": [
+              "Separar os ingredientes",
+              "Tirar os livros da estante",
+              "Separar peças por cor",
+              "Fazer a lista de convidados"
+            ],
+            "rights": [
+              "Enviar os convites",
+              "Misturar tudo na tigela",
+              "Separar os livros por cor",
+              "Montar as bordas"
+            ],
+            "pairs": [
+              {
+                "left": "Separar os ingredientes",
+                "right": "Misturar tudo na tigela"
+              },
+              {
+                "left": "Tirar os livros da estante",
+                "right": "Separar os livros por cor"
+              },
+              {
+                "left": "Separar peças por cor",
+                "right": "Montar as bordas"
+              },
+              {
+                "left": "Fazer a lista de convidados",
+                "right": "Enviar os convites"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, etapa seguinte, sequência, pares",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada tarefa repetida à parte pequena que se repete a cada vez.",
+          "data": {
+            "lefts": [
+              "Entregar cartas em 10 casas",
+              "Regar 5 plantas",
+              "Guardar várias caixas",
+              "Subir uma escada longa"
+            ],
+            "rights": [
+              "Guardar uma caixa",
+              "Entregar uma carta",
+              "Subir um degrau",
+              "Regar uma planta"
+            ],
+            "pairs": [
+              {
+                "left": "Entregar cartas em 10 casas",
+                "right": "Entregar uma carta"
+              },
+              {
+                "left": "Regar 5 plantas",
+                "right": "Regar uma planta"
+              },
+              {
+                "left": "Guardar várias caixas",
+                "right": "Guardar uma caixa"
+              },
+              {
+                "left": "Subir uma escada longa",
+                "right": "Subir um degrau"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, parte que se repete, relacionar, pares",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada vantagem de decompor à sua explicação.",
+          "data": {
+            "lefts": [
+              "Mais fácil de entender",
+              "Mais fácil achar erro",
+              "Dá para dividir o trabalho",
+              "Menos assustador"
+            ],
+            "rights": [
+              "O problema grande parece menor",
+              "Cada parte pequena é simples",
+              "Cada um cuida de uma parte",
+              "O erro fica só em uma parte"
+            ],
+            "pairs": [
+              {
+                "left": "Mais fácil de entender",
+                "right": "Cada parte pequena é simples"
+              },
+              {
+                "left": "Mais fácil achar erro",
+                "right": "O erro fica só em uma parte"
+              },
+              {
+                "left": "Dá para dividir o trabalho",
+                "right": "Cada um cuida de uma parte"
+              },
+              {
+                "left": "Menos assustador",
+                "right": "O problema grande parece menor"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "decomposição, vantagens, explicação, pares",
+          "img": "m2-e74.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada problema grande à primeira parte por onde começar.",
+          "data": {
+            "lefts": [
+              "Atravessar a rua",
+              "Montar o robô",
+              "Organizar caixas",
+              "Planejar a festa"
+            ],
+            "rights": [
+              "Encaixar o corpo do robô",
+              "Ir até a faixa de pedestre",
+              "Fazer a lista de convidados",
+              "Separar os objetos por tipo"
+            ],
+            "pairs": [
+              {
+                "left": "Atravessar a rua",
+                "right": "Ir até a faixa de pedestre"
+              },
+              {
+                "left": "Montar o robô",
+                "right": "Encaixar o corpo do robô"
+              },
+              {
+                "left": "Organizar caixas",
+                "right": "Separar os objetos por tipo"
+              },
+              {
+                "left": "Planejar a festa",
+                "right": "Fazer a lista de convidados"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, primeira parte, começar, pares",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada palavra de decomposição ao seu significado.",
+          "data": {
+            "lefts": [
+              "Decompor",
+              "Parte",
+              "Etapa",
+              "Juntar"
+            ],
+            "rights": [
+              "Um passo da tarefa",
+              "Dividir em pedaços menores",
+              "Unir as partes na solução",
+              "Um pedaço do problema"
+            ],
+            "pairs": [
+              {
+                "left": "Decompor",
+                "right": "Dividir em pedaços menores"
+              },
+              {
+                "left": "Parte",
+                "right": "Um pedaço do problema"
+              },
+              {
+                "left": "Etapa",
+                "right": "Um passo da tarefa"
+              },
+              {
+                "left": "Juntar",
+                "right": "Unir as partes na solução"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "decomposição, vocabulário, significado, pares",
+          "img": "m2-e16.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado quer escolher o caminho mais curto até a escola. Como decompor essa decisão?",
+          "data": {
+            "options": [
+              {
+                "description": "Olhar cada rua separada e ver qual é a mais curta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Andar de olhos fechados sem pensar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Escolher o caminho mais longo de propósito.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Ficar parado para sempre.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "decomposição, escolher caminho, comparar partes, decisão",
+          "img": "m1-e12.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada mascote à parte pequena que ele resolve dentro da tarefa.",
+          "data": {
+            "lefts": [
+              "Urso Téo (montar robô)",
+              "Jacaré Dado (atravessar)",
+              "Girafa Gina (festa)",
+              "Gato Pixel (organizar)"
+            ],
+            "rights": [
+              "Olhar para os dois lados",
+              "Etiquetar uma caixa",
+              "Colocar a bateria no lugar",
+              "Comprar a comida"
+            ],
+            "pairs": [
+              {
+                "left": "Urso Téo (montar robô)",
+                "right": "Colocar a bateria no lugar"
+              },
+              {
+                "left": "Jacaré Dado (atravessar)",
+                "right": "Olhar para os dois lados"
+              },
+              {
+                "left": "Girafa Gina (festa)",
+                "right": "Comprar a comida"
+              },
+              {
+                "left": "Gato Pixel (organizar)",
+                "right": "Etiquetar uma caixa"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "decomposição, mascotes, parte pequena, pares",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada momento da decomposição à sua descrição.",
+          "data": {
+            "lefts": [
+              "Começo",
+              "Divisão",
+              "Resolução",
+              "Final"
+            ],
+            "rights": [
+              "Resolver cada parte sozinha",
+              "Entender o problema grande",
+              "Juntar tudo na solução",
+              "Quebrar em partes menores"
+            ],
+            "pairs": [
+              {
+                "left": "Começo",
+                "right": "Entender o problema grande"
+              },
+              {
+                "left": "Divisão",
+                "right": "Quebrar em partes menores"
+              },
+              {
+                "left": "Resolução",
+                "right": "Resolver cada parte sozinha"
+              },
+              {
+                "left": "Final",
+                "right": "Juntar tudo na solução"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "decomposição, etapas do método, descrição, pares",
+          "img": "m2-e71.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Depois de resolver todas as partes de um problema, o que fazemos para terminar?",
+          "data": {
+            "options": [
+              {
+                "description": "Juntar todas as partes resolvidas na solução completa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Esquecer as partes que já resolvemos.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Começar tudo de novo do zero.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Apagar a solução.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "decomposição, juntar partes, solução completa, finalizar",
+          "img": "m2-e72.png"
+        }
+      ]
+    }
+  ]
+}

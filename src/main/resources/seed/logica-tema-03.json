@@ -1,0 +1,928 @@
+{
+  "modules": [
+    {
+      "title": "Verdadeiro ou falso — lógica proposicional",
+      "moduleType": "STUDY",
+      "displayOrder": 5,
+      "description": "Aprenda a avaliar afirmações como verdadeiras ou falsas, usar a negação e combinar ideias com 'e' e 'ou'.",
+      "pages": [
+        {
+          "title": "Toda afirmação é verdadeira ou falsa",
+          "description": "A base da lógica proposicional.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Uma afirmação (ou proposição) é uma frase que pode ser apenas verdadeira (V) ou falsa (F) — nunca as duas ao mesmo tempo.\n\nExemplo: \"O urso Téo tem 3 lápis.\" Olhando para a realidade, isso é verdadeiro ou é falso. Não tem meio-termo."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e13.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Cuidado: perguntas e pedidos NÃO são afirmações.\n\n\"Que horas são?\" e \"Feche a porta!\" não podem ser julgadas como V ou F — então não são proposições."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Na lógica de programação você decide o tempo todo: \"isso é verdade?\". E o computador segue um caminho ou outro conforme a resposta for V ou F."
+            }
+          ]
+        },
+        {
+          "title": "A negação: inverter o valor",
+          "description": "A palavra 'não' troca verdadeiro por falso.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Negar uma afirmação é dizer o contrário dela usando 'não'. A negação SEMPRE inverte o valor: se era verdadeira, vira falsa; se era falsa, vira verdadeira."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: \"A coruja Olívia está acordada\" é verdadeira. Então \"A coruja Olívia NÃO está acordada\" é falsa.\n\nDuas negações se cancelam: \"não é verdade que ela não dorme\" volta a dizer que ela dorme."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e08.png"
+            }
+          ]
+        },
+        {
+          "title": "Combinando ideias: 'e' e 'ou'",
+          "description": "Como duas afirmações se juntam.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Com 'E', o resultado só é verdadeiro quando AS DUAS partes são verdadeiras. Basta uma ser falsa para tudo ficar falso.\n\nExemplo: \"O gato Pixel tem caixa E tem etiqueta\" só é verdade se ele tiver as duas coisas."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Com 'OU', o resultado é verdadeiro quando PELO MENOS UMA parte é verdadeira. Só fica falso quando as duas são falsas.\n\nExemplo: \"O lobo Rex leva o número maior OU o menor\" é verdade se ele levar qualquer um dos dois."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e03.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Verdadeiro ou falso — praticando",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 6,
+      "description": "Avalie afirmações, aplique a negação e combine ideias com 'e' e 'ou'.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo conta os lápis e há exatamente 3 sobre a mesa. A afirmação \"O Téo tem 3 lápis\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Verdadeira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Falsa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não dá para saber.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "As duas ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "lógica proposicional, verdadeiro, valor lógico, avaliar afirmação",
+          "img": "m1-e13.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Qual das frases abaixo é uma afirmação (pode ser julgada como verdadeira ou falsa)?",
+          "data": {
+            "options": [
+              {
+                "description": "\"A girafa Gina tem 4 patas.\"",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "\"Que horas são?\"",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "\"Feche a porta, por favor!\"",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "\"Vamos brincar?\"",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "lógica proposicional, proposição, afirmação, pergunta, valor lógico",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A frase \"A coruja Olívia está acordada\" é verdadeira. Então a negação \"A coruja Olívia NÃO está acordada\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Falsa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Verdadeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Continua verdadeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Impossível de avaliar.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "lógica proposicional, negação, não, inverter valor",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel tem uma caixa, MAS ela não tem etiqueta. A afirmação \"A caixa tem etiqueta E está fechada\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Falsa, porque uma das partes não é verdadeira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Verdadeira, porque a caixa existe.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Verdadeira, porque está fechada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não é possível avaliar.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, conjunção, e, combinar afirmações",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex compara dois números: 8 e 5. A afirmação \"8 é maior que 5 OU 8 é igual a 5\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Verdadeira, pois ao menos uma parte é verdadeira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Falsa, pois 8 não é igual a 5.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Falsa, porque há um 'ou'.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Depende do número escolhido.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, disjunção, ou, comparação, números",
+          "img": "m1-e18.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado só atravessa quando NÃO vem nenhum carro. Neste momento vem um carro. A afirmação \"o Dado pode atravessar agora\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Falsa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Verdadeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Verdadeira só de dia.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não dá para julgar.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, negação, condição, avaliar afirmação",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina olha o contador de vidas: ela tem 0 vidas. A afirmação \"A Gina tem PELO MENOS 1 vida\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Falsa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Verdadeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Verdadeira, porque vida nunca acaba.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não é uma afirmação.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "lógica proposicional, verdadeiro ou falso, avaliar afirmação, vidas",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A frase \"Não é verdade que a coruja Olívia dorme\" tem o mesmo sentido de:",
+          "data": {
+            "options": [
+              {
+                "description": "\"A coruja Olívia NÃO dorme.\"",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "\"A coruja Olívia dorme.\"",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "\"A coruja Olívia dorme e acorda.\"",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "\"A coruja Olívia talvez durma.\"",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, negação, não, equivalência",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O semáforo está VERMELHO. A afirmação \"o sinal está verde E pode seguir\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Falsa, pois a parte 'está verde' é falsa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Verdadeira, pois há um semáforo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Verdadeira, pois carros andam.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Impossível de saber.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, conjunção, e, condição, semáforo",
+          "img": "m2-e28.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada situação ao valor lógico resultado, usando as regras da negação.",
+          "data": {
+            "lefts": [
+              "Negar uma afirmação verdadeira",
+              "Negar uma afirmação falsa",
+              "Negar duas vezes uma afirmação verdadeira",
+              "Negar duas vezes uma afirmação falsa"
+            ],
+            "rights": [
+              "Vira falsa",
+              "Vira verdadeira",
+              "Continua verdadeira",
+              "Continua falsa"
+            ],
+            "pairs": [
+              {
+                "left": "Negar uma afirmação verdadeira",
+                "right": "Vira falsa"
+              },
+              {
+                "left": "Negar uma afirmação falsa",
+                "right": "Vira verdadeira"
+              },
+              {
+                "left": "Negar duas vezes uma afirmação verdadeira",
+                "right": "Continua verdadeira"
+              },
+              {
+                "left": "Negar duas vezes uma afirmação falsa",
+                "right": "Continua falsa"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, negação, regra, inverter valor, negação dupla",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A coruja detetive Olívia avaliou cada afirmação sobre o pátio. Combine cada frase ao seu valor lógico (V ou F), sabendo que está chovendo e há 5 árvores.",
+          "data": {
+            "lefts": [
+              "\"Está chovendo.\"",
+              "\"Não está chovendo.\"",
+              "\"Há 5 árvores no pátio.\"",
+              "\"Há 10 árvores no pátio.\""
+            ],
+            "rights": [
+              "Verdadeira",
+              "Falsa",
+              "Outra verdadeira",
+              "Outra falsa"
+            ],
+            "pairs": [
+              {
+                "left": "\"Está chovendo.\"",
+                "right": "Verdadeira"
+              },
+              {
+                "left": "\"Não está chovendo.\"",
+                "right": "Falsa"
+              },
+              {
+                "left": "\"Há 5 árvores no pátio.\"",
+                "right": "Outra verdadeira"
+              },
+              {
+                "left": "\"Há 10 árvores no pátio.\"",
+                "right": "Outra falsa"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, verdadeiro ou falso, negação, avaliar afirmação",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada afirmação à sua negação correta.",
+          "data": {
+            "lefts": [
+              "\"O Téo está estudando.\"",
+              "\"A Gina tem vidas.\"",
+              "\"A caixa está cheia.\"",
+              "\"O sinal está verde.\""
+            ],
+            "rights": [
+              "\"O Téo NÃO está estudando.\"",
+              "\"A Gina NÃO tem vidas.\"",
+              "\"A caixa NÃO está cheia.\"",
+              "\"O sinal NÃO está verde.\""
+            ],
+            "pairs": [
+              {
+                "left": "\"O Téo está estudando.\"",
+                "right": "\"O Téo NÃO está estudando.\""
+              },
+              {
+                "left": "\"A Gina tem vidas.\"",
+                "right": "\"A Gina NÃO tem vidas.\""
+              },
+              {
+                "left": "\"A caixa está cheia.\"",
+                "right": "\"A caixa NÃO está cheia.\""
+              },
+              {
+                "left": "\"O sinal está verde.\"",
+                "right": "\"O sinal NÃO está verde.\""
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, negação, não, associação",
+          "img": "m2-e29.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O urso Téo usou a balança para comparar pesos. Combine cada afirmação ao seu valor, sabendo que a maçã pesa mais que a uva e o livro pesa mais que a maçã.",
+          "data": {
+            "lefts": [
+              "\"A maçã pesa mais que a uva.\"",
+              "\"A uva pesa mais que a maçã.\"",
+              "\"O livro pesa mais que a maçã.\"",
+              "\"A maçã pesa mais que o livro.\""
+            ],
+            "rights": [
+              "Verdadeira",
+              "Falsa",
+              "Outra verdadeira",
+              "Outra falsa"
+            ],
+            "pairs": [
+              {
+                "left": "\"A maçã pesa mais que a uva.\"",
+                "right": "Verdadeira"
+              },
+              {
+                "left": "\"A uva pesa mais que a maçã.\"",
+                "right": "Falsa"
+              },
+              {
+                "left": "\"O livro pesa mais que a maçã.\"",
+                "right": "Outra verdadeira"
+              },
+              {
+                "left": "\"A maçã pesa mais que o livro.\"",
+                "right": "Outra falsa"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, comparação, verdadeiro ou falso, peso",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada combinação com 'E' ao seu resultado, sabendo que: chove (V), faz sol (F).",
+          "data": {
+            "lefts": [
+              "\"Chove E faz sol.\"",
+              "\"Chove E está nublado.\"",
+              "\"Faz sol E está quente.\"",
+              "\"Chove E não faz sol.\""
+            ],
+            "rights": [
+              "Falsa (uma parte é falsa)",
+              "Verdadeira (as duas são verdadeiras)",
+              "Falsa (faz sol é falso)",
+              "Verdadeira (ambas verdadeiras)"
+            ],
+            "pairs": [
+              {
+                "left": "\"Chove E faz sol.\"",
+                "right": "Falsa (uma parte é falsa)"
+              },
+              {
+                "left": "\"Chove E está nublado.\"",
+                "right": "Verdadeira (as duas são verdadeiras)"
+              },
+              {
+                "left": "\"Faz sol E está quente.\"",
+                "right": "Falsa (faz sol é falso)"
+              },
+              {
+                "left": "\"Chove E não faz sol.\"",
+                "right": "Verdadeira (ambas verdadeiras)"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, conjunção, e, combinar afirmações",
+          "img": "m2-e30.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O jacaré Dado marcou cada afirmação com check verde (verdadeira) ou X vermelho (falsa). Combine sabendo que 7 é maior que 3 e 2 é menor que 9.",
+          "data": {
+            "lefts": [
+              "\"7 é maior que 3.\"",
+              "\"3 é maior que 7.\"",
+              "\"2 é menor que 9.\"",
+              "\"9 é menor que 2.\""
+            ],
+            "rights": [
+              "Check verde",
+              "X vermelho",
+              "Outro check verde",
+              "Outro X vermelho"
+            ],
+            "pairs": [
+              {
+                "left": "\"7 é maior que 3.\"",
+                "right": "Check verde"
+              },
+              {
+                "left": "\"3 é maior que 7.\"",
+                "right": "X vermelho"
+              },
+              {
+                "left": "\"2 é menor que 9.\"",
+                "right": "Outro check verde"
+              },
+              {
+                "left": "\"9 é menor que 2.\"",
+                "right": "Outro X vermelho"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, verdadeiro ou falso, comparação, números",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada combinação com 'OU' ao seu resultado, sabendo que: a Gina tem 0 vidas (sem vidas) e o Pixel tem 2 vidas.",
+          "data": {
+            "lefts": [
+              "\"A Gina tem vidas OU o Pixel tem vidas.\"",
+              "\"A Gina tem vidas OU o Pixel não tem vidas.\"",
+              "\"O Pixel tem vidas OU a Gina tem vidas.\"",
+              "\"A Gina não tem vidas OU o Pixel tem vidas.\""
+            ],
+            "rights": [
+              "Verdadeira (Pixel tem)",
+              "Falsa (as duas falsas)",
+              "Verdadeira (Pixel tem)",
+              "Verdadeira (ambas verdadeiras)"
+            ],
+            "pairs": [
+              {
+                "left": "\"A Gina tem vidas OU o Pixel tem vidas.\"",
+                "right": "Verdadeira (Pixel tem)"
+              },
+              {
+                "left": "\"A Gina tem vidas OU o Pixel não tem vidas.\"",
+                "right": "Falsa (as duas falsas)"
+              },
+              {
+                "left": "\"O Pixel tem vidas OU a Gina tem vidas.\"",
+                "right": "Verdadeira (Pixel tem)"
+              },
+              {
+                "left": "\"A Gina não tem vidas OU o Pixel tem vidas.\"",
+                "right": "Verdadeira (ambas verdadeiras)"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, disjunção, ou, combinar afirmações, vidas",
+          "img": "m2-e31.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O dálmata Pongo separou frases em dois grupos. Combine cada frase ao tipo: 'Afirmação' (pode ser V/F) ou 'Não é afirmação'.",
+          "data": {
+            "lefts": [
+              "\"O Pongo tem 7 tarefas.\"",
+              "\"Você terminou tudo?\"",
+              "\"A planta está regada.\"",
+              "\"Regue a planta agora!\""
+            ],
+            "rights": [
+              "Afirmação",
+              "Não é afirmação",
+              "Outra afirmação",
+              "Também não é afirmação"
+            ],
+            "pairs": [
+              {
+                "left": "\"O Pongo tem 7 tarefas.\"",
+                "right": "Afirmação"
+              },
+              {
+                "left": "\"Você terminou tudo?\"",
+                "right": "Não é afirmação"
+              },
+              {
+                "left": "\"A planta está regada.\"",
+                "right": "Outra afirmação"
+              },
+              {
+                "left": "\"Regue a planta agora!\"",
+                "right": "Também não é afirmação"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, proposição, afirmação, pergunta, ordem",
+          "img": "m1-e07.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada afirmação ao seu valor lógico, sabendo que o lobo Rex tem 5 peças de quebra-cabeça e o jogo precisa de 5 peças.",
+          "data": {
+            "lefts": [
+              "\"O Rex tem peças suficientes.\"",
+              "\"Faltam peças para o Rex.\"",
+              "\"O Rex tem exatamente 5 peças.\"",
+              "\"O Rex tem mais de 5 peças.\""
+            ],
+            "rights": [
+              "Verdadeira",
+              "Falsa",
+              "Outra verdadeira",
+              "Outra falsa"
+            ],
+            "pairs": [
+              {
+                "left": "\"O Rex tem peças suficientes.\"",
+                "right": "Verdadeira"
+              },
+              {
+                "left": "\"Faltam peças para o Rex.\"",
+                "right": "Falsa"
+              },
+              {
+                "left": "\"O Rex tem exatamente 5 peças.\"",
+                "right": "Outra verdadeira"
+              },
+              {
+                "left": "\"O Rex tem mais de 5 peças.\"",
+                "right": "Outra falsa"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, verdadeiro ou falso, quantidade, avaliar afirmação",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada conector ao que ele significa na lógica.",
+          "data": {
+            "lefts": [
+              "\"E\"",
+              "\"OU\"",
+              "\"NÃO\"",
+              "Afirmação"
+            ],
+            "rights": [
+              "Só é V se as duas partes forem V",
+              "É V se pelo menos uma parte for V",
+              "Inverte o valor (V vira F)",
+              "Frase que pode ser V ou F"
+            ],
+            "pairs": [
+              {
+                "left": "\"E\"",
+                "right": "Só é V se as duas partes forem V"
+              },
+              {
+                "left": "\"OU\"",
+                "right": "É V se pelo menos uma parte for V"
+              },
+              {
+                "left": "\"NÃO\"",
+                "right": "Inverte o valor (V vira F)"
+              },
+              {
+                "left": "Afirmação",
+                "right": "Frase que pode ser V ou F"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, conectivos, e, ou, negação, definição",
+          "img": "m2-e32.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O jacaré Dado precisa decidir se atravessa. Ordene o raciocínio lógico, do começo ao fim.",
+          "data": {
+            "items": [
+              "Olhar para os dois lados",
+              "Verificar se a afirmação \"vem um carro\" é verdadeira ou falsa",
+              "Se for falsa (não vem carro), atravessar",
+              "Se for verdadeira (vem carro), esperar"
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, decisão, avaliar afirmação, negação, condição",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja Olívia ensina como avaliar uma afirmação. Ordene os passos.",
+          "data": {
+            "items": [
+              "Ler a afirmação com atenção",
+              "Comparar com a realidade",
+              "Decidir se é verdadeira ou falsa",
+              "Marcar V ou F"
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, avaliar afirmação, verdadeiro ou falso, passos",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Para usar a negação corretamente, ordene as etapas.",
+          "data": {
+            "items": [
+              "Identificar a afirmação original",
+              "Descobrir se ela é verdadeira ou falsa",
+              "Acrescentar o 'não' para negá-la",
+              "Inverter o valor (V vira F, F vira V)"
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, negação, não, inverter valor, passos",
+          "img": "m1-e09.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O gato Pixel avalia a frase \"a caixa tem etiqueta E está fechada\" (com 'E'). Ordene o raciocínio.",
+          "data": {
+            "items": [
+              "Avaliar se a caixa tem etiqueta",
+              "Avaliar se a caixa está fechada",
+              "Lembrar que 'E' precisa das DUAS verdadeiras",
+              "Concluir V só se ambas forem verdadeiras"
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, conjunção, e, combinar afirmações, passos",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O lobo Rex avalia a frase \"levo o número maior OU o menor\" (com 'OU'). Ordene o raciocínio.",
+          "data": {
+            "items": [
+              "Avaliar se levo o número maior",
+              "Avaliar se levo o número menor",
+              "Lembrar que 'OU' precisa de PELO MENOS UMA verdadeira",
+              "Concluir V se ao menos uma for verdadeira"
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, disjunção, ou, combinar afirmações, passos",
+          "img": "m1-e18.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O semáforo de Rex muda de cor. Ordene as afirmações da MAIS restritiva para a menos restritiva sobre poder seguir.",
+          "data": {
+            "items": [
+              "\"O sinal está verde E não vem ninguém.\"",
+              "\"O sinal está verde.\"",
+              "\"O sinal está verde OU amarelo.\"",
+              "\"O sinal não está vermelho.\""
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, e, ou, negação, restrição",
+          "img": "m2-e28.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja detetive Olívia resolve um caso testando afirmações. Ordene o método.",
+          "data": {
+            "items": [
+              "Anotar a afirmação suspeita",
+              "Buscar pistas que confirmam ou negam",
+              "Decidir o valor: verdadeira ou falsa",
+              "Registrar a conclusão"
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, avaliar afirmação, verdadeiro ou falso, investigação",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Para checar uma afirmação com 'E', o urso Téo segue uma ordem. Coloque na sequência certa.",
+          "data": {
+            "items": [
+              "Separar a frase nas duas partes",
+              "Avaliar a primeira parte",
+              "Avaliar a segunda parte",
+              "É verdadeira só se as duas forem verdadeiras"
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, conjunção, e, passos, avaliar afirmação",
+          "img": "m2-e29.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A girafa Gina monta uma negação dupla e a desfaz. Ordene o raciocínio.",
+          "data": {
+            "items": [
+              "Começar com \"a Gina dorme\" (verdadeira)",
+              "Negar: \"a Gina não dorme\" (falsa)",
+              "Negar de novo: \"não é verdade que não dorme\"",
+              "Concluir que voltou a ser verdadeira"
+            ]
+          },
+          "xp": 7,
+          "tags": "lógica proposicional, negação dupla, não, inverter valor",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O dálmata Pongo decide quais frases entram na caixa de 'afirmações'. Ordene os passos de triagem.",
+          "data": {
+            "items": [
+              "Ler a frase",
+              "Perguntar: dá para dizer se é V ou F?",
+              "Se sim, é uma afirmação (entra na caixa)",
+              "Se não (pergunta ou ordem), descartar"
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, proposição, afirmação, triagem, passos",
+          "img": "m2-e30.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O dálmata Pongo tem 7 tarefas e já concluiu todas. A afirmação \"AINDA há tarefas pendentes E o Pongo está ocupado\" é:",
+          "data": {
+            "options": [
+              {
+                "description": "Falsa, porque não há tarefas pendentes.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Verdadeira, porque ele tem 7 tarefas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Verdadeira, porque ele está ocupado.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não é uma afirmação.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "lógica proposicional, conjunção, e, avaliar afirmação, tarefas",
+          "img": "m1-e07.png"
+        }
+      ]
+    }
+  ]
+}

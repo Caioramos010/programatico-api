@@ -1,0 +1,935 @@
+{
+  "modules": [
+    {
+      "title": "Se… então — raciocínio condicional",
+      "moduleType": "STUDY",
+      "displayOrder": 7,
+      "description": "Aprenda a decidir conforme uma condição: se algo for verdade, faça uma coisa; senão, faça outra.",
+      "pages": [
+        {
+          "title": "O que é uma condição",
+          "description": "Toda decisão começa com uma pergunta de sim ou não.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Uma condição é uma pergunta que só tem duas respostas: verdadeiro ou falso, sim ou não.\n\nExemplos: \"Está chovendo?\", \"O número é maior que 10?\", \"A bateria acabou?\". Cada uma dessas perguntas tem uma resposta certa no momento."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e16.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Na lógica, usamos a palavra \"se\" para testar uma condição.\n\nQuando dizemos \"se está chovendo\", estamos perguntando: a condição \"está chovendo\" é verdadeira agora?"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Repare nas palavras que indicam condição: \"se\", \"quando\", \"caso\", \"sempre que\". Elas avisam que uma decisão vem a seguir."
+            }
+          ]
+        },
+        {
+          "title": "Se… então… senão",
+          "description": "Escolher uma ação conforme a resposta da condição.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Depois de testar a condição, decidimos o que fazer:\n\n\"SE a condição for verdadeira, ENTÃO faça uma ação. SENÃO, faça outra ação.\""
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e15.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: \"Se está chovendo, então leve o guarda-chuva. Senão, leve o boné.\"\n\nSó uma das ações acontece — nunca as duas ao mesmo tempo. A resposta da condição decide qual."
+            },
+            {
+              "layout": "TEXT",
+              "text": "O \"senão\" é o caminho alternativo. Ele cobre todos os casos em que a condição NÃO é verdadeira."
+            }
+          ]
+        },
+        {
+          "title": "Por que isso importa",
+          "description": "Programas tomam decisões o tempo todo.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Quase todo programa precisa decidir: se a senha está certa, entra; senão, mostra erro. Se ainda há vidas, continua; senão, fim de jogo.\n\nÉ o raciocínio condicional que dá inteligência às soluções."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e05.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Pense num semáforo: SE está verde, ENTÃO siga; SENÃO (amarelo ou vermelho), pare.\n\nUma condição, dois caminhos possíveis — esse é o coração do \"se… então\"."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos próximos exercícios você vai treinar a identificar condições, escolher a ação certa e montar decisões com \"se\" e \"senão\"."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Se… então — praticando decisões",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 8,
+      "description": "Teste condições, escolha o caminho certo e monte decisões com se e senão.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia decide: \"Se estiver chovendo, levo o guarda-chuva; senão, levo o boné.\"\n\nEstá chovendo. O que Olívia leva?",
+          "data": {
+            "options": [
+              {
+                "description": "O guarda-chuva.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O boné.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Os dois ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nada, fica em casa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "se então, condição verdadeira, decisão, chuva",
+          "img": "m1-e16.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A regra do gato Pixel é: \"Se o número for maior que 10, separe na caixa AZUL; senão, na caixa VERMELHA.\"\n\nO número é 7. Em qual caixa vai?",
+          "data": {
+            "options": [
+              {
+                "description": "Caixa VERMELHA, porque 7 não é maior que 10.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Caixa AZUL, porque 7 é maior que 10.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nas duas caixas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Em nenhuma caixa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "se então, comparação, maior que, senão, decisão",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo programou o robô: \"Se a bateria acabou, então pare; senão, continue andando.\"\n\nA bateria ainda tem carga. O que o robô faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Continua andando.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Para na hora.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Desliga e liga de novo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Volta para o começo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "se então, condição falsa, senão, robô, bateria",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado segue a regra: \"Só atravesso SE não vier nenhum carro.\"\n\nUm carro está vindo. O que Dado faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Espera, porque a condição não foi atendida.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Atravessa correndo mesmo assim.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Atravessa porque sempre atravessa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Volta para casa e desiste do dia.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, condição, segurança, faixa de pedestre, decisão",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina olha o contador: \"Se ainda tenho vidas, continuo a fase; senão, fim de jogo.\"\n\nO contador mostra 0 vidas. O que acontece?",
+          "data": {
+            "options": [
+              {
+                "description": "Fim de jogo, porque não há vidas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Continua a fase normalmente.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Ganha mais 3 vidas automaticamente.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pula para a última fase.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, vidas, condição zero, fim de jogo, senão",
+          "img": "m1-e14.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "No semáforo, o lobo Rex segue: \"Se o sinal está verde, então siga; senão, pare.\"\n\nO sinal está amarelo. O que Rex faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Para, porque amarelo não é verde.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Segue, porque amarelo é quase verde.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Acelera para passar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Buzina e segue.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "se então, semáforo, senão, decisão, condição falsa",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O dálmata Pongo entrega cartas: \"Se a caixa tem nome do morador, deixo a carta; senão, devolvo.\"\n\nA caixa está sem nome. O que Pongo faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Devolve a carta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Deixa a carta mesmo assim.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Rasga a carta.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Guarda a carta para sempre.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, senão, condição, entrega, decisão",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Qual frase abaixo é uma CONDIÇÃO (uma pergunta de sim ou não)?",
+          "data": {
+            "options": [
+              {
+                "description": "O número é par?",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Some os dois números.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pinte o quadrado de azul.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Ande três passos para frente.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condição, verdadeiro falso, identificar, se então",
+          "img": "m2-e06.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia, detetive, raciocina: \"Se o vidro estava quebrado por dentro, então o culpado já estava na sala.\"\n\nO vidro estava quebrado por dentro. O que se conclui?",
+          "data": {
+            "options": [
+              {
+                "description": "O culpado já estava na sala.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O culpado entrou pela janela.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não houve culpado.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O vidro nunca quebrou.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "se então, condição verdadeira, conclusão, dedução",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex compara dois números e decide: \"Se A for maior que B, mostro A; senão, mostro B.\"\n\nA = 4 e B = 9. O que Rex mostra?",
+          "data": {
+            "options": [
+              {
+                "description": "9, porque A não é maior que B.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "4, porque A vem primeiro.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "13, a soma dos dois.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum, porque são diferentes.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, comparação, maior que, senão, decisão",
+          "img": "m2-e33.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada CONDIÇÃO à sua AÇÃO quando ela é verdadeira, segundo as regras dos mascotes.",
+          "data": {
+            "lefts": [
+              "Se está chovendo",
+              "Se a senha está certa",
+              "Se a bateria acabou",
+              "Se o sinal está verde"
+            ],
+            "rights": [
+              "o robô para",
+              "siga em frente",
+              "leve o guarda-chuva",
+              "entre no aplicativo"
+            ],
+            "pairs": [
+              {
+                "left": "Se está chovendo",
+                "right": "leve o guarda-chuva"
+              },
+              {
+                "left": "Se a senha está certa",
+                "right": "entre no aplicativo"
+              },
+              {
+                "left": "Se a bateria acabou",
+                "right": "o robô para"
+              },
+              {
+                "left": "Se o sinal está verde",
+                "right": "siga em frente"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, condição, ação, relacionar, decisão",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada condição à resposta certa (verdadeiro ou falso) no momento descrito.",
+          "data": {
+            "lefts": [
+              "7 é maior que 10?",
+              "O número 8 é par?",
+              "5 + 5 é igual a 10?",
+              "3 é maior que 9?"
+            ],
+            "rights": [
+              "verdadeiro",
+              "falso",
+              "verdadeiro",
+              "falso"
+            ],
+            "pairs": [
+              {
+                "left": "7 é maior que 10?",
+                "right": "falso"
+              },
+              {
+                "left": "O número 8 é par?",
+                "right": "verdadeiro"
+              },
+              {
+                "left": "5 + 5 é igual a 10?",
+                "right": "verdadeiro"
+              },
+              {
+                "left": "3 é maior que 9?",
+                "right": "falso"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condição, verdadeiro falso, comparação, avaliar",
+          "img": "m2-e34.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada mascote tem uma regra com SENÃO. Ligue a condição falsa à ação do senão.",
+          "data": {
+            "lefts": [
+              "Se não chove (Olívia)",
+              "Se a caixa não tem nome (Pongo)",
+              "Se o sinal não está verde (Rex)",
+              "Se não há vidas (Gina)"
+            ],
+            "rights": [
+              "devolve a carta",
+              "fim de jogo",
+              "leve o boné",
+              "pare"
+            ],
+            "pairs": [
+              {
+                "left": "Se não chove (Olívia)",
+                "right": "leve o boné"
+              },
+              {
+                "left": "Se a caixa não tem nome (Pongo)",
+                "right": "devolve a carta"
+              },
+              {
+                "left": "Se o sinal não está verde (Rex)",
+                "right": "pare"
+              },
+              {
+                "left": "Se não há vidas (Gina)",
+                "right": "fim de jogo"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "senão, condição falsa, alternativa, relacionar, decisão",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O gato Pixel separa números maiores que 10 na caixa AZUL e o resto na VERMELHA. Ligue cada número à sua caixa.",
+          "data": {
+            "lefts": [
+              "15",
+              "3",
+              "20",
+              "8"
+            ],
+            "rights": [
+              "caixa AZUL",
+              "caixa VERMELHA",
+              "caixa AZUL",
+              "caixa VERMELHA"
+            ],
+            "pairs": [
+              {
+                "left": "15",
+                "right": "caixa AZUL"
+              },
+              {
+                "left": "3",
+                "right": "caixa VERMELHA"
+              },
+              {
+                "left": "20",
+                "right": "caixa AZUL"
+              },
+              {
+                "left": "8",
+                "right": "caixa VERMELHA"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, comparação, maior que, separar, caixas",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada situação (condição verdadeira) ao caminho que o mascote toma.",
+          "data": {
+            "lefts": [
+              "Vem um carro (Dado)",
+              "Bateria com carga (Téo)",
+              "Senha errada (Olívia)",
+              "A está acima de B (Rex)"
+            ],
+            "rights": [
+              "mostra erro",
+              "espera para atravessar",
+              "mostra A",
+              "robô continua"
+            ],
+            "pairs": [
+              {
+                "left": "Vem um carro (Dado)",
+                "right": "espera para atravessar"
+              },
+              {
+                "left": "Bateria com carga (Téo)",
+                "right": "robô continua"
+              },
+              {
+                "left": "Senha errada (Olívia)",
+                "right": "mostra erro"
+              },
+              {
+                "left": "A está acima de B (Rex)",
+                "right": "mostra A"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "se então, condição, caminho, decisão, relacionar",
+          "img": "m1-e12.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada palavra ao seu papel no raciocínio condicional.",
+          "data": {
+            "lefts": [
+              "Se",
+              "Então",
+              "Senão",
+              "Condição"
+            ],
+            "rights": [
+              "a ação alternativa",
+              "introduz o teste",
+              "a ação se for verdadeiro",
+              "pergunta de sim ou não"
+            ],
+            "pairs": [
+              {
+                "left": "Se",
+                "right": "introduz o teste"
+              },
+              {
+                "left": "Então",
+                "right": "a ação se for verdadeiro"
+              },
+              {
+                "left": "Senão",
+                "right": "a ação alternativa"
+              },
+              {
+                "left": "Condição",
+                "right": "pergunta de sim ou não"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, senão, condição, conceitos, vocabulário",
+          "img": "m2-e35.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A coruja Olívia escolhe a peça de roupa conforme o tempo. Ligue a condição ao item certo.",
+          "data": {
+            "lefts": [
+              "Está chovendo",
+              "Está sol forte",
+              "Está frio",
+              "Está ventando"
+            ],
+            "rights": [
+              "casaco",
+              "guarda-chuva",
+              "corta-vento",
+              "boné"
+            ],
+            "pairs": [
+              {
+                "left": "Está chovendo",
+                "right": "guarda-chuva"
+              },
+              {
+                "left": "Está sol forte",
+                "right": "boné"
+              },
+              {
+                "left": "Está frio",
+                "right": "casaco"
+              },
+              {
+                "left": "Está ventando",
+                "right": "corta-vento"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "se então, condição, decisão, tempo, escolher",
+          "img": "m2-e36.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada condição ao resultado correto na regra do contador de vidas da Gina.",
+          "data": {
+            "lefts": [
+              "3 vidas",
+              "1 vida",
+              "0 vidas",
+              "5 vidas"
+            ],
+            "rights": [
+              "continua",
+              "continua",
+              "fim de jogo",
+              "continua"
+            ],
+            "pairs": [
+              {
+                "left": "3 vidas",
+                "right": "continua"
+              },
+              {
+                "left": "1 vida",
+                "right": "continua"
+              },
+              {
+                "left": "0 vidas",
+                "right": "fim de jogo"
+              },
+              {
+                "left": "5 vidas",
+                "right": "continua"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, vidas, condição, senão, decisão",
+          "img": "m1-e14.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O semáforo do Rex tem três cores. Ligue cada cor à ação correta.",
+          "data": {
+            "lefts": [
+              "Verde",
+              "Vermelho",
+              "Amarelo",
+              "Verde piscando"
+            ],
+            "rights": [
+              "pare",
+              "atenção, vai fechar",
+              "siga com cuidado",
+              "siga"
+            ],
+            "pairs": [
+              {
+                "left": "Verde",
+                "right": "siga"
+              },
+              {
+                "left": "Vermelho",
+                "right": "pare"
+              },
+              {
+                "left": "Amarelo",
+                "right": "atenção, vai fechar"
+              },
+              {
+                "left": "Verde piscando",
+                "right": "siga com cuidado"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, semáforo, condição, decisão, cores",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada condição, ligue à conclusão lógica certa.",
+          "data": {
+            "lefts": [
+              "Se chove, a rua molha. Chove.",
+              "Se 2>1, mostro 2. 2>1?",
+              "Se par, vai na caixa A. 8 é par?",
+              "Se vazio, pare. Está vazio?"
+            ],
+            "rights": [
+              "mostro 2",
+              "pare",
+              "a rua molha",
+              "vai na caixa A"
+            ],
+            "pairs": [
+              {
+                "left": "Se chove, a rua molha. Chove.",
+                "right": "a rua molha"
+              },
+              {
+                "left": "Se 2>1, mostro 2. 2>1?",
+                "right": "mostro 2"
+              },
+              {
+                "left": "Se par, vai na caixa A. 8 é par?",
+                "right": "vai na caixa A"
+              },
+              {
+                "left": "Se vazio, pare. Está vazio?",
+                "right": "pare"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "se então, condição verdadeira, conclusão, dedução, relacionar",
+          "img": "m2-e37.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do raciocínio condicional da coruja Olívia ao sair de casa.",
+          "data": {
+            "items": [
+              "Verificar a condição: está chovendo?",
+              "Se for verdade, pegar o guarda-chuva",
+              "Senão, pegar o boné",
+              "Sair de casa com o item escolhido"
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, senão, ordem, raciocínio, decisão",
+          "img": "m1-e16.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte a regra do jacaré Dado para atravessar com segurança, na ordem certa.",
+          "data": {
+            "items": [
+              "Olhar para os dois lados",
+              "Verificar: vem algum carro?",
+              "Se não vier nenhum carro, atravessar",
+              "Senão, esperar e olhar de novo"
+            ]
+          },
+          "xp": 7,
+          "tags": "se então, senão, segurança, ordem, decisão",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do robô do urso Téo ao decidir se continua andando.",
+          "data": {
+            "items": [
+              "Checar a condição: a bateria acabou?",
+              "Se acabou, parar",
+              "Senão, continuar andando"
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, senão, robô, bateria, ordem",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque na ordem o raciocínio do gato Pixel para separar um número entre as caixas.",
+          "data": {
+            "items": [
+              "Pegar o número da pilha",
+              "Perguntar: é maior que 10?",
+              "Se for, colocar na caixa AZUL",
+              "Senão, colocar na caixa VERMELHA"
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, comparação, maior que, separar, ordem",
+          "img": "m2-e06.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte os passos da girafa Gina ao terminar uma fase, decidindo se continua.",
+          "data": {
+            "items": [
+              "Olhar o contador de vidas",
+              "Perguntar: ainda tenho vidas?",
+              "Se tenho, ir para a próxima fase",
+              "Senão, mostrar fim de jogo"
+            ]
+          },
+          "xp": 7,
+          "tags": "se então, senão, vidas, ordem, decisão",
+          "img": "m1-e14.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do dálmata Pongo ao entregar uma carta.",
+          "data": {
+            "items": [
+              "Chegar à caixa de correio",
+              "Verificar: a caixa tem o nome do morador?",
+              "Se tem, deixar a carta",
+              "Senão, devolver a carta"
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, senão, entrega, ordem, condição",
+          "img": "m2-e33.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte, na ordem, o raciocínio do lobo Rex ao chegar no semáforo.",
+          "data": {
+            "items": [
+              "Olhar a cor do sinal",
+              "Perguntar: está verde?",
+              "Se está verde, seguir",
+              "Senão, parar"
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, semáforo, senão, ordem, decisão",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem os passos do lobo Rex para mostrar o maior entre dois números A e B.",
+          "data": {
+            "items": [
+              "Comparar A e B",
+              "Perguntar: A é maior que B?",
+              "Se for, mostrar A",
+              "Senão, mostrar B"
+            ]
+          },
+          "xp": 7,
+          "tags": "se então, comparação, maior que, senão, ordem",
+          "img": "m2-e34.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene o fluxo geral de uma decisão com se… então… senão.",
+          "data": {
+            "items": [
+              "Avaliar a condição",
+              "Decidir se é verdadeira ou falsa",
+              "Se verdadeira, executar a ação do então",
+              "Senão, executar a ação alternativa"
+            ]
+          },
+          "xp": 5,
+          "tags": "se então, senão, fluxograma, ordem, raciocínio",
+          "img": "m2-e35.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja detetive Olívia segue uma decisão para acusar o suspeito. Ordene os passos.",
+          "data": {
+            "items": [
+              "Examinar a pista com a lupa",
+              "Verificar: o suspeito estava no local?",
+              "Se estava, considerá-lo culpado",
+              "Senão, procurar outro suspeito"
+            ]
+          },
+          "xp": 7,
+          "tags": "se então, senão, dedução, ordem, condição",
+          "img": "m2-e08.png"
+        }
+      ]
+    }
+  ]
+}
