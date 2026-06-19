@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma, início, começo, leitura, setas",
+          "tags": "fluxograma",
           "img": "m2-e15.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma, setas, sentido, próximo passo",
+          "tags": "fluxograma",
           "img": "m1-e17.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma, losango, decisão, sim não",
+          "tags": "fluxograma",
           "img": "m2-e15.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma, losango, decisão, sim, semáforo",
+          "tags": "fluxograma",
           "img": "m1-e04.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, losango, decisão, setas, sim não",
+          "tags": "fluxograma",
           "img": "m2-e15.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma, fim, parar, leitura",
+          "tags": "fluxograma",
           "img": "m1-e17.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma, setas, sentido, direção",
+          "tags": "fluxograma",
           "img": "m2-e67.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, losango, decisão, não, caminho",
+          "tags": "fluxograma",
           "img": "m2-e06.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, losango, decisão, sim não, pergunta",
+          "tags": "fluxograma",
           "img": "m2-e68.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, setas, laço, fim, leitura",
+          "tags": "fluxograma",
           "img": "m2-e70.png"
         },
         {
@@ -422,7 +422,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, formas, início, fim, losango, seta",
+          "tags": "fluxograma",
           "img": "m2-e15.png"
         },
         {
@@ -461,7 +461,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, losango, decisão, sim, caminho",
+          "tags": "fluxograma",
           "img": "m2-e05.png"
         },
         {
@@ -500,7 +500,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, losango, decisão, mascotes, pergunta",
+          "tags": "fluxograma",
           "img": "m1-e04.png"
         },
         {
@@ -539,7 +539,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, formas, início, fim, seta, losango",
+          "tags": "fluxograma",
           "img": "m1-e11.png"
         },
         {
@@ -578,7 +578,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, losango, decisão, não, caminho",
+          "tags": "fluxograma",
           "img": "m1-e16.png"
         },
         {
@@ -617,7 +617,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, símbolos, formas, losango, seta, ação",
+          "tags": "fluxograma",
           "img": "m2-e15.png"
         },
         {
@@ -656,7 +656,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, decisão, resposta, próximo passo",
+          "tags": "fluxograma",
           "img": "m1-e14.png"
         },
         {
@@ -695,7 +695,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, formas, início, fim, decisão, ação",
+          "tags": "fluxograma",
           "img": "m2-e67.png"
         },
         {
@@ -734,7 +734,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, passos, ação, decisão, início",
+          "tags": "fluxograma",
           "img": "m1-e03.png"
         },
         {
@@ -773,7 +773,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, losango, decisão, mascotes, pergunta",
+          "tags": "fluxograma",
           "img": "m2-e68.png"
         },
         {
@@ -788,7 +788,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, leitura, ordem, início, fim, setas",
+          "tags": "fluxograma",
           "img": "m2-e15.png"
         },
         {
@@ -803,7 +803,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, decisão, semáforo, ordem, sim",
+          "tags": "fluxograma",
           "img": "m1-e04.png"
         },
         {
@@ -818,7 +818,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, decisão, chuva, ordem, sim",
+          "tags": "fluxograma",
           "img": "m2-e06.png"
         },
         {
@@ -833,7 +833,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, decisão, bateria, ordem, não",
+          "tags": "fluxograma",
           "img": "m2-e70.png"
         },
         {
@@ -848,7 +848,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, setas, sentido, ordem, leitura",
+          "tags": "fluxograma",
           "img": "m1-e17.png"
         },
         {
@@ -863,7 +863,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, decisão, vidas, ordem, sim",
+          "tags": "fluxograma",
           "img": "m1-e11.png"
         },
         {
@@ -878,7 +878,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, decisão, lista, laço, ordem",
+          "tags": "fluxograma",
           "img": "m1-e07.png"
         },
         {
@@ -893,7 +893,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma, decisão, comparar, números, ordem",
+          "tags": "fluxograma",
           "img": "m2-e15.png"
         },
         {
@@ -908,7 +908,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma, mapa, setas, losango, ordem, fim",
+          "tags": "fluxograma",
           "img": "m2-e13.png"
         },
         {
@@ -923,7 +923,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma, formas, início, ação, decisão, fim",
+          "tags": "fluxograma",
           "img": "m2-e67.png"
         }
       ]
