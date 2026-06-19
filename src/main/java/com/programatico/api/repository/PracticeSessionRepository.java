@@ -21,6 +21,9 @@ public interface PracticeSessionRepository extends JpaRepository<PracticeSession
     Optional<PracticeSession> findFirstByUsuarioAndModuloAndEndedAtIsNullOrderByStartedAtDesc(
             Usuario usuario, Modulo modulo);
 
+    /** Todas as sessões abertas do usuário — para marcar módulos "em andamento" na trilha. */
+    List<PracticeSession> findByUsuarioAndEndedAtIsNull(Usuario usuario);
+
     long countByEndedAtIsNullAndStartedAtAfter(LocalDateTime startedAt);
 
     List<PracticeSession> findByUsuarioAndStartedAtGreaterThanEqualOrderByStartedAtAsc(

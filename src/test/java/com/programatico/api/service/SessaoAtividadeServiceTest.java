@@ -315,9 +315,9 @@ class SessaoAtividadeServiceTest {
 
         SessaoDto.InicioResponse resp = sessaoAtividadeService.iniciarSessao(1L, "user");
 
-        assertEquals(55L, resp.getSessionId());      // mesma sessão (retomada)
-        assertEquals(2, resp.getTotalExercises());    // só i2 e i3 (não dominados)
-        assertEquals(0, resp.getResumedFrom());
+        assertEquals(55L, resp.getSessionId());        // mesma sessão (retomada)
+        assertEquals(3, resp.getTotalExercises());      // mantém o total (todos os alvos)
+        assertEquals(List.of(1L), resp.getMasteredIds()); // i1 dominado -> fora da fila no front
     }
 
     private Usuario usuarioBase() {
