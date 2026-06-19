@@ -62,5 +62,7 @@ public final class SessaoDto {
         private int durationSeconds;
         private int remainingLives;
         private boolean moduleCompleted;
+        /** true apenas quando o módulo foi concluído pela primeira vez nesta sessão. */
+        private boolean firstCompletion;
     }
 }
