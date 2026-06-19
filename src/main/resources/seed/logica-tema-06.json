@@ -96,7 +96,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, quantificador universal (todos)",
           "img": "m1-e05.png"
         },
         {
@@ -127,7 +127,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, premissa, conclusão, condicional (se/então), causa e efeito",
           "img": "m2-e06.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
           "img": "m2-e08.png"
         },
         {
@@ -181,7 +181,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, algoritmo (passo a passo), raciocínio lógico, sequência de eventos",
           "img": "m2-e15.png"
         },
         {
@@ -212,7 +212,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, quantificador (nenhum), negação, conclusão",
           "img": "m2-e05.png"
         },
         {
@@ -251,7 +251,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), associação",
           "img": "m2-e07.png"
         },
         {
@@ -282,7 +282,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, validade do argumento, investigação por pistas, quantificador universal (todos)",
           "img": "m1-e02.png"
         },
         {
@@ -297,7 +297,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, cadeia lógica, silogismo, transitividade, sequência de eventos",
           "img": "m2-e09.png"
         },
         {
@@ -328,7 +328,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, quantificador universal (todos)",
           "img": "m2-e08.png"
         },
         {
@@ -367,7 +367,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, validade do argumento, silogismo, associação",
           "img": "m2-e03.png"
         },
         {
@@ -381,7 +381,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, conectivos lógicos, conclusão, sequência de eventos",
           "img": "m1-e09.png"
         },
         {
@@ -395,7 +395,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, sequência de eventos",
           "img": "m2-e01.png"
         },
         {
@@ -434,7 +434,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
           "img": "m2-e04.png"
         },
         {
@@ -449,7 +449,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, investigação por pistas, premissa, conclusão, sequência de eventos",
           "img": "m2-e08.png"
         },
         {
@@ -480,7 +480,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, quantificador existencial (algum), quantificadores, validade do argumento",
           "img": "m1-e02.png"
         },
         {
@@ -519,7 +519,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, quantificadores, significado de termos, vocabulário, associação",
           "img": "m2-e07.png"
         },
         {
@@ -533,7 +533,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, descobrir a regra, conclusão, sequência de eventos",
           "img": "m2-e05.png"
         },
         {
@@ -564,7 +564,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, premissa, conclusão, condicional (se/então), quantificador universal (todos)",
           "img": "m1-e05.png"
         },
         {
@@ -603,7 +603,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
           "img": "m1-e15.png"
         },
         {
@@ -618,7 +618,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, cadeia lógica, transitividade, conclusão, sequência de eventos",
           "img": "m2-e09.png"
         },
         {
@@ -649,7 +649,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, quantificador (nenhum), negação, conclusão",
           "img": "m2-e11.png"
         },
         {
@@ -688,7 +688,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, validade do argumento, silogismo, padrão, associação",
           "img": "m2-e01.png"
         },
         {
@@ -703,7 +703,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, investigação por pistas, raciocínio lógico, conclusão, sequência de eventos",
           "img": "m2-e08.png"
         },
         {
@@ -742,7 +742,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), associação",
           "img": "m2-e11.png"
         },
         {
@@ -756,7 +756,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, sequência de eventos",
           "img": "m2-e12.png"
         },
         {
@@ -795,7 +795,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, palavras-chave, associação",
           "img": "m2-e42.png"
         },
         {
@@ -810,7 +810,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, validade do argumento, avaliar afirmação, conclusão, sequência de eventos",
           "img": "m2-e03.png"
         },
         {
@@ -841,7 +841,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, validade do argumento, quantificador universal (todos), raciocínio lógico",
           "img": "m1-e11.png"
         },
         {
@@ -872,7 +872,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, condicional (se/então), negação, conclusão",
           "img": "m2-e43.png"
         },
         {
@@ -911,7 +911,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução e silogismo",
+          "tags": "dedução, silogismo, premissa, conclusão, associação",
           "img": "m2-e16.png"
         }
       ]

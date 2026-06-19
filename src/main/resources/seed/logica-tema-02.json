@@ -100,7 +100,7 @@
             ]
           },
           "xp": 3,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, progressão por soma, pares e ímpares, padrão",
           "img": "m2-e02.png"
         },
         {
@@ -131,7 +131,7 @@
             ]
           },
           "xp": 3,
-          "tags": "sequências e padrões",
+          "tags": "padrão de figuras, repetição (laços), sequência numérica, alternância",
           "img": "m2-e01.png"
         },
         {
@@ -162,7 +162,7 @@
             ]
           },
           "xp": 3,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, progressão por soma, contagem, padrão",
           "img": "m2-e01.png"
         },
         {
@@ -193,7 +193,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, multiplicação, descobrir a regra",
           "img": "m2-e09.png"
         },
         {
@@ -224,7 +224,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, subtração, ordem decrescente, descobrir a regra",
           "img": "m2-e12.png"
         },
         {
@@ -255,7 +255,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "padrão de cores, repetição (laços), condicional (se/então), sequência numérica",
           "img": "m2-e05.png"
         },
         {
@@ -286,7 +286,7 @@
             ]
           },
           "xp": 3,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, pares e ímpares, progressão por soma",
           "img": "m2-e02.png"
         },
         {
@@ -317,7 +317,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, progressão por soma, multiplicação, padrão",
           "img": "m2-e13.png"
         },
         {
@@ -348,7 +348,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "padrão, alternância, sequência de eventos, sequência numérica, repetição (laços)",
           "img": "m2-e10.png"
         },
         {
@@ -379,7 +379,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, multiplicação, descobrir a regra",
           "img": "m1-e13.png"
         },
         {
@@ -410,7 +410,7 @@
             ]
           },
           "xp": 3,
-          "tags": "sequências e padrões",
+          "tags": "padrão, repetição (laços), sequência numérica, sequência de eventos",
           "img": "m2-e23.png"
         },
         {
@@ -449,7 +449,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, soma, associação, padrão",
           "img": "m2-e24.png"
         },
         {
@@ -488,7 +488,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, multiplicação, associação",
           "img": "m2-e09.png"
         },
         {
@@ -527,7 +527,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "padrão de figuras, repetição (laços), sequência numérica, associação",
           "img": "m2-e01.png"
         },
         {
@@ -566,7 +566,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, descobrir a regra, padrão, associação",
           "img": "m2-e08.png"
         },
         {
@@ -605,7 +605,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, ordem decrescente, subtração, associação",
           "img": "m2-e04.png"
         },
         {
@@ -644,7 +644,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, multiplicação, soma, associação",
           "img": "m2-e25.png"
         },
         {
@@ -683,7 +683,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "padrão de cores, repetição (laços), sequência numérica, associação",
           "img": "m2-e08.png"
         },
         {
@@ -722,7 +722,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "padrão, repetição (laços), sequência numérica, associação",
           "img": "m2-e26.png"
         },
         {
@@ -761,7 +761,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, descobrir a regra, multiplicação, associação",
           "img": "m2-e27.png"
         },
         {
@@ -800,7 +800,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "padrão, repetição (laços), laço com contador, associação",
           "img": "m2-e01.png"
         },
         {
@@ -815,7 +815,7 @@
             ]
           },
           "xp": 3,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, ordenação, ordem crescente, progressão por soma, padrão",
           "img": "m2-e02.png"
         },
         {
@@ -830,7 +830,7 @@
             ]
           },
           "xp": 3,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, ordenação, ordem crescente, padrão",
           "img": "m2-e01.png"
         },
         {
@@ -845,7 +845,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, multiplicação, ordenação, ordem crescente, padrão",
           "img": "m2-e02.png"
         },
         {
@@ -860,7 +860,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, ordem decrescente, ordenação, padrão",
           "img": "m2-e10.png"
         },
         {
@@ -874,7 +874,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "padrão de figuras, repetição (laços), ordenação, sequência de eventos",
           "img": "m2-e23.png"
         },
         {
@@ -889,7 +889,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, progressão por soma, ordenação, ordem crescente, caminho no fluxograma",
           "img": "m2-e13.png"
         },
         {
@@ -904,7 +904,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "descobrir a regra, raciocínio lógico, algoritmo (passo a passo), padrão",
           "img": "m2-e24.png"
         },
         {
@@ -918,7 +918,7 @@
             ]
           },
           "xp": 5,
-          "tags": "sequências e padrões",
+          "tags": "padrão de cores, repetição (laços), condicional (se/então), ordenação, sequência de eventos",
           "img": "m2-e05.png"
         },
         {
@@ -933,7 +933,7 @@
             ]
           },
           "xp": 7,
-          "tags": "sequências e padrões",
+          "tags": "sequência numérica, progressão por soma, ordenação, ordem crescente, padrão",
           "img": "m2-e25.png"
         }
       ]

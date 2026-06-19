@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, correção de erros, condicional (se/então)",
           "img": "m1-e14.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, previsão",
           "img": "m1-e08.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, condicional (se/então), interpretação textual",
           "img": "m2-e09.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 3,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, condicional (se/então), fluxograma",
           "img": "m1-e11.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, condicional (se/então)",
           "img": "m2-e05.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, lógica proposicional",
           "img": "m1-e01.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, quebra-cabeça lógico, sequência de eventos",
           "img": "m2-e09.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, condicional (se/então)",
           "img": "m1-e16.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, ordenação, rotulagem",
           "img": "m1-e10.png"
         },
         {
@@ -453,7 +453,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, associação, formar pares",
           "img": "m1-e08.png"
         },
         {
@@ -492,7 +492,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, associação, formar pares, condicional (se/então)",
           "img": "m2-e47.png"
         },
         {
@@ -531,7 +531,7 @@
             ]
           },
           "xp": 7,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, associação, formar pares, cadeia causal",
           "img": "m2-e09.png"
         },
         {
@@ -570,7 +570,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, interpretação textual, conclusão, formar pares",
           "img": "m1-e08.png"
         },
         {
@@ -609,7 +609,7 @@
             ]
           },
           "xp": 7,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, condicional (se/então), formar pares",
           "img": "m2-e05.png"
         },
         {
@@ -648,7 +648,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, do efeito para a causa, formar pares, lógica proposicional",
           "img": "m2-e48.png"
         },
         {
@@ -687,7 +687,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, associação, formar pares, raciocínio lógico",
           "img": "m2-e49.png"
         },
         {
@@ -726,7 +726,7 @@
             ]
           },
           "xp": 7,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, condicional (se/então), conclusão, formar pares",
           "img": "m1-e16.png"
         },
         {
@@ -765,7 +765,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, condicional (se/então), previsão, formar pares",
           "img": "m2-e09.png"
         },
         {
@@ -804,7 +804,7 @@
             ]
           },
           "xp": 7,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, formar pares, rotinas do dia a dia",
           "img": "m2-e10.png"
         },
         {
@@ -818,7 +818,7 @@
             ]
           },
           "xp": 3,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, sequência de eventos, condicional (se/então)",
           "img": "m1-e11.png"
         },
         {
@@ -832,7 +832,7 @@
             ]
           },
           "xp": 3,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, condicional (se/então)",
           "img": "m2-e46.png"
         },
         {
@@ -847,7 +847,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal",
           "img": "m1-e08.png"
         },
         {
@@ -862,7 +862,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, quebra-cabeça lógico, ordenação",
           "img": "m2-e47.png"
         },
         {
@@ -876,7 +876,7 @@
             ]
           },
           "xp": 3,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, sequência numérica",
           "img": "m2-e10.png"
         },
         {
@@ -891,7 +891,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, conclusão",
           "img": "m2-e48.png"
         },
         {
@@ -906,7 +906,7 @@
             ]
           },
           "xp": 7,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal",
           "img": "m1-e14.png"
         },
         {
@@ -920,7 +920,7 @@
             ]
           },
           "xp": 5,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, condicional (se/então), rotinas do dia a dia",
           "img": "m2-e49.png"
         },
         {
@@ -934,7 +934,7 @@
             ]
           },
           "xp": 7,
-          "tags": "causa e efeito",
+          "tags": "causa e efeito, cadeia causal, rotinas do dia a dia, correção de erros",
           "img": "m1-e03.png"
         }
       ]
