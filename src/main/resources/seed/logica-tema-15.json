@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, investigação por pistas, encontrar o intruso, dedução, comparação",
           "img": "m2-e08.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, encontrar o intruso, dedução, investigação por pistas",
           "img": "m2-e11.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, dedução, encontrar o intruso, investigação por pistas",
           "img": "m2-e16.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, dedução, comparação por medida, comparação",
           "img": "m2-e04.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, dedução, ordenação, comparação, comparação por medida",
           "img": "m2-e75.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, dedução, ordenação, raciocínio com restrições, investigação por pistas",
           "img": "m1-e07.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, dedução, quantificador universal (todos), descobrir a regra",
           "img": "m2-e76.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, investigação por pistas, descobrir a regra, caminho no fluxograma, dedução",
           "img": "m2-e13.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, encontrar o intruso, dedução, agrupamento, investigação por pistas",
           "img": "m2-e77.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, validade do argumento, investigação por pistas, dedução",
           "img": "m2-e03.png"
         },
         {
@@ -422,7 +422,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, investigação por pistas, conclusão, dedução, formar pares",
           "img": "m2-e08.png"
         },
         {
@@ -461,7 +461,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, encontrar o intruso, dedução, formar pares",
           "img": "m2-e11.png"
         },
         {
@@ -500,7 +500,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, otimização, formar pares",
           "img": "m2-e13.png"
         },
         {
@@ -539,7 +539,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, ordenação, comparação por medida, dedução, formar pares",
           "img": "m2-e78.png"
         },
         {
@@ -578,7 +578,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, significado de termos, dedução, encontrar o intruso, formar pares",
           "img": "m2-e79.png"
         },
         {
@@ -617,7 +617,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, ordenação, raciocínio com restrições, dedução, formar pares",
           "img": "m1-e07.png"
         },
         {
@@ -656,7 +656,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, encontrar o intruso, investigação por pistas, dedução, formar pares",
           "img": "m2-e80.png"
         },
         {
@@ -695,7 +695,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, raciocínio lógico, dedução, formar pares",
           "img": "m2-e81.png"
         },
         {
@@ -734,7 +734,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, quantificadores, dedução, lógica proposicional, formar pares",
           "img": "m2-e07.png"
         },
         {
@@ -773,7 +773,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, cadeia lógica, dedução, formar pares",
           "img": "m2-e11.png"
         },
         {
@@ -788,7 +788,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, algoritmo (passo a passo), sequenciamento de passos, dedução",
           "img": "m1-e09.png"
         },
         {
@@ -802,7 +802,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, cadeia lógica, encontrar o intruso, sequenciamento de passos",
           "img": "m2-e11.png"
         },
         {
@@ -817,7 +817,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, investigação por pistas, encontrar o intruso, sequenciamento de passos, dedução",
           "img": "m2-e08.png"
         },
         {
@@ -832,7 +832,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, ordenação, comparação por medida, sequenciamento de passos, dedução",
           "img": "m2-e82.png"
         },
         {
@@ -846,7 +846,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, comparação por medida, comparação, sequenciamento de passos, dedução",
           "img": "m2-e04.png"
         },
         {
@@ -861,7 +861,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, encontrar o intruso, agrupamento, sequenciamento de passos, dedução",
           "img": "m2-e16.png"
         },
         {
@@ -876,7 +876,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, investigação por pistas, caminho no fluxograma, sequenciamento de passos",
           "img": "m2-e13.png"
         },
         {
@@ -891,7 +891,7 @@
             ]
           },
           "xp": 7,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, ordenação, raciocínio com restrições, sequenciamento de passos, dedução",
           "img": "m2-e75.png"
         },
         {
@@ -906,7 +906,7 @@
             ]
           },
           "xp": 3,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, validade do argumento, investigação por pistas, sequenciamento de passos",
           "img": "m2-e03.png"
         },
         {
@@ -921,7 +921,7 @@
             ]
           },
           "xp": 5,
-          "tags": "resolução de problemas",
+          "tags": "quebra-cabeça lógico, fluxograma, condicional (se/então), sequenciamento de passos, dedução",
           "img": "m2-e15.png"
         }
       ]

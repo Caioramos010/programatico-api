@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma",
+          "tags": "fluxograma, início e fim, interpretação textual, setas (fluxo)",
           "img": "m2-e15.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma",
+          "tags": "fluxograma, setas (fluxo), sequenciamento de passos",
           "img": "m1-e17.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então)",
           "img": "m2-e15.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então)",
           "img": "m1-e04.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), setas (fluxo)",
           "img": "m2-e15.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma",
+          "tags": "fluxograma, início e fim, condição de parada, interpretação textual",
           "img": "m1-e17.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma",
+          "tags": "fluxograma, setas (fluxo)",
           "img": "m2-e67.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), negação, caminho no fluxograma",
           "img": "m2-e06.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), pergunta e resposta",
           "img": "m2-e68.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, setas (fluxo), repetição (laços), início e fim, interpretação textual",
           "img": "m2-e70.png"
         },
         {
@@ -422,7 +422,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, início e fim, setas (fluxo)",
           "img": "m2-e15.png"
         },
         {
@@ -461,7 +461,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), caminho no fluxograma",
           "img": "m2-e05.png"
         },
         {
@@ -500,7 +500,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), pergunta e resposta",
           "img": "m1-e04.png"
         },
         {
@@ -539,7 +539,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, início e fim, setas (fluxo)",
           "img": "m1-e11.png"
         },
         {
@@ -578,7 +578,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), negação, caminho no fluxograma",
           "img": "m1-e16.png"
         },
         {
@@ -617,7 +617,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, setas (fluxo), rotinas do dia a dia",
           "img": "m2-e15.png"
         },
         {
@@ -656,7 +656,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), conclusão, sequenciamento de passos",
           "img": "m1-e14.png"
         },
         {
@@ -695,7 +695,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, início e fim, condicional (se/então), rotinas do dia a dia",
           "img": "m2-e67.png"
         },
         {
@@ -734,7 +734,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, algoritmo (passo a passo), rotinas do dia a dia, condicional (se/então), início e fim",
           "img": "m1-e03.png"
         },
         {
@@ -773,7 +773,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), pergunta e resposta",
           "img": "m2-e68.png"
         },
         {
@@ -788,7 +788,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, interpretação textual, ordenação, início e fim, setas (fluxo)",
           "img": "m2-e15.png"
         },
         {
@@ -803,7 +803,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), ordenação",
           "img": "m1-e04.png"
         },
         {
@@ -818,7 +818,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), ordenação",
           "img": "m2-e06.png"
         },
         {
@@ -833,7 +833,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), ordenação, negação",
           "img": "m2-e70.png"
         },
         {
@@ -848,7 +848,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, setas (fluxo), ordenação, interpretação textual",
           "img": "m1-e17.png"
         },
         {
@@ -863,7 +863,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), ordenação",
           "img": "m1-e11.png"
         },
         {
@@ -878,7 +878,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), algoritmo (passo a passo), repetição (laços), ordenação",
           "img": "m1-e07.png"
         },
         {
@@ -893,7 +893,7 @@
             ]
           },
           "xp": 5,
-          "tags": "fluxograma",
+          "tags": "fluxograma, condicional (se/então), comparação, noção de número, ordenação",
           "img": "m2-e15.png"
         },
         {
@@ -908,7 +908,7 @@
             ]
           },
           "xp": 7,
-          "tags": "fluxograma",
+          "tags": "fluxograma, caminho no fluxograma, setas (fluxo), ordenação, início e fim",
           "img": "m2-e13.png"
         },
         {
@@ -923,7 +923,7 @@
             ]
           },
           "xp": 3,
-          "tags": "fluxograma",
+          "tags": "fluxograma, início e fim, rotinas do dia a dia, condicional (se/então)",
           "img": "m2-e67.png"
         }
       ]

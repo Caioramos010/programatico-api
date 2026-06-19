@@ -108,7 +108,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), generalização, verdadeiro ou falso",
           "img": "m1-e01.png"
         },
         {
@@ -139,7 +139,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), exceção, contraexemplo, verdadeiro ou falso",
           "img": "m2-e07.png"
         },
         {
@@ -170,7 +170,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador existencial (algum), conclusão",
           "img": "m2-e10.png"
         },
         {
@@ -201,7 +201,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador (nenhum), condição de parada, verdadeiro ou falso",
           "img": "m1-e04.png"
         },
         {
@@ -232,7 +232,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador (nenhum), negação, contraexemplo",
           "img": "m2-e38.png"
         },
         {
@@ -263,7 +263,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, negação, quantificador universal (todos), quantificador existencial (algum), raciocínio lógico",
           "img": "m1-e15.png"
         },
         {
@@ -294,7 +294,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, negação, quantificador (nenhum), quantificador existencial (algum)",
           "img": "m2-e39.png"
         },
         {
@@ -325,7 +325,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador existencial (algum), investigação por pistas",
           "img": "m2-e08.png"
         },
         {
@@ -356,7 +356,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), exceção, atributos, classificação",
           "img": "m2-e11.png"
         },
         {
@@ -387,7 +387,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), negação, raciocínio lógico, exceção",
           "img": "m2-e40.png"
         },
         {
@@ -426,7 +426,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), significado de termos",
           "img": "m2-e07.png"
         },
         {
@@ -465,7 +465,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, interpretação textual, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum)",
           "img": "m2-e41.png"
         },
         {
@@ -504,7 +504,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, negação, quantificador universal (todos), quantificador (nenhum), quantificador existencial (algum)",
           "img": "m2-e03.png"
         },
         {
@@ -543,7 +543,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), rotinas do dia a dia",
           "img": "m2-e07.png"
         },
         {
@@ -582,7 +582,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, avaliar afirmação, exceção, contraexemplo, raciocínio lógico",
           "img": "m2-e08.png"
         },
         {
@@ -621,7 +621,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum)",
           "img": "m2-e38.png"
         },
         {
@@ -660,7 +660,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores",
+          "tags": "quantificadores, equivalência, quantificador universal (todos), quantificador existencial (algum), condição de parada",
           "img": "m2-e07.png"
         },
         {
@@ -699,7 +699,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, verdadeiro ou falso, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum)",
           "img": "m2-e39.png"
         },
         {
@@ -738,7 +738,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), validade do argumento",
           "img": "m2-e11.png"
         },
         {
@@ -777,7 +777,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, lógica proposicional, condicional (se/então), quantificador existencial (algum), quantificador universal (todos)",
           "img": "m2-e15.png"
         },
         {
@@ -792,7 +792,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), contraexemplo, raciocínio lógico, verdadeiro ou falso",
           "img": "m1-e01.png"
         },
         {
@@ -807,7 +807,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), avaliar afirmação, verdadeiro ou falso, algoritmo (passo a passo)",
           "img": "m2-e40.png"
         },
         {
@@ -822,7 +822,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador existencial (algum), raciocínio lógico",
           "img": "m2-e11.png"
         },
         {
@@ -837,7 +837,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador (nenhum), condição de parada, avaliar afirmação",
           "img": "m2-e41.png"
         },
         {
@@ -852,7 +852,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador (nenhum), negação, contraexemplo, investigação por pistas",
           "img": "m2-e08.png"
         },
         {
@@ -867,7 +867,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), exceção, condicional (se/então), algoritmo (passo a passo)",
           "img": "m2-e07.png"
         },
         {
@@ -882,7 +882,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador existencial (algum), rotinas do dia a dia, algoritmo (passo a passo)",
           "img": "m1-e15.png"
         },
         {
@@ -897,7 +897,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores",
+          "tags": "quantificadores, ordenação, quantificador (nenhum), quantificador existencial (algum), quantificador universal (todos)",
           "img": "m2-e38.png"
         },
         {
@@ -912,7 +912,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, quantificador universal (todos), fluxograma, condicional (se/então), lógica proposicional",
           "img": "m2-e15.png"
         },
         {
@@ -927,7 +927,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores",
+          "tags": "quantificadores, negação, quantificador universal (todos), quantificador existencial (algum), raciocínio lógico",
           "img": "m1-e15.png"
         }
       ]

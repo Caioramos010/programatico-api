@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, quebra-cabeça lógico, início e fim",
           "img": "m1-e06.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, significado de termos",
           "img": "m1-e09.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia",
           "img": "m1-e01.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, algoritmo (passo a passo), rotinas do dia a dia",
           "img": "m1-e03.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, repetição (laços), algoritmo (passo a passo)",
           "img": "m2-e16.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, correção de erros, otimização",
           "img": "m2-e71.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, padrão, rotinas do dia a dia, caminho no fluxograma",
           "img": "m1-e15.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia",
           "img": "m1-e05.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, algoritmo (passo a passo)",
           "img": "m1-e08.png"
         },
         {
@@ -367,7 +367,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, quebra-cabeça lógico, sequenciamento de passos",
           "img": "m1-e06.png"
         },
         {
@@ -382,7 +382,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia, algoritmo (passo a passo)",
           "img": "m1-e03.png"
         },
         {
@@ -397,7 +397,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia, algoritmo (passo a passo)",
           "img": "m1-e01.png"
         },
         {
@@ -412,7 +412,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia, ordenação",
           "img": "m2-e72.png"
         },
         {
@@ -427,7 +427,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, ordenação",
           "img": "m1-e08.png"
         },
         {
@@ -441,7 +441,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia, padrão, caminho no fluxograma",
           "img": "m1-e15.png"
         },
         {
@@ -456,7 +456,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia, sequência de eventos",
           "img": "m1-e04.png"
         },
         {
@@ -470,7 +470,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, agrupamento, rotulagem, algoritmo (passo a passo)",
           "img": "m1-e10.png"
         },
         {
@@ -485,7 +485,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decomposição",
+          "tags": "decomposição, rotinas do dia a dia, juntar as partes",
           "img": "m1-e05.png"
         },
         {
@@ -500,7 +500,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, algoritmo (passo a passo), ordenação",
           "img": "m2-e73.png"
         },
         {
@@ -539,7 +539,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, associação, formar pares",
           "img": "m1-e06.png"
         },
         {
@@ -578,7 +578,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, formar pares",
           "img": "m1-e15.png"
         },
         {
@@ -617,7 +617,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, sequenciamento de passos, sequência de eventos, formar pares",
           "img": "m1-e03.png"
         },
         {
@@ -656,7 +656,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, padrão, associação, formar pares",
           "img": "m1-e10.png"
         },
         {
@@ -695,7 +695,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decomposição",
+          "tags": "decomposição, otimização, explicação, formar pares",
           "img": "m2-e74.png"
         },
         {
@@ -734,7 +734,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, início e fim, formar pares",
           "img": "m1-e04.png"
         },
         {
@@ -773,7 +773,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decomposição",
+          "tags": "decomposição, vocabulário, significado de termos, formar pares",
           "img": "m2-e16.png"
         },
         {
@@ -804,7 +804,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decomposição",
+          "tags": "decomposição, caminho no fluxograma, condicional (se/então)",
           "img": "m1-e12.png"
         },
         {
@@ -843,7 +843,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decomposição",
+          "tags": "decomposição, formar pares",
           "img": "m1-e10.png"
         },
         {
@@ -882,7 +882,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decomposição",
+          "tags": "decomposição, algoritmo (passo a passo), explicação, formar pares",
           "img": "m2-e71.png"
         },
         {
@@ -913,7 +913,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decomposição",
+          "tags": "decomposição, juntar as partes, início e fim",
           "img": "m2-e72.png"
         }
       ]
