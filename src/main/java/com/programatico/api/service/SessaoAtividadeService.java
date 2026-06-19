@@ -62,6 +62,7 @@ public class SessaoAtividadeService {
     private final VidasService vidasService;
     private final ObjectMapper objectMapper;
     private final OpenAiOrganizacaoService openAiOrganizacaoService;
+    private final MissaoDiariaService missaoDiariaService;
 
     @Transactional
     public SessaoDto.InicioResponse iniciarSessao(Long moduloId, String username) {
@@ -254,6 +255,15 @@ public class SessaoAtividadeService {
             );
         }
 
+        // Progresso das missões diárias. EARN_XP usa só XP real (replay = 0, sem farm).
+        Map<String, Integer> incMissoes = new LinkedHashMap<>();
+        if (xpGanho > 0) incMissoes.put(MissaoDiariaService.EARN_XP, xpGanho);
+        if (corretos > 0) incMissoes.put(MissaoDiariaService.CORRECT_ANSWERS, (int) corretos);
+        if (moduloConcluido) incMissoes.put(MissaoDiariaService.COMPLETE_MODULES, 1);
+        if (!todos.isEmpty() && taxaAcerto == 100) incMissoes.put(MissaoDiariaService.PERFECT_SESSION, 1);
+        if (sessao.getSessionType() == SessionType.ERRORS) incMissoes.put(MissaoDiariaService.PRACTICE_ERRORS, 1);
+        List<String> missoesConcluidas = missaoDiariaService.registrarProgresso(usuario, incMissoes);
+
         return SessaoDto.ConclusaoResponse.builder()
                 .xpEarned(xpGanho)
                 .accuracy(taxaAcerto)
@@ -261,6 +271,7 @@ public class SessaoAtividadeService {
                 .remainingLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .moduleCompleted(moduloConcluido)
                 .firstCompletion(primeiraConclusao)
+                .completedMissions(missoesConcluidas)
                 .build();
     }
 

@@ -64,5 +64,7 @@ public final class SessaoDto {
         private boolean moduleCompleted;
         /** true apenas quando o módulo foi concluído pela primeira vez nesta sessão. */
         private boolean firstCompletion;
+        /** Títulos das missões diárias concluídas nesta sessão (para toast). */
+        private List<String> completedMissions;
     }
 }
