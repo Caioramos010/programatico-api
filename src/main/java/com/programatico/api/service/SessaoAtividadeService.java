@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,6 +77,21 @@ public class SessaoAtividadeService {
         vidasService.aplicarRecarga(stats);
         userStatsRepository.save(stats);
 
+        // Retoma a sessão aberta deste módulo (usuário fechou a atividade/site no meio).
+        Optional<PracticeSession> aberta = practiceSessionRepository
+                .findFirstByUsuarioAndModuloAndEndedAtIsNullOrderByStartedAtDesc(usuario, modulo);
+        if (aberta.isPresent()) {
+            List<PracticeSessionExercise> itens = practiceSessionExerciseRepository
+                    .findByPracticeSessionOrderByDisplayOrderAsc(aberta.get());
+            long respondidos = itens.stream().filter(i -> i.getIsCorrect() != null).count();
+            if (!itens.isEmpty() && respondidos < itens.size()) {
+                return montarResume(aberta.get(), itens, stats);
+            }
+            // Sessão aberta mas já toda respondida (ou vazia): encerra e segue criando uma nova.
+            aberta.get().setEndedAt(LocalDateTime.now());
+            practiceSessionRepository.save(aberta.get());
+        }
+
         List<Exercise> selecionados = organizarExercicios(modulo, usuario, stats);
         if (selecionados.isEmpty()) {
             throw new BadRequestException("Este módulo não possui exercícios cadastrados.");
@@ -109,6 +125,24 @@ public class SessaoAtividadeService {
                 .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .totalExercises(exerciciosDtos.size())
                 .exercises(exerciciosDtos)
+                .build();
+    }
+
+    /** Retoma uma sessão aberta: devolve os mesmos exercícios e o índice onde o usuário parou. */
+    private SessaoDto.InicioResponse montarResume(PracticeSession sessao,
+            List<PracticeSessionExercise> itens, UserStats stats) {
+        List<SessaoDto.ExercicioSessao> dtos = new ArrayList<>();
+        for (int i = 0; i < itens.size(); i++) {
+            dtos.add(toExercicioSessao(itens.get(i).getExercise(), i + 1, sessao.getSessionType()));
+        }
+        int respondidos = (int) itens.stream().filter(i -> i.getIsCorrect() != null).count();
+        return SessaoDto.InicioResponse.builder()
+                .sessionId(sessao.getId())
+                .moduleTitle(sessao.getModulo() != null ? sessao.getModulo().getTitle() : null)
+                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .totalExercises(dtos.size())
+                .resumedFrom(respondidos)
+                .exercises(dtos)
                 .build();
     }
 
