@@ -21,6 +21,7 @@ import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserProgressRepository;
@@ -57,6 +58,7 @@ class LearnServiceTest {
     @Mock private ExerciseRepository exerciseRepository;
     @Mock private TeoriaPaginaRepository teoriaPaginaRepository;
     @Mock private ContentBlockRepository contentBlockRepository;
+    @Mock private PracticeSessionRepository practiceSessionRepository;
     @Spy private VidasService vidasService = new VidasService();
     @Mock private NotificationService notificationService;
 

@@ -20,6 +20,7 @@ import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserProgressRepository;
@@ -38,6 +39,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +60,7 @@ public class LearnService {
     private final NotificationService notificationService;
     private final VidasService vidasService;
     private final MissaoDiariaService missaoDiariaService;
+    private final PracticeSessionRepository practiceSessionRepository;
 
     /**
      * Retorna a primeira trilha (por displayOrder) com o status de cada módulo
@@ -83,6 +86,12 @@ public class LearnService {
         // The module previous to the first is treated as "completed" to unlock the first module.
         boolean previousCompleted = true;
         boolean rootAtivo = vidasService.isRootAtivo(usuario);
+
+        // Módulos com sessão aberta (em andamento) — para o botão "Continuar".
+        Set<Long> emAndamentoIds = practiceSessionRepository.findByUsuarioAndEndedAtIsNull(usuario).stream()
+                .filter(s -> s.getModulo() != null)
+                .map(s -> s.getModulo().getId())
+                .collect(Collectors.toSet());
 
         // Top assuntos (benefício Root): calcula uma vez por módulo de atividade.
         Map<Long, List<String>> topPorAtividade = new HashMap<>();
@@ -134,7 +143,8 @@ public class LearnService {
                     statusFinal.name(),
                     modulo.getDescription(),
                     xpModulo,
-                    topAssuntos
+                    topAssuntos,
+                    emAndamentoIds.contains(modulo.getId())
             ));
 
             previousCompleted = statusFinal == ProgressStatus.COMPLETED;

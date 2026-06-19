@@ -126,26 +126,29 @@ public class SessaoAtividadeService {
                 .moduleTitle(modulo.getTitle())
                 .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .totalExercises(exerciciosDtos.size())
+                .masteredIds(List.of())
                 .exercises(exerciciosDtos)
                 .build();
     }
 
-    /** Retoma uma sessão aberta: devolve os alvos ainda NÃO dominados (a fila restante de maestria). */
+    /** Retoma uma sessão aberta: devolve TODOS os alvos (mantém o total) + ids já dominados (fora da fila). */
     private SessaoDto.InicioResponse montarResume(PracticeSession sessao,
             List<PracticeSessionExercise> itens, UserStats stats) {
-        List<PracticeSessionExercise> pendentes = itens.stream()
-                .filter(i -> !Boolean.TRUE.equals(i.getMastered()))
-                .collect(Collectors.toList());
         List<SessaoDto.ExercicioSessao> dtos = new ArrayList<>();
-        for (int i = 0; i < pendentes.size(); i++) {
-            dtos.add(toExercicioSessao(pendentes.get(i).getExercise(), i + 1, sessao.getSessionType()));
+        for (int i = 0; i < itens.size(); i++) {
+            dtos.add(toExercicioSessao(itens.get(i).getExercise(), i + 1, sessao.getSessionType()));
         }
+        List<Long> masteredIds = itens.stream()
+                .filter(i -> Boolean.TRUE.equals(i.getMastered()))
+                .map(i -> i.getExercise().getId())
+                .collect(Collectors.toList());
         return SessaoDto.InicioResponse.builder()
                 .sessionId(sessao.getId())
                 .moduleTitle(sessao.getModulo() != null ? sessao.getModulo().getTitle() : null)
                 .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .totalExercises(dtos.size())
                 .resumedFrom(0)
+                .masteredIds(masteredIds)
                 .exercises(dtos)
                 .build();
     }
@@ -312,6 +315,21 @@ public class SessaoAtividadeService {
         if (sessao.getSessionType() == SessionType.ERRORS) incMissoes.put(MissaoDiariaService.PRACTICE_ERRORS, 1);
         List<String> missoesConcluidas = missaoDiariaService.registrarProgresso(usuario, incMissoes);
 
+        // Review por assunto (Root): acertos/erros por tag, com base na 1ª tentativa.
+        Map<String, int[]> porAssunto = new LinkedHashMap<>();
+        for (PracticeSessionExercise pse : todos) {
+            if (pse.getIsCorrect() == null) continue;
+            boolean acertou = Boolean.TRUE.equals(pse.getIsCorrect());
+            for (String tag : parseTags(pse.getExercise().getTags())) {
+                int[] c = porAssunto.computeIfAbsent(tag, k -> new int[2]);
+                if (acertou) c[0]++; else c[1]++;
+            }
+        }
+        List<SessaoDto.SubjectReview> subjectReview = porAssunto.entrySet().stream()
+                .map(e -> SessaoDto.SubjectReview.builder()
+                        .assunto(e.getKey()).acertos(e.getValue()[0]).erros(e.getValue()[1]).build())
+                .collect(Collectors.toList());
+
         return SessaoDto.ConclusaoResponse.builder()
                 .xpEarned(xpGanho)
                 .accuracy(taxaAcerto)
@@ -320,6 +338,7 @@ public class SessaoAtividadeService {
                 .moduleCompleted(moduloConcluido)
                 .firstCompletion(primeiraConclusao)
                 .completedMissions(missoesConcluidas)
+                .subjectReview(subjectReview)
                 .build();
     }
 
@@ -479,6 +498,7 @@ public class SessaoAtividadeService {
                 .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .totalExercises(dtos.size())
                 .timeLimitSeconds(timeLimitSeconds)
+                .masteredIds(List.of())
                 .exercises(dtos)
                 .build();
     }
