@@ -6,7 +6,7 @@ import com.programatico.api.domain.Mission;
 import com.programatico.api.domain.PracticeSession;
 import com.programatico.api.domain.PracticeSessionExercise;
 import com.programatico.api.domain.Track;
-import com.programatico.api.domain.UserMission;
+import com.programatico.api.domain.UserDailyMission;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.dto.ReviewDto;
@@ -16,7 +16,7 @@ import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TrackRepository;
-import com.programatico.api.repository.UserMissionRepository;
+import com.programatico.api.repository.UserDailyMissionRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +49,7 @@ public class ReviewService {
     private final TrackRepository trackRepository;
     private final UserStatsRepository userStatsRepository;
     private final MissionRepository missionRepository;
-    private final UserMissionRepository userMissionRepository;
+    private final UserDailyMissionRepository userDailyMissionRepository;
     private final PracticeSessionRepository practiceSessionRepository;
     private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     private final ObjectMapper objectMapper;
@@ -125,13 +125,14 @@ public class ReviewService {
         List<Mission> missions = missionRepository.findAll().stream()
                 .sorted(Comparator.comparing(Mission::getId, Comparator.nullsLast(Long::compareTo)))
                 .toList();
-        Map<Long, UserMission> userMissionMap = userMissionRepository.findByUsuario(usuario)
+        Map<Long, UserDailyMission> dailyMissionMap = userDailyMissionRepository
+                .findByUsuarioAndMissionDate(usuario, today)
                 .stream()
-                .filter(userMission -> userMission.getMission() != null && userMission.getMission().getId() != null)
-                .collect(Collectors.toMap(userMission -> userMission.getMission().getId(), userMission -> userMission, (a, b) -> a));
+                .filter(daily -> daily.getMission() != null && daily.getMission().getId() != null)
+                .collect(Collectors.toMap(daily -> daily.getMission().getId(), daily -> daily, (a, b) -> a));
 
-        int completedMissions = (int) userMissionMap.values().stream()
-                .filter(userMission -> Boolean.TRUE.equals(userMission.getIsCompleted()))
+        int completedMissions = (int) dailyMissionMap.values().stream()
+                .filter(daily -> Boolean.TRUE.equals(daily.getCompleted()))
                 .count();
 
         int currentXp = userStatsRepository.findByUsuario(usuario)
@@ -155,7 +156,7 @@ public class ReviewService {
                 .subjectAccuracy(toSubjectAccuracy(subjectCounters))
                 .errorsBySubject(toErrorsBySubject(subjectCounters))
                 .reviewNow(toReviewNow(subjectCounters))
-                .recentMissions(toRecentMissions(missions, userMissionMap))
+                .recentMissions(toRecentMissions(missions, dailyMissionMap))
                 .build();
     }
 
@@ -317,29 +318,30 @@ public class ReviewService {
                 .toList();
     }
 
-    private List<ReviewDto.RecentMissionItem> toRecentMissions(List<Mission> missions, Map<Long, UserMission> userMissionMap) {
+    private List<ReviewDto.RecentMissionItem> toRecentMissions(List<Mission> missions, Map<Long, UserDailyMission> dailyMissionMap) {
         return missions.stream()
                 .limit(4)
                 .map(mission -> {
-                    UserMission userMission = userMissionMap.get(mission.getId());
+                    UserDailyMission daily = dailyMissionMap.get(mission.getId());
                     return ReviewDto.RecentMissionItem.builder()
                             .label(mission.getTitle())
-                            .status(resolveMissionStatus(mission, userMission))
+                            .status(resolveMissionStatus(mission, daily))
                             .build();
                 })
                 .toList();
     }
 
-    private String resolveMissionStatus(Mission mission, UserMission userMission) {
-        if (userMission == null) {
+    private String resolveMissionStatus(Mission mission, UserDailyMission daily) {
+        if (daily == null) {
             return "Pendente";
         }
-        if (Boolean.TRUE.equals(userMission.getIsCompleted())) {
+        if (Boolean.TRUE.equals(daily.getCompleted())) {
             return "Concluida";
         }
 
-        int progress = Optional.ofNullable(userMission.getCurrentProgress()).orElse(0);
-        int goal = Optional.ofNullable(mission.getQuantidade()).orElse(1);
+        int progress = Optional.ofNullable(daily.getCurrentProgress()).orElse(0);
+        int goal = Optional.ofNullable(daily.getGoal())
+                .orElse(Optional.ofNullable(mission.getQuantidade()).orElse(1));
         if (progress > 0) {
             return "Em progresso (" + progress + "/" + goal + ")";
         }
@@ -348,12 +350,12 @@ public class ReviewService {
 
     private String resolveSubjectColor(int accuracyPercent) {
         if (accuracyPercent >= 80) {
-            return "#5aa4ff";
+            return "#578f48"; // --color-success
         }
         if (accuracyPercent >= 60) {
-            return "#f5c13d";
+            return "#d4a843"; // --color-premium
         }
-        return "#f27584";
+        return "#ff6b6b"; // --color-error-heart
     }
 
     private static final class DailyCounters {
