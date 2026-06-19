@@ -1,5 +1,6 @@
 package com.programatico.api.repository;
 
+import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.PracticeSession;
 import com.programatico.api.domain.Track;
 import com.programatico.api.domain.Usuario;
@@ -15,6 +16,10 @@ import java.util.Optional;
 public interface PracticeSessionRepository extends JpaRepository<PracticeSession, Long> {
 
     Optional<PracticeSession> findByIdAndUsuario(Long id, Usuario usuario);
+
+    /** Sessão aberta (não encerrada) deste usuário no módulo — usada para retomar de onde parou. */
+    Optional<PracticeSession> findFirstByUsuarioAndModuloAndEndedAtIsNullOrderByStartedAtDesc(
+            Usuario usuario, Modulo modulo);
 
     long countByEndedAtIsNullAndStartedAtAfter(LocalDateTime startedAt);
 

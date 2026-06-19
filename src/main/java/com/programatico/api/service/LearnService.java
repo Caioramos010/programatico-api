@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,18 @@ public class LearnService {
         boolean previousCompleted = true;
         boolean rootAtivo = vidasService.isRootAtivo(usuario);
 
-        for (Modulo modulo : modulos) {
+        // Top assuntos (benefício Root): calcula uma vez por módulo de atividade.
+        Map<Long, List<String>> topPorAtividade = new HashMap<>();
+        if (rootAtivo) {
+            for (Modulo m : modulos) {
+                if ("ACTIVITY".equals(m.getModuleType().name())) {
+                    topPorAtividade.put(m.getId(), calcularTopAssuntos(m, 3));
+                }
+            }
+        }
+
+        for (int idx = 0; idx < modulos.size(); idx++) {
+            Modulo modulo = modulos.get(idx);
             ProgressStatus statusDb = progressoMap.get(modulo.getId());
             ProgressStatus statusFinal;
 
@@ -100,8 +112,20 @@ public class LearnService {
             long xpModulo = isActivity
                     ? Math.min(exerciseRepository.sumXpByModulo(modulo), 48L)
                     : 0L;
-            // Top assuntos é benefício Root e só se aplica a módulos de atividade.
-            List<String> topAssuntos = (rootAtivo && isActivity) ? calcularTopAssuntos(modulo, 3) : List.of();
+            // Atividade usa os próprios assuntos; teoria herda os da próxima atividade (condizente com os exercícios do tema).
+            List<String> topAssuntos = List.of();
+            if (rootAtivo) {
+                if (isActivity) {
+                    topAssuntos = topPorAtividade.getOrDefault(modulo.getId(), List.of());
+                } else {
+                    for (int j = idx + 1; j < modulos.size(); j++) {
+                        if ("ACTIVITY".equals(modulos.get(j).getModuleType().name())) {
+                            topAssuntos = topPorAtividade.getOrDefault(modulos.get(j).getId(), List.of());
+                            break;
+                        }
+                    }
+                }
+            }
             modulesWithProgress.add(new TrackDto.ModuleWithProgress(
                     modulo.getId(),
                     modulo.getTitle(),

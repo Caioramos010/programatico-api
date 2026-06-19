@@ -21,6 +21,8 @@ public final class SessaoDto {
         private int totalExercises;
         /** Nulo em sessões normais; preenchido na prática CRONOMETRADO. */
         private Integer timeLimitSeconds;
+        /** Índice em que o cliente deve retomar (nº de exercícios já respondidos). 0 = sessão nova. */
+        private int resumedFrom;
         private List<ExercicioSessao> exercises;
     }
 
