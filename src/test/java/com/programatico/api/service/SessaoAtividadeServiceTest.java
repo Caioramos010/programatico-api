@@ -297,9 +297,11 @@ class SessaoAtividadeServiceTest {
                 .startedAt(LocalDateTime.now().minusMinutes(10))
                 .build();
         PracticeSessionExercise i1 = PracticeSessionExercise.builder()
-                .practiceSession(aberta).exercise(exercicioComTags(1L, "x")).displayOrder(1).isCorrect(true).build();
+                .practiceSession(aberta).exercise(exercicioComTags(1L, "x")).displayOrder(1)
+                .isCorrect(true).mastered(true).build();  // dominado -> sai da fila
         PracticeSessionExercise i2 = PracticeSessionExercise.builder()
-                .practiceSession(aberta).exercise(exercicioComTags(2L, "y")).displayOrder(2).isCorrect(false).build();
+                .practiceSession(aberta).exercise(exercicioComTags(2L, "y")).displayOrder(2)
+                .isCorrect(false).mastered(false).build(); // errado -> ainda pendente
         PracticeSessionExercise i3 = PracticeSessionExercise.builder()
                 .practiceSession(aberta).exercise(exercicioComTags(3L, "z")).displayOrder(3).build(); // não respondido
 
@@ -313,9 +315,9 @@ class SessaoAtividadeServiceTest {
 
         SessaoDto.InicioResponse resp = sessaoAtividadeService.iniciarSessao(1L, "user");
 
-        assertEquals(55L, resp.getSessionId());     // mesma sessão (retomada)
-        assertEquals(2, resp.getResumedFrom());      // i1 e i2 respondidos -> retoma no 3º
-        assertEquals(3, resp.getTotalExercises());
+        assertEquals(55L, resp.getSessionId());      // mesma sessão (retomada)
+        assertEquals(2, resp.getTotalExercises());    // só i2 e i3 (não dominados)
+        assertEquals(0, resp.getResumedFrom());
     }
 
     private Usuario usuarioBase() {
