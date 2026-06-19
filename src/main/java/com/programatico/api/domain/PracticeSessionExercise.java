@@ -29,5 +29,9 @@ public class PracticeSessionExercise {
     @Column(columnDefinition = "TEXT")
     private String userAnswer;
 
+    /** Resultado da PRIMEIRA tentativa (acurácia/XP). */
     private Boolean isCorrect;
+
+    /** true assim que o exercício é acertado (qualquer tentativa) — maestria. */
+    private Boolean mastered;
 }
