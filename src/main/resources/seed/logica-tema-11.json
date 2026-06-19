@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, laço, ação repetida, regar plantas",
+          "tags": "repetição (laços)",
           "img": "m2-e10.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, contador, contar, laço",
+          "tags": "repetição (laços)",
           "img": "m1-e13.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, laço infinito, condição de parada, erro",
+          "tags": "repetição (laços)",
           "img": "m2-e14.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, enquanto, separar bolas",
+          "tags": "repetição (laços)",
           "img": "m2-e11.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, contar, número exato de vezes, livros",
+          "tags": "repetição (laços)",
           "img": "m1-e01.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, limite, bateria",
+          "tags": "repetição (laços)",
           "img": "m1-e08.png"
         },
         {
@@ -274,7 +274,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, laço, contar voltas, ordem dos passos, corrida",
+          "tags": "repetição (laços)",
           "img": "m2-e14.png"
         },
         {
@@ -305,7 +305,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, contador, contar voltas, limite",
+          "tags": "repetição (laços)",
           "img": "m2-e63.png"
         },
         {
@@ -336,7 +336,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, enquanto, entregar cartas",
+          "tags": "repetição (laços)",
           "img": "m1-e15.png"
         },
         {
@@ -367,7 +367,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, laço, vantagem, organização",
+          "tags": "repetição (laços)",
           "img": "m2-e64.png"
         },
         {
@@ -398,7 +398,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, limite, condição de parada, escada",
+          "tags": "repetição (laços)",
           "img": "m2-e65.png"
         },
         {
@@ -437,7 +437,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, ação repetida, relacionar, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e11.png"
         },
         {
@@ -476,7 +476,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, relacionar, pares",
+          "tags": "repetição (laços)",
           "img": "m1-e08.png"
         },
         {
@@ -515,7 +515,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, contar, número de voltas, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e66.png"
         },
         {
@@ -554,7 +554,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, mascotes, tarefa repetida, pares",
+          "tags": "repetição (laços)",
           "img": "m1-e15.png"
         },
         {
@@ -593,7 +593,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição, contar, repetir até condição, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e14.png"
         },
         {
@@ -632,7 +632,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, contador, contar voltas, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e63.png"
         },
         {
@@ -671,7 +671,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, conceitos, contador, condição de parada, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e64.png"
         },
         {
@@ -710,7 +710,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição, enquanto, condição, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e12.png"
         },
         {
@@ -749,7 +749,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, contar, uma por item, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e65.png"
         },
         {
@@ -788,7 +788,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição, resultado do laço, condição de parada, pares",
+          "tags": "repetição (laços)",
           "img": "m2-e09.png"
         },
         {
@@ -802,7 +802,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, contador, ordem dos passos, contar",
+          "tags": "repetição (laços)",
           "img": "m1-e13.png"
         },
         {
@@ -817,7 +817,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, ordem dos passos, regar plantas",
+          "tags": "repetição (laços)",
           "img": "m2-e10.png"
         },
         {
@@ -832,7 +832,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição, condição de parada, limite, ordem dos passos, bateria",
+          "tags": "repetição (laços)",
           "img": "m1-e08.png"
         },
         {
@@ -847,7 +847,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, ordem dos passos, separar bolas",
+          "tags": "repetição (laços)",
           "img": "m2-e66.png"
         },
         {
@@ -861,7 +861,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, contar, ordem dos passos, entregar cartas",
+          "tags": "repetição (laços)",
           "img": "m1-e15.png"
         },
         {
@@ -876,7 +876,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, ordem dos passos, dominó",
+          "tags": "repetição (laços)",
           "img": "m2-e09.png"
         },
         {
@@ -891,7 +891,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição, limite, condição de parada, ordem dos passos, escada",
+          "tags": "repetição (laços)",
           "img": "m2-e14.png"
         },
         {
@@ -905,7 +905,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição, contar, número exato, ordem dos passos, livros",
+          "tags": "repetição (laços)",
           "img": "m2-e63.png"
         },
         {
@@ -920,7 +920,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição, condição de parada, ordem dos passos, ordenar blocos",
+          "tags": "repetição (laços)",
           "img": "m2-e12.png"
         }
       ]

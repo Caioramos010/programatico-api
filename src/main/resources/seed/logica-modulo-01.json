@@ -101,7 +101,7 @@
             ]
           },
           "xp": 3,
-          "tags": "interpretação textual, ideia principal, condição, decisão, se então",
+          "tags": "interpretação de texto",
           "img": "m1-e04.png"
         },
         {
@@ -140,7 +140,7 @@
             ]
           },
           "xp": 3,
-          "tags": "interpretação textual, organização, classificação, associação",
+          "tags": "interpretação de texto",
           "img": "m1-e01.png"
         },
         {
@@ -155,7 +155,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, sequência de passos, ordem, algoritmo, receita",
+          "tags": "interpretação de texto",
           "img": "m1-e03.png"
         },
         {
@@ -186,7 +186,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, ideia principal, condição, se senão, decisão",
+          "tags": "interpretação de texto",
           "img": "m1-e08.png"
         },
         {
@@ -225,7 +225,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, ideia principal, classificação, associação",
+          "tags": "interpretação de texto",
           "img": "m1-e06.png"
         },
         {
@@ -240,7 +240,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, sequência de passos, instruções, algoritmo",
+          "tags": "interpretação de texto",
           "img": "m1-e11.png"
         },
         {
@@ -271,7 +271,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, ideia principal, enunciado, compreensão do problema",
+          "tags": "interpretação de texto",
           "img": "m1-e09.png"
         },
         {
@@ -310,7 +310,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, lista de tarefas, status, associação",
+          "tags": "interpretação de texto",
           "img": "m1-e07.png"
         },
         {
@@ -325,7 +325,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, sequência, ordem, processo",
+          "tags": "interpretação de texto",
           "img": "m1-e05.png"
         },
         {
@@ -356,7 +356,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, ideia principal, decisão, critério, otimização",
+          "tags": "interpretação de texto",
           "img": "m1-e12.png"
         },
         {
@@ -395,7 +395,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, organização, categorização, associação",
+          "tags": "interpretação de texto",
           "img": "m1-e10.png"
         },
         {
@@ -409,7 +409,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, instruções, comandos, algoritmo",
+          "tags": "interpretação de texto",
           "img": "m1-e17.png"
         },
         {
@@ -440,7 +440,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, ideia principal, condição, verificação, recurso",
+          "tags": "interpretação de texto",
           "img": "m1-e14.png"
         },
         {
@@ -479,7 +479,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, comparação, maior, associação",
+          "tags": "interpretação de texto",
           "img": "m1-e18.png"
         },
         {
@@ -494,7 +494,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, repetição, laço, condição de parada",
+          "tags": "interpretação de texto",
           "img": "m1-e13.png"
         },
         {
@@ -525,7 +525,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, ideia principal, condição, alternativas, se senão",
+          "tags": "interpretação de texto",
           "img": "m1-e16.png"
         },
         {
@@ -564,7 +564,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, atitudes, associação, aprendizado",
+          "tags": "interpretação de texto",
           "img": "m1-e02.png"
         },
         {
@@ -579,7 +579,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, sequência, ordem, iteração",
+          "tags": "interpretação de texto",
           "img": "m1-e15.png"
         },
         {
@@ -610,7 +610,7 @@
             ]
           },
           "xp": 3,
-          "tags": "interpretação textual, ideia principal, título, tema, resumo",
+          "tags": "interpretação de texto",
           "img": "m1-e01.png"
         },
         {
@@ -641,7 +641,7 @@
             ]
           },
           "xp": 3,
-          "tags": "interpretação textual, ideia principal, compreensão, resolução de problemas",
+          "tags": "interpretação de texto",
           "img": "m1-e02.png"
         },
         {
@@ -672,7 +672,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, ideia principal, laço enquanto, condição",
+          "tags": "interpretação de texto",
           "img": "m1-e05.png"
         },
         {
@@ -703,7 +703,7 @@
             ]
           },
           "xp": 3,
-          "tags": "interpretação textual, ideia principal, receita, algoritmo, ordem",
+          "tags": "interpretação de texto",
           "img": "m1-e09.png"
         },
         {
@@ -718,7 +718,7 @@
             ]
           },
           "xp": 5,
-          "tags": "interpretação textual, ordenação, organização, gradação",
+          "tags": "interpretação de texto",
           "img": "m2-e17.png"
         },
         {
@@ -733,7 +733,7 @@
             ]
           },
           "xp": 3,
-          "tags": "interpretação textual, sequência, narrativa, ordem dos fatos",
+          "tags": "interpretação de texto",
           "img": "m2-e18.png"
         },
         {
@@ -748,7 +748,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, decomposição, algoritmo, sequência",
+          "tags": "interpretação de texto",
           "img": "m2-e19.png"
         },
         {
@@ -787,7 +787,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, ideia principal, título, tema, associação",
+          "tags": "interpretação de texto",
           "img": "m2-e20.png"
         },
         {
@@ -826,7 +826,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, vocabulário, significado, associação",
+          "tags": "interpretação de texto",
           "img": "m2-e21.png"
         },
         {
@@ -865,7 +865,7 @@
             ]
           },
           "xp": 7,
-          "tags": "interpretação textual, raciocínio, classificação, associação",
+          "tags": "interpretação de texto",
           "img": "m2-e22.png"
         },
         {
@@ -896,7 +896,7 @@
             ]
           },
           "xp": 3,
-          "tags": "interpretação textual, ideia principal, persistência, aprender com erros",
+          "tags": "interpretação de texto",
           "img": "m1-e01.png"
         }
       ]
