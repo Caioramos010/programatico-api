@@ -33,6 +33,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -79,6 +81,7 @@ public class LearnService {
         List<TrackDto.ModuleWithProgress> modulesWithProgress = new ArrayList<>();
         // The module previous to the first is treated as "completed" to unlock the first module.
         boolean previousCompleted = true;
+        boolean rootAtivo = vidasService.isRootAtivo(usuario);
 
         for (Modulo modulo : modulos) {
             ProgressStatus statusDb = progressoMap.get(modulo.getId());
@@ -93,9 +96,12 @@ public class LearnService {
             }
 
             // XP de UMA sessão (10 exercícios: 3×7 + 3×5 + 4×3 = 48), não a soma de todos os exercícios.
-            long xpModulo = "ACTIVITY".equals(modulo.getModuleType().name())
+            boolean isActivity = "ACTIVITY".equals(modulo.getModuleType().name());
+            long xpModulo = isActivity
                     ? Math.min(exerciseRepository.sumXpByModulo(modulo), 48L)
                     : 0L;
+            // Top assuntos é benefício Root e só se aplica a módulos de atividade.
+            List<String> topAssuntos = (rootAtivo && isActivity) ? calcularTopAssuntos(modulo, 3) : List.of();
             modulesWithProgress.add(new TrackDto.ModuleWithProgress(
                     modulo.getId(),
                     modulo.getTitle(),
@@ -103,7 +109,8 @@ public class LearnService {
                     modulo.getDisplayOrder(),
                     statusFinal.name(),
                     modulo.getDescription(),
-                    xpModulo
+                    xpModulo,
+                    topAssuntos
             ));
 
             previousCompleted = statusFinal == ProgressStatus.COMPLETED;
@@ -255,5 +262,30 @@ public class LearnService {
                 .firstCompletion(primeiraConclusao)
                 .completedMissions(missoesConcluidas)
                 .build();
+    }
+
+    /** Assuntos (tags) que mais aparecem nos exercícios do módulo, do mais frequente para o menos. */
+    private List<String> calcularTopAssuntos(Modulo modulo, int limite) {
+        Map<String, Long> contagem = new LinkedHashMap<>();
+        for (var exercise : exerciseRepository.findByModuloOrderByIdAsc(modulo)) {
+            for (String tag : parseTags(exercise.getTags())) {
+                contagem.merge(tag, 1L, Long::sum);
+            }
+        }
+        return contagem.entrySet().stream()
+                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                .limit(limite)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
+    private List<String> parseTags(String tags) {
+        if (tags == null || tags.isBlank()) {
+            return List.of();
+        }
+        return Arrays.stream(tags.split(","))
+                .map(String::trim)
+                .filter(tag -> !tag.isEmpty())
+                .toList();
     }
 }
