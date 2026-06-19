@@ -302,6 +302,29 @@ public class SessaoAtividadeService {
         return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Prática: Erros");
     }
 
+    /** Root: pratica os exercícios que o usuário errou em um assunto (tag) específico. */
+    @Transactional
+    public SessaoDto.InicioResponse iniciarPraticaErrosPorAssunto(String assunto, String username) {
+        Usuario usuario = buscarUsuario(username);
+        if (!vidasService.isRootAtivo(usuario)) {
+            throw new BadRequestException("Revisar erros por assunto é exclusivo para assinantes Root.");
+        }
+        if (assunto == null || assunto.isBlank()) {
+            throw new BadRequestException("Assunto inválido.");
+        }
+        String alvo = assunto.trim();
+        List<Exercise> exercicios = practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario)
+                .stream()
+                .distinct()
+                .filter(ex -> parseTags(ex.getTags()).stream().anyMatch(tag -> tag.equalsIgnoreCase(alvo)))
+                .limit(QUANTIDADE_EXERCICIOS)
+                .collect(Collectors.toList());
+        if (exercicios.isEmpty()) {
+            throw new BadRequestException("Você não tem erros nesse assunto para revisar.");
+        }
+        return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Revisar: " + alvo);
+    }
+
     private SessaoDto.InicioResponse iniciarPraticaFixacao(Usuario usuario) {
         List<Exercise> selecionados = selecionarExerciciosDeModulosConcluidos(usuario, QUANTIDADE_EXERCICIOS_FIXACAO);
         return montarSessaoPratica(usuario, selecionados, SessionType.QUICK_FIX, null, "Prática: Fixação");
