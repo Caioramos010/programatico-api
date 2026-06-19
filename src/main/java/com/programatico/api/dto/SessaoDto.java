@@ -23,6 +23,8 @@ public final class SessaoDto {
         private Integer timeLimitSeconds;
         /** Índice em que o cliente deve retomar (nº de exercícios já respondidos). 0 = sessão nova. */
         private int resumedFrom;
+        /** Ids dos alvos já dominados (na retomada) — o cliente os mantém no total mas fora da fila. */
+        private List<Long> masteredIds;
         private List<ExercicioSessao> exercises;
     }
 
@@ -68,5 +70,14 @@ public final class SessaoDto {
         private boolean firstCompletion;
         /** Títulos das missões diárias concluídas nesta sessão (para toast). */
         private List<String> completedMissions;
+        /** Desempenho por assunto (tag) na sessão — usado no review Root ao final. */
+        private List<SubjectReview> subjectReview;
+    }
+
+    @Data @Builder @NoArgsConstructor @AllArgsConstructor
+    public static class SubjectReview {
+        private String assunto;
+        private int acertos;
+        private int erros;
     }
 }
