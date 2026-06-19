@@ -12,6 +12,7 @@ import com.programatico.api.domain.enums.ExerciseType;
 import com.programatico.api.domain.enums.ModuleType;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.domain.enums.SessionType;
+import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.dto.SessaoDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
@@ -233,6 +234,57 @@ class SessaoAtividadeServiceTest {
         assertEquals("Conclua um módulo antes de praticar.", ex.getMessage());
     }
 
+    @Test
+    void iniciarPraticaErrosPorAssuntoDeveLancarExcecaoParaNaoRoot() {
+        Usuario usuario = usuarioBase(); // FREE por padrão
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user"));
+
+        assertTrue(ex.getMessage().contains("Root"));
+    }
+
+    @Test
+    void iniciarPraticaErrosPorAssuntoDeveMontarSessaoSomenteComErrosDoAssunto() {
+        Usuario usuario = usuarioBase();
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        Exercise e1 = exercicioComTags(1L, "decisão, condição");
+        Exercise e2 = exercicioComTags(2L, "sequência");
+        Exercise e3 = exercicioComTags(3L, "decisão");
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
+                .thenReturn(List.of(e1, e2, e3));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(77L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user");
+
+        assertEquals("Revisar: decisão", response.getModuleTitle());
+        assertEquals(2, response.getTotalExercises()); // só e1 e e3 têm a tag
+    }
+
+    @Test
+    void iniciarPraticaErrosPorAssuntoDeveLancarExcecaoQuandoNaoHaErrosNoAssunto() {
+        Usuario usuario = usuarioBase();
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
+                .thenReturn(List.of(exercicioComTags(1L, "sequência")));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user"));
+
+        assertEquals("Você não tem erros nesse assunto para revisar.", ex.getMessage());
+    }
+
     private Usuario usuarioBase() {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
@@ -241,6 +293,18 @@ class SessaoAtividadeServiceTest {
         usuario.setSenha("hash");
         usuario.setAtivo(true);
         return usuario;
+    }
+
+    private Exercise exercicioComTags(long id, String tags) {
+        return Exercise.builder()
+                .id(id)
+                .modulo(moduloBase(1L))
+                .statement("Enunciado " + id)
+                .exerciseType(ExerciseType.MULTIPLE_CHOICE)
+                .exerciseData("{\"options\":[{\"description\":\"A\",\"correct\":true},{\"description\":\"B\",\"correct\":false}]}")
+                .xpReward(3)
+                .tags(tags)
+                .build();
     }
 
     private UserStats statsBase(Usuario usuario) {
