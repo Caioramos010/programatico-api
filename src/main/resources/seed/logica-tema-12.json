@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, se então senão, semáforo, pedestre",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e04.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, senão, clima, escolha",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e15.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, fluxograma, losango, ramificação",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e15.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, comparação, condição, números, maior que",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e18.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, verdadeiro ou falso, vidas",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e67.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, senão, ramo falso, cozinha",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e68.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, ramificação, um caminho, se então senão",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e69.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decisão, condição falsa, pular passo, bateria",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e08.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, ramo, cor, entrega",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e70.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decisão, decisão aninhada, condição dupla, fome",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e05.png"
         },
         {
@@ -422,7 +422,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, se então, relacionar, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e15.png"
         },
         {
@@ -461,7 +461,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, ramo verdadeiro, ramo falso, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e15.png"
         },
         {
@@ -500,7 +500,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, comparação, verdadeiro ou falso, números, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e18.png"
         },
         {
@@ -539,7 +539,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decisão, se então senão, fluxograma, conceitos, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e67.png"
         },
         {
@@ -578,7 +578,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, ramo, classificação, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e68.png"
         },
         {
@@ -617,7 +617,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decisão, condição, ramo, mascotes, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e12.png"
         },
         {
@@ -656,7 +656,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, consequência, ramo, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e10.png"
         },
         {
@@ -695,7 +695,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição falsa, ramo, pares, mascotes",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e69.png"
         },
         {
@@ -734,7 +734,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decisão, decisão aninhada, condição, pares, fome",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e05.png"
         },
         {
@@ -773,7 +773,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, semáforo, ramo, pares",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e05.png"
         },
         {
@@ -787,7 +787,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, passo a passo, pedestre, ordem",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e04.png"
         },
         {
@@ -802,7 +802,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, ramificação, ordem, passo a passo",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e70.png"
         },
         {
@@ -816,7 +816,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, senão, clima, ordem",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e16.png"
         },
         {
@@ -831,7 +831,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, comparação, maior que, ordem, passo a passo",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e18.png"
         },
         {
@@ -845,7 +845,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, bateria, ordem, passo a passo",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e08.png"
         },
         {
@@ -859,7 +859,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, senão, cozinha, ordem",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e03.png"
         },
         {
@@ -874,7 +874,7 @@
             ]
           },
           "xp": 7,
-          "tags": "decisão, decisão aninhada, condição, ordem, passo a passo",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e05.png"
         },
         {
@@ -889,7 +889,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, condição, cor, entrega, ordem",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m1-e15.png"
         },
         {
@@ -903,7 +903,7 @@
             ]
           },
           "xp": 5,
-          "tags": "decisão, comparação, caminho mais curto, ordem, ramificação",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e15.png"
         },
         {
@@ -917,7 +917,7 @@
             ]
           },
           "xp": 3,
-          "tags": "decisão, condição, planta, ordem, passo a passo",
+          "tags": "condicional (se/então), algoritmo passo a passo",
           "img": "m2-e10.png"
         }
       ]

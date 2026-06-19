@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação, critério, cor, característica",
+          "tags": "classificação",
           "img": "m1-e01.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "categorização, o que não pertence, intruso, frutas",
+          "tags": "classificação",
           "img": "m2-e08.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação, critério, tamanho, bolas",
+          "tags": "classificação",
           "img": "m2-e11.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 3,
-          "tags": "categorização, o que não pertence, intruso, animais",
+          "tags": "classificação",
           "img": "m2-e11.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, critério, formato, quebra-cabeça",
+          "tags": "classificação",
           "img": "m1-e06.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, agrupar, frutas, caixas",
+          "tags": "classificação",
           "img": "m1-e10.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, o que não pertence, formato, redondo",
+          "tags": "classificação",
           "img": "m2-e50.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, números, pares e ímpares, critério",
+          "tags": "classificação",
           "img": "m1-e13.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação, critério, vários critérios, livros",
+          "tags": "classificação",
           "img": "m1-e01.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, o que não pertence, intruso, ferramentas",
+          "tags": "classificação",
           "img": "m2-e08.png"
         },
         {
@@ -397,7 +397,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação, critério, destino, cartas, passos",
+          "tags": "classificação",
           "img": "m1-e15.png"
         },
         {
@@ -436,7 +436,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, agrupar, categorias, pares",
+          "tags": "classificação",
           "img": "m2-e51.png"
         },
         {
@@ -475,7 +475,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, critério, cor, pares",
+          "tags": "classificação",
           "img": "m2-e52.png"
         },
         {
@@ -514,7 +514,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, agrupar, grupos, pares",
+          "tags": "classificação",
           "img": "m2-e53.png"
         },
         {
@@ -553,7 +553,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação, critério, tamanho, pares, bolas",
+          "tags": "classificação",
           "img": "m2-e11.png"
         },
         {
@@ -592,7 +592,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, números, pares e ímpares, pares",
+          "tags": "classificação",
           "img": "m1-e13.png"
         },
         {
@@ -631,7 +631,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação, critério, função, pares",
+          "tags": "classificação",
           "img": "m1-e16.png"
         },
         {
@@ -670,7 +670,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, critério, destino, pares, cartas",
+          "tags": "classificação",
           "img": "m1-e15.png"
         },
         {
@@ -709,7 +709,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, agrupar, habitat, pares",
+          "tags": "classificação",
           "img": "m2-e11.png"
         },
         {
@@ -748,7 +748,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, critério, formato, pares",
+          "tags": "classificação",
           "img": "m2-e50.png"
         },
         {
@@ -787,7 +787,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação, critério, função, pares, escola",
+          "tags": "classificação",
           "img": "m1-e01.png"
         },
         {
@@ -801,7 +801,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação, passos, critério, sequência",
+          "tags": "classificação",
           "img": "m2-e11.png"
         },
         {
@@ -815,7 +815,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação, passos, tamanho, bolas",
+          "tags": "classificação",
           "img": "m2-e51.png"
         },
         {
@@ -829,7 +829,7 @@
             ]
           },
           "xp": 5,
-          "tags": "categorização, o que não pertence, passos, intruso",
+          "tags": "classificação",
           "img": "m2-e08.png"
         },
         {
@@ -844,7 +844,7 @@
             ]
           },
           "xp": 7,
-          "tags": "categorização, passos, destino, cartas",
+          "tags": "classificação",
           "img": "m2-e52.png"
         },
         {
@@ -859,7 +859,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, ordenar, números, sequência",
+          "tags": "classificação",
           "img": "m2-e12.png"
         },
         {
@@ -874,7 +874,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação, passos, cor, livros",
+          "tags": "classificação",
           "img": "m2-e53.png"
         },
         {
@@ -888,7 +888,7 @@
             ]
           },
           "xp": 3,
-          "tags": "categorização, passos, caixas, agrupar",
+          "tags": "classificação",
           "img": "m1-e10.png"
         },
         {
@@ -902,7 +902,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, ordenar, quantidade, grupos",
+          "tags": "classificação",
           "img": "m2-e11.png"
         },
         {
@@ -916,7 +916,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação, passos, pares e ímpares, números",
+          "tags": "classificação",
           "img": "m1-e13.png"
         }
       ]

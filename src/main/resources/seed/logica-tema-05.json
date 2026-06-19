@@ -108,7 +108,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores, todos, generalização, verdadeiro",
+          "tags": "quantificadores",
           "img": "m1-e01.png"
         },
         {
@@ -139,7 +139,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, todos, exceção, contraexemplo, falso",
+          "tags": "quantificadores",
           "img": "m2-e07.png"
         },
         {
@@ -170,7 +170,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores, alguns, pelo menos um, conclusão",
+          "tags": "quantificadores",
           "img": "m2-e10.png"
         },
         {
@@ -201,7 +201,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores, nenhum, zero, verdadeiro",
+          "tags": "quantificadores",
           "img": "m1-e04.png"
         },
         {
@@ -232,7 +232,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, nenhum, negação, contraexemplo",
+          "tags": "quantificadores",
           "img": "m2-e38.png"
         },
         {
@@ -263,7 +263,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, negação, todos, alguns, raciocínio",
+          "tags": "quantificadores",
           "img": "m1-e15.png"
         },
         {
@@ -294,7 +294,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, negação, nenhum, existe algum",
+          "tags": "quantificadores",
           "img": "m2-e39.png"
         },
         {
@@ -325,7 +325,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, alguns, pelo menos um, investigação",
+          "tags": "quantificadores",
           "img": "m2-e08.png"
         },
         {
@@ -356,7 +356,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, todos, exceção, atributo, classificação",
+          "tags": "quantificadores",
           "img": "m2-e11.png"
         },
         {
@@ -387,7 +387,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, todos, negação, raciocínio, exceção",
+          "tags": "quantificadores",
           "img": "m2-e40.png"
         },
         {
@@ -426,7 +426,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores, todos, alguns, nenhum, significado",
+          "tags": "quantificadores",
           "img": "m2-e07.png"
         },
         {
@@ -465,7 +465,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, interpretação, todos, alguns, nenhum",
+          "tags": "quantificadores",
           "img": "m2-e41.png"
         },
         {
@@ -504,7 +504,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, negação, todos, nenhum, alguns",
+          "tags": "quantificadores",
           "img": "m2-e03.png"
         },
         {
@@ -543,7 +543,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, todos, alguns, nenhum, entrega",
+          "tags": "quantificadores",
           "img": "m2-e07.png"
         },
         {
@@ -582,7 +582,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, verificação, exceção, contraexemplo, raciocínio",
+          "tags": "quantificadores",
           "img": "m2-e08.png"
         },
         {
@@ -621,7 +621,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, cada, todos, alguns, nenhum",
+          "tags": "quantificadores",
           "img": "m2-e38.png"
         },
         {
@@ -660,7 +660,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores, sinônimos, cada, existe, zero",
+          "tags": "quantificadores",
           "img": "m2-e07.png"
         },
         {
@@ -699,7 +699,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, verdadeiro, falso, todos, alguns, nenhum",
+          "tags": "quantificadores",
           "img": "m2-e39.png"
         },
         {
@@ -738,7 +738,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, todos, alguns, nenhum, garantia",
+          "tags": "quantificadores",
           "img": "m2-e11.png"
         },
         {
@@ -777,7 +777,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, lógica, decisão, existe, todos",
+          "tags": "quantificadores",
           "img": "m2-e15.png"
         },
         {
@@ -792,7 +792,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, todos, contraexemplo, raciocínio, falso",
+          "tags": "quantificadores",
           "img": "m1-e01.png"
         },
         {
@@ -807,7 +807,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, todos, verificação, verdadeiro, passos",
+          "tags": "quantificadores",
           "img": "m2-e40.png"
         },
         {
@@ -822,7 +822,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores, alguns, pelo menos um, raciocínio",
+          "tags": "quantificadores",
           "img": "m2-e11.png"
         },
         {
@@ -837,7 +837,7 @@
             ]
           },
           "xp": 3,
-          "tags": "quantificadores, nenhum, zero, verificação",
+          "tags": "quantificadores",
           "img": "m2-e41.png"
         },
         {
@@ -852,7 +852,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, nenhum, negação, contraexemplo, investigação",
+          "tags": "quantificadores",
           "img": "m2-e08.png"
         },
         {
@@ -867,7 +867,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, todos, exceção, decisão, método",
+          "tags": "quantificadores",
           "img": "m2-e07.png"
         },
         {
@@ -882,7 +882,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, alguns, pelo menos um, entrega, passos",
+          "tags": "quantificadores",
           "img": "m1-e15.png"
         },
         {
@@ -897,7 +897,7 @@
             ]
           },
           "xp": 5,
-          "tags": "quantificadores, ordem, nenhum, alguns, todos",
+          "tags": "quantificadores",
           "img": "m2-e38.png"
         },
         {
@@ -912,7 +912,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, todos, fluxograma, decisão, lógica",
+          "tags": "quantificadores",
           "img": "m2-e15.png"
         },
         {
@@ -927,7 +927,7 @@
             ]
           },
           "xp": 7,
-          "tags": "quantificadores, negação, todos, alguns, raciocínio",
+          "tags": "quantificadores",
           "img": "m1-e15.png"
         }
       ]

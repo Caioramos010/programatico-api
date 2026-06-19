@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, do menor ao maior, tamanho, blocos, números",
+          "tags": "ordenação",
           "img": "m2-e12.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, do menor ao maior, valor, cartas, primeiro",
+          "tags": "ordenação",
           "img": "m2-e12.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, comparar, do menor ao maior, números, frente",
+          "tags": "ordenação",
           "img": "m1-e18.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, do maior ao menor, valor, números, sequência",
+          "tags": "ordenação",
           "img": "m2-e54.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, tamanho, empilhar, caixas, do maior ao menor",
+          "tags": "ordenação",
           "img": "m1-e10.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, etapas, antes e depois, cozinha, checklist",
+          "tags": "ordenação",
           "img": "m1-e03.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, etapas, antes e depois, tarefas, primeiro passo",
+          "tags": "ordenação",
           "img": "m2-e55.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, critério, regra, conceito, lógica",
+          "tags": "ordenação",
           "img": "m1-e09.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, do menor ao maior, peso, balança, valor",
+          "tags": "ordenação",
           "img": "m2-e04.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, do menor ao maior, maior valor, sequência, último",
+          "tags": "ordenação",
           "img": "m2-e56.png"
         },
         {
@@ -422,7 +422,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, do menor ao maior, números, pares, sequência",
+          "tags": "ordenação",
           "img": "m2-e57.png"
         },
         {
@@ -461,7 +461,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, tamanho, posição, fila, do menor ao maior",
+          "tags": "ordenação",
           "img": "m1-e10.png"
         },
         {
@@ -500,7 +500,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação, etapas, antes e depois, cozinha, pares",
+          "tags": "ordenação",
           "img": "m1-e03.png"
         },
         {
@@ -539,7 +539,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, comparar, do menor ao maior, números, pares",
+          "tags": "ordenação",
           "img": "m2-e12.png"
         },
         {
@@ -578,7 +578,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação, critério, tamanho, valor, etapa, pares",
+          "tags": "ordenação",
           "img": "m2-e54.png"
         },
         {
@@ -617,7 +617,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação, do maior ao menor, números, pares, sequência",
+          "tags": "ordenação",
           "img": "m2-e02.png"
         },
         {
@@ -656,7 +656,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, posição, antes e depois, fila, pares",
+          "tags": "ordenação",
           "img": "m2-e55.png"
         },
         {
@@ -695,7 +695,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, tamanho, altura, do menor ao maior, pares",
+          "tags": "ordenação",
           "img": "m1-e05.png"
         },
         {
@@ -734,7 +734,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, valor, preço, do menor ao maior, pares",
+          "tags": "ordenação",
           "img": "m2-e56.png"
         },
         {
@@ -773,7 +773,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação, etapas, antes e depois, entrega, pares",
+          "tags": "ordenação",
           "img": "m1-e15.png"
         },
         {
@@ -788,7 +788,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, do menor ao maior, números, valor, arrastar",
+          "tags": "ordenação",
           "img": "m2-e02.png"
         },
         {
@@ -802,7 +802,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, tamanho, blocos, do menor ao maior, arrastar",
+          "tags": "ordenação",
           "img": "m2-e12.png"
         },
         {
@@ -817,7 +817,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, tamanho, caixas, do maior ao menor, arrastar",
+          "tags": "ordenação",
           "img": "m1-e10.png"
         },
         {
@@ -832,7 +832,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, valor, cartas, do menor ao maior, arrastar",
+          "tags": "ordenação",
           "img": "m2-e57.png"
         },
         {
@@ -847,7 +847,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação, etapas, antes e depois, cozinha, arrastar",
+          "tags": "ordenação",
           "img": "m1-e03.png"
         },
         {
@@ -861,7 +861,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, peso, do menor ao maior, balança, arrastar",
+          "tags": "ordenação",
           "img": "m2-e04.png"
         },
         {
@@ -876,7 +876,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, valor, preço, do menor ao maior, arrastar",
+          "tags": "ordenação",
           "img": "m2-e12.png"
         },
         {
@@ -891,7 +891,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação, etapas, antes e depois, entrega, arrastar",
+          "tags": "ordenação",
           "img": "m1-e15.png"
         },
         {
@@ -906,7 +906,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação, altura, tamanho, do menor ao maior, arrastar",
+          "tags": "ordenação",
           "img": "m1-e05.png"
         },
         {
@@ -921,7 +921,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação, do maior ao menor, números, valor, arrastar",
+          "tags": "ordenação",
           "img": "m1-e18.png"
         }
       ]

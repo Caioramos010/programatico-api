@@ -96,7 +96,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução, silogismo, premissa, conclusão, todo",
+          "tags": "dedução e silogismo",
           "img": "m1-e05.png"
         },
         {
@@ -127,7 +127,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução, premissa, conclusão, condição, causa e efeito",
+          "tags": "dedução e silogismo",
           "img": "m2-e06.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e08.png"
         },
         {
@@ -181,7 +181,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, passos, raciocínio, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e15.png"
         },
         {
@@ -212,7 +212,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, nenhum, negação, conclusão",
+          "tags": "dedução e silogismo",
           "img": "m2-e05.png"
         },
         {
@@ -251,7 +251,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, quantificadores, todo, algum, nenhum, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e07.png"
         },
         {
@@ -282,7 +282,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, silogismo, conclusão inválida, armadilha, todo",
+          "tags": "dedução e silogismo",
           "img": "m1-e02.png"
         },
         {
@@ -297,7 +297,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, cadeia lógica, silogismo, transitividade, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e09.png"
         },
         {
@@ -328,7 +328,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução, silogismo, premissa, conclusão, todo",
+          "tags": "dedução e silogismo",
           "img": "m2-e08.png"
         },
         {
@@ -367,7 +367,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, validade, silogismo, conclusão válida, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e03.png"
         },
         {
@@ -381,7 +381,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, montar argumento, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m1-e09.png"
         },
         {
@@ -395,7 +395,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, premissa, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e01.png"
         },
         {
@@ -434,7 +434,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e04.png"
         },
         {
@@ -449,7 +449,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, investigação, premissa, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e08.png"
         },
         {
@@ -480,7 +480,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, algum, quantificador, conclusão inválida, cuidado",
+          "tags": "dedução e silogismo",
           "img": "m1-e02.png"
         },
         {
@@ -519,7 +519,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, quantificadores, significado, vocabulário, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e07.png"
         },
         {
@@ -533,7 +533,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução, silogismo, regra, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e05.png"
         },
         {
@@ -564,7 +564,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução, premissa, conclusão, condição, todo",
+          "tags": "dedução e silogismo",
           "img": "m1-e05.png"
         },
         {
@@ -603,7 +603,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "tags": "dedução e silogismo",
           "img": "m1-e15.png"
         },
         {
@@ -618,7 +618,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, cadeia lógica, transitividade, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e09.png"
         },
         {
@@ -649,7 +649,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, nenhum, negação, conclusão",
+          "tags": "dedução e silogismo",
           "img": "m2-e11.png"
         },
         {
@@ -688,7 +688,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, validade, silogismo, padrão, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e01.png"
         },
         {
@@ -703,7 +703,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, investigação, raciocínio, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e08.png"
         },
         {
@@ -742,7 +742,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, quantificadores, todo, algum, nenhum, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e11.png"
         },
         {
@@ -756,7 +756,7 @@
             ]
           },
           "xp": 3,
-          "tags": "dedução, silogismo, premissa, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e12.png"
         },
         {
@@ -795,7 +795,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, estrutura, palavras-chave, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e42.png"
         },
         {
@@ -810,7 +810,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, validade, verificação, conclusão, sequência",
+          "tags": "dedução e silogismo",
           "img": "m2-e03.png"
         },
         {
@@ -841,7 +841,7 @@
             ]
           },
           "xp": 5,
-          "tags": "dedução, silogismo, conclusão válida, todo, raciocínio",
+          "tags": "dedução e silogismo",
           "img": "m1-e11.png"
         },
         {
@@ -872,7 +872,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, condição, negação, conclusão, cuidado",
+          "tags": "dedução e silogismo",
           "img": "m2-e43.png"
         },
         {
@@ -911,7 +911,7 @@
             ]
           },
           "xp": 7,
-          "tags": "dedução, silogismo, premissa, conclusão, associação",
+          "tags": "dedução e silogismo",
           "img": "m2-e16.png"
         }
       ]
