@@ -22,6 +22,10 @@ public final class ContentBlockDto {
         @Size(max = 5000, message = "Conteúdo de texto deve ter no máximo 5000 caracteres")
         private String textContent;
 
+        /** Caminho da imagem escolhida do pool (ex.: /img/exercicios/m1-e01.png). */
+        @Size(max = 1000, message = "Caminho da imagem muito longo")
+        private String imageUrl;
+
         @NotNull(message = "Ordem de exibição é obrigatória")
         @Min(value = 0, message = "Ordem de exibição não pode ser negativa")
         private Integer displayOrder;
