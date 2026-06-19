@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), rotinas do dia a dia",
           "img": "m2-e10.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem",
           "img": "m1-e13.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), laço infinito, condição de parada, correção de erros",
           "img": "m2-e14.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, laço enquanto, agrupamento",
           "img": "m2-e11.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, laço com contador",
           "img": "m1-e01.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada",
           "img": "m1-e08.png"
         },
         {
@@ -274,7 +274,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), laço com contador, sequenciamento de passos",
           "img": "m2-e14.png"
         },
         {
@@ -305,7 +305,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, laço com contador, condição de parada",
           "img": "m2-e63.png"
         },
         {
@@ -336,7 +336,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, laço enquanto, rotinas do dia a dia",
           "img": "m1-e15.png"
         },
         {
@@ -367,7 +367,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), otimização, ordenação",
           "img": "m2-e64.png"
         },
         {
@@ -398,7 +398,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada",
           "img": "m2-e65.png"
         },
         {
@@ -437,7 +437,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), associação, formar pares",
           "img": "m2-e11.png"
         },
         {
@@ -476,7 +476,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, associação, formar pares",
           "img": "m1-e08.png"
         },
         {
@@ -515,7 +515,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, laço com contador, formar pares",
           "img": "m2-e66.png"
         },
         {
@@ -554,7 +554,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), formar pares",
           "img": "m1-e15.png"
         },
         {
@@ -593,7 +593,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, laço enquanto, formar pares",
           "img": "m2-e14.png"
         },
         {
@@ -632,7 +632,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, laço com contador, formar pares",
           "img": "m2-e63.png"
         },
         {
@@ -671,7 +671,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), significado de termos, contagem, condição de parada, formar pares",
           "img": "m2-e64.png"
         },
         {
@@ -710,7 +710,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), laço enquanto, condicional (se/então), formar pares",
           "img": "m2-e12.png"
         },
         {
@@ -749,7 +749,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, formar pares",
           "img": "m2-e65.png"
         },
         {
@@ -788,7 +788,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, formar pares",
           "img": "m2-e09.png"
         },
         {
@@ -802,7 +802,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, sequenciamento de passos",
           "img": "m1-e13.png"
         },
         {
@@ -817,7 +817,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, sequenciamento de passos, rotinas do dia a dia",
           "img": "m2-e10.png"
         },
         {
@@ -832,7 +832,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, sequenciamento de passos",
           "img": "m1-e08.png"
         },
         {
@@ -847,7 +847,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, sequenciamento de passos, agrupamento",
           "img": "m2-e66.png"
         },
         {
@@ -861,7 +861,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, sequenciamento de passos, rotinas do dia a dia",
           "img": "m1-e15.png"
         },
         {
@@ -876,7 +876,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, sequenciamento de passos, quebra-cabeça lógico",
           "img": "m2-e09.png"
         },
         {
@@ -891,7 +891,7 @@
             ]
           },
           "xp": 7,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, sequenciamento de passos",
           "img": "m2-e14.png"
         },
         {
@@ -905,7 +905,7 @@
             ]
           },
           "xp": 3,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), contagem, laço com contador, sequenciamento de passos",
           "img": "m2-e63.png"
         },
         {
@@ -920,7 +920,7 @@
             ]
           },
           "xp": 5,
-          "tags": "repetição (laços)",
+          "tags": "repetição (laços), condição de parada, sequenciamento de passos, ordenação",
           "img": "m2-e12.png"
         }
       ]

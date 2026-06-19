@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, atributos",
           "img": "m1-e01.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "categorização, encontrar o intruso, classificação",
           "img": "m2-e08.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, comparação por medida",
           "img": "m2-e11.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "categorização, encontrar o intruso",
           "img": "m2-e11.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, quebra-cabeça lógico",
           "img": "m1-e06.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, agrupamento, classificação",
           "img": "m1-e10.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, encontrar o intruso",
           "img": "m2-e50.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, noção de número, pares e ímpares, critérios de classificação",
           "img": "m1-e13.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação",
           "img": "m1-e01.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, encontrar o intruso",
           "img": "m2-e08.png"
         },
         {
@@ -397,7 +397,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, caminho no fluxograma, raciocínio com restrições, algoritmo (passo a passo)",
           "img": "m1-e15.png"
         },
         {
@@ -436,7 +436,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, agrupamento, formar pares",
           "img": "m2-e51.png"
         },
         {
@@ -475,7 +475,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, formar pares",
           "img": "m2-e52.png"
         },
         {
@@ -514,7 +514,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, agrupamento, formar pares",
           "img": "m2-e53.png"
         },
         {
@@ -553,7 +553,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, comparação por medida, formar pares",
           "img": "m2-e11.png"
         },
         {
@@ -592,7 +592,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, noção de número, pares e ímpares, formar pares",
           "img": "m1-e13.png"
         },
         {
@@ -631,7 +631,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, formar pares",
           "img": "m1-e16.png"
         },
         {
@@ -670,7 +670,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, critérios de classificação, caminho no fluxograma, formar pares, raciocínio com restrições",
           "img": "m1-e15.png"
         },
         {
@@ -709,7 +709,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, agrupamento, atributos, formar pares",
           "img": "m2-e11.png"
         },
         {
@@ -748,7 +748,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, formar pares",
           "img": "m2-e50.png"
         },
         {
@@ -787,7 +787,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação",
+          "tags": "classificação, critérios de classificação, formar pares",
           "img": "m1-e01.png"
         },
         {
@@ -801,7 +801,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "classificação, algoritmo (passo a passo), critérios de classificação, sequência de eventos",
           "img": "m2-e11.png"
         },
         {
@@ -815,7 +815,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "classificação, algoritmo (passo a passo), comparação por medida",
           "img": "m2-e51.png"
         },
         {
@@ -829,7 +829,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "categorização, encontrar o intruso, algoritmo (passo a passo)",
           "img": "m2-e08.png"
         },
         {
@@ -844,7 +844,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação",
+          "tags": "categorização, algoritmo (passo a passo), caminho no fluxograma, raciocínio com restrições",
           "img": "m2-e52.png"
         },
         {
@@ -859,7 +859,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, ordenação, noção de número, sequência de eventos",
           "img": "m2-e12.png"
         },
         {
@@ -874,7 +874,7 @@
             ]
           },
           "xp": 7,
-          "tags": "classificação",
+          "tags": "classificação, algoritmo (passo a passo)",
           "img": "m2-e53.png"
         },
         {
@@ -888,7 +888,7 @@
             ]
           },
           "xp": 3,
-          "tags": "classificação",
+          "tags": "categorização, algoritmo (passo a passo), agrupamento",
           "img": "m1-e10.png"
         },
         {
@@ -902,7 +902,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, ordenação, contagem, agrupamento",
           "img": "m2-e11.png"
         },
         {
@@ -916,7 +916,7 @@
             ]
           },
           "xp": 5,
-          "tags": "classificação",
+          "tags": "classificação, algoritmo (passo a passo), pares e ímpares, noção de número",
           "img": "m1-e13.png"
         }
       ]

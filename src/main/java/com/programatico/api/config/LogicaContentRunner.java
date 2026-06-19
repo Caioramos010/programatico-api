@@ -96,10 +96,12 @@ public class LogicaContentRunner implements ApplicationRunner {
 
     private void carregarModulo(Track track, JsonNode m) throws Exception {
         String titulo = m.get("title").asText();
-        boolean existe = moduloRepository.findByTrackOrderByDisplayOrderAsc(track).stream()
-                .anyMatch(x -> titulo.equals(x.getTitle()));
-        if (existe) {
-            log.info("Módulo '{}' já existe — pulando.", titulo);
+        Modulo existente = moduloRepository.findByTrackOrderByDisplayOrderAsc(track).stream()
+                .filter(x -> titulo.equals(x.getTitle()))
+                .findFirst().orElse(null);
+        if (existente != null) {
+            // Módulo já carregado: o seed é a fonte da verdade das tags; sincroniza só o que mudou.
+            sincronizarTags(existente, m);
             return;
         }
 
@@ -154,6 +156,29 @@ public class LogicaContentRunner implements ApplicationRunner {
                 total++;
             }
             log.info("Módulo de atividade '{}' carregado com {} exercícios.", titulo, total);
+        }
+    }
+
+    /** Atualiza as tags dos exercícios já carregados a partir do seed (casados por ordem). Idempotente. */
+    private void sincronizarTags(Modulo modulo, JsonNode m) {
+        if (!m.has("exercises")) {
+            return;
+        }
+        java.util.List<Exercise> doDb = exerciseRepository.findByModuloOrderByIdAsc(modulo);
+        JsonNode exs = m.get("exercises");
+        int n = Math.min(doDb.size(), exs.size());
+        int atualizados = 0;
+        for (int i = 0; i < n; i++) {
+            String novo = exs.get(i).hasNonNull("tags") ? exs.get(i).get("tags").asText() : null;
+            Exercise ex = doDb.get(i);
+            if (novo != null && !novo.equals(ex.getTags())) {
+                ex.setTags(novo);
+                exerciseRepository.save(ex);
+                atualizados++;
+            }
+        }
+        if (atualizados > 0) {
+            log.info("Módulo '{}': {} tags sincronizadas do seed.", modulo.getTitle(), atualizados);
         }
     }
 

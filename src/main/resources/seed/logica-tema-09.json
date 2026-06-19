@@ -104,7 +104,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem crescente, comparação por medida, agrupamento, noção de número",
           "img": "m2-e12.png"
         },
         {
@@ -135,7 +135,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem crescente, noção de número, raciocínio com restrições, início e fim",
           "img": "m2-e12.png"
         },
         {
@@ -166,7 +166,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação, ordem crescente, noção de número",
           "img": "m1-e18.png"
         },
         {
@@ -197,7 +197,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem decrescente, noção de número, sequência de eventos",
           "img": "m2-e54.png"
         },
         {
@@ -228,7 +228,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação por medida, agrupamento, ordem decrescente",
           "img": "m1-e10.png"
         },
         {
@@ -259,7 +259,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, algoritmo (passo a passo), sequência de eventos, rotinas do dia a dia",
           "img": "m1-e03.png"
         },
         {
@@ -290,7 +290,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, algoritmo (passo a passo), sequência de eventos, sequenciamento de passos",
           "img": "m2-e55.png"
         },
         {
@@ -321,7 +321,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, critérios de classificação, descobrir a regra, significado de termos, lógica proposicional",
           "img": "m1-e09.png"
         },
         {
@@ -352,7 +352,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem crescente, comparação por medida, noção de número",
           "img": "m2-e04.png"
         },
         {
@@ -383,7 +383,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem crescente, maior e menor, sequência de eventos, início e fim",
           "img": "m2-e56.png"
         },
         {
@@ -422,7 +422,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem crescente, noção de número, formar pares, sequência de eventos",
           "img": "m2-e57.png"
         },
         {
@@ -461,7 +461,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação por medida, posição/índice, raciocínio com restrições, ordem crescente",
           "img": "m1-e10.png"
         },
         {
@@ -500,7 +500,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação",
+          "tags": "ordenação, algoritmo (passo a passo), sequência de eventos, rotinas do dia a dia, formar pares",
           "img": "m1-e03.png"
         },
         {
@@ -539,7 +539,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação, ordem crescente, noção de número, formar pares",
           "img": "m2-e12.png"
         },
         {
@@ -578,7 +578,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação",
+          "tags": "ordenação, critérios de classificação, comparação por medida, noção de número, algoritmo (passo a passo), formar pares",
           "img": "m2-e54.png"
         },
         {
@@ -617,7 +617,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem decrescente, noção de número, formar pares, sequência de eventos",
           "img": "m2-e02.png"
         },
         {
@@ -656,7 +656,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, posição/índice, sequência de eventos, raciocínio com restrições, formar pares",
           "img": "m2-e55.png"
         },
         {
@@ -695,7 +695,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação por medida, ordem crescente, formar pares",
           "img": "m1-e05.png"
         },
         {
@@ -734,7 +734,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, noção de número, comparação por medida, ordem crescente, formar pares",
           "img": "m2-e56.png"
         },
         {
@@ -773,7 +773,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação",
+          "tags": "ordenação, algoritmo (passo a passo), sequência de eventos, rotinas do dia a dia, formar pares",
           "img": "m1-e15.png"
         },
         {
@@ -788,7 +788,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem crescente, noção de número",
           "img": "m2-e02.png"
         },
         {
@@ -802,7 +802,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação por medida, agrupamento, ordem crescente",
           "img": "m2-e12.png"
         },
         {
@@ -817,7 +817,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação por medida, agrupamento, ordem decrescente",
           "img": "m1-e10.png"
         },
         {
@@ -832,7 +832,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, noção de número, raciocínio com restrições, ordem crescente",
           "img": "m2-e57.png"
         },
         {
@@ -847,7 +847,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação",
+          "tags": "ordenação, algoritmo (passo a passo), sequência de eventos, rotinas do dia a dia",
           "img": "m1-e03.png"
         },
         {
@@ -861,7 +861,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação por medida, ordem crescente",
           "img": "m2-e04.png"
         },
         {
@@ -876,7 +876,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, noção de número, comparação por medida, ordem crescente",
           "img": "m2-e12.png"
         },
         {
@@ -891,7 +891,7 @@
             ]
           },
           "xp": 7,
-          "tags": "ordenação",
+          "tags": "ordenação, algoritmo (passo a passo), sequência de eventos, rotinas do dia a dia",
           "img": "m1-e15.png"
         },
         {
@@ -906,7 +906,7 @@
             ]
           },
           "xp": 5,
-          "tags": "ordenação",
+          "tags": "ordenação, comparação por medida, ordem crescente",
           "img": "m1-e05.png"
         },
         {
@@ -921,7 +921,7 @@
             ]
           },
           "xp": 3,
-          "tags": "ordenação",
+          "tags": "ordenação, ordem decrescente, noção de número",
           "img": "m1-e18.png"
         }
       ]

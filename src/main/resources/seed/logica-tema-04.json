@@ -108,7 +108,7 @@
             ]
           },
           "xp": 3,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ramos da decisão",
           "img": "m1-e16.png"
         },
         {
@@ -139,7 +139,7 @@
             ]
           },
           "xp": 3,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), comparação, maior e menor",
           "img": "m2-e05.png"
         },
         {
@@ -170,7 +170,7 @@
             ]
           },
           "xp": 3,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ramos da decisão",
           "img": "m1-e08.png"
         },
         {
@@ -232,7 +232,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), condição de parada",
           "img": "m1-e14.png"
         },
         {
@@ -263,7 +263,7 @@
             ]
           },
           "xp": 3,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ramos da decisão",
           "img": "m2-e05.png"
         },
         {
@@ -294,7 +294,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), rotinas do dia a dia",
           "img": "m1-e15.png"
         },
         {
@@ -325,7 +325,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), verdadeiro ou falso",
           "img": "m2-e06.png"
         },
         {
@@ -356,7 +356,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ramos da decisão, conclusão, dedução",
           "img": "m2-e08.png"
         },
         {
@@ -387,7 +387,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), comparação, maior e menor",
           "img": "m2-e33.png"
         },
         {
@@ -426,7 +426,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), rotinas do dia a dia, associação",
           "img": "m2-e15.png"
         },
         {
@@ -465,7 +465,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), verdadeiro ou falso, comparação, avaliar afirmação",
           "img": "m2-e34.png"
         },
         {
@@ -504,7 +504,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ramos da decisão, associação",
           "img": "m2-e05.png"
         },
         {
@@ -543,7 +543,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), comparação, maior e menor, agrupamento",
           "img": "m1-e10.png"
         },
         {
@@ -582,7 +582,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), caminho no fluxograma, associação",
           "img": "m1-e12.png"
         },
         {
@@ -621,7 +621,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), significado de termos, vocabulário",
           "img": "m2-e35.png"
         },
         {
@@ -777,7 +777,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ramos da decisão, conclusão, dedução, associação",
           "img": "m2-e37.png"
         },
         {
@@ -792,7 +792,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ordenação, raciocínio lógico",
           "img": "m1-e16.png"
         },
         {
@@ -807,7 +807,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ordenação",
           "img": "m1-e04.png"
         },
         {
@@ -821,7 +821,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ordenação",
           "img": "m2-e05.png"
         },
         {
@@ -836,7 +836,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), comparação, maior e menor, agrupamento, ordenação",
           "img": "m2-e06.png"
         },
         {
@@ -851,7 +851,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ordenação",
           "img": "m1-e14.png"
         },
         {
@@ -866,7 +866,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), rotinas do dia a dia, ordenação",
           "img": "m2-e33.png"
         },
         {
@@ -881,7 +881,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), ordenação",
           "img": "m2-e05.png"
         },
         {
@@ -896,7 +896,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), comparação, maior e menor, ordenação",
           "img": "m2-e34.png"
         },
         {
@@ -911,7 +911,7 @@
             ]
           },
           "xp": 5,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), fluxograma, ordenação, raciocínio lógico",
           "img": "m2-e35.png"
         },
         {
@@ -926,7 +926,7 @@
             ]
           },
           "xp": 7,
-          "tags": "condicional (se/então)",
+          "tags": "condicional (se/então), dedução, ordenação",
           "img": "m2-e08.png"
         }
       ]
