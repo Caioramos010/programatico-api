@@ -45,4 +45,13 @@ public final class TheoryDto {
         private String imageUrl;
         private int order;
     }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ConclusaoResponse {
+        private boolean firstCompletion;
+        private List<String> completedMissions;
+    }
 }

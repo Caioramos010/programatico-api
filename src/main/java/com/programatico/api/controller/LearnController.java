@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/aprender")
@@ -48,10 +47,9 @@ public class LearnController {
     }
 
     @PostMapping("/modulos/{moduloId}/teorico/concluir")
-    public ResponseEntity<Map<String, Boolean>> concluirTeorico(
+    public ResponseEntity<TheoryDto.ConclusaoResponse> concluirTeorico(
             @PathVariable Long moduloId,
             @AuthenticationPrincipal UserDetails userDetails) {
-        boolean firstCompletion = learnService.concluirTeorico(moduloId, userDetails.getUsername());
-        return ResponseEntity.ok(Map.of("firstCompletion", firstCompletion));
+        return ResponseEntity.ok(learnService.concluirTeorico(moduloId, userDetails.getUsername()));
     }
 }

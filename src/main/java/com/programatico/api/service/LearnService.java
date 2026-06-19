@@ -5,7 +5,6 @@ import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.Mission;
 import com.programatico.api.domain.TeoriaPagina;
 import com.programatico.api.domain.Track;
-import com.programatico.api.domain.UserMission;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
@@ -20,11 +19,9 @@ import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
-import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.ModuloRepository;
 import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
-import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
@@ -52,13 +49,12 @@ public class LearnService {
     private final ModuloRepository moduloRepository;
     private final UserProgressRepository userProgressRepository;
     private final UserStatsRepository userStatsRepository;
-    private final MissionRepository missionRepository;
-    private final UserMissionRepository userMissionRepository;
     private final ExerciseRepository exerciseRepository;
     private final TeoriaPaginaRepository teoriaPaginaRepository;
     private final ContentBlockRepository contentBlockRepository;
     private final NotificationService notificationService;
     private final VidasService vidasService;
+    private final MissaoDiariaService missaoDiariaService;
 
     /**
      * Retorna a primeira trilha (por displayOrder) com o status de cada módulo
@@ -147,30 +143,22 @@ public class LearnService {
                 .orElseGet(() -> UserStatsDto.Response.padrao(vidasIlimitadas));
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<UserMissionDto.Response> getMissoes(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
 
-        List<Mission> missions = missionRepository.findAll().stream()
-                .limit(3)
-                .collect(Collectors.toList());
-
-        Map<Long, UserMission> userMissionMap = userMissionRepository.findByUsuario(usuario)
-                .stream()
-                .collect(Collectors.toMap(um -> um.getMission().getId(), um -> um, (a, b) -> a));
-
-        return missions.stream()
-                .map(mission -> {
-                    UserMission um = userMissionMap.get(mission.getId());
+        return missaoDiariaService.missoesDoDia(usuario).stream()
+                .map(udm -> {
+                    Mission mission = udm.getMission();
                     return UserMissionDto.Response.builder()
                             .missionId(mission.getId())
                             .title(mission.getTitle())
                             .type(mission.getObjectiveType())
-                            .currentProgress(um != null && um.getCurrentProgress() != null ? um.getCurrentProgress() : 0)
-                            .goal(META_MISSOES_DIARIAS)
+                            .currentProgress(udm.getCurrentProgress() != null ? udm.getCurrentProgress() : 0)
+                            .goal(udm.getGoal() != null ? udm.getGoal() : META_MISSOES_DIARIAS)
                             .xpReward(mission.getXpReward() != null ? mission.getXpReward() : 5)
-                            .completed(um != null && Boolean.TRUE.equals(um.getIsCompleted()))
+                            .completed(Boolean.TRUE.equals(udm.getCompleted()))
                             .build();
                 })
                 .collect(Collectors.toList());
@@ -227,7 +215,7 @@ public class LearnService {
     }
 
     @Transactional
-    public boolean concluirTeorico(Long moduleId, String username) {
+    public TheoryDto.ConclusaoResponse concluirTeorico(Long moduleId, String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
 
@@ -259,6 +247,13 @@ public class LearnService {
                     NotificationKind.TRILHA
             );
         }
-        return primeiraConclusao;
+
+        List<String> missoesConcluidas = missaoDiariaService.registrarProgresso(
+                usuario, Map.of(MissaoDiariaService.READ_PAGES, 1));
+
+        return TheoryDto.ConclusaoResponse.builder()
+                .firstCompletion(primeiraConclusao)
+                .completedMissions(missoesConcluidas)
+                .build();
     }
 }
