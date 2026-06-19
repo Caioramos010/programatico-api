@@ -240,29 +240,18 @@ public class SessaoAtividadeService {
         vidasService.aplicarRecarga(stats);
         userStatsRepository.save(stats);
 
-        if (sessao.getModulo() != null) {
+        // Notifica só na PRIMEIRA conclusão do módulo (não em replays nem em sessões que não concluem).
+        boolean primeiraConclusao = moduloConcluido && !replay;
+        if (sessao.getModulo() != null && primeiraConclusao) {
             notificationService.criarNotificacaoSistema(
                     usuario,
-                    "Exercícios concluídos",
-                    "Voce ganhou %d XP no módulo \"%s\" com %d%% de acerto.".formatted(
-                            xpGanho,
+                    "Módulo concluído",
+                    "Voce concluiu o módulo \"%s\" pela primeira vez com %d%% de acerto.".formatted(
                             sessao.getModulo().getTitle(),
                             taxaAcerto
                     ),
-                    NotificationKind.EXERCICIO
+                    NotificationKind.TRILHA
             );
-
-            if (moduloConcluido) {
-                notificationService.criarNotificacaoSistema(
-                        usuario,
-                        "Módulo concluído",
-                        "Voce concluiu o módulo \"%s\" com %d%% de acerto.".formatted(
-                                sessao.getModulo().getTitle(),
-                                taxaAcerto
-                        ),
-                        NotificationKind.TRILHA
-                );
-            }
         }
 
         return SessaoDto.ConclusaoResponse.builder()
@@ -271,6 +260,7 @@ public class SessaoAtividadeService {
                 .durationSeconds(duracao)
                 .remainingLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .moduleCompleted(moduloConcluido)
+                .firstCompletion(primeiraConclusao)
                 .build();
     }
 
