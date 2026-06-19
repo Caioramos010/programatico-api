@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Exercise;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.PracticeSession;
+import com.programatico.api.domain.PracticeSessionExercise;
 import com.programatico.api.domain.Track;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
@@ -31,6 +32,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -283,6 +285,37 @@ class SessaoAtividadeServiceTest {
                 () -> sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user"));
 
         assertEquals("Você não tem erros nesse assunto para revisar.", ex.getMessage());
+    }
+
+    @Test
+    void iniciarSessaoDeveRetomarSessaoAbertaDoModuloOndeParou() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        PracticeSession aberta = PracticeSession.builder()
+                .id(55L).usuario(usuario).modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now().minusMinutes(10))
+                .build();
+        PracticeSessionExercise i1 = PracticeSessionExercise.builder()
+                .practiceSession(aberta).exercise(exercicioComTags(1L, "x")).displayOrder(1).isCorrect(true).build();
+        PracticeSessionExercise i2 = PracticeSessionExercise.builder()
+                .practiceSession(aberta).exercise(exercicioComTags(2L, "y")).displayOrder(2).isCorrect(false).build();
+        PracticeSessionExercise i3 = PracticeSessionExercise.builder()
+                .practiceSession(aberta).exercise(exercicioComTags(3L, "z")).displayOrder(3).build(); // não respondido
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.findFirstByUsuarioAndModuloAndEndedAtIsNullOrderByStartedAtDesc(usuario, modulo))
+                .thenReturn(Optional.of(aberta));
+        when(practiceSessionExerciseRepository.findByPracticeSessionOrderByDisplayOrderAsc(aberta))
+                .thenReturn(List.of(i1, i2, i3));
+
+        SessaoDto.InicioResponse resp = sessaoAtividadeService.iniciarSessao(1L, "user");
+
+        assertEquals(55L, resp.getSessionId());     // mesma sessão (retomada)
+        assertEquals(2, resp.getResumedFrom());      // i1 e i2 respondidos -> retoma no 3º
+        assertEquals(3, resp.getTotalExercises());
     }
 
     private Usuario usuarioBase() {
