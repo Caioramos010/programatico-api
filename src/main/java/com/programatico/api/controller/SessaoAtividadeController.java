@@ -32,6 +32,15 @@ public class SessaoAtividadeController {
         return ResponseEntity.ok(sessaoAtividadeService.iniciarPratica(modo, userDetails.getUsername()));
     }
 
+    // Root: pratica os erros do usuário em um assunto específico.
+    @PostMapping("/pratica/erros-assunto/iniciar")
+    public ResponseEntity<SessaoDto.InicioResponse> iniciarPraticaErrosPorAssunto(
+            @RequestParam String assunto,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(
+                sessaoAtividadeService.iniciarPraticaErrosPorAssunto(assunto, userDetails.getUsername()));
+    }
+
     @PostMapping("/sessoes/{sessaoId}/responder")
     public ResponseEntity<SessaoDto.RespostaResponse> responder(
             @PathVariable Long sessaoId,
