@@ -227,7 +227,7 @@ public class LearnService {
     }
 
     @Transactional
-    public void concluirTeorico(Long moduleId, String username) {
+    public boolean concluirTeorico(Long moduleId, String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
 
@@ -244,15 +244,21 @@ public class LearnService {
                         .modulo(modulo)
                         .build());
 
+        boolean primeiraConclusao = progress.getStatus() != ProgressStatus.COMPLETED;
+
         progress.setStatus(ProgressStatus.COMPLETED);
         progress.setCompletedAt(LocalDateTime.now());
         userProgressRepository.save(progress);
 
-        notificationService.criarNotificacaoSistema(
-                usuario,
-                "Módulo teórico concluído",
-                "Voce concluiu o módulo teórico \"%s\".".formatted(modulo.getTitle()),
-                NotificationKind.TRILHA
-        );
+        // Notifica só na primeira vez que o módulo teórico é concluído.
+        if (primeiraConclusao) {
+            notificationService.criarNotificacaoSistema(
+                    usuario,
+                    "Módulo teórico concluído",
+                    "Voce concluiu o módulo teórico \"%s\".".formatted(modulo.getTitle()),
+                    NotificationKind.TRILHA
+            );
+        }
+        return primeiraConclusao;
     }
 }

@@ -34,6 +34,7 @@ public final class ContentBlockDto {
         private Long paginaId;
         private LayoutType layoutType;
         private String textContent;
+        private String imageUrl;
         private Integer displayOrder;
 
         public static Response fromEntity(ContentBlock block) {
@@ -43,6 +44,7 @@ public final class ContentBlockDto {
                     .paginaId(block.getPagina() != null ? block.getPagina().getId() : null)
                     .layoutType(block.getLayoutType())
                     .textContent(block.getTextContent())
+                    .imageUrl(block.getImageUrl())
                     .displayOrder(block.getDisplayOrder())
                     .build();
         }
