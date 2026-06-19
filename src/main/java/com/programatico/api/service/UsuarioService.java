@@ -165,6 +165,19 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Garante que o recurso {id} pertence ao usuário autenticado (do token).
+     * Em divergência, responde como "não encontrado" para não revelar a existência de contas de terceiros.
+     */
+    @Transactional(readOnly = true)
+    public void verificarProprioRecurso(Long id, String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+        if (!usuario.getId().equals(id)) {
+            throw new ResourceNotFoundException("Usuário", id);
+        }
+    }
+
     @Transactional(readOnly = true)
     public UsuarioDto.Response buscarPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
