@@ -120,27 +120,28 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioDto.MessageResponse solicitarAtivacao(UsuarioDto.SolicitarAtivacaoRequest request) {
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new BadRequestException("Se o e-mail existir, você receberá um novo código de ativação."));
-        if (Boolean.TRUE.equals(usuario.getAtivo())) {
-            throw new BadRequestException("Conta já ativada. Faça login.");
-        }
-        String codigoAtivacao = gerarCodigo();
-        usuario.setCodigoAtivacao(codigoAtivacao);
-        usuarioRepository.save(usuario);
-        emailService.enviarCodigoAtivacao(usuario.getEmail(), usuario.getUsername(), codigoAtivacao);
-        return UsuarioDto.MessageResponse.of("Se o e-mail existir, você receberá um novo código de ativação.");
+        // Resposta uniforme: não revela se o e-mail existe nem se a conta já está ativa (anti-enumeração).
+        usuarioRepository.findByEmail(request.getEmail()).ifPresent(usuario -> {
+            if (!Boolean.TRUE.equals(usuario.getAtivo())) {
+                String codigoAtivacao = gerarCodigo();
+                usuario.setCodigoAtivacao(codigoAtivacao);
+                usuarioRepository.save(usuario);
+                emailService.enviarCodigoAtivacao(usuario.getEmail(), usuario.getUsername(), codigoAtivacao);
+            }
+        });
+        return UsuarioDto.MessageResponse.of("Se o e-mail existir e estiver pendente, você receberá um novo código de ativação.");
     }
 
     @Transactional
     public UsuarioDto.MessageResponse solicitarRedefinicaoSenha(UsuarioDto.SolicitarRedefinicaoSenhaRequest request) {
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new BadRequestException("Se o e-mail existir, você receberá um código para redefinir a senha."));
-        String codigo = gerarCodigo();
-        usuario.setCodigoRedefinicaoSenha(codigo);
-        usuario.setDataExpiracaoCodigoRedefinicao(Instant.now().plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS));
-        usuarioRepository.save(usuario);
-        emailService.enviarCodigoRedefinicaoSenha(usuario.getEmail(), usuario.getUsername(), codigo);
+        // Resposta uniforme: não revela se o e-mail existe (anti-enumeração).
+        usuarioRepository.findByEmail(request.getEmail()).ifPresent(usuario -> {
+            String codigo = gerarCodigo();
+            usuario.setCodigoRedefinicaoSenha(codigo);
+            usuario.setDataExpiracaoCodigoRedefinicao(Instant.now().plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS));
+            usuarioRepository.save(usuario);
+            emailService.enviarCodigoRedefinicaoSenha(usuario.getEmail(), usuario.getUsername(), codigo);
+        });
         return UsuarioDto.MessageResponse.of("Se o e-mail existir, você receberá um código para redefinir a senha.");
     }
 

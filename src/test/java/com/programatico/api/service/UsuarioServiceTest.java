@@ -202,6 +202,51 @@ class UsuarioServiceTest {
         assertThrows(ResourceNotFoundException.class, () -> usuarioService.excluir(1L));
     }
 
+    @Test
+    void solicitarRedefinicaoSenhaNaoRevelaQuandoEmailNaoExiste() {
+        UsuarioDto.SolicitarRedefinicaoSenhaRequest request =
+                UsuarioDto.SolicitarRedefinicaoSenhaRequest.builder()
+                        .email("inexistente@email.com")
+                        .build();
+        when(usuarioRepository.findByEmail("inexistente@email.com")).thenReturn(Optional.empty());
+
+        UsuarioDto.MessageResponse response = usuarioService.solicitarRedefinicaoSenha(request);
+
+        assertNotNull(response.getMensagem());
+        verify(usuarioRepository, never()).save(any(Usuario.class));
+        verify(emailService, never()).enviarCodigoRedefinicaoSenha(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void solicitarAtivacaoNaoRevelaQuandoEmailNaoExiste() {
+        UsuarioDto.SolicitarAtivacaoRequest request =
+                UsuarioDto.SolicitarAtivacaoRequest.builder()
+                        .email("inexistente@email.com")
+                        .build();
+        when(usuarioRepository.findByEmail("inexistente@email.com")).thenReturn(Optional.empty());
+
+        UsuarioDto.MessageResponse response = usuarioService.solicitarAtivacao(request);
+
+        assertNotNull(response.getMensagem());
+        verify(usuarioRepository, never()).save(any(Usuario.class));
+        verify(emailService, never()).enviarCodigoAtivacao(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void solicitarAtivacaoNaoReenviaParaContaJaAtiva() {
+        Usuario usuario = usuarioBase();
+        UsuarioDto.SolicitarAtivacaoRequest request =
+                UsuarioDto.SolicitarAtivacaoRequest.builder()
+                        .email("user@email.com")
+                        .build();
+        when(usuarioRepository.findByEmail("user@email.com")).thenReturn(Optional.of(usuario));
+
+        usuarioService.solicitarAtivacao(request);
+
+        verify(usuarioRepository, never()).save(any(Usuario.class));
+        verify(emailService, never()).enviarCodigoAtivacao(anyString(), anyString(), anyString());
+    }
+
     private Usuario usuarioBase() {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
