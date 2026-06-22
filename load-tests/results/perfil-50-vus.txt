@@ -1,0 +1,18 @@
+Teste de carga k6 — Programatico (homolog)
+Perfil: 50 VUs (30s rampa -> 1m sustentacao -> 15s reducao)
+Ambiente: VM homolog (api limite 1.25GiB, db 1GiB, web 128MiB); API via web:80 -> api:8080
+Mix de cenarios: 80% navegacao do aluno (/api/aprender/trilha|stats|missoes) + 20% leitura admin (/api/admin/dashboard|trilhas|usuarios)
+Data: 2026-06-22
+
+Recursos sob carga (docker stats, pico): api ~108% CPU, db ~44% CPU, web ~4% CPU.
+
+     checks.........................: 100.00% OK 1970     FALHA 0
+     http_req_duration..............: avg=46.74ms p(95)=179.51ms p(99)=318.83ms max=578.74ms   [PASSOU p95<800ms]
+     http_req_failed................: 0.00%   (0 de 5910)
+     http_req_waiting...............: avg=44.46ms p(95)=174.38ms p(99)=305.12ms max=566.99ms
+     http_reqs......................: 5910    55.22/s
+     iterations.....................: 1970    18.41/s
+     vus_max........................: 50
+
+Conclusao: sob 50 usuarios simultaneos a aplicacao respondeu de forma estavel, sem erros, com
+p95 ~180ms — bem abaixo da meta de 800ms.

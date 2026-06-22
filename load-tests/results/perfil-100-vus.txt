@@ -1,0 +1,20 @@
+Teste de carga k6 — Programatico (homolog)
+Perfil: 100 VUs (1m rampa -> 2m sustentacao -> 30s reducao)
+Ambiente: VM homolog (api limite 1.25GiB, db 1GiB, web 128MiB); API via web:80 -> api:8080
+Mix de cenarios: 80% navegacao do aluno + 20% leitura admin
+Data: 2026-06-22
+
+Recursos sob carga (docker stats, pico): api ~170% CPU, db ~152% CPU (CPU multi-core e o gargalo).
+
+     checks.........................: 100.00% OK 5111     FALHA 0
+     http_req_duration..............: avg=420.99ms p(95)=1.71s p(99)=2.77s max=5.59s   [CRUZOU p95<800ms]
+     http_req_failed................: 0.00%   (0 de 15333)
+     http_req_waiting...............: avg=411.21ms p(95)=1.7s  p(99)=2.76s max=5.58s
+     http_reqs......................: 15333   72.75/s
+     iterations.....................: 5111    24.25/s
+     vus_max........................: 100
+
+Conclusao: sob 100 usuarios simultaneos a aplicacao continuou servindo 100% das requisicoes
+(0 erros), porem com degradacao de latencia (p95 ~1,7s, acima da meta de 800ms). O gargalo e
+CPU (api + MySQL saturando ~1,5-1,7 core cada na VM). Indica necessidade de mais CPU / tuning
+de pool/consultas antes de sustentar 100+ usuarios simultaneos com baixa latencia.
