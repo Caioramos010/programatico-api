@@ -142,6 +142,9 @@
 						<exclude>com/programatico/api/dto/**</exclude>
 						<exclude>com/programatico/api/domain/**</exclude>
 						<exclude>com/programatico/api/ProgramaticoApiApplication.class</exclude>
+							<exclude>com/programatico/api/config/SchemaMigrationRunner.class</exclude>
+							<exclude>com/programatico/api/config/SeedContentRunner.class</exclude>
+							<exclude>com/programatico/api/config/LogicaContentRunner.class</exclude>
 					</excludes>
 				</configuration>
 				<executions>
