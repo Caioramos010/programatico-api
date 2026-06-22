@@ -1,0 +1,34 @@
+Teste de carga k6 — Programatico (homolog)
+Perfil: PROGRESSIVO / find-limit (degraus 200 -> 400 -> 600 -> 800 -> 1000 VUs, 45s cada)
+Ambiente: VM homolog (api limite 1.25GiB, db 1GiB, web 128MiB); API via web:80 -> api:8080
+Mix de cenarios: 80% navegacao do aluno + 20% leitura admin
+Data: 2026-06-22
+Observacao: interrompido (SIGINT) ao atingir ~1000 VUs, com a saturacao ja evidente.
+
+PONTO DE SATURACAO OBSERVADO
+- Ate ~400 VUs: 0 erros (API ~96-120% CPU).
+- A partir de ~500-600 VUs: comecam timeouts (>10s) em massa nos endpoints de leitura
+  (trilha/stats/dashboard). API satura ~199% CPU (2 cores no talo); MySQL ~110-150% CPU.
+- No pico (subindo a 1000 VUs): ~21% de requisicoes falhando por timeout.
+
+Metricas agregadas do run (ate a interrupcao):
+     checks.........................: 100.00% (das que responderam)
+     http_req_duration..............: avg=4.63s p(95)=10s p(99)=10.04s max=10.12s   [teto de timeout 10s]
+     http_req_failed................: 21.03%  (2474 falhas de 11760)
+     http_reqs......................: 11760   ~69/s
+     iterations.....................: 6349
+     vus_max........................: 1000
+
+Recuperacao: ao encerrar a carga, a API voltou a responder 200 normalmente (sem perda de dado;
+os endpoints exercitados sao de leitura).
+
+CAVEAT METODOLOGICO: o k6 foi executado NA PROPRIA VM, competindo por CPU com a API e o MySQL.
+Portanto o ponto de saturacao observado (~500-600 VUs) e CONSERVADOR — em um gerador de carga
+separado, a aplicacao provavelmente sustentaria mais usuarios.
+
+CONCLUSAO
+- Capacidade funcional: a aplicacao serve ate ~100 usuarios simultaneos sem erros, porem com
+  latencia degradada (p95 ~1,7s) acima de ~100.
+- Limite de saturacao: ~500-600 usuarios simultaneos nesta VM, quando passam a ocorrer timeouts.
+- Gargalo: CPU (API + MySQL). Caminhos de melhoria: mais vCPUs, tuning de pool de conexoes/
+  consultas e cache nos endpoints de leitura mais quentes (trilha/stats).
