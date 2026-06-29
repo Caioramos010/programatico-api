@@ -2,6 +2,7 @@ package com.programatico.api.controller;
 
 import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
+import com.programatico.api.dto.PaymentDto;
 import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.security.JwtAuthFilter;
 import com.programatico.api.service.PaymentService;
@@ -15,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -109,5 +111,26 @@ class PaymentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.subscriptionType").value("ROOT"))
                 .andExpect(jsonPath("$.subscriptionAutoRenew").value(false));
+    }
+
+    @Test
+    @WithMockUser(username = "payer")
+    void historicoDeveRetornarListaDePagamentos() throws Exception {
+        PaymentDto.Response item = PaymentDto.Response.builder()
+                .id(1L)
+                .amount(new java.math.BigDecimal("29.90"))
+                .status(com.programatico.api.domain.enums.PaymentStatus.PAID)
+                .method(com.programatico.api.domain.enums.PaymentMethod.PIX)
+                .billId("chk_1")
+                .createdAt(Instant.parse("2025-06-01T12:00:00Z"))
+                .build();
+
+        when(paymentService.listarHistorico("payer")).thenReturn(List.of(item));
+
+        mockMvc.perform(get("/api/payments/historico"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].status").value("PAID"))
+                .andExpect(jsonPath("$[0].method").value("PIX"))
+                .andExpect(jsonPath("$[0].amount").value(29.90));
     }
 }

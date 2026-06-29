@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.SubscriptionType;
+import com.programatico.api.dto.PaymentDto;
 import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
+import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
@@ -32,6 +35,7 @@ public class PaymentService {
     public record CheckoutResult(String url, String billId) {}
 
     private final UsuarioRepository usuarioRepository;
+    private final PaymentRepository paymentRepository;
     private final ObjectMapper objectMapper;
     private final AbacatePayWebhookService abacatePayWebhookService;
 
@@ -108,6 +112,15 @@ public class PaymentService {
         log.info("Renovação automática cancelada: userId={}, expiraEm={}", usuario.getId(), usuario.getSubscriptionExpiresAt());
 
         return UsuarioDto.Response.fromEntity(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PaymentDto.Response> listarHistorico(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+        return paymentRepository.findByUsuarioOrderByCreatedAtDesc(usuario).stream()
+                .map(PaymentDto.Response::fromEntity)
+                .toList();
     }
 
     private void tentarAtivarPorCheckoutsPagos(Usuario usuario) {

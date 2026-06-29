@@ -3,6 +3,7 @@ package com.programatico.api.controller;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
+import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.ProcessedAbacateWebhookRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.service.EmailService;
@@ -36,6 +37,7 @@ class AbacatePayWebhookIntegrationTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
     @Autowired private ProcessedAbacateWebhookRepository processedRepository;
+    @Autowired private PaymentRepository paymentRepository;
     @Autowired private PasswordEncoder passwordEncoder;
 
     @MockitoBean
@@ -46,6 +48,7 @@ class AbacatePayWebhookIntegrationTest {
     @BeforeEach
     void setUp() {
         processedRepository.deleteAll();
+        paymentRepository.deleteAll();
         usuarioRepository.deleteAll();
 
         usuario = usuarioRepository.save(Usuario.builder()
@@ -85,6 +88,8 @@ class AbacatePayWebhookIntegrationTest {
         Usuario atualizado = recarregarUsuario();
         assertEquals(SubscriptionType.ROOT, atualizado.getSubscriptionType());
         assertEquals(1, processedRepository.count());
+        assertEquals(1, paymentRepository.count());
+        assertEquals("chk_pago_1", paymentRepository.findAll().get(0).getBillId());
     }
 
     @Test
@@ -143,8 +148,11 @@ class AbacatePayWebhookIntegrationTest {
                   "event": "checkout.completed",
                   "data": {
                     "checkout": {
+                      "id": "chk_pago_1",
                       "status": "PAID",
-                      "externalId": "%d"
+                      "externalId": "%d",
+                      "amount": 2990,
+                      "method": "PIX"
                     }
                   }
                 }

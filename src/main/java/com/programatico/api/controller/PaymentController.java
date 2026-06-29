@@ -1,5 +1,6 @@
 package com.programatico.api.controller;
 
+import com.programatico.api.dto.PaymentDto;
 import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -42,5 +44,10 @@ public class PaymentController {
     @PostMapping("/cancelar")
     public ResponseEntity<UsuarioDto.Response> cancelar(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(paymentService.cancelarAssinatura(userDetails.getUsername()));
+    }
+
+    @GetMapping("/historico")
+    public ResponseEntity<List<PaymentDto.Response>> historico(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(paymentService.listarHistorico(userDetails.getUsername()));
     }
 }

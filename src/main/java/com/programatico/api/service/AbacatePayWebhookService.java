@@ -2,9 +2,13 @@ package com.programatico.api.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programatico.api.domain.Payment;
 import com.programatico.api.domain.ProcessedAbacateWebhook;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.PaymentMethod;
+import com.programatico.api.domain.enums.PaymentStatus;
 import com.programatico.api.domain.enums.SubscriptionType;
+import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.ProcessedAbacateWebhookRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +25,7 @@ import java.security.MessageDigest;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -33,6 +38,7 @@ public class AbacatePayWebhookService {
     private final ObjectMapper objectMapper;
     private final ProcessedAbacateWebhookRepository processedRepository;
     private final UsuarioRepository usuarioRepository;
+    private final PaymentRepository paymentRepository;
 
     @Value("${abacatepay.webhook.secret:}")
     private String webhookSecretConfig;
@@ -117,6 +123,8 @@ public class AbacatePayWebhookService {
             return;
         }
 
+        registrarPagamento(userId.get(), event, data, eventId);
+
         if (eventoRenovacaoAutomatica(event) && renovacaoAutomaticaCancelada(userId.get())) {
             log.info("Renovação automática ignorada (assinatura cancelada): userId={}", userId.get());
         } else {
@@ -143,6 +151,34 @@ public class AbacatePayWebhookService {
     private static boolean assinaturaRootAtiva(Usuario usuario) {
         Instant expiresAt = usuario.getSubscriptionExpiresAt();
         return expiresAt == null || expiresAt.isAfter(Instant.now());
+    }
+
+    private void registrarPagamento(Long userId, String event, JsonNode data, String eventId) {
+        Usuario usuario = usuarioRepository.findById(userId).orElse(null);
+        if (usuario == null) {
+            return;
+        }
+
+        String billId = AbacatePayPayloadParser.extrairBillId(event, data);
+        if (!StringUtils.hasText(billId)) {
+            billId = "event:" + eventId;
+        }
+        if (paymentRepository.existsByBillId(billId)) {
+            log.debug("Comprovante já registrado para billId={}", billId);
+            return;
+        }
+
+        BigDecimal amount = AbacatePayPayloadParser.extrairValor(event, data);
+        PaymentMethod method = AbacatePayPayloadParser.extrairMetodo(event, data);
+
+        paymentRepository.save(Payment.builder()
+                .usuario(usuario)
+                .amount(amount)
+                .status(PaymentStatus.PAID)
+                .method(method)
+                .billId(billId)
+                .build());
+        log.info("Comprovante de pagamento registrado: userId={}, billId={}, amount={}", userId, billId, amount);
     }
 
     private boolean deveLiberarPlanoPago(String event, JsonNode data) {

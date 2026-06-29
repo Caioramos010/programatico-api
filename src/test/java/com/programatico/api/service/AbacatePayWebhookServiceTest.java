@@ -1,10 +1,14 @@
 package com.programatico.api.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programatico.api.domain.Payment;
 import com.programatico.api.domain.ProcessedAbacateWebhook;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.PaymentMethod;
+import com.programatico.api.domain.enums.PaymentStatus;
 import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
+import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.ProcessedAbacateWebhookRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +34,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -42,6 +48,7 @@ class AbacatePayWebhookServiceTest {
 
     @Mock private ProcessedAbacateWebhookRepository processedRepository;
     @Mock private UsuarioRepository usuarioRepository;
+    @Mock private PaymentRepository paymentRepository;
     @Spy private ObjectMapper objectMapper = new ObjectMapper();
 
     @InjectMocks
@@ -53,6 +60,8 @@ class AbacatePayWebhookServiceTest {
         ReflectionTestUtils.setField(webhookService, "hmacKey", HMAC_KEY);
         ReflectionTestUtils.setField(webhookService, "requireHmac", true);
         ReflectionTestUtils.setField(webhookService, "rootDurationDays", 30);
+        lenient().when(paymentRepository.existsByBillId(anyString())).thenReturn(false);
+        lenient().when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
     }
 
     @Test
@@ -107,8 +116,11 @@ class AbacatePayWebhookServiceTest {
                   "event": "checkout.completed",
                   "data": {
                     "checkout": {
+                      "id": "chk_42",
                       "status": "PAID",
-                      "externalId": "42"
+                      "externalId": "42",
+                      "amount": 2990,
+                      "method": "PIX"
                     }
                   }
                 }
@@ -119,6 +131,11 @@ class AbacatePayWebhookServiceTest {
         assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
         assertTrue(Boolean.TRUE.equals(usuario.getSubscriptionAutoRenew()));
         assertNotNull(usuario.getSubscriptionExpiresAt());
+        ArgumentCaptor<Payment> paymentCaptor = ArgumentCaptor.forClass(Payment.class);
+        verify(paymentRepository).save(paymentCaptor.capture());
+        assertEquals(PaymentStatus.PAID, paymentCaptor.getValue().getStatus());
+        assertEquals(PaymentMethod.PIX, paymentCaptor.getValue().getMethod());
+        assertEquals(0, paymentCaptor.getValue().getAmount().compareTo(new java.math.BigDecimal("29.90")));
         verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
         verify(usuarioRepository).save(usuario);
     }
@@ -255,13 +272,21 @@ class AbacatePayWebhookServiceTest {
         Instant expiracaoOriginal = usuario.getSubscriptionExpiresAt();
         when(processedRepository.existsById("evt-sub-cancel")).thenReturn(false);
         when(usuarioRepository.findById(3L)).thenReturn(Optional.of(usuario));
+        when(paymentRepository.existsByBillId(any())).thenReturn(false);
+        when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
 
         String body = """
                 {
                   "id": "evt-sub-cancel",
                   "event": "subscription.renewed",
                   "data": {
-                    "payment": { "status": "PAID", "externalId": "3" }
+                    "payment": {
+                      "id": "pay_3",
+                      "status": "PAID",
+                      "externalId": "3",
+                      "amount": 1990,
+                      "method": "CARD"
+                    }
                   }
                 }
                 """;
@@ -270,6 +295,7 @@ class AbacatePayWebhookServiceTest {
 
         assertEquals(expiracaoOriginal, usuario.getSubscriptionExpiresAt());
         verify(usuarioRepository, never()).save(any());
+        verify(paymentRepository).save(any(Payment.class));
         verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
     }
 
