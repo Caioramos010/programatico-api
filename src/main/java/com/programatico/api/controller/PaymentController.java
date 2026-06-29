@@ -38,4 +38,9 @@ public class PaymentController {
         String billId = body != null ? body.get("billId") : null;
         return ResponseEntity.ok(paymentService.sincronizarAssinatura(userDetails.getUsername(), billId));
     }
+
+    @PostMapping("/cancelar")
+    public ResponseEntity<UsuarioDto.Response> cancelar(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(paymentService.cancelarAssinatura(userDetails.getUsername()));
+    }
 }

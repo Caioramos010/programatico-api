@@ -49,6 +49,7 @@ public class SchemaMigrationRunner implements ApplicationRunner {
 
         ensureUsersColumnsInEnglish();
         backfillRootSubscriptionExpiresAt();
+        ensureSubscriptionAutoRenewColumn();
         ensureUserSettingsColumns();
 
         if (legacyTable != null) {
@@ -143,6 +144,11 @@ public class SchemaMigrationRunner implements ApplicationRunner {
         if (updated > 0) {
             log.info("Preenchido subscription_expires_at para {} usuário(s) ROOT existente(s).", updated);
         }
+    }
+
+    private void ensureSubscriptionAutoRenewColumn() {
+        addColumnIfMissing("users", "subscription_auto_renew",
+                "ALTER TABLE users ADD COLUMN subscription_auto_renew BIT(1) NOT NULL DEFAULT 1");
     }
 
     private void ensureUserSettingsColumns() {

@@ -172,6 +172,7 @@ public final class UsuarioDto {
         private NivelHabilidade nivelHabilidade;
         private SubscriptionType subscriptionType;
         private Instant subscriptionExpiresAt;
+        private Boolean subscriptionAutoRenew;
         private TipoUsuario role;
         private String icon;
 
@@ -186,6 +187,7 @@ public final class UsuarioDto {
                     .nivelHabilidade(u.getNivelHabilidade())
                     .subscriptionType(u.getSubscriptionType())
                     .subscriptionExpiresAt(u.getSubscriptionExpiresAt())
+                    .subscriptionAutoRenew(u.getSubscriptionAutoRenew())
                     .role(u.getRole())
                     .icon(u.getIcon())
                     .build();

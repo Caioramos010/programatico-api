@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -137,6 +138,47 @@ class PaymentServiceTest {
 
         assertThrows(ResourceNotFoundException.class,
                 () -> paymentService.sincronizarAssinatura("ghost", null));
+    }
+
+    @Test
+    void cancelarAssinaturaDeveDesativarRenovacaoAutomatica() {
+        Usuario usuario = usuarioBase(7L);
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionExpiresAt(Instant.now().plus(15, ChronoUnit.DAYS));
+        usuario.setSubscriptionAutoRenew(true);
+        when(usuarioRepository.findByUsername("root-user")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        UsuarioDto.Response response = paymentService.cancelarAssinatura("root-user");
+
+        assertEquals(false, response.getSubscriptionAutoRenew());
+        assertEquals(SubscriptionType.ROOT, response.getSubscriptionType());
+        assertEquals(false, usuario.getSubscriptionAutoRenew());
+    }
+
+    @Test
+    void cancelarAssinaturaDeveLancarQuandoNaoHaRootAtivo() {
+        Usuario usuario = usuarioBase(8L);
+        when(usuarioRepository.findByUsername("free-user")).thenReturn(Optional.of(usuario));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> paymentService.cancelarAssinatura("free-user"));
+
+        assertEquals("Você não possui uma assinatura Root ativa para cancelar.", ex.getMessage());
+    }
+
+    @Test
+    void cancelarAssinaturaDeveLancarQuandoRenovacaoJaCancelada() {
+        Usuario usuario = usuarioBase(9L);
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionExpiresAt(Instant.now().plus(5, ChronoUnit.DAYS));
+        usuario.setSubscriptionAutoRenew(false);
+        when(usuarioRepository.findByUsername("root-user")).thenReturn(Optional.of(usuario));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> paymentService.cancelarAssinatura("root-user"));
+
+        assertEquals("A renovação automática já está cancelada.", ex.getMessage());
     }
 
     private static Usuario usuarioBase(Long id) {

@@ -92,6 +92,24 @@ public class PaymentService {
         return UsuarioDto.Response.fromEntity(usuario);
     }
 
+    public UsuarioDto.Response cancelarAssinatura(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+
+        if (usuario.getSubscriptionType() != SubscriptionType.ROOT || !assinaturaRootAtiva(usuario)) {
+            throw new BadRequestException("Você não possui uma assinatura Root ativa para cancelar.");
+        }
+        if (Boolean.FALSE.equals(usuario.getSubscriptionAutoRenew())) {
+            throw new BadRequestException("A renovação automática já está cancelada.");
+        }
+
+        usuario.setSubscriptionAutoRenew(false);
+        usuarioRepository.save(usuario);
+        log.info("Renovação automática cancelada: userId={}, expiraEm={}", usuario.getId(), usuario.getSubscriptionExpiresAt());
+
+        return UsuarioDto.Response.fromEntity(usuario);
+    }
+
     private void tentarAtivarPorCheckoutsPagos(Usuario usuario) {
         String userId = String.valueOf(usuario.getId());
         try {

@@ -90,6 +90,10 @@ public class Usuario {
     @Column(name = "subscription_expires_at")
     private Instant subscriptionExpiresAt;
 
+    @Column(name = "subscription_auto_renew", nullable = false)
+    @Builder.Default
+    private Boolean subscriptionAutoRenew = true;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)
     @Builder.Default

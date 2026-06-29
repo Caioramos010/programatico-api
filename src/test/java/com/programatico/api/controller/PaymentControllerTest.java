@@ -89,4 +89,25 @@ class PaymentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.subscriptionType").value("FREE"));
     }
+
+    @Test
+    @WithMockUser(username = "root-user")
+    void cancelarDeveRetornarPerfilComRenovacaoDesativada() throws Exception {
+        UsuarioDto.Response response = UsuarioDto.Response.builder()
+                .id(1L)
+                .username("root-user")
+                .email("root@test.com")
+                .subscriptionType(SubscriptionType.ROOT)
+                .subscriptionExpiresAt(Instant.parse("2026-07-01T00:00:00Z"))
+                .subscriptionAutoRenew(false)
+                .role(TipoUsuario.USER)
+                .build();
+
+        when(paymentService.cancelarAssinatura("root-user")).thenReturn(response);
+
+        mockMvc.perform(post("/api/payments/cancelar"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.subscriptionType").value("ROOT"))
+                .andExpect(jsonPath("$.subscriptionAutoRenew").value(false));
+    }
 }

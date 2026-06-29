@@ -117,11 +117,32 @@ public class AbacatePayWebhookService {
             return;
         }
 
-        ativarPlanoRoot(userId.get());
+        if (eventoRenovacaoAutomatica(event) && renovacaoAutomaticaCancelada(userId.get())) {
+            log.info("Renovação automática ignorada (assinatura cancelada): userId={}", userId.get());
+        } else {
+            ativarPlanoRoot(userId.get());
+        }
         processedRepository.save(ProcessedAbacateWebhook.builder()
                 .eventId(eventId)
                 .processedAt(Instant.now())
                 .build());
+    }
+
+    private boolean eventoRenovacaoAutomatica(String event) {
+        return "subscription.renewed".equals(event) || "subscription.completed".equals(event);
+    }
+
+    private boolean renovacaoAutomaticaCancelada(Long userId) {
+        return usuarioRepository.findById(userId)
+                .map(u -> u.getSubscriptionType() == SubscriptionType.ROOT
+                        && assinaturaRootAtiva(u)
+                        && Boolean.FALSE.equals(u.getSubscriptionAutoRenew()))
+                .orElse(false);
+    }
+
+    private static boolean assinaturaRootAtiva(Usuario usuario) {
+        Instant expiresAt = usuario.getSubscriptionExpiresAt();
+        return expiresAt == null || expiresAt.isAfter(Instant.now());
     }
 
     private boolean deveLiberarPlanoPago(String event, JsonNode data) {
@@ -187,6 +208,7 @@ public class AbacatePayWebhookService {
             return;
         }
         usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionAutoRenew(true);
         usuario.setSubscriptionExpiresAt(Instant.now().plus(rootDurationDays, ChronoUnit.DAYS));
         usuarioRepository.save(usuario);
         log.info("Plano ROOT ativado via AbacatePay para usuário id={}", userId);

@@ -117,6 +117,7 @@ class AbacatePayWebhookServiceTest {
         webhookService.processarSeNecessario(body);
 
         assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+        assertTrue(Boolean.TRUE.equals(usuario.getSubscriptionAutoRenew()));
         assertNotNull(usuario.getSubscriptionExpiresAt());
         verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
         verify(usuarioRepository).save(usuario);
@@ -242,6 +243,64 @@ class AbacatePayWebhookServiceTest {
         webhookService.processarSeNecessario(body);
 
         assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+        assertTrue(Boolean.TRUE.equals(usuario.getSubscriptionAutoRenew()));
+    }
+
+    @Test
+    void processarSubscriptionRenewedDeveIgnorarQuandoRenovacaoCancelada() throws Exception {
+        Usuario usuario = usuarioFree(3L);
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionExpiresAt(Instant.now().plus(10, ChronoUnit.DAYS));
+        usuario.setSubscriptionAutoRenew(false);
+        Instant expiracaoOriginal = usuario.getSubscriptionExpiresAt();
+        when(processedRepository.existsById("evt-sub-cancel")).thenReturn(false);
+        when(usuarioRepository.findById(3L)).thenReturn(Optional.of(usuario));
+
+        String body = """
+                {
+                  "id": "evt-sub-cancel",
+                  "event": "subscription.renewed",
+                  "data": {
+                    "payment": { "status": "PAID", "externalId": "3" }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(expiracaoOriginal, usuario.getSubscriptionExpiresAt());
+        verify(usuarioRepository, never()).save(any());
+        verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
+    }
+
+    @Test
+    void processarCheckoutCompletoDeveReativarMesmoComRenovacaoCancelada() throws Exception {
+        Usuario usuario = usuarioFree(4L);
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionExpiresAt(Instant.now().plus(10, ChronoUnit.DAYS));
+        usuario.setSubscriptionAutoRenew(false);
+        when(processedRepository.existsById("evt-rebuy")).thenReturn(false);
+        when(usuarioRepository.findById(4L)).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        String body = """
+                {
+                  "id": "evt-rebuy",
+                  "event": "checkout.completed",
+                  "data": {
+                    "checkout": {
+                      "status": "PAID",
+                      "externalId": "4"
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+        assertTrue(Boolean.TRUE.equals(usuario.getSubscriptionAutoRenew()));
+        verify(usuarioRepository).save(usuario);
     }
 
     @Test
@@ -272,6 +331,7 @@ class AbacatePayWebhookServiceTest {
         verify(processedRepository).save(captor.capture());
         assertEquals(eventIdEsperado, captor.getValue().getEventId());
         assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
+        assertTrue(Boolean.TRUE.equals(usuario.getSubscriptionAutoRenew()));
     }
 
     @Test
