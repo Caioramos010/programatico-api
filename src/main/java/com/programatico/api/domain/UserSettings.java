@@ -43,4 +43,8 @@ public class UserSettings {
     @Column(name = "disable_all_notifications", nullable = false)
     @Builder.Default
     private Boolean disableAllNotifications = false;
+
+    @Column(name = "two_factor_enabled", nullable = false)
+    @Builder.Default
+    private Boolean twoFactorEnabled = true;
 }

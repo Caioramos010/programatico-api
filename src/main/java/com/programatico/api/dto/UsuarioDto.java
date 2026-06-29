@@ -221,4 +221,32 @@ public final class UsuarioDto {
             return new MessageResponse(mensagem);
         }
     }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class LoginIniciarResponse {
+        private boolean requiresVerification;
+        private String mensagem;
+        private String token;
+        private String tipo;
+        private Response usuario;
+
+        public static LoginIniciarResponse comVerificacao(String mensagem) {
+            return LoginIniciarResponse.builder()
+                    .requiresVerification(true)
+                    .mensagem(mensagem)
+                    .build();
+        }
+
+        public static LoginIniciarResponse loginDireto(LoginResponse login) {
+            return LoginIniciarResponse.builder()
+                    .requiresVerification(false)
+                    .token(login.getToken())
+                    .tipo(login.getTipo())
+                    .usuario(login.getUsuario())
+                    .build();
+        }
+    }
 }

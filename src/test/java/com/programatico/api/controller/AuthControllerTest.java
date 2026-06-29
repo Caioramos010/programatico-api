@@ -42,12 +42,13 @@ class AuthControllerTest {
                 .build();
 
         when(usuarioService.iniciarLogin(any(UsuarioDto.LoginRequest.class)))
-                .thenReturn(UsuarioDto.MessageResponse.of("Código enviado."));
+                .thenReturn(UsuarioDto.LoginIniciarResponse.comVerificacao("Código enviado."));
 
         mockMvc.perform(post("/api/auth/login/iniciar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.requiresVerification").value(true))
                 .andExpect(jsonPath("$.mensagem").value("Código enviado."));
     }
 

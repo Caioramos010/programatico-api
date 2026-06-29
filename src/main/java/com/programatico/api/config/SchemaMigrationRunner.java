@@ -167,6 +167,8 @@ public class SchemaMigrationRunner implements ApplicationRunner {
                 "ALTER TABLE user_settings ADD COLUMN disable_email_notifications BIT(1) NOT NULL DEFAULT 0");
         addColumnIfMissing("user_settings", "disable_all_notifications",
                 "ALTER TABLE user_settings ADD COLUMN disable_all_notifications BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "two_factor_enabled",
+                "ALTER TABLE user_settings ADD COLUMN two_factor_enabled BIT(1) NOT NULL DEFAULT 1");
     }
 
     private void addColumnIfMissing(String table, String column, String ddl) {

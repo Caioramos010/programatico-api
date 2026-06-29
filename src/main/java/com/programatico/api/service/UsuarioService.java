@@ -39,6 +39,7 @@ public class UsuarioService {
     private final UserStatsRepository userStatsRepository;
     private final PracticeSessionRepository practiceSessionRepository;
     private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
+    private final UserSettingsService userSettingsService;
 
     private Usuario validarCredenciaisLogin(String emailOuUsername, String senha) {
         Usuario usuario = usuarioRepository.findByEmailOrUsername(emailOuUsername, emailOuUsername)
@@ -53,19 +54,26 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioDto.MessageResponse iniciarLogin(UsuarioDto.LoginRequest request) {
+    public UsuarioDto.LoginIniciarResponse iniciarLogin(UsuarioDto.LoginRequest request) {
         Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
+        if (!userSettingsService.isTwoFactorEnabled(usuario)) {
+            return UsuarioDto.LoginIniciarResponse.loginDireto(finalizarLogin(usuario));
+        }
         String codigo = gerarCodigo();
         usuario.setCodigoVerificacaoLogin(codigo);
         usuario.setDataExpiracaoCodigoLogin(Instant.now().plus(EXPIRACAO_CODIGO_LOGIN_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
         emailService.enviarCodigoVerificacaoLogin(usuario.getEmail(), usuario.getUsername(), codigo);
-        return UsuarioDto.MessageResponse.of("Enviamos um código de verificação para o seu e-mail.");
+        return UsuarioDto.LoginIniciarResponse.comVerificacao(
+                "Enviamos um código de verificação para o seu e-mail.");
     }
 
     @Transactional
     public UsuarioDto.LoginResponse confirmarLogin(UsuarioDto.LoginConfirmarRequest request) {
         Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
+        if (!userSettingsService.isTwoFactorEnabled(usuario)) {
+            throw new BadRequestException("Verificação em duas etapas desativada para esta conta.");
+        }
         if (usuario.getCodigoVerificacaoLogin() == null
                 || !usuario.getCodigoVerificacaoLogin().equals(request.getCodigo())) {
             throw new BadRequestException("Código inválido");
@@ -76,6 +84,10 @@ public class UsuarioService {
         }
         usuario.setCodigoVerificacaoLogin(null);
         usuario.setDataExpiracaoCodigoLogin(null);
+        return finalizarLogin(usuario);
+    }
+
+    private UsuarioDto.LoginResponse finalizarLogin(Usuario usuario) {
         // Conta excluída logicamente pelo admin volta ao fazer login com sucesso.
         usuario.setDeletedAt(null);
         usuarioRepository.save(usuario);

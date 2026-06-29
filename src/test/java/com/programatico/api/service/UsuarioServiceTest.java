@@ -44,6 +44,9 @@ class UsuarioServiceTest {
     @Mock
     private EmailService emailService;
 
+    @Mock
+    private UserSettingsService userSettingsService;
+
     @InjectMocks
     private UsuarioService usuarioService;
 
@@ -58,15 +61,41 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        UsuarioDto.MessageResponse response = usuarioService.iniciarLogin(request);
+        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request);
 
+        assertTrue(response.isRequiresVerification());
         assertNotNull(response.getMensagem());
         ArgumentCaptor<Usuario> captor = ArgumentCaptor.forClass(Usuario.class);
         verify(usuarioRepository).save(captor.capture());
         assertNotNull(captor.getValue().getCodigoVerificacaoLogin());
         verify(emailService).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    void iniciarLoginDeveRetornarTokenDiretoQuando2faDesativado() {
+        UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .build();
+        Usuario usuario = usuarioBase();
+        usuario.setAtivo(true);
+
+        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(false);
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
+
+        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request);
+
+        assertFalse(response.isRequiresVerification());
+        assertEquals("jwt-token", response.getToken());
+        assertEquals("Bearer", response.getTipo());
+        assertNotNull(response.getUsuario());
+        verify(emailService, never()).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
     }
 
     @Test
@@ -83,6 +112,7 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
 

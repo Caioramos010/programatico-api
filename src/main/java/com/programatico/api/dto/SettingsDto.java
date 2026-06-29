@@ -58,4 +58,27 @@ public final class SettingsDto {
         @NotNull
         private Boolean disableAllNotifications;
     }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SecurityPreferencesResponse {
+        private boolean twoFactorEnabled;
+
+        public static SecurityPreferencesResponse fromEntity(UserSettings settings) {
+            return SecurityPreferencesResponse.builder()
+                    .twoFactorEnabled(Boolean.TRUE.equals(settings.getTwoFactorEnabled()))
+                    .build();
+        }
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SecurityPreferencesRequest {
+        @NotNull
+        private Boolean twoFactorEnabled;
+    }
 }

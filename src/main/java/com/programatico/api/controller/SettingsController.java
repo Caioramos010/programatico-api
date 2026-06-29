@@ -43,4 +43,27 @@ public class SettingsController {
                 userSettingsService.atualizarPreferenciasNotificacao(userDetails.getUsername(), request)
         );
     }
+
+    @GetMapping("/seguranca")
+    public ResponseEntity<SettingsDto.SecurityPreferencesResponse> obterSeguranca(
+            @AuthenticationPrincipal UserDetails userDetails
+    ) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(userSettingsService.obterPreferenciasSeguranca(userDetails.getUsername()));
+    }
+
+    @PutMapping("/seguranca")
+    public ResponseEntity<SettingsDto.SecurityPreferencesResponse> atualizarSeguranca(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @Valid @RequestBody SettingsDto.SecurityPreferencesRequest request
+    ) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(
+                userSettingsService.atualizarPreferenciasSeguranca(userDetails.getUsername(), request)
+        );
+    }
 }

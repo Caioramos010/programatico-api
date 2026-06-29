@@ -15,7 +15,7 @@ public class AuthController {
     private final UsuarioService usuarioService;
 
     @PostMapping("/login/iniciar")
-    public ResponseEntity<UsuarioDto.MessageResponse> iniciarLogin(@Valid @RequestBody UsuarioDto.LoginRequest request) {
+    public ResponseEntity<UsuarioDto.LoginIniciarResponse> iniciarLogin(@Valid @RequestBody UsuarioDto.LoginRequest request) {
         return ResponseEntity.ok(usuarioService.iniciarLogin(request));
     }
 
@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/login/reenviar")
-    public ResponseEntity<UsuarioDto.MessageResponse> reenviarCodigoLogin(@Valid @RequestBody UsuarioDto.LoginRequest request) {
+    public ResponseEntity<UsuarioDto.LoginIniciarResponse> reenviarCodigoLogin(@Valid @RequestBody UsuarioDto.LoginRequest request) {
         return ResponseEntity.ok(usuarioService.iniciarLogin(request));
     }
 

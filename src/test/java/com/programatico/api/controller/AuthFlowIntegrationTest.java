@@ -96,6 +96,7 @@ class AuthFlowIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginIniciarJson))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.requiresVerification").value(true))
                 .andExpect(jsonPath("$.mensagem").isNotEmpty());
 
         Usuario usuarioAtivo = usuarioRepository.findByEmail(email).orElseThrow();

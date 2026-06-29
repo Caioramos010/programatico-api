@@ -57,6 +57,30 @@ public class UserSettingsService {
     }
 
     @Transactional(readOnly = true)
+    public SettingsDto.SecurityPreferencesResponse obterPreferenciasSeguranca(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+        return SettingsDto.SecurityPreferencesResponse.fromEntity(obterOuCriar(usuario));
+    }
+
+    @Transactional
+    public SettingsDto.SecurityPreferencesResponse atualizarPreferenciasSeguranca(
+            String username,
+            SettingsDto.SecurityPreferencesRequest request
+    ) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+        UserSettings settings = obterOuCriar(usuario);
+        settings.setTwoFactorEnabled(Boolean.TRUE.equals(request.getTwoFactorEnabled()));
+        return SettingsDto.SecurityPreferencesResponse.fromEntity(userSettingsRepository.save(settings));
+    }
+
+    @Transactional(readOnly = true)
+    public boolean isTwoFactorEnabled(Usuario usuario) {
+        return Boolean.TRUE.equals(obterOuCriar(usuario).getTwoFactorEnabled());
+    }
+
+    @Transactional(readOnly = true)
     public boolean podeNotificar(String username, NotificationKind kind) {
         Usuario usuario = usuarioRepository.findByUsername(username).orElse(null);
         if (usuario == null) {
@@ -100,6 +124,7 @@ public class UserSettingsService {
                         .disableSubscriptionNotifications(false)
                         .disableEmailNotifications(false)
                         .disableAllNotifications(false)
+                        .twoFactorEnabled(true)
                         .build()));
     }
 }
