@@ -4,6 +4,7 @@ import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.dto.PaymentDto;
 import com.programatico.api.dto.UsuarioDto;
+import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.security.JwtAuthFilter;
 import com.programatico.api.service.PaymentService;
 import org.junit.jupiter.api.Test;
@@ -41,6 +42,32 @@ class PaymentControllerTest {
 
     @Test
     @WithMockUser(username = "payer")
+    void checkoutUrlDeveRetornar400QuandoPagamentoNaoConfigurado() throws Exception {
+        when(paymentService.resolveCheckoutUrl("payer"))
+                .thenThrow(new BadRequestException(
+                        "Pagamento não configurado. Defina ABACATEPAY_API_KEY e ABACATEPAY_PRODUCT_ID, "
+                                + "ou ABACATEPAY_CHECKOUT_URL no ambiente."));
+
+        mockMvc.perform(get("/api/payments/checkout-url"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value(
+                        "Pagamento não configurado. Defina ABACATEPAY_API_KEY e ABACATEPAY_PRODUCT_ID, "
+                                + "ou ABACATEPAY_CHECKOUT_URL no ambiente."));
+    }
+
+    @Test
+    @WithMockUser(username = "payer")
+    void checkoutUrlDeveRetornar400QuandoUsuarioJaTemRoot() throws Exception {
+        when(paymentService.resolveCheckoutUrl("payer"))
+                .thenThrow(new BadRequestException("Você já possui o plano Root."));
+
+        mockMvc.perform(get("/api/payments/checkout-url"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("Você já possui o plano Root."));
+    }
+
+    @Test
+    @WithMockUser(username = "payer")
     void checkoutUrlDeveRetornarUrlEBillId() throws Exception {
         when(paymentService.resolveCheckoutUrl("payer"))
                 .thenReturn(new PaymentService.CheckoutResult("https://pay.exemplo.com", "bill_abc"));
@@ -49,6 +76,19 @@ class PaymentControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.url").value("https://pay.exemplo.com"))
                 .andExpect(jsonPath("$.billId").value("bill_abc"));
+    }
+
+    @Test
+    @WithMockUser(username = "payer")
+    void syncComBillIdInvalidoDeveRetornar400() throws Exception {
+        when(paymentService.sincronizarAssinatura(eq("payer"), eq("bill_invalido")))
+                .thenThrow(new BadRequestException("Checkout not found"));
+
+        mockMvc.perform(post("/api/payments/sync")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"billId\":\"bill_invalido\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("Checkout not found"));
     }
 
     @Test

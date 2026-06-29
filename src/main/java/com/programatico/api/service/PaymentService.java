@@ -151,12 +151,17 @@ public class PaymentService {
         String userId = String.valueOf(usuario.getId());
         try {
             JsonNode checkout = abacatePayGet("/checkouts/get?id=" + billId).path("data");
-            if (checkoutPagoDoUsuario(checkout, userId)) {
-                abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
-                log.info("Plano ROOT ativado via sync bill {} para usuário id={}", billId, userId);
+            if (!checkoutPagoDoUsuario(checkout, userId)) {
+                throw new BadRequestException(
+                        "Pagamento não encontrado ou ainda não confirmado para o billId informado.");
             }
+            abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
+            log.info("Plano ROOT ativado via sync bill {} para usuário id={}", billId, userId);
+        } catch (BadRequestException e) {
+            throw e;
         } catch (Exception e) {
             log.warn("Falha ao sincronizar bill {} para userId={}: {}", billId, usuario.getId(), e.getMessage());
+            throw new BadRequestException("Não foi possível validar o pagamento informado. Tente novamente.");
         }
     }
 
