@@ -60,7 +60,7 @@ class AbacatePayWebhookServiceTest {
         ReflectionTestUtils.setField(webhookService, "hmacKey", HMAC_KEY);
         ReflectionTestUtils.setField(webhookService, "requireHmac", true);
         ReflectionTestUtils.setField(webhookService, "rootDurationDays", 30);
-        lenient().when(paymentRepository.existsByBillId(anyString())).thenReturn(false);
+        lenient().when(paymentRepository.findByBillId(anyString())).thenReturn(Optional.empty());
         lenient().when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
     }
 
@@ -159,20 +159,32 @@ class AbacatePayWebhookServiceTest {
     }
 
     @Test
-    void processarEventoNaoPagoDeveMarcarComoProcessadoSemAtivar() throws Exception {
+    void processarEventoNaoPagoDeveRegistrarPendenteSemAtivar() throws Exception {
+        Usuario usuario = usuarioFree(7L);
         when(processedRepository.existsById("evt-pending")).thenReturn(false);
+        when(usuarioRepository.findById(7L)).thenReturn(Optional.of(usuario));
 
         String body = """
                 {
                   "id": "evt-pending",
                   "event": "checkout.completed",
-                  "data": { "checkout": { "status": "PENDING", "externalId": "7" } }
+                  "data": {
+                    "checkout": {
+                      "id": "chk_pending",
+                      "status": "PENDING",
+                      "externalId": "7",
+                      "amount": 2990
+                    }
+                  }
                 }
                 """;
 
         webhookService.processarSeNecessario(body);
 
         verify(usuarioRepository, never()).save(any());
+        ArgumentCaptor<Payment> captor = ArgumentCaptor.forClass(Payment.class);
+        verify(paymentRepository).save(captor.capture());
+        assertEquals(PaymentStatus.PENDING, captor.getValue().getStatus());
         verify(processedRepository).save(any(ProcessedAbacateWebhook.class));
     }
 
@@ -272,7 +284,7 @@ class AbacatePayWebhookServiceTest {
         Instant expiracaoOriginal = usuario.getSubscriptionExpiresAt();
         when(processedRepository.existsById("evt-sub-cancel")).thenReturn(false);
         when(usuarioRepository.findById(3L)).thenReturn(Optional.of(usuario));
-        when(paymentRepository.existsByBillId(any())).thenReturn(false);
+        when(paymentRepository.findByBillId("pay_3")).thenReturn(Optional.empty());
         when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
 
         String body = """
@@ -373,6 +385,136 @@ class AbacatePayWebhookServiceTest {
         assertEquals(SubscriptionType.ROOT, usuario.getSubscriptionType());
         assertTrue(usuario.getSubscriptionExpiresAt().isAfter(antes.plus(29, ChronoUnit.DAYS)));
         assertTrue(usuario.getSubscriptionExpiresAt().isBefore(depois.plus(1, ChronoUnit.DAYS)));
+    }
+
+    @Test
+    void processarCheckoutExpiradoDeveRegistrarFalhaSemAtivarRoot() throws Exception {
+        Usuario usuario = usuarioFree(20L);
+        when(processedRepository.existsById("evt-expired")).thenReturn(false);
+        when(usuarioRepository.findById(20L)).thenReturn(Optional.of(usuario));
+
+        String body = """
+                {
+                  "id": "evt-expired",
+                  "event": "checkout.completed",
+                  "data": {
+                    "checkout": {
+                      "id": "chk_exp",
+                      "status": "EXPIRED",
+                      "externalId": "20",
+                      "amount": 2990
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(SubscriptionType.FREE, usuario.getSubscriptionType());
+        ArgumentCaptor<Payment> captor = ArgumentCaptor.forClass(Payment.class);
+        verify(paymentRepository).save(captor.capture());
+        assertEquals(PaymentStatus.FAILED, captor.getValue().getStatus());
+        verify(usuarioRepository, never()).save(any());
+    }
+
+    @Test
+    void processarCheckoutFalhoDeveRegistrarFalhaSemAtivarRoot() throws Exception {
+        Usuario usuario = usuarioFree(21L);
+        when(processedRepository.existsById("evt-failed")).thenReturn(false);
+        when(usuarioRepository.findById(21L)).thenReturn(Optional.of(usuario));
+
+        String body = """
+                {
+                  "id": "evt-failed",
+                  "event": "checkout.completed",
+                  "data": {
+                    "checkout": {
+                      "id": "chk_fail",
+                      "status": "FAILED",
+                      "externalId": "21"
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        verify(usuarioRepository, never()).save(any());
+        ArgumentCaptor<Payment> captor = ArgumentCaptor.forClass(Payment.class);
+        verify(paymentRepository).save(captor.capture());
+        assertEquals(PaymentStatus.FAILED, captor.getValue().getStatus());
+        verify(usuarioRepository, never()).save(any());
+    }
+
+    @Test
+    void processarReembolsoDeveAtualizarPagamentoEEncerrarRoot() throws Exception {
+        Usuario usuario = usuarioFree(22L);
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionExpiresAt(Instant.now().plus(20, ChronoUnit.DAYS));
+        usuario.setSubscriptionAutoRenew(true);
+
+        Payment pago = Payment.builder()
+                .id(1L)
+                .usuario(usuario)
+                .amount(new java.math.BigDecimal("29.90"))
+                .status(PaymentStatus.PAID)
+                .method(PaymentMethod.PIX)
+                .billId("chk_refund")
+                .build();
+
+        when(processedRepository.existsById("evt-refund")).thenReturn(false);
+        when(usuarioRepository.findById(22L)).thenReturn(Optional.of(usuario));
+        when(paymentRepository.findByBillId("chk_refund")).thenReturn(Optional.of(pago));
+        when(paymentRepository.save(any(Payment.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        String body = """
+                {
+                  "id": "evt-refund",
+                  "event": "checkout.refunded",
+                  "data": {
+                    "checkout": {
+                      "id": "chk_refund",
+                      "status": "REFUNDED",
+                      "externalId": "22",
+                      "amount": 2990
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        assertEquals(PaymentStatus.REFUNDED, pago.getStatus());
+        assertEquals(SubscriptionType.FREE, usuario.getSubscriptionType());
+        assertEquals(false, usuario.getSubscriptionAutoRenew());
+        verify(usuarioRepository).save(usuario);
+    }
+
+    @Test
+    void processarEventoExpiradoPorNomeDeveRegistrarFalha() throws Exception {
+        Usuario usuario = usuarioFree(23L);
+        when(processedRepository.existsById("evt-exp-name")).thenReturn(false);
+        when(usuarioRepository.findById(23L)).thenReturn(Optional.of(usuario));
+
+        String body = """
+                {
+                  "id": "evt-exp-name",
+                  "event": "checkout.expired",
+                  "data": {
+                    "checkout": {
+                      "id": "chk_exp2",
+                      "externalId": "23"
+                    }
+                  }
+                }
+                """;
+
+        webhookService.processarSeNecessario(body);
+
+        ArgumentCaptor<Payment> captor = ArgumentCaptor.forClass(Payment.class);
+        verify(paymentRepository).save(captor.capture());
+        assertEquals(PaymentStatus.FAILED, captor.getValue().getStatus());
     }
 
     @Test

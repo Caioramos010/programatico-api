@@ -20,12 +20,12 @@ import org.springframework.util.StringUtils;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -105,35 +105,69 @@ public class AbacatePayWebhookService {
         String event = root.path("event").asText("");
         JsonNode data = root.path("data");
 
-        if (!deveLiberarPlanoPago(event, data)) {
-            processedRepository.save(ProcessedAbacateWebhook.builder()
-                    .eventId(eventId)
-                    .processedAt(Instant.now())
-                    .build());
+        if (!AbacatePayPayloadParser.eventoSuportado(event)) {
+            marcarProcessado(eventId);
+            return;
+        }
+
+        Optional<PaymentStatus> statusOpt = AbacatePayPayloadParser.resolverStatusPagamento(event, data);
+        if (statusOpt.isEmpty()) {
+            marcarProcessado(eventId);
             return;
         }
 
         Optional<Long> userId = extrairUserId(root, data);
-        if (userId.isEmpty()) {
+        PaymentStatus status = statusOpt.get();
+
+        if (userId.isPresent()) {
+            processarPorStatus(userId.get(), event, data, eventId, status);
+        } else if (status == PaymentStatus.PAID) {
             log.warn("Webhook {} pago mas sem userId reconhecível (use externalId numérico ou metadata.userId)", event);
-            processedRepository.save(ProcessedAbacateWebhook.builder()
-                    .eventId(eventId)
-                    .processedAt(Instant.now())
-                    .build());
+        }
+
+        marcarProcessado(eventId);
+    }
+
+    private void processarPorStatus(
+            Long userId,
+            String event,
+            JsonNode data,
+            String eventId,
+            PaymentStatus status
+    ) {
+        switch (status) {
+            case PAID -> processarPagamentoConfirmado(userId, event, data, eventId);
+            case REFUNDED -> processarReembolso(userId, event, data, eventId);
+            case FAILED -> upsertPagamento(userId, event, data, eventId, PaymentStatus.FAILED);
+            case PENDING -> upsertPagamento(userId, event, data, eventId, PaymentStatus.PENDING);
+        }
+    }
+
+    private void processarPagamentoConfirmado(Long userId, String event, JsonNode data, String eventId) {
+        upsertPagamento(userId, event, data, eventId, PaymentStatus.PAID);
+
+        if (eventoRenovacaoAutomatica(event) && renovacaoAutomaticaCancelada(userId)) {
+            log.info("Renovação automática ignorada (assinatura cancelada): userId={}", userId);
+        } else {
+            ativarPlanoRoot(userId);
+        }
+    }
+
+    private void processarReembolso(Long userId, String event, JsonNode data, String eventId) {
+        upsertPagamento(userId, event, data, eventId, PaymentStatus.REFUNDED);
+        encerrarPlanoRoot(userId, "reembolso");
+    }
+
+    private void encerrarPlanoRoot(Long userId, String motivo) {
+        Usuario usuario = usuarioRepository.findById(userId).orElse(null);
+        if (usuario == null || usuario.getSubscriptionType() != SubscriptionType.ROOT) {
             return;
         }
-
-        registrarPagamento(userId.get(), event, data, eventId);
-
-        if (eventoRenovacaoAutomatica(event) && renovacaoAutomaticaCancelada(userId.get())) {
-            log.info("Renovação automática ignorada (assinatura cancelada): userId={}", userId.get());
-        } else {
-            ativarPlanoRoot(userId.get());
-        }
-        processedRepository.save(ProcessedAbacateWebhook.builder()
-                .eventId(eventId)
-                .processedAt(Instant.now())
-                .build());
+        usuario.setSubscriptionType(SubscriptionType.FREE);
+        usuario.setSubscriptionExpiresAt(null);
+        usuario.setSubscriptionAutoRenew(false);
+        usuarioRepository.save(usuario);
+        log.info("Plano ROOT encerrado via webhook ({}): userId={}", motivo, userId);
     }
 
     private boolean eventoRenovacaoAutomatica(String event) {
@@ -153,7 +187,7 @@ public class AbacatePayWebhookService {
         return expiresAt == null || expiresAt.isAfter(Instant.now());
     }
 
-    private void registrarPagamento(Long userId, String event, JsonNode data, String eventId) {
+    private void upsertPagamento(Long userId, String event, JsonNode data, String eventId, PaymentStatus status) {
         Usuario usuario = usuarioRepository.findById(userId).orElse(null);
         if (usuario == null) {
             return;
@@ -163,8 +197,13 @@ public class AbacatePayWebhookService {
         if (!StringUtils.hasText(billId)) {
             billId = "event:" + eventId;
         }
-        if (paymentRepository.existsByBillId(billId)) {
-            log.debug("Comprovante já registrado para billId={}", billId);
+
+        Optional<Payment> existente = paymentRepository.findByBillId(billId);
+        if (existente.isPresent()) {
+            Payment payment = existente.get();
+            payment.setStatus(status);
+            paymentRepository.save(payment);
+            log.info("Comprovante atualizado: userId={}, billId={}, status={}", userId, billId, status);
             return;
         }
 
@@ -174,26 +213,18 @@ public class AbacatePayWebhookService {
         paymentRepository.save(Payment.builder()
                 .usuario(usuario)
                 .amount(amount)
-                .status(PaymentStatus.PAID)
+                .status(status)
                 .method(method)
                 .billId(billId)
                 .build());
-        log.info("Comprovante de pagamento registrado: userId={}, billId={}, amount={}", userId, billId, amount);
+        log.info("Comprovante registrado: userId={}, billId={}, status={}, amount={}", userId, billId, status, amount);
     }
 
-    private boolean deveLiberarPlanoPago(String event, JsonNode data) {
-        return switch (event) {
-            case "checkout.completed" -> "PAID".equalsIgnoreCase(texto(data, "checkout", "status"));
-            case "transparent.completed" -> "PAID".equalsIgnoreCase(texto(data, "transparent", "status"));
-            case "subscription.completed", "subscription.renewed" ->
-                    "PAID".equalsIgnoreCase(texto(data, "payment", "status"))
-                            || "PAID".equalsIgnoreCase(texto(data, "checkout", "status"));
-            default -> false;
-        };
-    }
-
-    private static String texto(JsonNode data, String objeto, String campo) {
-        return data.path(objeto).path(campo).asText("");
+    private void marcarProcessado(String eventId) {
+        processedRepository.save(ProcessedAbacateWebhook.builder()
+                .eventId(eventId)
+                .processedAt(Instant.now())
+                .build());
     }
 
     private Optional<Long> extrairUserId(JsonNode root, JsonNode data) {
@@ -224,7 +255,6 @@ public class AbacatePayWebhookService {
         try {
             return Optional.of(Long.parseLong(s));
         } catch (NumberFormatException ignored) {
-            // convenção opcional user_<id>
             if (s.startsWith("user_")) {
                 try {
                     return Optional.of(Long.parseLong(s.substring(5)));
@@ -250,9 +280,6 @@ public class AbacatePayWebhookService {
         log.info("Plano ROOT ativado via AbacatePay para usuário id={}", userId);
     }
 
-    /**
-     * Alguns exemplos na documentação omitem {@code id}; usamos checkout/transparent estáveis para idempotência.
-     */
     private String syntheticEventId(JsonNode root) {
         String ev = root.path("event").asText("");
         JsonNode d = root.path("data");
@@ -263,6 +290,10 @@ public class AbacatePayWebhookService {
         String cid = d.path("checkout").path("id").asText(null);
         if (StringUtils.hasText(cid)) {
             return "synthetic:" + ev + ":" + cid + ":" + d.path("checkout").path("updatedAt").asText("");
+        }
+        String pid = d.path("payment").path("id").asText(null);
+        if (StringUtils.hasText(pid)) {
+            return "synthetic:" + ev + ":" + pid + ":" + d.path("payment").path("updatedAt").asText("");
         }
         return null;
     }

@@ -1,6 +1,7 @@
 package com.programatico.api.controller;
 
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.PaymentStatus;
 import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.repository.PaymentRepository;
@@ -135,6 +136,43 @@ class AbacatePayWebhookIntegrationTest {
 
         assertEquals(SubscriptionType.FREE, recarregarUsuario().getSubscriptionType());
         assertEquals(1, processedRepository.count());
+    }
+
+    @Test
+    void deveEncerrarRootQuandoCheckoutReembolsado() throws Exception {
+        String pago = payloadCheckoutPago(usuario.getId(), "evt-pago-refund");
+        mockMvc.perform(post("/api/webhooks/abacatepay")
+                        .param("webhookSecret", "segredo-integracao")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(pago))
+                .andExpect(status().isOk());
+
+        assertEquals(SubscriptionType.ROOT, recarregarUsuario().getSubscriptionType());
+
+        String reembolso = """
+                {
+                  "id": "evt-refund-int",
+                  "event": "checkout.refunded",
+                  "data": {
+                    "checkout": {
+                      "id": "chk_pago_1",
+                      "status": "REFUNDED",
+                      "externalId": "%d",
+                      "amount": 2990
+                    }
+                  }
+                }
+                """.formatted(usuario.getId());
+
+        mockMvc.perform(post("/api/webhooks/abacatepay")
+                        .param("webhookSecret", "segredo-integracao")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(reembolso))
+                .andExpect(status().isOk());
+
+        assertEquals(SubscriptionType.FREE, recarregarUsuario().getSubscriptionType());
+        assertEquals(PaymentStatus.REFUNDED, paymentRepository.findAll().get(0).getStatus());
+        assertEquals(2, processedRepository.count());
     }
 
     private Usuario recarregarUsuario() {
