@@ -112,4 +112,49 @@ class SettingsControllerTest {
                 .andExpect(jsonPath("$.secret").value("SECRET123"))
                 .andExpect(jsonPath("$.qrCodeDataUrl").value("data:image/png;base64,abc"));
     }
+
+    @Test
+    @WithMockUser(username = "user")
+    void obterTotpDeveRetornar200() throws Exception {
+        when(totpSettingsService.obterStatus("user"))
+                .thenReturn(SettingsDto.TotpStatusResponse.builder()
+                        .totpEnabled(true)
+                        .build());
+
+        mockMvc.perform(get("/api/configuracoes/totp"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totpEnabled").value(true));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    void ativarTotpDeveRetornar200() throws Exception {
+        when(totpSettingsService.ativar(eq("user"), eq("123456")))
+                .thenReturn(SettingsDto.TotpActivationResponse.builder()
+                        .totpEnabled(true)
+                        .backupCodes(List.of("ABCD-1234"))
+                        .build());
+
+        mockMvc.perform(post("/api/configuracoes/totp/ativar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"codigo\":\"123456\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totpEnabled").value(true))
+                .andExpect(jsonPath("$.backupCodes[0]").value("ABCD-1234"));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    void desativarTotpDeveRetornar200() throws Exception {
+        when(totpSettingsService.desativar(eq("user"), eq("654321")))
+                .thenReturn(SettingsDto.TotpStatusResponse.builder()
+                        .totpEnabled(false)
+                        .build());
+
+        mockMvc.perform(post("/api/configuracoes/totp/desativar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"codigo\":\"654321\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.totpEnabled").value(false));
+    }
 }

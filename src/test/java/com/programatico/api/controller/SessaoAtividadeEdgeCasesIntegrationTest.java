@@ -11,7 +11,10 @@ import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
 import com.programatico.api.domain.enums.ModuleType;
 import com.programatico.api.domain.enums.ProgressStatus;
+import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
+import com.programatico.api.domain.Notification;
+import com.programatico.api.repository.NotificationRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.ModuloRepository;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
@@ -35,7 +38,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,6 +63,7 @@ class SessaoAtividadeEdgeCasesIntegrationTest {
     @Autowired private UserStatsRepository userStatsRepository;
     @Autowired private PracticeSessionRepository practiceSessionRepository;
     @Autowired private PracticeSessionExerciseRepository practiceSessionExerciseRepository;
+    @Autowired private NotificationRepository notificationRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
 
@@ -69,6 +77,7 @@ class SessaoAtividadeEdgeCasesIntegrationTest {
     void setUp() {
         practiceSessionExerciseRepository.deleteAll();
         practiceSessionRepository.deleteAll();
+        notificationRepository.deleteAll();
         exerciseRepository.deleteAll();
         userProgressRepository.deleteAll();
         moduloRepository.deleteAll();
@@ -242,6 +251,112 @@ class SessaoAtividadeEdgeCasesIntegrationTest {
                                 """.formatted(exercicioId)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.correct").value(true));
+    }
+
+    @Test
+    void dragDropRespostaCorretaDeveValidarOrdem() throws Exception {
+        salvarExercicio("Ordene", ExerciseType.DRAG_DROP, """
+                {"items":["primeiro","segundo"]}
+                """);
+
+        userProgressRepository.save(UserProgress.builder()
+                .usuario(usuario)
+                .modulo(modulo)
+                .status(ProgressStatus.UNLOCKED)
+                .build());
+
+        long sessionId = iniciarSessao();
+        long exercicioId = primeiroExercicioId(sessionId);
+        String resposta = objectMapper.writeValueAsString(java.util.List.of("primeiro", "segundo"));
+        String payload = objectMapper.writeValueAsString(
+                java.util.Map.of("exercicioId", exercicioId, "resposta", resposta));
+
+        mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/responder")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(payload))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.correct").value(true));
+    }
+
+    @Test
+    void usuarioRootNaoDevePerderVidasAoErrar() throws Exception {
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        usuario.setSubscriptionExpiresAt(Instant.now().plus(30, ChronoUnit.DAYS));
+        usuarioRepository.save(usuario);
+
+        salvarExercicio("Q1", ExerciseType.MULTIPLE_CHOICE, """
+                {"options":[{"description":"A","correct":true},{"description":"B","correct":false}]}
+                """);
+
+        userProgressRepository.save(UserProgress.builder()
+                .usuario(usuario)
+                .modulo(modulo)
+                .status(ProgressStatus.UNLOCKED)
+                .build());
+
+        long sessionId = iniciarSessao();
+        long exercicioId = primeiroExercicioId(sessionId);
+
+        mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/responder")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"exercicioId":%d,"resposta":"B"}
+                                """.formatted(exercicioId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.correct").value(false))
+                .andExpect(jsonPath("$.remainingLives").value(5));
+    }
+
+    @Test
+    void zerarVidasDeveCriarNotificacaoSemVidas() throws Exception {
+        UserStats stats = userStatsRepository.findByUsuario(usuario).orElseThrow();
+        stats.setCurrentLives(1);
+        userStatsRepository.save(stats);
+
+        salvarExercicio("Q1", ExerciseType.MULTIPLE_CHOICE, """
+                {"options":[{"description":"A","correct":true},{"description":"B","correct":false}]}
+                """);
+        salvarExercicio("Q2", ExerciseType.MULTIPLE_CHOICE, """
+                {"options":[{"description":"A","correct":true},{"description":"B","correct":false}]}
+                """);
+
+        userProgressRepository.save(UserProgress.builder()
+                .usuario(usuario)
+                .modulo(modulo)
+                .status(ProgressStatus.UNLOCKED)
+                .build());
+
+        long sessionId = iniciarSessao();
+
+        for (int i = 0; i < 2; i++) {
+            long exercicioId = practiceSessionExerciseRepository
+                    .findByPracticeSessionOrderByDisplayOrderAsc(
+                            practiceSessionRepository.findById(sessionId).orElseThrow())
+                    .get(i)
+                    .getExercise()
+                    .getId();
+            mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/responder")
+                            .header("Authorization", "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("""
+                                    {"exercicioId":%d,"resposta":"B"}
+                                    """.formatted(exercicioId)))
+                    .andExpect(status().isOk());
+        }
+
+        assertEquals(0, userStatsRepository.findByUsuario(usuario).orElseThrow().getCurrentLives());
+        assertTrue(notificationRepository.findAll().stream()
+                .anyMatch(n -> "Sem vidas".equals(n.getTitle())));
+    }
+
+    @Test
+    void modoPraticaInvalidoDeveRetornar400() throws Exception {
+        mockMvc.perform(post("/api/aprender/pratica/invalido/iniciar")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("Modo de prática inválido: invalido"));
     }
 
     private void salvarExercicio(String statement, ExerciseType type, String data) {

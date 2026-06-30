@@ -1,10 +1,12 @@
 package com.programatico.api.controller;
 
 import com.programatico.api.domain.Exercise;
+import com.programatico.api.domain.Mission;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.PracticeSession;
 import com.programatico.api.domain.PracticeSessionExercise;
 import com.programatico.api.domain.Track;
+import com.programatico.api.domain.UserMission;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
@@ -12,10 +14,12 @@ import com.programatico.api.domain.enums.ModuleType;
 import com.programatico.api.domain.enums.SessionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.repository.ExerciseRepository;
+import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.ModuloRepository;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TrackRepository;
+import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
@@ -52,6 +56,8 @@ class ReviewIntegrationTest {
     @Autowired private PracticeSessionRepository practiceSessionRepository;
     @Autowired private PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     @Autowired private UserStatsRepository userStatsRepository;
+    @Autowired private MissionRepository missionRepository;
+    @Autowired private UserMissionRepository userMissionRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
 
@@ -64,6 +70,8 @@ class ReviewIntegrationTest {
     void setUp() {
         practiceSessionExerciseRepository.deleteAll();
         practiceSessionRepository.deleteAll();
+        userMissionRepository.deleteAll();
+        missionRepository.deleteAll();
         exerciseRepository.deleteAll();
         moduloRepository.deleteAll();
         trackRepository.deleteAll();
@@ -148,6 +156,21 @@ class ReviewIntegrationTest {
                 .userAnswer("B")
                 .build());
 
+        Mission mission = missionRepository.save(Mission.builder()
+                .title("Treinar lógica")
+                .objectiveType("XP")
+                .xpReward(10)
+                .quantidade(5)
+                .build());
+
+        userMissionRepository.save(UserMission.builder()
+                .id(usuario.getId() + "-" + mission.getId())
+                .usuario(usuario)
+                .mission(mission)
+                .isCompleted(true)
+                .currentProgress(5)
+                .build());
+
         token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
     }
 
@@ -164,6 +187,22 @@ class ReviewIntegrationTest {
                 .andExpect(jsonPath("$.stats[0].value").value("2"))
                 .andExpect(jsonPath("$.stats[1].value").value("50%"))
                 .andExpect(jsonPath("$.availableTracks[0].title").value("Trilha review"));
+    }
+
+    @Test
+    void getReviewDeveRetornarAssuntosEMissoes() throws Exception {
+        mockMvc.perform(get("/api/review")
+                        .header("Authorization", "Bearer " + token)
+                        .param("trackId", String.valueOf(trackId))
+                        .param("days", "7"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.subjectAccuracy[0].assunto").value("logica"))
+                .andExpect(jsonPath("$.subjectAccuracy[0].percentual").value(50))
+                .andExpect(jsonPath("$.errorsBySubject[0].assunto").value("logica"))
+                .andExpect(jsonPath("$.errorsBySubject[0].erros").value(1))
+                .andExpect(jsonPath("$.reviewNow[0].assunto").value("logica"))
+                .andExpect(jsonPath("$.recentMissions[0].label").value("Treinar lógica"))
+                .andExpect(jsonPath("$.recentMissions[0].status").value("Concluida"));
     }
 
     @Test

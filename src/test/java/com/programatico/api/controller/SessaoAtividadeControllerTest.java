@@ -145,6 +145,23 @@ class SessaoAtividadeControllerTest {
 
     @Test
     @WithMockUser(username = "user")
+    void iniciarPraticaErrosDeveRetornar200() throws Exception {
+        when(sessaoAtividadeService.iniciarPratica(eq("erros"), eq("user")))
+                .thenReturn(SessaoDto.InicioResponse.builder()
+                        .sessionId(88L)
+                        .moduleTitle("Prática: Erros")
+                        .initialLives(5)
+                        .totalExercises(2)
+                        .exercises(List.of())
+                        .build());
+
+        mockMvc.perform(post("/api/aprender/pratica/erros/iniciar"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.moduleTitle").value("Prática: Erros"));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
     void concluirDeveRetornar200() throws Exception {
         when(sessaoAtividadeService.concluir(eq(10L), eq("user")))
                 .thenReturn(SessaoDto.ConclusaoResponse.builder()

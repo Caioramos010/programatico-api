@@ -1,5 +1,6 @@
 package com.programatico.api.config;
 
+import com.programatico.api.domain.Track;
 import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.MissionRepository;
@@ -51,5 +52,26 @@ class SeedContentRunnerTest {
         seedContentRunner.run(new DefaultApplicationArguments());
 
         verify(trackRepository, never()).save(org.mockito.ArgumentMatchers.any());
+    }
+
+    @Test
+    void runDeveExecutarSeedQuandoHabilitadoESemTrilhas() {
+        ReflectionTestUtils.setField(seedContentRunner, "enabled", true);
+        when(trackRepository.count()).thenReturn(0L);
+        when(trackRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> {
+            Track track = inv.getArgument(0);
+            track.setId(1L);
+            return track;
+        });
+        when(moduloRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> inv.getArgument(0));
+        when(teoriaPaginaRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> inv.getArgument(0));
+        when(contentBlockRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> inv.getArgument(0));
+        when(exerciseRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> inv.getArgument(0));
+        when(missionRepository.save(org.mockito.ArgumentMatchers.any())).thenAnswer(inv -> inv.getArgument(0));
+
+        seedContentRunner.run(new DefaultApplicationArguments());
+
+        verify(trackRepository).save(org.mockito.ArgumentMatchers.any());
+        verify(missionRepository, org.mockito.Mockito.atLeastOnce()).save(org.mockito.ArgumentMatchers.any());
     }
 }

@@ -114,4 +114,18 @@ class SettingsIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.totpEnabled").value(false));
     }
+
+    @Test
+    void atualizarSegurancaDevePersistirPreferencias() throws Exception {
+        mockMvc.perform(put("/api/configuracoes/seguranca")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"twoFactorEnabled\":true}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.twoFactorEnabled").value(true));
+
+        mockMvc.perform(get("/api/configuracoes/seguranca")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(jsonPath("$.twoFactorEnabled").value(true));
+    }
 }

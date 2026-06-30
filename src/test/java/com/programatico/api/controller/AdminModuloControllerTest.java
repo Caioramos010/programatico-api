@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -55,6 +56,18 @@ class AdminModuloControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.title").value("Atualizado"));
+    }
+
+    @Test
+    void reordenarDeveRetornar204() throws Exception {
+        doNothing().when(adminModuloService).reordenar(1L, List.of(2L, 1L));
+
+        mockMvc.perform(put("/api/admin/trilhas/1/modulos/reordenar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"ids\":[2,1]}"))
+                .andExpect(status().isNoContent());
+
+        verify(adminModuloService).reordenar(1L, List.of(2L, 1L));
     }
 
     @Test

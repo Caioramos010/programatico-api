@@ -59,10 +59,23 @@ class EmailServiceTest {
     }
 
     @Test
-    void enviarCodigoAtivacaoDeveEscaparHtmlNoUsername() {
+    void enviarCodigoRedefinicaoSenhaDeveDispararEmail() {
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
-        emailService.enviarCodigoAtivacao("user@test.com", "<script>", "123456");
+        emailService.enviarCodigoRedefinicaoSenha("user@test.com", "user", "654321");
+        verify(mailSender).send(mimeMessage);
+    }
 
+    @Test
+    void enviarCodigoExclusaoContaDeveDispararEmail() {
+        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
+        emailService.enviarCodigoExclusaoConta("user@test.com", "user", "999999");
+        verify(mailSender).send(mimeMessage);
+    }
+
+    @Test
+    void enviarCodigoVerificacaoLoginDeveDispararEmail() {
+        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
+        emailService.enviarCodigoVerificacaoLogin("user@test.com", "user", "111111");
         verify(mailSender).send(mimeMessage);
     }
 }
