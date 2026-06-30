@@ -156,7 +156,7 @@ class ReviewServiceTest {
         when(practiceSessionRepository.findByUsuarioAndModulo_TrackAndStartedAtGreaterThanEqualOrderByStartedAtAsc(
                 any(), any(), any())).thenReturn(List.of());
         when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.empty());
-        when(userMissionRepository.findByUsuario(usuario)).thenReturn(List.of());
+        when(userDailyMissionRepository.findByUsuarioAndMissionDate(any(), any())).thenReturn(List.of());
         when(missionRepository.findAll()).thenReturn(List.of());
 
         ReviewDto.Response response = reviewService.getReview("user", 1L, 45);
