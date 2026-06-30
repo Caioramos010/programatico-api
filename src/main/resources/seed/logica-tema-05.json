@@ -1,0 +1,936 @@
+{
+  "modules": [
+    {
+      "title": "Quantificadores — todos, alguns, nenhum",
+      "moduleType": "STUDY",
+      "displayOrder": 9,
+      "description": "Aprenda a falar sobre grupos com precisão: quando algo vale para todos, para alguns ou para nenhum.",
+      "pages": [
+        {
+          "title": "O que são quantificadores",
+          "description": "Palavras que dizem quanto de um grupo é atingido.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Quantificadores são palavras que dizem QUANTOS elementos de um grupo são atingidos por uma afirmação.\n\nOs três principais são: TODOS, ALGUNS e NENHUM."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e07.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "\"TODOS\" significa o grupo inteiro, sem exceção.\n\"ALGUNS\" significa pelo menos um, mas não necessariamente todos.\n\"NENHUM\" significa zero — não existe um sequer."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo com a girafa Gina: \"Todas as plantinhas foram regadas\" fala do grupo inteiro. \"Algumas plantinhas foram regadas\" fala só de uma parte."
+            }
+          ]
+        },
+        {
+          "title": "Generalização e exceção",
+          "description": "Uma só exceção já derruba o \"todos\".",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Generalizar é afirmar algo sobre TODO o grupo. Mas basta UMA exceção para a generalização ficar falsa.\n\nSe digo \"todos os gatos são pretos\" e aparece um gato branco, a frase já está errada."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e11.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Já o gato Pixel separou bolas em caixas: se ele afirma \"algumas bolas são vermelhas\", basta encontrar UMA bola vermelha para a frase ser verdadeira."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Resumo: \"TODOS\" só é verdade sem exceções. \"ALGUNS\" é verdade com pelo menos um caso. \"NENHUM\" só é verdade quando não existe nenhum caso."
+            }
+          ]
+        },
+        {
+          "title": "Negação dos quantificadores",
+          "description": "O oposto de \"todos\" não é \"nenhum\".",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Negar \"todos\" NÃO é o mesmo que dizer \"nenhum\".\n\nO contrário de \"todos os passos deram certo\" é \"pelo menos um passo NÃO deu certo\" — ou seja, \"algum falhou\"."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e03.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Negar \"nenhum\" é dizer \"existe pelo menos um\". Se \"nenhum carro passou\" é falso, então \"algum carro passou\" é verdade."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Pensar nisso evita erros: na lógica de programação você decide caminhos com base em \"existe algum?\" ou \"vale para todos?\". Nos exercícios você vai treinar exatamente isso."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Quantificadores — pratique todos, alguns e nenhum",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 10,
+      "description": "Identifique generalizações, exceções e o quantificador certo em cenários com os mascotes.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia diz: \"TODOS os livros da estante são coloridos.\" Para essa frase ser verdadeira, o que precisa acontecer?",
+          "data": {
+            "options": [
+              {
+                "description": "Nenhum livro pode ser sem cor — todos, sem exceção, são coloridos.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Pelo menos um livro precisa ser colorido.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A maioria dos livros precisa ser colorida.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum livro pode ser colorido.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quantificadores, quantificador universal (todos), generalização, verdadeiro ou falso",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex afirma: \"TODAS as peças do quebra-cabeça são azuis.\" Aí ele encontra uma peça verde. O que isso prova?",
+          "data": {
+            "options": [
+              {
+                "description": "A frase \"todas são azuis\" está falsa — uma exceção já basta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A frase continua verdadeira, pois só uma é diferente.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Agora nenhuma peça é azul.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Significa que algumas peças não existem.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador universal (todos), exceção, contraexemplo, verdadeiro ou falso",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina regou ALGUMAS plantinhas do jardim. O que dá para concluir com certeza?",
+          "data": {
+            "options": [
+              {
+                "description": "Pelo menos uma plantinha foi regada, mas talvez não todas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Todas as plantinhas foram regadas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhuma plantinha foi regada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Exatamente metade das plantinhas foi regada.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quantificadores, quantificador existencial (algum), conclusão",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado observa a rua e diz: \"NENHUM carro está passando agora.\" Quando essa frase é verdadeira?",
+          "data": {
+            "options": [
+              {
+                "description": "Quando não existe nem um único carro passando.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Quando poucos carros estão passando.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Quando todos os carros estão passando.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Quando pelo menos um carro está passando.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quantificadores, quantificador (nenhum), condição de parada, verdadeiro ou falso",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo diz: \"NENHUM robô está com a bateria cheia.\" Depois ele acha um robô com bateria cheia. E agora?",
+          "data": {
+            "options": [
+              {
+                "description": "A frase \"nenhum está cheio\" está falsa: existe pelo menos um cheio.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A frase continua verdadeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Agora todos os robôs estão cheios.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não dá para concluir nada.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador (nenhum), negação, contraexemplo",
+          "img": "m2-e38.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Qual é a NEGAÇÃO correta de \"TODOS os dálmatas entregaram as cartas\"?",
+          "data": {
+            "options": [
+              {
+                "description": "Pelo menos um dálmata NÃO entregou as cartas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Nenhum dálmata entregou as cartas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todos os dálmatas entregaram as cartas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Alguns dálmatas entregaram as cartas.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, negação, quantificador universal (todos), quantificador existencial (algum), raciocínio lógico",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Qual é a NEGAÇÃO correta de \"NENHUM gato está na cozinha\"?",
+          "data": {
+            "options": [
+              {
+                "description": "Pelo menos um gato está na cozinha.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Todos os gatos estão na cozinha.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum gato está na cozinha.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Alguns gatos não estão na cozinha.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, negação, quantificador (nenhum), quantificador existencial (algum)",
+          "img": "m2-e39.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja detetive Olívia investiga: \"ALGUNS robôs estão sem bateria.\" Qual situação torna essa frase verdadeira?",
+          "data": {
+            "options": [
+              {
+                "description": "Existir ao menos um robô sem bateria, mesmo que outros tenham bateria.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Todos os robôs estarem com bateria cheia.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum robô existir no grupo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todos os robôs estarem sem bateria, obrigatoriamente.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador existencial (algum), investigação por pistas",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Pixel separou 5 bolas em caixas. Se é verdade que \"TODAS as bolas são redondas\", o que NÃO pode existir entre elas?",
+          "data": {
+            "options": [
+              {
+                "description": "Uma bola quadrada.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Uma bola vermelha.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Uma bola pequena.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Uma bola pesada.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador universal (todos), exceção, atributos, classificação",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "No jardim, é falso dizer que \"TODAS as plantinhas foram regadas\". O que com certeza é verdade?",
+          "data": {
+            "options": [
+              {
+                "description": "Pelo menos uma plantinha NÃO foi regada.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Nenhuma plantinha foi regada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todas as plantinhas foram regadas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Exatamente uma plantinha foi regada.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, quantificador universal (todos), negação, raciocínio lógico, exceção",
+          "img": "m2-e40.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada quantificador com o que ele significa sobre o grupo.",
+          "data": {
+            "lefts": [
+              "Todos",
+              "Alguns",
+              "Nenhum",
+              "Pelo menos um"
+            ],
+            "rights": [
+              "Zero elementos",
+              "O grupo inteiro, sem exceção",
+              "Ao menos um elemento",
+              "Uma parte, não obrigatoriamente tudo"
+            ],
+            "pairs": [
+              {
+                "left": "Todos",
+                "right": "O grupo inteiro, sem exceção"
+              },
+              {
+                "left": "Alguns",
+                "right": "Uma parte, não obrigatoriamente tudo"
+              },
+              {
+                "left": "Nenhum",
+                "right": "Zero elementos"
+              },
+              {
+                "left": "Pelo menos um",
+                "right": "Ao menos um elemento"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), significado de termos",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada afirmação da coruja Olívia, combine o quantificador que a descreve.",
+          "data": {
+            "lefts": [
+              "Toda a estante é colorida",
+              "Há livros vermelhos na estante",
+              "Não existe livro rasgado",
+              "Faltam alguns livros"
+            ],
+            "rights": [
+              "Nenhum",
+              "Todos",
+              "Alguns (faltando)",
+              "Alguns (existindo)"
+            ],
+            "pairs": [
+              {
+                "left": "Toda a estante é colorida",
+                "right": "Todos"
+              },
+              {
+                "left": "Há livros vermelhos na estante",
+                "right": "Alguns (existindo)"
+              },
+              {
+                "left": "Não existe livro rasgado",
+                "right": "Nenhum"
+              },
+              {
+                "left": "Faltam alguns livros",
+                "right": "Alguns (faltando)"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, interpretação textual, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum)",
+          "img": "m2-e41.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada frase com sua NEGAÇÃO correta.",
+          "data": {
+            "lefts": [
+              "Todos passaram",
+              "Nenhum passou",
+              "Alguns passaram",
+              "Todos falharam"
+            ],
+            "rights": [
+              "Pelo menos um passou",
+              "Nenhum passou",
+              "Pelo menos um não passou",
+              "Pelo menos um não falhou"
+            ],
+            "pairs": [
+              {
+                "left": "Todos passaram",
+                "right": "Pelo menos um não passou"
+              },
+              {
+                "left": "Nenhum passou",
+                "right": "Pelo menos um passou"
+              },
+              {
+                "left": "Alguns passaram",
+                "right": "Nenhum passou"
+              },
+              {
+                "left": "Todos falharam",
+                "right": "Pelo menos um não falhou"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, negação, quantificador universal (todos), quantificador (nenhum), quantificador existencial (algum)",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O dálmata Pongo separou os grupos. Combine cada descrição com o quantificador certo.",
+          "data": {
+            "lefts": [
+              "Todas as caixas foram entregues",
+              "Algumas caixas foram entregues",
+              "Nenhuma caixa foi entregue",
+              "Sobrou pelo menos uma caixa"
+            ],
+            "rights": [
+              "Alguns sobraram",
+              "Nenhum",
+              "Todos",
+              "Alguns entregues"
+            ],
+            "pairs": [
+              {
+                "left": "Todas as caixas foram entregues",
+                "right": "Todos"
+              },
+              {
+                "left": "Algumas caixas foram entregues",
+                "right": "Alguns entregues"
+              },
+              {
+                "left": "Nenhuma caixa foi entregue",
+                "right": "Nenhum"
+              },
+              {
+                "left": "Sobrou pelo menos uma caixa",
+                "right": "Alguns sobraram"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), rotinas do dia a dia",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada situação observada com a conclusão correta.",
+          "data": {
+            "lefts": [
+              "Achei uma exceção ao \"todos\"",
+              "Achei um exemplo do \"alguns\"",
+              "Não achei nenhum caso",
+              "Verifiquei o grupo inteiro sem exceção"
+            ],
+            "rights": [
+              "\"Nenhum\" é verdade",
+              "\"Todos\" é verdade",
+              "\"Todos\" é falso",
+              "\"Alguns\" é verdade"
+            ],
+            "pairs": [
+              {
+                "left": "Achei uma exceção ao \"todos\"",
+                "right": "\"Todos\" é falso"
+              },
+              {
+                "left": "Achei um exemplo do \"alguns\"",
+                "right": "\"Alguns\" é verdade"
+              },
+              {
+                "left": "Não achei nenhum caso",
+                "right": "\"Nenhum\" é verdade"
+              },
+              {
+                "left": "Verifiquei o grupo inteiro sem exceção",
+                "right": "\"Todos\" é verdade"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, avaliar afirmação, exceção, contraexemplo, raciocínio lógico",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O urso Téo classificou frases. Combine cada frase ao quantificador que ela usa.",
+          "data": {
+            "lefts": [
+              "Cada robô tem uma bateria",
+              "Há robôs ligados",
+              "Não há robô quebrado",
+              "Faltou energia em alguns"
+            ],
+            "rights": [
+              "Alguns (existindo)",
+              "Todos",
+              "Alguns (faltando)",
+              "Nenhum"
+            ],
+            "pairs": [
+              {
+                "left": "Cada robô tem uma bateria",
+                "right": "Todos"
+              },
+              {
+                "left": "Há robôs ligados",
+                "right": "Alguns (existindo)"
+              },
+              {
+                "left": "Não há robô quebrado",
+                "right": "Nenhum"
+              },
+              {
+                "left": "Faltou energia em alguns",
+                "right": "Alguns (faltando)"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum)",
+          "img": "m2-e38.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada palavra com o quantificador equivalente.",
+          "data": {
+            "lefts": [
+              "Cada",
+              "Existe",
+              "Zero",
+              "Vários"
+            ],
+            "rights": [
+              "Nenhum",
+              "Todos",
+              "Alguns",
+              "Alguns"
+            ],
+            "pairs": [
+              {
+                "left": "Cada",
+                "right": "Todos"
+              },
+              {
+                "left": "Existe",
+                "right": "Alguns"
+              },
+              {
+                "left": "Zero",
+                "right": "Nenhum"
+              },
+              {
+                "left": "Vários",
+                "right": "Alguns"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quantificadores, equivalência, quantificador universal (todos), quantificador existencial (algum), condição de parada",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O jacaré Dado avalia frases sobre o trânsito. Combine cada frase com seu valor.",
+          "data": {
+            "lefts": [
+              "Todos os carros pararam (1 não parou)",
+              "Nenhum carro passou (0 passaram)",
+              "Alguns carros buzinaram (3 buzinaram)",
+              "Todos buzinaram (todos buzinaram)"
+            ],
+            "rights": [
+              "Verdadeiro",
+              "Verdadeiro",
+              "Falso",
+              "Verdadeiro"
+            ],
+            "pairs": [
+              {
+                "left": "Todos os carros pararam (1 não parou)",
+                "right": "Falso"
+              },
+              {
+                "left": "Nenhum carro passou (0 passaram)",
+                "right": "Verdadeiro"
+              },
+              {
+                "left": "Alguns carros buzinaram (3 buzinaram)",
+                "right": "Verdadeiro"
+              },
+              {
+                "left": "Todos buzinaram (todos buzinaram)",
+                "right": "Verdadeiro"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, verdadeiro ou falso, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum)",
+          "img": "m2-e39.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Pixel separou bolas em caixas. Combine cada afirmação com o que ela garante.",
+          "data": {
+            "lefts": [
+              "Todas são azuis",
+              "Algumas são azuis",
+              "Nenhuma é azul",
+              "Pelo menos uma é azul"
+            ],
+            "rights": [
+              "Existe ao menos uma azul",
+              "Zero bolas azuis",
+              "Todas, sem exceção, azuis",
+              "Há azuis, talvez não todas"
+            ],
+            "pairs": [
+              {
+                "left": "Todas são azuis",
+                "right": "Todas, sem exceção, azuis"
+              },
+              {
+                "left": "Algumas são azuis",
+                "right": "Há azuis, talvez não todas"
+              },
+              {
+                "left": "Nenhuma é azul",
+                "right": "Zero bolas azuis"
+              },
+              {
+                "left": "Pelo menos uma é azul",
+                "right": "Existe ao menos uma azul"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador universal (todos), quantificador existencial (algum), quantificador (nenhum), validade do argumento",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Combine cada quantificador com a pergunta que ele responde na lógica.",
+          "data": {
+            "lefts": [
+              "Todos",
+              "Alguns",
+              "Nenhum",
+              "Algum não"
+            ],
+            "rights": [
+              "Existe um que NÃO atende?",
+              "Vale para o grupo inteiro?",
+              "Não existe nenhum caso?",
+              "Existe pelo menos um caso?"
+            ],
+            "pairs": [
+              {
+                "left": "Todos",
+                "right": "Vale para o grupo inteiro?"
+              },
+              {
+                "left": "Alguns",
+                "right": "Existe pelo menos um caso?"
+              },
+              {
+                "left": "Nenhum",
+                "right": "Não existe nenhum caso?"
+              },
+              {
+                "left": "Algum não",
+                "right": "Existe um que NÃO atende?"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, lógica proposicional, condicional (se/então), quantificador existencial (algum), quantificador universal (todos)",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja Olívia quer provar que \"TODOS os livros são coloridos\" é FALSO. Ordene os passos do raciocínio.",
+          "data": {
+            "items": [
+              "Olhar livro por livro na estante",
+              "Encontrar um livro sem cor",
+              "Concluir que existe uma exceção",
+              "Afirmar que \"todos são coloridos\" é falso"
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador universal (todos), contraexemplo, raciocínio lógico, verdadeiro ou falso",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O urso Téo quer confirmar que \"TODOS os robôs estão carregados\". Ordene os passos.",
+          "data": {
+            "items": [
+              "Verificar o primeiro robô",
+              "Verificar todos os robôs, um a um",
+              "Confirmar que nenhum está descarregado",
+              "Concluir que \"todos estão carregados\" é verdade"
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador universal (todos), avaliar afirmação, verdadeiro ou falso, algoritmo (passo a passo)",
+          "img": "m2-e40.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O gato Pixel quer provar que \"ALGUMAS bolas são vermelhas\". Ordene o raciocínio.",
+          "data": {
+            "items": [
+              "Procurar entre as bolas das caixas",
+              "Encontrar uma bola vermelha",
+              "Concluir que existe pelo menos uma vermelha",
+              "Afirmar que \"algumas são vermelhas\" é verdade"
+            ]
+          },
+          "xp": 3,
+          "tags": "quantificadores, quantificador existencial (algum), raciocínio lógico",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O jacaré Dado quer concluir que \"NENHUM carro está passando\". Ordene os passos.",
+          "data": {
+            "items": [
+              "Olhar a rua inteira",
+              "Verificar que não há um carro sequer",
+              "Concluir que o grupo está vazio de carros",
+              "Afirmar que \"nenhum carro passa\" é verdade"
+            ]
+          },
+          "xp": 3,
+          "tags": "quantificadores, quantificador (nenhum), condição de parada, avaliar afirmação",
+          "img": "m2-e41.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja detetive Olívia investiga se \"NENHUM robô está sem bateria\". Ordene a investigação.",
+          "data": {
+            "items": [
+              "Examinar os robôs com a lupa",
+              "Encontrar um robô sem bateria",
+              "Concluir que existe uma exceção",
+              "Afirmar que \"nenhum está sem bateria\" é falso"
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, quantificador (nenhum), negação, contraexemplo, investigação por pistas",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A girafa Gina decide se a frase \"TODAS as plantinhas foram regadas\" é verdadeira. Ordene o método.",
+          "data": {
+            "items": [
+              "Listar todas as plantinhas",
+              "Checar uma por uma se foi regada",
+              "Se achar uma seca, é exceção",
+              "Decidir: sem exceção = verdade; com exceção = falso"
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, quantificador universal (todos), exceção, condicional (se/então), algoritmo (passo a passo)",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O dálmata Pongo organiza a verificação de \"ALGUMAS caixas foram entregues\". Ordene os passos.",
+          "data": {
+            "items": [
+              "Olhar a lista de caixas",
+              "Procurar uma caixa já entregue",
+              "Achar pelo menos uma entregue",
+              "Concluir que \"algumas foram entregues\" é verdade"
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, quantificador existencial (algum), rotinas do dia a dia, algoritmo (passo a passo)",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque os quantificadores na ordem da MENOR para a MAIOR quantidade do grupo que atingem.",
+          "data": {
+            "items": [
+              "Nenhum (zero)",
+              "Alguns (pelo menos um)",
+              "A maioria (mais da metade)",
+              "Todos (o grupo inteiro)"
+            ]
+          },
+          "xp": 5,
+          "tags": "quantificadores, ordenação, quantificador (nenhum), quantificador existencial (algum), quantificador universal (todos)",
+          "img": "m2-e38.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O lobo Rex segue o fluxo para decidir se \"TODOS\" vale. Ordene os passos do fluxograma.",
+          "data": {
+            "items": [
+              "Comece pelo grupo todo",
+              "Pergunte: existe alguma exceção?",
+              "Se existe exceção, \"todos\" é falso",
+              "Se não existe exceção, \"todos\" é verdade"
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, quantificador universal (todos), fluxograma, condicional (se/então), lógica proposicional",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene as etapas para transformar a frase \"TODOS entregaram\" na sua negação correta.",
+          "data": {
+            "items": [
+              "Parta de \"todos entregaram\"",
+              "Lembre: negar \"todos\" não vira \"nenhum\"",
+              "Pense na exceção: e se um não entregou?",
+              "Escreva a negação: \"pelo menos um não entregou\""
+            ]
+          },
+          "xp": 7,
+          "tags": "quantificadores, negação, quantificador universal (todos), quantificador existencial (algum), raciocínio lógico",
+          "img": "m1-e15.png"
+        }
+      ]
+    }
+  ]
+}

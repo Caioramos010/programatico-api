@@ -1,0 +1,926 @@
+{
+  "modules": [
+    {
+      "title": "Decisão em algoritmos — escolher o caminho dentro do passo a passo",
+      "moduleType": "STUDY",
+      "displayOrder": 23,
+      "description": "Um algoritmo nem sempre segue reto. Aprenda a tomar decisões no meio do passo a passo e a ramificar conforme a condição.",
+      "pages": [
+        {
+          "title": "O que é decidir num algoritmo",
+          "description": "Dentro de uma sequência de passos, às vezes é preciso escolher.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Um algoritmo é um passo a passo para resolver um problema. Muitas vezes os passos seguem em linha reta, um depois do outro.\n\nMas nem sempre dá para seguir reto: em alguns momentos é preciso DECIDIR o que fazer a seguir."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e09.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Decidir é olhar para uma condição e perguntar: \"isto é verdade ou não?\". A resposta escolhe qual passo vem depois.\n\nExemplo: o jacaré Dado chega na faixa de pedestre e pensa \"o sinal está vermelho?\". Se sim, ele espera; se não, ele atravessa."
+            }
+          ]
+        },
+        {
+          "title": "Se… então… senão…",
+          "description": "A condição cria dois caminhos: o do sim e o do não.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "A decisão usa três palavrinhas: SE (a condição), ENTÃO (o que fazer quando é verdade) e SENÃO (o que fazer quando é falso).\n\n\"SE está chovendo, ENTÃO pego o guarda-chuva, SENÃO pego o boné.\""
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e16.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Cada condição tem só duas respostas possíveis: verdadeiro ou falso. Não existe meio termo.\n\nA coruja Olívia decide assim: ela testa a condição uma vez e, conforme o resultado, segue por UM dos dois caminhos."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Importante: só um caminho é executado por vez. Se a condição é verdadeira, faz o ramo do ENTÃO; se é falsa, faz o ramo do SENÃO. Nunca os dois ao mesmo tempo."
+            }
+          ]
+        },
+        {
+          "title": "Ramificar o passo a passo",
+          "description": "Depois de decidir, o algoritmo se divide em ramos.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Ramificar é o que acontece quando o caminho se divide. É como uma trilha que se separa em duas: a decisão escolhe por qual delas seguir.\n\nNo fluxograma, a decisão aparece como um losango, com uma saída para \"sim\" e outra para \"não\"."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e15.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Às vezes uma decisão vem dentro de outra. Primeiro o gato Pixel pergunta \"está com fome?\"; se sim, pergunta de novo \"tem comida na tigela?\". Cada decisão afina mais a escolha."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos exercícios a seguir você vai treinar: ler a condição, escolher o ramo certo, ligar cada condição ao seu resultado e ordenar um passo a passo que toma decisões."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Decisão em algoritmos — escolha o caminho, relacione e ordene",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 24,
+      "description": "Leia a condição, decida o ramo certo, ligue cada situação ao seu resultado e monte passo a passos que ramificam.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado chega na faixa e o sinal de pedestre está vermelho. Seguindo a regra \"SE vermelho, ENTÃO espere; SENÃO atravesse\", o que ele faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Espera, porque a condição é verdadeira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Atravessa, porque a condição é verdadeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Faz as duas coisas ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Ignora o sinal e volta para casa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então)",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Na regra \"SE está chovendo, ENTÃO pego o guarda-chuva, SENÃO pego o boné\", o que a coruja Olívia pega num dia de sol?",
+          "data": {
+            "options": [
+              {
+                "description": "O boné, porque a condição é falsa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O guarda-chuva, porque a condição é falsa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Os dois, para garantir.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nada, porque não há decisão a tomar.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então)",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "No fluxograma, qual figura representa uma DECISÃO no algoritmo?",
+          "data": {
+            "options": [
+              {
+                "description": "O losango, que tem uma saída para \"sim\" e outra para \"não\".",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O retângulo, que sempre segue reto.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A seta, que só aponta uma direção.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O círculo, que marca o fim.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), fluxograma, ramos da decisão",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex precisa decidir entre dois números: \"SE 7 é maior que 4, ENTÃO escolha o 7\". O que ele escolhe?",
+          "data": {
+            "options": [
+              {
+                "description": "O 7, porque a condição é verdadeira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O 4, porque a condição é verdadeira.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum, porque não dá para comparar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Os dois, porque são parecidos.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), comparação, noção de número, maior e menor",
+          "img": "m1-e18.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Quantas respostas possíveis tem a condição \"o contador de vidas chegou a zero?\"",
+          "data": {
+            "options": [
+              {
+                "description": "Duas: verdadeiro ou falso.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Três: sim, não e talvez.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Uma só, sempre verdadeiro.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Infinitas, depende do humor.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então), verdadeiro ou falso",
+          "img": "m2-e67.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel decide: \"SE a tigela está vazia, ENTÃO encha; SENÃO deixe como está\". A tigela está cheia. O que ele faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Deixa como está, porque a condição é falsa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Enche, porque a condição é falsa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Esvazia para poder encher depois.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pergunta de novo até cansar.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão, rotinas do dia a dia",
+          "img": "m2-e68.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Numa decisão \"SE… ENTÃO… SENÃO…\", quantos caminhos são executados de cada vez?",
+          "data": {
+            "options": [
+              {
+                "description": "Apenas um caminho por vez.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Sempre os dois caminhos juntos.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhum, a decisão só observa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Três caminhos, um para cada palavra.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão",
+          "img": "m2-e69.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo tem a regra do robô: \"SE a bateria está fraca, ENTÃO recarregue\". A bateria está cheia. O que acontece?",
+          "data": {
+            "options": [
+              {
+                "description": "Nada de recarregar: a condição é falsa, então pula esse passo.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Recarrega mesmo assim, por garantia.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Desliga o robô para sempre.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Troca a bateria por uma nova.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "condicional (se/então), ramos da decisão, completude do procedimento",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O dálmata Pongo decide para qual caixa entregar: \"SE a carta é azul, ENTÃO caixa 1; SENÃO caixa 2\". A carta é vermelha. Para onde vai?",
+          "data": {
+            "options": [
+              {
+                "description": "Caixa 2, porque a carta não é azul.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Caixa 1, porque a carta não é azul.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Para as duas caixas ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Para nenhuma, porque a cor é diferente.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão, rotinas do dia a dia",
+          "img": "m2-e70.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina monta uma decisão dentro de outra: \"SE está com fome, ENTÃO: SE tem comida, coma; SENÃO peça comida\". Ela está com fome e a tigela está cheia. O que faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Come, porque está com fome e tem comida.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Pede comida, mesmo com a tigela cheia.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não faz nada, porque são duas decisões.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Come e pede ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "condicional (se/então), decisão aninhada",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada condição (SE) ao resultado certo (ENTÃO).",
+          "data": {
+            "lefts": [
+              "SE o sinal está vermelho",
+              "SE está chovendo",
+              "SE a bateria está fraca",
+              "SE a tigela está vazia"
+            ],
+            "rights": [
+              "ENTÃO recarregue o robô",
+              "ENTÃO espere para atravessar",
+              "ENTÃO encha a tigela",
+              "ENTÃO pegue o guarda-chuva"
+            ],
+            "pairs": [
+              {
+                "left": "SE o sinal está vermelho",
+                "right": "ENTÃO espere para atravessar"
+              },
+              {
+                "left": "SE está chovendo",
+                "right": "ENTÃO pegue o guarda-chuva"
+              },
+              {
+                "left": "SE a bateria está fraca",
+                "right": "ENTÃO recarregue o robô"
+              },
+              {
+                "left": "SE a tigela está vazia",
+                "right": "ENTÃO encha a tigela"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), associação, formar pares",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada situação, ligue a decisão que o mascote toma.",
+          "data": {
+            "lefts": [
+              "Dado vê o sinal verde",
+              "Olívia vê o céu com nuvem escura",
+              "Téo vê a bateria cheia",
+              "Pixel vê a tigela cheia"
+            ],
+            "rights": [
+              "Não enche a tigela",
+              "Atravessa a rua",
+              "Não recarrega o robô",
+              "Leva o guarda-chuva"
+            ],
+            "pairs": [
+              {
+                "left": "Dado vê o sinal verde",
+                "right": "Atravessa a rua"
+              },
+              {
+                "left": "Olívia vê o céu com nuvem escura",
+                "right": "Leva o guarda-chuva"
+              },
+              {
+                "left": "Téo vê a bateria cheia",
+                "right": "Não recarrega o robô"
+              },
+              {
+                "left": "Pixel vê a tigela cheia",
+                "right": "Não enche a tigela"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão, formar pares",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada condição ao seu valor (verdadeiro ou falso) na situação descrita.",
+          "data": {
+            "lefts": [
+              "7 é maior que 4",
+              "3 é maior que 9",
+              "5 é igual a 5",
+              "2 é maior que 8"
+            ],
+            "rights": [
+              "Falso",
+              "Verdadeiro",
+              "Falso (de novo)",
+              "Verdadeiro (igualdade)"
+            ],
+            "pairs": [
+              {
+                "left": "7 é maior que 4",
+                "right": "Verdadeiro"
+              },
+              {
+                "left": "3 é maior que 9",
+                "right": "Falso"
+              },
+              {
+                "left": "5 é igual a 5",
+                "right": "Verdadeiro (igualdade)"
+              },
+              {
+                "left": "2 é maior que 8",
+                "right": "Falso (de novo)"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), comparação, verdadeiro ou falso, noção de número, formar pares",
+          "img": "m1-e18.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada parte da decisão com o seu significado.",
+          "data": {
+            "lefts": [
+              "SE",
+              "ENTÃO",
+              "SENÃO",
+              "Losango"
+            ],
+            "rights": [
+              "O caminho quando a condição é falsa",
+              "A condição que será testada",
+              "O símbolo da decisão no fluxograma",
+              "O caminho quando a condição é verdadeira"
+            ],
+            "pairs": [
+              {
+                "left": "SE",
+                "right": "A condição que será testada"
+              },
+              {
+                "left": "ENTÃO",
+                "right": "O caminho quando a condição é verdadeira"
+              },
+              {
+                "left": "SENÃO",
+                "right": "O caminho quando a condição é falsa"
+              },
+              {
+                "left": "Losango",
+                "right": "O símbolo da decisão no fluxograma"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "condicional (se/então), fluxograma, significado de termos, formar pares",
+          "img": "m2-e67.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue a cor da carta à caixa certa, seguindo \"SE azul → caixa 1; SE vermelha → caixa 2; SE verde → caixa 3; SE amarela → caixa 4\".",
+          "data": {
+            "lefts": [
+              "Carta azul",
+              "Carta vermelha",
+              "Carta verde",
+              "Carta amarela"
+            ],
+            "rights": [
+              "Caixa 3",
+              "Caixa 1",
+              "Caixa 4",
+              "Caixa 2"
+            ],
+            "pairs": [
+              {
+                "left": "Carta azul",
+                "right": "Caixa 1"
+              },
+              {
+                "left": "Carta vermelha",
+                "right": "Caixa 2"
+              },
+              {
+                "left": "Carta verde",
+                "right": "Caixa 3"
+              },
+              {
+                "left": "Carta amarela",
+                "right": "Caixa 4"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão, classificação, formar pares",
+          "img": "m2-e68.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada decisão do mascote, ligue ao caminho que ele segue.",
+          "data": {
+            "lefts": [
+              "Rex compara: 9 é maior que 6?",
+              "Gina pergunta: está com fome?",
+              "Téo pergunta: a bateria está fraca?",
+              "Dado pergunta: o sinal está vermelho?"
+            ],
+            "rights": [
+              "Sim → espera",
+              "Sim → escolhe o 9",
+              "Não → não recarrega",
+              "Sim → procura comida"
+            ],
+            "pairs": [
+              {
+                "left": "Rex compara: 9 é maior que 6?",
+                "right": "Sim → escolhe o 9"
+              },
+              {
+                "left": "Gina pergunta: está com fome?",
+                "right": "Sim → procura comida"
+              },
+              {
+                "left": "Téo pergunta: a bateria está fraca?",
+                "right": "Não → não recarrega"
+              },
+              {
+                "left": "Dado pergunta: o sinal está vermelho?",
+                "right": "Sim → espera"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "condicional (se/então), ramos da decisão, formar pares",
+          "img": "m1-e12.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada condição verdadeira ao passo que será feito.",
+          "data": {
+            "lefts": [
+              "A planta está com a terra seca",
+              "Há mais peças vermelhas que azuis",
+              "O caminho da esquerda é mais curto",
+              "Falta uma vida para perder o jogo"
+            ],
+            "rights": [
+              "Jogar com mais cuidado",
+              "Regar a planta",
+              "Ir pela esquerda",
+              "Guardar as peças vermelhas primeiro"
+            ],
+            "pairs": [
+              {
+                "left": "A planta está com a terra seca",
+                "right": "Regar a planta"
+              },
+              {
+                "left": "Há mais peças vermelhas que azuis",
+                "right": "Guardar as peças vermelhas primeiro"
+              },
+              {
+                "left": "O caminho da esquerda é mais curto",
+                "right": "Ir pela esquerda"
+              },
+              {
+                "left": "Falta uma vida para perder o jogo",
+                "right": "Jogar com mais cuidado"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), causa e efeito, ramos da decisão, formar pares",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada condição falsa ao que o mascote NÃO faz.",
+          "data": {
+            "lefts": [
+              "Pixel: a tigela está vazia? (está cheia)",
+              "Olívia: está chovendo? (faz sol)",
+              "Dado: o sinal está vermelho? (está verde)",
+              "Téo: a bateria está fraca? (está cheia)"
+            ],
+            "rights": [
+              "Não recarrega o robô",
+              "Não enche a tigela",
+              "Não pega o guarda-chuva",
+              "Não fica esperando"
+            ],
+            "pairs": [
+              {
+                "left": "Pixel: a tigela está vazia? (está cheia)",
+                "right": "Não enche a tigela"
+              },
+              {
+                "left": "Olívia: está chovendo? (faz sol)",
+                "right": "Não pega o guarda-chuva"
+              },
+              {
+                "left": "Dado: o sinal está vermelho? (está verde)",
+                "right": "Não fica esperando"
+              },
+              {
+                "left": "Téo: a bateria está fraca? (está cheia)",
+                "right": "Não recarrega o robô"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão, formar pares",
+          "img": "m2-e69.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada pergunta de decisão à resposta certa nesta cena: Gina está com fome e tem comida na tigela.",
+          "data": {
+            "lefts": [
+              "Está com fome?",
+              "Tem comida na tigela?",
+              "Então, o que fazer?",
+              "Precisa pedir comida?"
+            ],
+            "rights": [
+              "Não",
+              "Sim",
+              "Comer",
+              "Sim"
+            ],
+            "pairs": [
+              {
+                "left": "Está com fome?",
+                "right": "Sim"
+              },
+              {
+                "left": "Tem comida na tigela?",
+                "right": "Sim"
+              },
+              {
+                "left": "Então, o que fazer?",
+                "right": "Comer"
+              },
+              {
+                "left": "Precisa pedir comida?",
+                "right": "Não"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "condicional (se/então), decisão aninhada, formar pares",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada situação no semáforo à decisão do jacaré Dado.",
+          "data": {
+            "lefts": [
+              "Sinal vermelho",
+              "Sinal verde",
+              "Sinal amarelo piscando",
+              "Sem nenhum sinal aceso"
+            ],
+            "rights": [
+              "Atravessar",
+              "Esperar",
+              "Olhar com atenção antes",
+              "Procurar outro lugar para atravessar"
+            ],
+            "pairs": [
+              {
+                "left": "Sinal vermelho",
+                "right": "Esperar"
+              },
+              {
+                "left": "Sinal verde",
+                "right": "Atravessar"
+              },
+              {
+                "left": "Sinal amarelo piscando",
+                "right": "Olhar com atenção antes"
+              },
+              {
+                "left": "Sem nenhum sinal aceso",
+                "right": "Procurar outro lugar para atravessar"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão, formar pares",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte o passo a passo da decisão do jacaré Dado na faixa de pedestre, na ordem certa.",
+          "data": {
+            "items": [
+              "Chegar na faixa de pedestre",
+              "Verificar a cor do sinal",
+              "SE vermelho, esperar; SENÃO, atravessar"
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então), algoritmo (passo a passo), ordenação",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos de uma decisão simples: do início até a escolha do caminho.",
+          "data": {
+            "items": [
+              "Ler a condição",
+              "Testar se é verdadeira ou falsa",
+              "Escolher o ramo conforme a resposta",
+              "Fazer o passo desse ramo"
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), ramos da decisão, ordenação, algoritmo (passo a passo)",
+          "img": "m2-e70.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte o passo a passo da coruja Olívia decidindo o que levar, na ordem certa.",
+          "data": {
+            "items": [
+              "Olhar para o céu",
+              "Perguntar: está chovendo?",
+              "SE sim, pegar o guarda-chuva; SENÃO, pegar o boné"
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então), ordenação",
+          "img": "m1-e16.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do lobo Rex para escolher o maior entre dois números.",
+          "data": {
+            "items": [
+              "Olhar os dois números",
+              "Comparar: o primeiro é maior que o segundo?",
+              "SE sim, escolher o primeiro; SENÃO, escolher o segundo",
+              "Anotar o número escolhido"
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), comparação, maior e menor, ordenação, algoritmo (passo a passo)",
+          "img": "m1-e18.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte o passo a passo do urso Téo cuidando do robô, na ordem certa.",
+          "data": {
+            "items": [
+              "Ligar o robô",
+              "Verificar o nível da bateria",
+              "SE a bateria está fraca, recarregar; SENÃO, seguir usando"
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então), ordenação, algoritmo (passo a passo)",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do gato Pixel decidindo o que fazer com a tigela.",
+          "data": {
+            "items": [
+              "Ir até a tigela",
+              "Perguntar: está vazia?",
+              "SE sim, encher; SENÃO, deixar como está"
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então), rotinas do dia a dia, ordenação",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte o passo a passo de uma decisão dentro de outra (decisão aninhada) da girafa Gina.",
+          "data": {
+            "items": [
+              "Perguntar: está com fome?",
+              "Se sim, perguntar: tem comida na tigela?",
+              "Se tem comida, comer",
+              "Se não tem comida, pedir comida"
+            ]
+          },
+          "xp": 7,
+          "tags": "condicional (se/então), decisão aninhada, ordenação, algoritmo (passo a passo)",
+          "img": "m1-e05.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do dálmata Pongo escolhendo a caixa de entrega pela cor da carta.",
+          "data": {
+            "items": [
+              "Pegar a carta",
+              "Olhar a cor da carta",
+              "SE azul, colocar na caixa 1; SENÃO, na caixa 2",
+              "Soltar a carta na caixa escolhida"
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), rotinas do dia a dia, ordenação",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Monte o passo a passo do lobo Rex escolhendo o caminho mais curto, na ordem certa.",
+          "data": {
+            "items": [
+              "Olhar os dois caminhos",
+              "Comparar qual é o mais curto",
+              "SE a esquerda é mais curta, ir pela esquerda; SENÃO, ir pela direita"
+            ]
+          },
+          "xp": 5,
+          "tags": "condicional (se/então), comparação, caminho mais curto, ordenação, ramos da decisão",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos da decisão de cuidar da plantinha da girafa Gina.",
+          "data": {
+            "items": [
+              "Tocar na terra do vaso",
+              "Perguntar: a terra está seca?",
+              "SE sim, regar a planta; SENÃO, esperar amanhã"
+            ]
+          },
+          "xp": 3,
+          "tags": "condicional (se/então), ordenação, algoritmo (passo a passo)",
+          "img": "m2-e10.png"
+        }
+      ]
+    }
+  ]
+}

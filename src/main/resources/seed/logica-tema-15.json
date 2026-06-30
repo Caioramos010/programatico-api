@@ -1,0 +1,930 @@
+{
+  "modules": [
+    {
+      "title": "Problemas de lógica (puzzles) — pensar com pistas",
+      "moduleType": "STUDY",
+      "displayOrder": 29,
+      "description": "Enigmas curtos resolvidos por raciocínio: ler as pistas com calma, eliminar o que é impossível e deduzir a única resposta que faz sentido.",
+      "pages": [
+        {
+          "title": "O que é um puzzle de lógica",
+          "description": "Um problema pequeno que se resolve pensando, não chutando.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Um puzzle de lógica é um enigma curto: ele te dá algumas pistas e pede uma resposta. Você não precisa adivinhar nem ter sorte — basta raciocinar com as pistas que recebeu.\n\nA girafa Gina lê o problema com calma antes de tudo. A primeira regra de qualquer puzzle é entender bem o que está sendo perguntado."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e09.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "As pistas são informações verdadeiras que sempre valem. Se uma pista diz \"o gato Pixel não é o mais alto\", então em nenhuma resposta o Pixel pode ser o mais alto.\n\nResolver é juntar as pistas até sobrar uma única possibilidade. Quando só resta uma opção que respeita todas as pistas, essa é a resposta certa."
+            }
+          ]
+        },
+        {
+          "title": "Eliminar o impossível",
+          "description": "Tirar da frente tudo que as pistas proíbem.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "A melhor arma num puzzle é a eliminação: cada pista risca da lista as opções que não podem ser verdade. O que sobra é o caminho certo.\n\nA coruja Olívia, a detetive, usa a lupa para olhar uma pista de cada vez e perguntar: \"o que isto me deixa eliminar?\"."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e08.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: três bichos — urso, lobo e jacaré — têm uma bola cada (vermelha, azul, verde). Pista 1: o urso Téo não tem a azul. Pista 2: o lobo Rex tem a verde. Da pista 2, o lobo é verde; então urso e jacaré ficam com vermelha e azul. Pela pista 1, o urso não é azul, logo o urso é vermelho e sobra a azul para o jacaré Dado.\n\nRepare: ninguém adivinhou. Cada pista eliminou possibilidades até sobrar uma única combinação."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Quando uma pista te dá uma certeza (\"o lobo tem a verde\"), use-a primeiro: ela costuma destravar todas as outras. Comece sempre pela pista que fecha mais opções de uma vez."
+            }
+          ]
+        },
+        {
+          "title": "Deduzir passo a passo",
+          "description": "Encadear conclusões pequenas até a resposta final.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Deduzir é tirar uma conclusão a partir do que você já sabe. Num puzzle, cada conclusão pequena vira uma nova pista que ajuda na próxima.\n\nO urso Téo usa a balança: se um lado pesa mais, ele conclui qual objeto é mais pesado. Uma observação simples já é uma dedução."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e04.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Cuidado com chutes disfarçados: se uma resposta só funciona ignorando uma pista, ela está errada. A resposta certa precisa respeitar TODAS as pistas ao mesmo tempo.\n\nE quando você acha que terminou, faça a prova: volte às pistas e confira se a sua resposta não contraria nenhuma. Se passar em todas, é ela."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos exercícios a seguir você vai treinar: ler as pistas, eliminar o impossível, deduzir passo a passo e organizar o raciocínio na ordem certa para chegar à resposta."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Problemas de lógica (puzzles) — leia as pistas e deduza",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 30,
+      "description": "Pratique enigmas com os mascotes: use as pistas, elimine o impossível, deduza a resposta e organize o raciocínio na ordem certa.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Pista: \"O gato Pixel NÃO é o mais alto.\" Quem PODE ser o mais alto?",
+          "data": {
+            "options": [
+              {
+                "description": "A girafa Gina.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O gato Pixel.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Ninguém pode ser o mais alto.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Só o gato Pixel.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, investigação por pistas, encontrar o intruso, dedução, comparação",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Téo, Rex e Dado têm bolas: vermelha, azul e verde. Rex tem a verde. Téo NÃO tem a azul. Qual bola é do jacaré Dado?",
+          "data": {
+            "options": [
+              {
+                "description": "A azul.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A verde.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A vermelha.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não dá para saber.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, encontrar o intruso, dedução, investigação por pistas",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja detetive Olívia ouve: \"O culpado usa boné.\" O lobo Rex NÃO usa boné. O que ela conclui sobre o lobo?",
+          "data": {
+            "options": [
+              {
+                "description": "O lobo Rex não é o culpado.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O lobo Rex é o culpado.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O lobo usa boné escondido.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não dá para concluir nada.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, dedução, encontrar o intruso, investigação por pistas",
+          "img": "m2-e16.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Na balança do urso Téo, a maçã pesa MAIS que a pera. O que dá para concluir?",
+          "data": {
+            "options": [
+              {
+                "description": "A maçã é mais pesada que a pera.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A pera é mais pesada que a maçã.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Elas pesam igual.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não dá para comparar.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, dedução, comparação por medida, comparação",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Pistas: \"Gina é mais alta que Téo\" e \"Téo é mais alto que Pixel\". Quem é o MAIS alto dos três?",
+          "data": {
+            "options": [
+              {
+                "description": "A girafa Gina.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O urso Téo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O gato Pixel.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todos têm a mesma altura.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, dedução, ordenação, comparação, comparação por medida",
+          "img": "m2-e75.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Numa fila estão Gina, Rex e Pongo. \"Gina é a primeira\" e \"Pongo está atrás de Rex\". Quem é o ÚLTIMO da fila?",
+          "data": {
+            "options": [
+              {
+                "description": "O dálmata Pongo.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A girafa Gina.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O lobo Rex.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não dá para saber.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, dedução, ordenação, raciocínio com restrições, investigação por pistas",
+          "img": "m1-e07.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Pista: \"Todo quadrado da caixa é azul.\" O lobo Rex tira um quadrado da caixa. De que cor ele é?",
+          "data": {
+            "options": [
+              {
+                "description": "Azul, com certeza.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Vermelho.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pode ser qualquer cor.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Verde.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, dedução, quantificador universal (todos), descobrir a regra",
+          "img": "m2-e76.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado segue o mapa do tesouro: \"vire à esquerda na árvore\". Se ele virar à direita, o que acontece?",
+          "data": {
+            "options": [
+              {
+                "description": "Ele desobedece a pista e não acha o tesouro.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Ele acha o tesouro mais rápido.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A pista muda sozinha.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Tanto faz, dá no mesmo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, investigação por pistas, descobrir a regra, caminho no fluxograma, dedução",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Três caixas têm um doce só numa delas. Pista: \"Não está na caixa 1 nem na caixa 3.\" Onde está o doce?",
+          "data": {
+            "options": [
+              {
+                "description": "Na caixa 2.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Na caixa 1.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Na caixa 3.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Em nenhuma caixa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, encontrar o intruso, dedução, agrupamento, investigação por pistas",
+          "img": "m2-e77.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Você resolveu um puzzle, mas sua resposta contraria UMA das pistas. O que isso significa?",
+          "data": {
+            "options": [
+              {
+                "description": "A resposta está errada; a certa respeita TODAS as pistas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A resposta está certa mesmo assim.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Aquela pista deve ser ignorada.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O puzzle não tem solução.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, validade do argumento, investigação por pistas, dedução",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada pista à conclusão que ela permite.",
+          "data": {
+            "lefts": [
+              "Pixel NÃO é o mais alto",
+              "Rex tem a bola verde",
+              "O doce não está na caixa 1",
+              "Maçã pesa mais que a pera"
+            ],
+            "rights": [
+              "Rex não tem a vermelha",
+              "A maçã é a mais pesada",
+              "Outro bicho é o mais alto",
+              "O doce pode estar na 2 ou na 3"
+            ],
+            "pairs": [
+              {
+                "left": "Pixel NÃO é o mais alto",
+                "right": "Outro bicho é o mais alto"
+              },
+              {
+                "left": "Rex tem a bola verde",
+                "right": "Rex não tem a vermelha"
+              },
+              {
+                "left": "O doce não está na caixa 1",
+                "right": "O doce pode estar na 2 ou na 3"
+              },
+              {
+                "left": "Maçã pesa mais que a pera",
+                "right": "A maçã é a mais pesada"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, investigação por pistas, conclusão, dedução, formar pares",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada bicho tem uma bola de uma cor. Use as pistas e ligue cada um à sua cor: Rex=verde, Téo não é azul.",
+          "data": {
+            "lefts": [
+              "Lobo Rex",
+              "Urso Téo",
+              "Jacaré Dado",
+              "Cor que sobra para Dado"
+            ],
+            "rights": [
+              "Vermelha",
+              "Azul",
+              "Verde",
+              "Azul"
+            ],
+            "pairs": [
+              {
+                "left": "Lobo Rex",
+                "right": "Verde"
+              },
+              {
+                "left": "Urso Téo",
+                "right": "Vermelha"
+              },
+              {
+                "left": "Jacaré Dado",
+                "right": "Azul"
+              },
+              {
+                "left": "Cor que sobra para Dado",
+                "right": "Azul"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, encontrar o intruso, dedução, formar pares",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada mascote ao seu jeito de resolver puzzles.",
+          "data": {
+            "lefts": [
+              "Coruja Olívia",
+              "Urso Téo",
+              "Girafa Gina",
+              "Jacaré Dado"
+            ],
+            "rights": [
+              "Lê o problema com calma",
+              "Usa a lupa de detetive",
+              "Segue o mapa do tesouro",
+              "Usa a balança para comparar"
+            ],
+            "pairs": [
+              {
+                "left": "Coruja Olívia",
+                "right": "Usa a lupa de detetive"
+              },
+              {
+                "left": "Urso Téo",
+                "right": "Usa a balança para comparar"
+              },
+              {
+                "left": "Girafa Gina",
+                "right": "Lê o problema com calma"
+              },
+              {
+                "left": "Jacaré Dado",
+                "right": "Segue o mapa do tesouro"
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, otimização, formar pares",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Use as alturas: Gina > Téo > Pixel. Ligue cada posição ao mascote certo.",
+          "data": {
+            "lefts": [
+              "O mais alto",
+              "O do meio",
+              "O mais baixo",
+              "Mais alto que Pixel"
+            ],
+            "rights": [
+              "Pixel",
+              "Téo",
+              "Gina",
+              "Téo"
+            ],
+            "pairs": [
+              {
+                "left": "O mais alto",
+                "right": "Gina"
+              },
+              {
+                "left": "O do meio",
+                "right": "Téo"
+              },
+              {
+                "left": "O mais baixo",
+                "right": "Pixel"
+              },
+              {
+                "left": "Mais alto que Pixel",
+                "right": "Téo"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, ordenação, comparação por medida, dedução, formar pares",
+          "img": "m2-e78.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada termo de puzzle à sua explicação.",
+          "data": {
+            "lefts": [
+              "Pista",
+              "Eliminar",
+              "Deduzir",
+              "Prova"
+            ],
+            "rights": [
+              "Riscar o que é impossível",
+              "Informação que sempre vale",
+              "Conferir se respeita todas as pistas",
+              "Tirar conclusão do que já se sabe"
+            ],
+            "pairs": [
+              {
+                "left": "Pista",
+                "right": "Informação que sempre vale"
+              },
+              {
+                "left": "Eliminar",
+                "right": "Riscar o que é impossível"
+              },
+              {
+                "left": "Deduzir",
+                "right": "Tirar conclusão do que já se sabe"
+              },
+              {
+                "left": "Prova",
+                "right": "Conferir se respeita todas as pistas"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, significado de termos, dedução, encontrar o intruso, formar pares",
+          "img": "m2-e79.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Numa fila: Gina é a 1ª, Rex está antes de Pongo. Ligue cada posição ao mascote.",
+          "data": {
+            "lefts": [
+              "1º da fila",
+              "2º da fila",
+              "3º da fila",
+              "Último da fila"
+            ],
+            "rights": [
+              "Rex",
+              "Gina",
+              "Pongo",
+              "Pongo"
+            ],
+            "pairs": [
+              {
+                "left": "1º da fila",
+                "right": "Gina"
+              },
+              {
+                "left": "2º da fila",
+                "right": "Rex"
+              },
+              {
+                "left": "3º da fila",
+                "right": "Pongo"
+              },
+              {
+                "left": "Último da fila",
+                "right": "Pongo"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, ordenação, raciocínio com restrições, dedução, formar pares",
+          "img": "m1-e07.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada pista elimina uma opção. Ligue a pista ao que ela RISCA.",
+          "data": {
+            "lefts": [
+              "Não está na caixa 1",
+              "O culpado usa boné",
+              "Pixel não é o mais alto",
+              "Não virou à esquerda"
+            ],
+            "rights": [
+              "Quem não usa boné",
+              "A caixa 1",
+              "Não achar o tesouro",
+              "Pixel como o mais alto"
+            ],
+            "pairs": [
+              {
+                "left": "Não está na caixa 1",
+                "right": "A caixa 1"
+              },
+              {
+                "left": "O culpado usa boné",
+                "right": "Quem não usa boné"
+              },
+              {
+                "left": "Pixel não é o mais alto",
+                "right": "Pixel como o mais alto"
+              },
+              {
+                "left": "Não virou à esquerda",
+                "right": "Não achar o tesouro"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, encontrar o intruso, investigação por pistas, dedução, formar pares",
+          "img": "m2-e80.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada situação ao tipo de raciocínio que ela pede.",
+          "data": {
+            "lefts": [
+              "Comparar pesos na balança",
+              "Achar o doce escondido",
+              "Descobrir o culpado",
+              "Pôr em ordem de altura"
+            ],
+            "rights": [
+              "Eliminar caixas pelas pistas",
+              "Comparar e deduzir o mais pesado",
+              "Ordenar pelas comparações",
+              "Eliminar quem não tem a marca"
+            ],
+            "pairs": [
+              {
+                "left": "Comparar pesos na balança",
+                "right": "Comparar e deduzir o mais pesado"
+              },
+              {
+                "left": "Achar o doce escondido",
+                "right": "Eliminar caixas pelas pistas"
+              },
+              {
+                "left": "Descobrir o culpado",
+                "right": "Eliminar quem não tem a marca"
+              },
+              {
+                "left": "Pôr em ordem de altura",
+                "right": "Ordenar pelas comparações"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, raciocínio lógico, dedução, formar pares",
+          "img": "m2-e81.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Use \"todos / alguns / nenhum\". Ligue cada frase à conclusão certa.",
+          "data": {
+            "lefts": [
+              "Todos os quadrados são azuis",
+              "Nenhum círculo é azul",
+              "Alguns triângulos são verdes",
+              "Todos os patos voam"
+            ],
+            "rights": [
+              "Existe pelo menos um triângulo verde",
+              "Esse quadrado é azul",
+              "Esse pato voa",
+              "Nenhum círculo que você pegar é azul"
+            ],
+            "pairs": [
+              {
+                "left": "Todos os quadrados são azuis",
+                "right": "Esse quadrado é azul"
+              },
+              {
+                "left": "Nenhum círculo é azul",
+                "right": "Nenhum círculo que você pegar é azul"
+              },
+              {
+                "left": "Alguns triângulos são verdes",
+                "right": "Existe pelo menos um triângulo verde"
+              },
+              {
+                "left": "Todos os patos voam",
+                "right": "Esse pato voa"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, quantificadores, dedução, lógica proposicional, formar pares",
+          "img": "m2-e07.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada pista de cor à dedução final do puzzle das três bolas.",
+          "data": {
+            "lefts": [
+              "Rex = verde",
+              "Téo ≠ azul",
+              "Sobram vermelha e azul",
+              "Téo fica com a vermelha"
+            ],
+            "rights": [
+              "Dado fica com a azul",
+              "Tira Rex das outras cores",
+              "São de Téo e Dado",
+              "Téo não pode ser azul"
+            ],
+            "pairs": [
+              {
+                "left": "Rex = verde",
+                "right": "Tira Rex das outras cores"
+              },
+              {
+                "left": "Téo ≠ azul",
+                "right": "Téo não pode ser azul"
+              },
+              {
+                "left": "Sobram vermelha e azul",
+                "right": "São de Téo e Dado"
+              },
+              {
+                "left": "Téo fica com a vermelha",
+                "right": "Dado fica com a azul"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, cadeia lógica, dedução, formar pares",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos para resolver um puzzle de lógica.",
+          "data": {
+            "items": [
+              "Ler o problema com calma",
+              "Anotar todas as pistas",
+              "Eliminar o que é impossível",
+              "Conferir se a resposta respeita todas as pistas"
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, algoritmo (passo a passo), sequenciamento de passos, dedução",
+          "img": "m1-e09.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Resolva o puzzle das bolas: ordene o raciocínio (Rex=verde, Téo≠azul).",
+          "data": {
+            "items": [
+              "Rex tem a verde, então urso e jacaré têm vermelha e azul",
+              "Téo não tem a azul, então Téo tem a vermelha",
+              "Sobra a azul para o jacaré Dado"
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, cadeia lógica, encontrar o intruso, sequenciamento de passos",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja detetive Olívia descobre o culpado. Coloque o raciocínio em ordem.",
+          "data": {
+            "items": [
+              "A pista diz que o culpado usa boné",
+              "Olívia vê que o lobo Rex não usa boné",
+              "Conclui que o lobo Rex não é o culpado",
+              "Procura entre quem usa boné"
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, investigação por pistas, encontrar o intruso, sequenciamento de passos, dedução",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene a dedução de altura com as pistas: Gina > Téo e Téo > Pixel.",
+          "data": {
+            "items": [
+              "Gina é mais alta que Téo",
+              "Téo é mais alto que Pixel",
+              "Logo Gina é a mais alta de todos",
+              "E Pixel é o mais baixo"
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, ordenação, comparação por medida, sequenciamento de passos, dedução",
+          "img": "m2-e82.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O urso Téo acha o objeto mais pesado com a balança. Coloque em ordem.",
+          "data": {
+            "items": [
+              "Põe a maçã de um lado e a pera do outro",
+              "O lado da maçã desce mais",
+              "Conclui que a maçã é mais pesada"
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, comparação por medida, comparação, sequenciamento de passos, dedução",
+          "img": "m2-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene o raciocínio para achar o doce em três caixas (não está na 1 nem na 3).",
+          "data": {
+            "items": [
+              "A pista diz: não está na caixa 1",
+              "Outra pista diz: não está na caixa 3",
+              "Sobra só a caixa 2",
+              "O doce está na caixa 2"
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, encontrar o intruso, agrupamento, sequenciamento de passos, dedução",
+          "img": "m2-e16.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O jacaré Dado segue o mapa do tesouro. Ordene os passos das pistas.",
+          "data": {
+            "items": [
+              "Ler a primeira pista do mapa",
+              "Virar à esquerda na árvore",
+              "Seguir a próxima pista até o X",
+              "Cavar e achar o tesouro"
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, investigação por pistas, caminho no fluxograma, sequenciamento de passos",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem a fila usando as pistas: Gina é a 1ª e Pongo está atrás de Rex.",
+          "data": {
+            "items": [
+              "Gina fica em primeiro",
+              "Rex fica antes de Pongo",
+              "Pongo fica atrás de Rex",
+              "A fila é Gina, Rex e Pongo"
+            ]
+          },
+          "xp": 7,
+          "tags": "quebra-cabeça lógico, ordenação, raciocínio com restrições, sequenciamento de passos, dedução",
+          "img": "m2-e75.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene como conferir (provar) se a resposta de um puzzle está certa.",
+          "data": {
+            "items": [
+              "Pegar a resposta encontrada",
+              "Voltar em cada pista uma por uma",
+              "Checar se nenhuma é contrariada",
+              "Confirmar a resposta se passar em todas"
+            ]
+          },
+          "xp": 3,
+          "tags": "quebra-cabeça lógico, validade do argumento, investigação por pistas, sequenciamento de passos",
+          "img": "m2-e03.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja Olívia resolve um puzzle no fluxograma com decisão. Ordene o raciocínio.",
+          "data": {
+            "items": [
+              "Ler a pergunta do losango de decisão",
+              "Usar a pista para responder sim ou não",
+              "Seguir o caminho que a resposta indica",
+              "Chegar na conclusão final do puzzle"
+            ]
+          },
+          "xp": 5,
+          "tags": "quebra-cabeça lógico, fluxograma, condicional (se/então), sequenciamento de passos, dedução",
+          "img": "m2-e15.png"
+        }
+      ]
+    }
+  ]
+}

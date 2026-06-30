@@ -1,0 +1,925 @@
+{
+  "modules": [
+    {
+      "title": "Classificação e categorização — separando o mundo em grupos",
+      "moduleType": "STUDY",
+      "displayOrder": 15,
+      "description": "Aprenda a agrupar coisas por suas características, separar em categorias e descobrir o que não pertence a um grupo.",
+      "pages": [
+        {
+          "title": "O que é classificar",
+          "description": "Juntar coisas parecidas em grupos.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Classificar é separar as coisas em grupos olhando para as suas características. Coisas parecidas ficam juntas; coisas diferentes ficam em grupos diferentes.\n\nUma característica é uma qualidade da coisa: a cor, o tamanho, o formato, para que serve. É por essas qualidades que decidimos onde cada item entra."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e10.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Por exemplo, a coruja Olívia pode separar os livros pela cor da capa: os vermelhos num grupo, os azuis em outro. Ou pode separar pelo tamanho. A mesma pilha de livros pode ser classificada de jeitos diferentes!"
+            }
+          ]
+        },
+        {
+          "title": "Escolhendo um critério",
+          "description": "A regra que decide cada grupo.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Antes de separar, escolhemos um critério: a regra que diz para qual grupo cada coisa vai. O critério pode ser a cor, o tamanho, o formato ou a função (para que serve).\n\nDepois de escolher o critério, basta olhar cada item e perguntar: ele tem essa característica? Sim vai para um grupo, não vai para outro."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e11.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "O gato Pixel separou bolas em duas caixas: as bolas grandes numa caixa e as pequenas em outra. O critério escolhido foi o tamanho."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Se Pixel mudar o critério para a cor, os mesmos itens vão para grupos diferentes. Por isso, sempre deixe claro qual é o critério antes de classificar."
+            }
+          ]
+        },
+        {
+          "title": "O que não pertence",
+          "description": "Achar o intruso de um grupo.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Quando um grupo já tem um critério, é fácil achar o que não pertence: é o item que não tem a característica do grupo.\n\nSe num grupo só entram frutas e aparece uma bola, a bola é o intruso — ela não pertence ali."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e08.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Para achar o intruso, olhe o que todos os outros têm em comum e procure o único que é diferente. A coruja detetive Olívia usa a lupa para encontrar quem está fora do lugar."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos exercícios a seguir você vai treinar: agrupar por características, escolher critérios, colocar cada item na categoria certa e descobrir o que não pertence."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Classificação e categorização — agrupe, separe e ache o intruso",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 16,
+      "description": "Agrupe itens por suas características, coloque cada coisa na categoria certa e descubra o que não pertence ao grupo.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia separou os livros pela cor da capa. Qual característica ela usou como critério?",
+          "data": {
+            "options": [
+              {
+                "description": "A cor.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O cheiro.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O peso.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O barulho.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "classificação, critérios de classificação, atributos",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Olhe o grupo: maçã, banana, laranja e BOLA. Qual item NÃO pertence ao grupo?",
+          "data": {
+            "options": [
+              {
+                "description": "A bola.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A maçã.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A banana.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A laranja.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "categorização, encontrar o intruso, classificação",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel quer separar bolas grandes das bolas pequenas. Qual é o critério dele?",
+          "data": {
+            "options": [
+              {
+                "description": "O tamanho.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O dia da semana.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O nome do dono.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A hora do dia.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "classificação, critérios de classificação, comparação por medida",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "No grupo dos ANIMAIS: cachorro, gato, cavalo e CADEIRA. Quem é o intruso?",
+          "data": {
+            "options": [
+              {
+                "description": "A cadeira.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O cachorro.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O gato.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O cavalo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "categorização, encontrar o intruso",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex separou as peças do quebra-cabeça pelo formato. Qual destes é um critério de FORMATO?",
+          "data": {
+            "options": [
+              {
+                "description": "Peças redondas e peças quadradas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Peças vermelhas e peças azuis.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Peças grandes e peças pequenas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Peças velhas e peças novas.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, critérios de classificação, quebra-cabeça lógico",
+          "img": "m1-e06.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina vai guardar frutas e brinquedos em caixas separadas. Em qual caixa vai a banana?",
+          "data": {
+            "options": [
+              {
+                "description": "Na caixa das frutas.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Na caixa dos brinquedos.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Em nenhuma caixa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nas duas caixas ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, agrupamento, classificação",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Grupo das coisas REDONDAS: bola, laranja, roda e LIVRO. Qual NÃO pertence?",
+          "data": {
+            "options": [
+              {
+                "description": "O livro.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A bola.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A laranja.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A roda.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, encontrar o intruso",
+          "img": "m2-e50.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo quer separar números pares de números ímpares. Em qual grupo vai o número 4?",
+          "data": {
+            "options": [
+              {
+                "description": "No grupo dos pares.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "No grupo dos ímpares.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Em nenhum grupo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "No grupo das letras.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, noção de número, pares e ímpares, critérios de classificação",
+          "img": "m1-e13.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A mesma pilha de livros pode ser separada pela cor OU pelo tamanho. O que isso mostra?",
+          "data": {
+            "options": [
+              {
+                "description": "Que existem vários critérios possíveis para classificar.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Que só existe um jeito de separar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Que livros não podem ser separados.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Que cor e tamanho são a mesma coisa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "classificação, critérios de classificação",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja detetive Olívia procura o intruso no grupo das FERRAMENTAS: martelo, chave, serrote e MAÇÃ. Quem é?",
+          "data": {
+            "options": [
+              {
+                "description": "A maçã.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O martelo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A chave.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O serrote.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, encontrar o intruso",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do dálmata Pongo para separar as cartas pelo destino.",
+          "data": {
+            "items": [
+              "Pongo escolhe o destino como critério",
+              "Pongo lê o destino de cada carta",
+              "Pongo monta uma pilha para cada cidade"
+            ]
+          },
+          "xp": 3,
+          "tags": "classificação, critérios de classificação, caminho no fluxograma, raciocínio com restrições, algoritmo (passo a passo)",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada item à sua categoria correta.",
+          "data": {
+            "lefts": [
+              "Maçã",
+              "Cachorro",
+              "Martelo",
+              "Camiseta"
+            ],
+            "rights": [
+              "Animal",
+              "Roupa",
+              "Fruta",
+              "Ferramenta"
+            ],
+            "pairs": [
+              {
+                "left": "Maçã",
+                "right": "Fruta"
+              },
+              {
+                "left": "Cachorro",
+                "right": "Animal"
+              },
+              {
+                "left": "Martelo",
+                "right": "Ferramenta"
+              },
+              {
+                "left": "Camiseta",
+                "right": "Roupa"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, agrupamento, formar pares",
+          "img": "m2-e51.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada coisa à sua cor.",
+          "data": {
+            "lefts": [
+              "Banana",
+              "Céu limpo",
+              "Grama",
+              "Tomate"
+            ],
+            "rights": [
+              "Azul",
+              "Vermelho",
+              "Amarela",
+              "Verde"
+            ],
+            "pairs": [
+              {
+                "left": "Banana",
+                "right": "Amarela"
+              },
+              {
+                "left": "Céu limpo",
+                "right": "Azul"
+              },
+              {
+                "left": "Grama",
+                "right": "Verde"
+              },
+              {
+                "left": "Tomate",
+                "right": "Vermelho"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, critérios de classificação, formar pares",
+          "img": "m2-e52.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada item ao grupo a que ele pertence.",
+          "data": {
+            "lefts": [
+              "Gato",
+              "Rosa",
+              "Mesa",
+              "Banana"
+            ],
+            "rights": [
+              "Móvel",
+              "Fruta",
+              "Animal",
+              "Flor"
+            ],
+            "pairs": [
+              {
+                "left": "Gato",
+                "right": "Animal"
+              },
+              {
+                "left": "Rosa",
+                "right": "Flor"
+              },
+              {
+                "left": "Mesa",
+                "right": "Móvel"
+              },
+              {
+                "left": "Banana",
+                "right": "Fruta"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, agrupamento, formar pares",
+          "img": "m2-e53.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O gato Pixel separa bolas por tamanho. Ligue cada bola à caixa certa.",
+          "data": {
+            "lefts": [
+              "Bola de futebol",
+              "Bolinha de gude",
+              "Bola de praia",
+              "Bolinha de pingue-pongue"
+            ],
+            "rights": [
+              "Caixa das pequenas",
+              "Caixa das grandes",
+              "Caixa das pequenas",
+              "Caixa das grandes"
+            ],
+            "pairs": [
+              {
+                "left": "Bola de futebol",
+                "right": "Caixa das grandes"
+              },
+              {
+                "left": "Bolinha de gude",
+                "right": "Caixa das pequenas"
+              },
+              {
+                "left": "Bola de praia",
+                "right": "Caixa das grandes"
+              },
+              {
+                "left": "Bolinha de pingue-pongue",
+                "right": "Caixa das pequenas"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "classificação, critérios de classificação, comparação por medida, formar pares",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada número ao grupo certo: par ou ímpar.",
+          "data": {
+            "lefts": [
+              "2",
+              "3",
+              "8",
+              "7"
+            ],
+            "rights": [
+              "Ímpar",
+              "Par",
+              "Ímpar",
+              "Par"
+            ],
+            "pairs": [
+              {
+                "left": "2",
+                "right": "Par"
+              },
+              {
+                "left": "3",
+                "right": "Ímpar"
+              },
+              {
+                "left": "8",
+                "right": "Par"
+              },
+              {
+                "left": "7",
+                "right": "Ímpar"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, noção de número, pares e ímpares, formar pares",
+          "img": "m1-e13.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada objeto à sua função (para que serve).",
+          "data": {
+            "lefts": [
+              "Guarda-chuva",
+              "Lápis",
+              "Copo",
+              "Tesoura"
+            ],
+            "rights": [
+              "Escrever",
+              "Cortar",
+              "Proteger da chuva",
+              "Beber água"
+            ],
+            "pairs": [
+              {
+                "left": "Guarda-chuva",
+                "right": "Proteger da chuva"
+              },
+              {
+                "left": "Lápis",
+                "right": "Escrever"
+              },
+              {
+                "left": "Copo",
+                "right": "Beber água"
+              },
+              {
+                "left": "Tesoura",
+                "right": "Cortar"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "classificação, critérios de classificação, formar pares",
+          "img": "m1-e16.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "O dálmata Pongo entrega cartas. Ligue cada carta ao seu destino.",
+          "data": {
+            "lefts": [
+              "Carta para a Vila Azul",
+              "Carta para o Morro Verde",
+              "Carta para a Praia Branca",
+              "Carta para o Bairro Alto"
+            ],
+            "rights": [
+              "Caixa do Morro Verde",
+              "Caixa do Bairro Alto",
+              "Caixa da Vila Azul",
+              "Caixa da Praia Branca"
+            ],
+            "pairs": [
+              {
+                "left": "Carta para a Vila Azul",
+                "right": "Caixa da Vila Azul"
+              },
+              {
+                "left": "Carta para o Morro Verde",
+                "right": "Caixa do Morro Verde"
+              },
+              {
+                "left": "Carta para a Praia Branca",
+                "right": "Caixa da Praia Branca"
+              },
+              {
+                "left": "Carta para o Bairro Alto",
+                "right": "Caixa do Bairro Alto"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, critérios de classificação, caminho no fluxograma, formar pares, raciocínio com restrições",
+          "img": "m1-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada animal ao lugar onde ele vive.",
+          "data": {
+            "lefts": [
+              "Peixe",
+              "Pássaro",
+              "Toupeira",
+              "Macaco"
+            ],
+            "rights": [
+              "Na árvore",
+              "Embaixo da terra",
+              "Na água",
+              "No céu"
+            ],
+            "pairs": [
+              {
+                "left": "Peixe",
+                "right": "Na água"
+              },
+              {
+                "left": "Pássaro",
+                "right": "No céu"
+              },
+              {
+                "left": "Toupeira",
+                "right": "Embaixo da terra"
+              },
+              {
+                "left": "Macaco",
+                "right": "Na árvore"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, agrupamento, atributos, formar pares",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada item à categoria pela sua forma.",
+          "data": {
+            "lefts": [
+              "Roda",
+              "Caixa",
+              "Pizza inteira",
+              "Dado"
+            ],
+            "rights": [
+              "Quadrado",
+              "Redondo",
+              "Quadrado",
+              "Redondo"
+            ],
+            "pairs": [
+              {
+                "left": "Roda",
+                "right": "Redondo"
+              },
+              {
+                "left": "Caixa",
+                "right": "Quadrado"
+              },
+              {
+                "left": "Pizza inteira",
+                "right": "Redondo"
+              },
+              {
+                "left": "Dado",
+                "right": "Quadrado"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, critérios de classificação, formar pares",
+          "img": "m2-e50.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "A coruja Olívia organiza materiais de escola. Ligue cada item ao seu grupo.",
+          "data": {
+            "lefts": [
+              "Lápis",
+              "Borracha",
+              "Régua",
+              "Caneta"
+            ],
+            "rights": [
+              "Apaga",
+              "Risca",
+              "Mede",
+              "Escreve com tinta"
+            ],
+            "pairs": [
+              {
+                "left": "Lápis",
+                "right": "Risca"
+              },
+              {
+                "left": "Borracha",
+                "right": "Apaga"
+              },
+              {
+                "left": "Régua",
+                "right": "Mede"
+              },
+              {
+                "left": "Caneta",
+                "right": "Escreve com tinta"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "classificação, critérios de classificação, formar pares",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque os passos para classificar na ordem certa.",
+          "data": {
+            "items": [
+              "Escolher o critério (cor, tamanho ou formato)",
+              "Olhar cada item e ver sua característica",
+              "Colocar o item no grupo certo"
+            ]
+          },
+          "xp": 3,
+          "tags": "classificação, algoritmo (passo a passo), critérios de classificação, sequência de eventos",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do gato Pixel para separar as bolas por tamanho.",
+          "data": {
+            "items": [
+              "Pixel pega uma bola",
+              "Pixel vê se ela é grande ou pequena",
+              "Pixel coloca a bola na caixa do tamanho certo"
+            ]
+          },
+          "xp": 3,
+          "tags": "classificação, algoritmo (passo a passo), comparação por medida",
+          "img": "m2-e51.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem os passos para achar o intruso de um grupo.",
+          "data": {
+            "items": [
+              "Olhar o que todos os itens têm em comum",
+              "Procurar o item que é diferente dos outros",
+              "Separar o intruso do grupo"
+            ]
+          },
+          "xp": 5,
+          "tags": "categorização, encontrar o intruso, algoritmo (passo a passo)",
+          "img": "m2-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos do dálmata Pongo para entregar as cartas por destino.",
+          "data": {
+            "items": [
+              "Pongo pega uma carta",
+              "Pongo lê o destino escrito nela",
+              "Pongo coloca a carta na caixa daquele destino",
+              "Pongo passa para a próxima carta"
+            ]
+          },
+          "xp": 7,
+          "tags": "categorização, algoritmo (passo a passo), caminho no fluxograma, raciocínio com restrições",
+          "img": "m2-e52.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque os números em ordem, do menor ao maior, para classificá-los.",
+          "data": {
+            "items": [
+              "2",
+              "5",
+              "8",
+              "10"
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, ordenação, noção de número, sequência de eventos",
+          "img": "m2-e12.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos da coruja Olívia para separar os livros por cor.",
+          "data": {
+            "items": [
+              "Escolher a cor como critério",
+              "Pegar cada livro e olhar a cor da capa",
+              "Juntar os livros da mesma cor",
+              "Guardar cada grupo numa prateleira"
+            ]
+          },
+          "xp": 7,
+          "tags": "classificação, algoritmo (passo a passo)",
+          "img": "m2-e53.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque os passos para guardar frutas e brinquedos em caixas separadas.",
+          "data": {
+            "items": [
+              "Olhar o item: é fruta ou brinquedo?",
+              "Escolher a caixa certa para ele",
+              "Colocar o item dentro da caixa"
+            ]
+          },
+          "xp": 3,
+          "tags": "categorização, algoritmo (passo a passo), agrupamento",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene do menor grupo ao maior, conforme a quantidade de itens.",
+          "data": {
+            "items": [
+              "Grupo com 1 bola",
+              "Grupo com 3 bolas",
+              "Grupo com 5 bolas"
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, ordenação, contagem, agrupamento",
+          "img": "m2-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem os passos do urso Téo para separar números pares de ímpares.",
+          "data": {
+            "items": [
+              "Téo pega um número",
+              "Téo verifica se ele é par ou ímpar",
+              "Téo coloca o número no grupo certo"
+            ]
+          },
+          "xp": 5,
+          "tags": "classificação, algoritmo (passo a passo), pares e ímpares, noção de número",
+          "img": "m1-e13.png"
+        }
+      ]
+    }
+  ]
+}

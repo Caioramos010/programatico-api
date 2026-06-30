@@ -5,7 +5,7 @@ import com.programatico.api.domain.Mission;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.TeoriaPagina;
 import com.programatico.api.domain.Track;
-import com.programatico.api.domain.UserMission;
+import com.programatico.api.domain.UserDailyMission;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
@@ -20,11 +20,10 @@ import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.ContentBlockRepository;
 import com.programatico.api.repository.ExerciseRepository;
-import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.ModuloRepository;
+import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TeoriaPaginaRepository;
 import com.programatico.api.repository.TrackRepository;
-import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
@@ -55,11 +54,11 @@ class LearnServiceTest {
     @Mock private ModuloRepository moduloRepository;
     @Mock private UserProgressRepository userProgressRepository;
     @Mock private UserStatsRepository userStatsRepository;
-    @Mock private MissionRepository missionRepository;
-    @Mock private UserMissionRepository userMissionRepository;
+    @Mock private MissaoDiariaService missaoDiariaService;
     @Mock private ExerciseRepository exerciseRepository;
     @Mock private TeoriaPaginaRepository teoriaPaginaRepository;
     @Mock private ContentBlockRepository contentBlockRepository;
+    @Mock private PracticeSessionRepository practiceSessionRepository;
     @Spy private VidasService vidasService = new VidasService();
     @Mock private NotificationService notificationService;
 
@@ -210,26 +209,28 @@ class LearnServiceTest {
         Usuario usuario = usuarioBase();
         Mission missao = Mission.builder()
                 .id(1L)
-                .title("Complete 3 módulos")
+                .title("Conclua 1 módulo")
                 .objectiveType("COMPLETE_MODULES")
                 .xpReward(10)
+                .quantidade(1)
                 .build();
-        UserMission userMission = UserMission.builder()
+        UserDailyMission udm = UserDailyMission.builder()
                 .mission(missao)
                 .usuario(usuario)
                 .currentProgress(1)
-                .isCompleted(false)
+                .goal(1)
+                .completed(false)
                 .build();
 
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(missionRepository.findAll()).thenReturn(List.of(missao));
-        when(userMissionRepository.findByUsuario(usuario)).thenReturn(List.of(userMission));
+        when(missaoDiariaService.missoesDoDia(usuario)).thenReturn(List.of(udm));
 
         List<UserMissionDto.Response> response = learnService.getMissoes("user");
 
         assertEquals(1, response.size());
-        assertEquals("Complete 3 módulos", response.get(0).getTitle());
+        assertEquals("Conclua 1 módulo", response.get(0).getTitle());
         assertEquals(1, response.get(0).getCurrentProgress());
+        assertEquals(1, response.get(0).getGoal());
         assertEquals(10, response.get(0).getXpReward());
     }
 

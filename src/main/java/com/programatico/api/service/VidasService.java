@@ -20,12 +20,17 @@ public class VidasService {
     public static final int MAX_VIDAS = 5;
     public static final Duration INTERVALO_RECARGA = Duration.ofMinutes(30);
 
-    public boolean temVidasIlimitadas(Usuario usuario) {
+    /** Root com assinatura ativa (não expirada). É o gate canônico de funções Root. */
+    public boolean isRootAtivo(Usuario usuario) {
         if (usuario.getSubscriptionType() != SubscriptionType.ROOT) {
             return false;
         }
         Instant expiraEm = usuario.getSubscriptionExpiresAt();
         return expiraEm == null || expiraEm.isAfter(Instant.now());
+    }
+
+    public boolean temVidasIlimitadas(Usuario usuario) {
+        return isRootAtivo(usuario);
     }
 
     /** Aplica recarga pendente ao stats (mutação em memória; o caller persiste). */

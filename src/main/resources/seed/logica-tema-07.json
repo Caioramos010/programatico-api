@@ -1,0 +1,943 @@
+{
+  "modules": [
+    {
+      "title": "Causa e efeito — entendendo o que acontece e por quê",
+      "moduleType": "STUDY",
+      "displayOrder": 13,
+      "description": "Toda ação gera uma consequência. Aprenda a ligar a causa ao efeito e a prever o que acontece se…",
+      "pages": [
+        {
+          "title": "O que é causa e efeito",
+          "description": "A ação e a consequência que vem dela.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Causa é o que faz algo acontecer. Efeito é o que acontece por causa disso.\n\nA causa vem primeiro e provoca o efeito. Em lógica de programação, pensamos sempre assim: \"se eu fizer isto, então acontece aquilo\"."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e08.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Exemplo: a girafa Gina perde uma vida (causa), então o contador de vidas diminui (efeito).\n\nUma boa pergunta para encontrar a causa é: \"por quê?\". Para encontrar o efeito, pergunte: \"e aí, o que acontece?\"."
+            }
+          ]
+        },
+        {
+          "title": "A ordem importa",
+          "description": "Primeiro a causa, depois o efeito.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "A causa sempre vem antes do efeito. Não dá para o efeito acontecer antes da causa que o provocou.\n\nSe a chuva molha o chão, primeiro vem a chuva (causa) e depois o chão molhado (efeito) — nunca o contrário."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e06.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Trocar a ordem muda tudo. \"O lobo Rex apertou o botão e a luz acendeu\" faz sentido. \"A luz acendeu e por isso o Rex apertou o botão\" não faz."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Quando você liga as ações na ordem certa, fica fácil prever o resultado de uma sequência de passos."
+            }
+          ]
+        },
+        {
+          "title": "O que acontece se…",
+          "description": "Prever a consequência de uma ação.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Pensar em causa e efeito ajuda a prever o futuro do programa: \"o que acontece se eu fizer isto?\".\n\nSe o urso Téo não recarrega a bateria do robô (causa), então o robô para de funcionar (efeito)."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e09.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Às vezes um efeito vira a causa do próximo — como dominós caindo. Uma peça empurra a outra, que empurra a outra. Isso é uma corrente de causa e efeito."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nos exercícios a seguir você vai treinar: achar a causa, achar o efeito, colocar na ordem certa e prever o que acontece se…"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Causa e efeito — relacione, ordene e preveja",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 14,
+      "description": "Ligue cada ação à sua consequência, coloque os fatos na ordem causal e descubra o que acontece se…",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina errou um exercício. O que acontece com o contador de vidas?",
+          "data": {
+            "options": [
+              {
+                "description": "O contador de vidas diminui.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O contador de vidas aumenta.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O contador fica igual para sempre.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O contador é apagado da tela.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito, correção de erros, condicional (se/então)",
+          "img": "m1-e14.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo esqueceu de recarregar a bateria do robô. Qual é o efeito mais provável?",
+          "data": {
+            "options": [
+              {
+                "description": "O robô para de funcionar.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O robô fica mais rápido.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A bateria se recarrega sozinha.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O robô ganha uma vida extra.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito, previsão",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Leia: \"Choveu, por isso o chão ficou molhado.\" Qual é a CAUSA?",
+          "data": {
+            "options": [
+              {
+                "description": "Choveu.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O chão ficou molhado.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O sol apareceu.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Não há causa nenhuma.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito, condicional (se/então), interpretação textual",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Leia: \"O lobo Rex apertou o botão, então a luz acendeu.\" Qual é o EFEITO?",
+          "data": {
+            "options": [
+              {
+                "description": "A luz acendeu.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O Rex apertou o botão.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O botão quebrou.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A luz já estava acesa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito, condicional (se/então), fluxograma",
+          "img": "m1-e11.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado só atravessa quando o semáforo de pedestre fica verde. Se o semáforo está vermelho, o que acontece?",
+          "data": {
+            "options": [
+              {
+                "description": "Dado espera e não atravessa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Dado atravessa correndo mesmo assim.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O semáforo desliga.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Dado volta para casa.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, condicional (se/então)",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Qual frase mostra a ordem CORRETA de causa e efeito?",
+          "data": {
+            "options": [
+              {
+                "description": "A coruja Olívia estudou muito, por isso tirou nota alta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A coruja Olívia tirou nota alta, por isso vai estudar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A nota alta fez a Olívia nascer.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A Olívia tirou nota antes de existir a prova.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, cadeia causal, lógica proposicional",
+          "img": "m1-e01.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A girafa Gina regou a plantinha todos os dias. Qual é o efeito esperado?",
+          "data": {
+            "options": [
+              {
+                "description": "A plantinha cresce saudável.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A plantinha murcha de sede.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A plantinha vira pedra.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nada muda nunca.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex empurrou o primeiro dominó. O que acontece com a fila de dominós?",
+          "data": {
+            "options": [
+              {
+                "description": "Um derruba o outro, em corrente.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Só o primeiro cai e os outros ficam de pé.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Os dominós sobem em vez de cair.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A fila some.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, cadeia causal, quebra-cabeça lógico, sequência de eventos",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Leia: \"Como a coruja Olívia esqueceu o guarda-chuva, ela se molhou na chuva.\" Por que ela se molhou?",
+          "data": {
+            "options": [
+              {
+                "description": "Porque esqueceu o guarda-chuva.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Porque o sol estava forte.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque ficou em casa.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Porque usou o guarda-chuva.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, condicional (se/então)",
+          "img": "m1-e16.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel deixou todas as caixas sem etiqueta. Qual é a consequência mais provável?",
+          "data": {
+            "options": [
+              {
+                "description": "Fica difícil saber o que tem dentro de cada caixa.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "As caixas ficam mais fáceis de organizar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "As caixas se etiquetam sozinhas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O Pixel ganha pontos extras.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, ordenação, rotulagem",
+          "img": "m1-e10.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo completou a missão sem errar. O que acontece com o XP dele?",
+          "data": {
+            "options": [
+              {
+                "description": "O XP aumenta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O XP diminui.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O XP é zerado.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "O XP vira uma vida.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito",
+          "img": "m2-e46.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada causa ao seu efeito.",
+          "data": {
+            "lefts": [
+              "Gina errou um exercício",
+              "Téo recarregou a bateria",
+              "Choveu na rua",
+              "Rex apertou o botão"
+            ],
+            "rights": [
+              "O robô voltou a funcionar",
+              "A luz acendeu",
+              "Uma vida foi perdida",
+              "O chão ficou molhado"
+            ],
+            "pairs": [
+              {
+                "left": "Gina errou um exercício",
+                "right": "Uma vida foi perdida"
+              },
+              {
+                "left": "Téo recarregou a bateria",
+                "right": "O robô voltou a funcionar"
+              },
+              {
+                "left": "Choveu na rua",
+                "right": "O chão ficou molhado"
+              },
+              {
+                "left": "Rex apertou o botão",
+                "right": "A luz acendeu"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, associação, formar pares",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Para cada causa, encontre o efeito correspondente.",
+          "data": {
+            "lefts": [
+              "Olívia estudou muito",
+              "Pixel não etiquetou as caixas",
+              "Gina regou a planta",
+              "Dado viu o sinal vermelho"
+            ],
+            "rights": [
+              "Ficou confuso achar as coisas",
+              "Esperou para atravessar",
+              "Tirou nota alta",
+              "A planta cresceu"
+            ],
+            "pairs": [
+              {
+                "left": "Olívia estudou muito",
+                "right": "Tirou nota alta"
+              },
+              {
+                "left": "Pixel não etiquetou as caixas",
+                "right": "Ficou confuso achar as coisas"
+              },
+              {
+                "left": "Gina regou a planta",
+                "right": "A planta cresceu"
+              },
+              {
+                "left": "Dado viu o sinal vermelho",
+                "right": "Esperou para atravessar"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, associação, formar pares, condicional (se/então)",
+          "img": "m2-e47.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione a ação do mascote com a sua consequência.",
+          "data": {
+            "lefts": [
+              "Téo não dormiu",
+              "Rex empurrou o dominó",
+              "Pongo entregou a carta",
+              "Olívia esqueceu o guarda-chuva"
+            ],
+            "rights": [
+              "A fila inteira caiu",
+              "Ela se molhou na chuva",
+              "Ficou com sono no dia seguinte",
+              "A carta chegou ao destino"
+            ],
+            "pairs": [
+              {
+                "left": "Téo não dormiu",
+                "right": "Ficou com sono no dia seguinte"
+              },
+              {
+                "left": "Rex empurrou o dominó",
+                "right": "A fila inteira caiu"
+              },
+              {
+                "left": "Pongo entregou a carta",
+                "right": "A carta chegou ao destino"
+              },
+              {
+                "left": "Olívia esqueceu o guarda-chuva",
+                "right": "Ela se molhou na chuva"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "causa e efeito, associação, formar pares, cadeia causal",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue o problema (causa) à solução ou resultado (efeito).",
+          "data": {
+            "lefts": [
+              "Bateria descarregada",
+              "Caixa sem etiqueta",
+              "Semáforo vermelho",
+              "Planta sem água"
+            ],
+            "rights": [
+              "A planta murcha",
+              "Esperar para atravessar",
+              "O robô para",
+              "Não se sabe o conteúdo"
+            ],
+            "pairs": [
+              {
+                "left": "Bateria descarregada",
+                "right": "O robô para"
+              },
+              {
+                "left": "Caixa sem etiqueta",
+                "right": "Não se sabe o conteúdo"
+              },
+              {
+                "left": "Semáforo vermelho",
+                "right": "Esperar para atravessar"
+              },
+              {
+                "left": "Planta sem água",
+                "right": "A planta murcha"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, interpretação textual, conclusão, formar pares",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada \"se\" tem um \"então\". Ligue corretamente.",
+          "data": {
+            "lefts": [
+              "Se Gina acerta tudo",
+              "Se Téo erra demais",
+              "Se Pixel organiza as caixas",
+              "Se Dado corre no vermelho"
+            ],
+            "rights": [
+              "Fica em perigo no trânsito",
+              "Acha tudo rapidinho",
+              "Ganha XP",
+              "Pode perder todas as vidas"
+            ],
+            "pairs": [
+              {
+                "left": "Se Gina acerta tudo",
+                "right": "Ganha XP"
+              },
+              {
+                "left": "Se Téo erra demais",
+                "right": "Pode perder todas as vidas"
+              },
+              {
+                "left": "Se Pixel organiza as caixas",
+                "right": "Acha tudo rapidinho"
+              },
+              {
+                "left": "Se Dado corre no vermelho",
+                "right": "Fica em perigo no trânsito"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "causa e efeito, condicional (se/então), formar pares",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada efeito com a causa que o provocou.",
+          "data": {
+            "lefts": [
+              "Chão molhado",
+              "Luz acesa",
+              "Robô parado",
+              "Nota alta"
+            ],
+            "rights": [
+              "Apertar o botão",
+              "Choveu",
+              "Estudar muito",
+              "Bateria acabou"
+            ],
+            "pairs": [
+              {
+                "left": "Chão molhado",
+                "right": "Choveu"
+              },
+              {
+                "left": "Luz acesa",
+                "right": "Apertar o botão"
+              },
+              {
+                "left": "Robô parado",
+                "right": "Bateria acabou"
+              },
+              {
+                "left": "Nota alta",
+                "right": "Estudar muito"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, do efeito para a causa, formar pares, lógica proposicional",
+          "img": "m2-e48.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue a causa ao efeito na rotina dos mascotes.",
+          "data": {
+            "lefts": [
+              "Pongo treinou a corrida",
+              "Olívia leu o enunciado com calma",
+              "Rex comparou os números",
+              "Téo contou nos dedos"
+            ],
+            "rights": [
+              "Entendeu o problema",
+              "Descobriu o maior",
+              "Ficou mais rápido",
+              "Acertou a conta"
+            ],
+            "pairs": [
+              {
+                "left": "Pongo treinou a corrida",
+                "right": "Ficou mais rápido"
+              },
+              {
+                "left": "Olívia leu o enunciado com calma",
+                "right": "Entendeu o problema"
+              },
+              {
+                "left": "Rex comparou os números",
+                "right": "Descobriu o maior"
+              },
+              {
+                "left": "Téo contou nos dedos",
+                "right": "Acertou a conta"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, associação, formar pares, raciocínio lógico",
+          "img": "m2-e49.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada decisão leva a um resultado. Faça os pares.",
+          "data": {
+            "lefts": [
+              "Levar guarda-chuva",
+              "Escolher o caminho curto",
+              "Seguir o checklist",
+              "Esquecer a lista de tarefas"
+            ],
+            "rights": [
+              "Chegar mais cedo",
+              "Esquecer algo importante",
+              "Não esquecer nenhum passo",
+              "Não se molhar"
+            ],
+            "pairs": [
+              {
+                "left": "Levar guarda-chuva",
+                "right": "Não se molhar"
+              },
+              {
+                "left": "Escolher o caminho curto",
+                "right": "Chegar mais cedo"
+              },
+              {
+                "left": "Seguir o checklist",
+                "right": "Não esquecer nenhum passo"
+              },
+              {
+                "left": "Esquecer a lista de tarefas",
+                "right": "Esquecer algo importante"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "causa e efeito, condicional (se/então), conclusão, formar pares",
+          "img": "m1-e16.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Relacione cada \"o que acontece se…\" com sua resposta.",
+          "data": {
+            "lefts": [
+              "Se não regar a planta",
+              "Se empurrar o dominó",
+              "Se não dormir",
+              "Se recarregar o robô"
+            ],
+            "rights": [
+              "Ele volta a funcionar",
+              "Ela murcha",
+              "A fila cai",
+              "Fica com sono"
+            ],
+            "pairs": [
+              {
+                "left": "Se não regar a planta",
+                "right": "Ela murcha"
+              },
+              {
+                "left": "Se empurrar o dominó",
+                "right": "A fila cai"
+              },
+              {
+                "left": "Se não dormir",
+                "right": "Fica com sono"
+              },
+              {
+                "left": "Se recarregar o robô",
+                "right": "Ele volta a funcionar"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, condicional (se/então), previsão, formar pares",
+          "img": "m2-e09.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue a causa ao efeito mais forte de cada situação.",
+          "data": {
+            "lefts": [
+              "Apertar o botão de luz",
+              "Errar muitos exercícios",
+              "Acertar a missão inteira",
+              "Pular passos da receita"
+            ],
+            "rights": [
+              "O prato sai errado",
+              "A luz acende",
+              "Perder vidas",
+              "Ganhar XP"
+            ],
+            "pairs": [
+              {
+                "left": "Apertar o botão de luz",
+                "right": "A luz acende"
+              },
+              {
+                "left": "Errar muitos exercícios",
+                "right": "Perder vidas"
+              },
+              {
+                "left": "Acertar a missão inteira",
+                "right": "Ganhar XP"
+              },
+              {
+                "left": "Pular passos da receita",
+                "right": "O prato sai errado"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "causa e efeito, formar pares, rotinas do dia a dia",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque os fatos na ordem causal: do que aconteceu primeiro ao último.",
+          "data": {
+            "items": [
+              "O lobo Rex apertou o botão",
+              "A luz acendeu",
+              "Rex conseguiu enxergar o caminho"
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito, cadeia causal, sequência de eventos, condicional (se/então)",
+          "img": "m1-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene a corrente de causa e efeito da chuva.",
+          "data": {
+            "items": [
+              "Começou a chover",
+              "O chão ficou molhado",
+              "A coruja Olívia escorregou"
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito, cadeia causal, condicional (se/então)",
+          "img": "m2-e46.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Organize na ordem certa o que aconteceu com o robô do urso Téo.",
+          "data": {
+            "items": [
+              "A bateria descarregou",
+              "O robô parou de andar",
+              "Téo recarregou a bateria",
+              "O robô voltou a funcionar"
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, cadeia causal",
+          "img": "m1-e08.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque os dominós em ordem: do primeiro empurrão até o último que caiu.",
+          "data": {
+            "items": [
+              "Rex empurra o primeiro dominó",
+              "O primeiro derruba o segundo",
+              "O segundo derruba o terceiro",
+              "Toda a fila está caída"
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, cadeia causal, quebra-cabeça lógico, ordenação",
+          "img": "m2-e47.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene os passos da plantinha da girafa Gina, na ordem causal.",
+          "data": {
+            "items": [
+              "Gina rega a plantinha",
+              "A terra fica úmida",
+              "A plantinha cresce forte"
+            ]
+          },
+          "xp": 3,
+          "tags": "causa e efeito, cadeia causal, sequência numérica",
+          "img": "m2-e10.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Organize a sequência: o que leva a coruja Olívia a tirar nota alta?",
+          "data": {
+            "items": [
+              "Olívia organiza os livros",
+              "Olívia estuda com atenção",
+              "Olívia faz a prova",
+              "Olívia tira nota alta"
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, cadeia causal, conclusão",
+          "img": "m2-e48.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque em ordem o que acontece quando a Gina erra muitos exercícios.",
+          "data": {
+            "items": [
+              "Gina erra vários exercícios",
+              "Cada erro tira uma vida",
+              "As vidas chegam a zero",
+              "Gina precisa esperar para continuar"
+            ]
+          },
+          "xp": 7,
+          "tags": "causa e efeito, cadeia causal",
+          "img": "m1-e14.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene a corrente causal da travessia do jacaré Dado.",
+          "data": {
+            "items": [
+              "O semáforo de pedestre fica verde",
+              "Dado começa a atravessar",
+              "Dado chega seguro do outro lado"
+            ]
+          },
+          "xp": 5,
+          "tags": "causa e efeito, cadeia causal, condicional (se/então), rotinas do dia a dia",
+          "img": "m2-e49.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Organize os fatos: por que o prato do gato Pixel saiu errado?",
+          "data": {
+            "items": [
+              "Pixel pulou um passo da receita",
+              "Faltou um ingrediente no prato",
+              "O prato saiu errado"
+            ]
+          },
+          "xp": 7,
+          "tags": "causa e efeito, cadeia causal, rotinas do dia a dia, correção de erros",
+          "img": "m1-e03.png"
+        }
+      ]
+    }
+  ]
+}

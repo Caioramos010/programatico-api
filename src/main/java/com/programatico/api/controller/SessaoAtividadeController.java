@@ -32,6 +32,27 @@ public class SessaoAtividadeController {
         return ResponseEntity.ok(sessaoAtividadeService.iniciarPratica(modo, userDetails.getUsername()));
     }
 
+    // Root: pratica os erros do usuário em um assunto específico.
+    @PostMapping("/pratica/erros-assunto/iniciar")
+    public ResponseEntity<SessaoDto.InicioResponse> iniciarPraticaErrosPorAssunto(
+            @RequestParam String assunto,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(
+                sessaoAtividadeService.iniciarPraticaErrosPorAssunto(assunto, userDetails.getUsername()));
+    }
+
+    // Maestria: exercício de reforço (mesmo módulo, mesma tag) quando o usuário erra.
+    @GetMapping("/sessoes/{sessaoId}/reforco")
+    public ResponseEntity<SessaoDto.ExercicioSessao> reforco(
+            @PathVariable Long sessaoId,
+            @RequestParam Long exercicioId,
+            @RequestParam(required = false) java.util.List<Long> excluir,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        SessaoDto.ExercicioSessao reforco = sessaoAtividadeService.buscarReforco(
+                sessaoId, exercicioId, excluir, userDetails.getUsername());
+        return reforco != null ? ResponseEntity.ok(reforco) : ResponseEntity.noContent().build();
+    }
+
     @PostMapping("/sessoes/{sessaoId}/responder")
     public ResponseEntity<SessaoDto.RespostaResponse> responder(
             @PathVariable Long sessaoId,

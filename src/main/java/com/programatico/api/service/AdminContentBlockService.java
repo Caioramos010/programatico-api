@@ -44,6 +44,7 @@ public class AdminContentBlockService {
                 .pagina(pagina)
                 .layoutType(request.getLayoutType())
                 .textContent(request.getTextContent())
+                .imageUrl(request.getImageUrl())
                 .displayOrder(request.getDisplayOrder())
                 .build();
         ContentBlock salvo = contentBlockRepository.save(block);
@@ -68,6 +69,7 @@ public class AdminContentBlockService {
                 .modulo(modulo)
                 .layoutType(request.getLayoutType())
                 .textContent(request.getTextContent())
+                .imageUrl(request.getImageUrl())
                 .displayOrder(request.getDisplayOrder())
                 .build();
         ContentBlock salvo = contentBlockRepository.save(block);
@@ -81,6 +83,7 @@ public class AdminContentBlockService {
                 .orElseThrow(() -> new ResourceNotFoundException("Bloco de conteúdo", id));
         block.setLayoutType(request.getLayoutType());
         block.setTextContent(request.getTextContent());
+        block.setImageUrl(request.getImageUrl());
         block.setDisplayOrder(request.getDisplayOrder());
         return ContentBlockDto.Response.fromEntity(contentBlockRepository.save(block));
     }

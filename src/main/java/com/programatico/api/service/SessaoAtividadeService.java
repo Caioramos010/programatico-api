@@ -29,14 +29,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,6 +66,7 @@ public class SessaoAtividadeService {
     private final VidasService vidasService;
     private final ObjectMapper objectMapper;
     private final OpenAiOrganizacaoService openAiOrganizacaoService;
+    private final MissaoDiariaService missaoDiariaService;
 
     @Transactional
     public SessaoDto.InicioResponse iniciarSessao(Long moduloId, String username) {
@@ -74,6 +79,21 @@ public class SessaoAtividadeService {
                         .currentLives(MAX_VIDAS).currentStreak(0).highestStreak(0).build());
         vidasService.aplicarRecarga(stats);
         userStatsRepository.save(stats);
+
+        // Retoma a sessão aberta deste módulo (usuário fechou a atividade/site no meio).
+        Optional<PracticeSession> aberta = practiceSessionRepository
+                .findFirstByUsuarioAndModuloAndEndedAtIsNullOrderByStartedAtDesc(usuario, modulo);
+        if (aberta.isPresent()) {
+            List<PracticeSessionExercise> itens = practiceSessionExerciseRepository
+                    .findByPracticeSessionOrderByDisplayOrderAsc(aberta.get());
+            long pendentes = itens.stream().filter(i -> !Boolean.TRUE.equals(i.getMastered())).count();
+            if (!itens.isEmpty() && pendentes > 0) {
+                return montarResume(aberta.get(), itens, stats);
+            }
+            // Sessão aberta mas tudo dominado (ou vazia): encerra e segue criando uma nova.
+            aberta.get().setEndedAt(LocalDateTime.now());
+            practiceSessionRepository.save(aberta.get());
+        }
 
         List<Exercise> selecionados = organizarExercicios(modulo, usuario, stats);
         if (selecionados.isEmpty()) {
@@ -107,7 +127,30 @@ public class SessaoAtividadeService {
                 .moduleTitle(modulo.getTitle())
                 .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .totalExercises(exerciciosDtos.size())
+                .masteredIds(List.of())
                 .exercises(exerciciosDtos)
+                .build();
+    }
+
+    /** Retoma uma sessão aberta: devolve TODOS os alvos (mantém o total) + ids já dominados (fora da fila). */
+    private SessaoDto.InicioResponse montarResume(PracticeSession sessao,
+            List<PracticeSessionExercise> itens, UserStats stats) {
+        List<SessaoDto.ExercicioSessao> dtos = new ArrayList<>();
+        for (int i = 0; i < itens.size(); i++) {
+            dtos.add(toExercicioSessao(itens.get(i).getExercise(), i + 1, sessao.getSessionType()));
+        }
+        List<Long> masteredIds = itens.stream()
+                .filter(i -> Boolean.TRUE.equals(i.getMastered()))
+                .map(i -> i.getExercise().getId())
+                .collect(Collectors.toList());
+        return SessaoDto.InicioResponse.builder()
+                .sessionId(sessao.getId())
+                .moduleTitle(sessao.getModulo() != null ? sessao.getModulo().getTitle() : null)
+                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .totalExercises(dtos.size())
+                .resumedFrom(0)
+                .masteredIds(masteredIds)
+                .exercises(dtos)
                 .build();
     }
 
@@ -121,15 +164,16 @@ public class SessaoAtividadeService {
             throw new BadRequestException("Esta sessão já foi encerrada.");
         }
 
+        // Alvo da sessão (PSE) ou exercício de reforço (fora da sessão, na maestria).
         PracticeSessionExercise sessionExercise = practiceSessionExerciseRepository
                 .findByPracticeSessionAndExerciseId(sessao, request.getExercicioId())
-                .orElseThrow(() -> new BadRequestException("Exercício não pertence a esta sessão."));
+                .orElse(null);
+        Exercise exercise = sessionExercise != null
+                ? sessionExercise.getExercise()
+                : exerciseRepository.findById(request.getExercicioId())
+                        .orElseThrow(() -> new BadRequestException("Exercício não encontrado."));
 
-        if (Boolean.TRUE.equals(sessionExercise.getIsCorrect()) || Boolean.FALSE.equals(sessionExercise.getIsCorrect())) {
-            throw new BadRequestException("Este exercício já foi respondido.");
-        }
-
-        Exercise exercise = sessionExercise.getExercise();
+        boolean primeiraTentativa = sessionExercise != null && sessionExercise.getIsCorrect() == null;
         boolean correto = validarResposta(exercise, request.getResposta());
         String respostaCorreta = extrairRespostaCorreta(exercise);
 
@@ -155,9 +199,16 @@ public class SessaoAtividadeService {
             }
         }
 
-        sessionExercise.setUserAnswer(request.getResposta());
-        sessionExercise.setIsCorrect(correto);
-        practiceSessionExerciseRepository.save(sessionExercise);
+        if (sessionExercise != null) {
+            sessionExercise.setUserAnswer(request.getResposta());
+            if (primeiraTentativa) {
+                sessionExercise.setIsCorrect(correto); // 1ª tentativa define a acurácia
+            }
+            if (correto) {
+                sessionExercise.setMastered(true); // dominou (qualquer tentativa)
+            }
+            practiceSessionExerciseRepository.save(sessionExercise);
+        }
 
         UserStats stats = userStatsRepository.findByUsuario(usuario)
                 .orElseGet(() -> UserStats.builder().usuario(usuario).totalXp(0)
@@ -165,8 +216,8 @@ public class SessaoAtividadeService {
         vidasService.aplicarRecarga(stats);
 
         if (correto) {
-            // Replay de módulo já concluído não pontua de novo.
-            if (!moduloJaConcluido(usuario, sessao)) {
+            // XP só na 1ª tentativa de um alvo (sem farm), fora de replay.
+            if (primeiraTentativa && !moduloJaConcluido(usuario, sessao)) {
                 int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
                 stats.setTotalXp(xpAtual + exercise.getXpReward());
             }
@@ -181,7 +232,7 @@ public class SessaoAtividadeService {
                 );
             }
         }
-        stats.setLastActivityDate(LocalDateTime.now());
+        aplicarStreakDiario(stats);
         userStatsRepository.save(stats);
 
         return SessaoDto.RespostaResponse.builder()
@@ -190,6 +241,30 @@ public class SessaoAtividadeService {
                 .remainingLives(stats.getCurrentLives())
                 .relatedTopics(parseTags(exercise.getTags()))
                 .build();
+    }
+
+    /**
+     * Atualiza o daystreak na primeira atividade do dia: +1 se a última atividade
+     * foi no dia anterior, reinicia em 1 se houve um dia sem atividade (ou é a
+     * primeira), e mantém se já contou hoje. Atualiza também o recorde.
+     */
+    private void aplicarStreakDiario(UserStats stats) {
+        LocalDate hoje = LocalDate.now();
+        LocalDate ultima = stats.getLastActivityDate() != null
+                ? stats.getLastActivityDate().toLocalDate()
+                : null;
+        int atual = stats.getCurrentStreak() != null ? stats.getCurrentStreak() : 0;
+        if (ultima == null || ultima.isBefore(hoje.minusDays(1))) {
+            atual = 1;
+        } else if (ultima.equals(hoje.minusDays(1))) {
+            atual = atual + 1;
+        } else {
+            atual = Math.max(atual, 1);
+        }
+        stats.setCurrentStreak(atual);
+        int recorde = stats.getHighestStreak() != null ? stats.getHighestStreak() : 0;
+        stats.setHighestStreak(Math.max(recorde, atual));
+        stats.setLastActivityDate(LocalDateTime.now());
     }
 
     @Transactional
@@ -218,9 +293,11 @@ public class SessaoAtividadeService {
                 .sum();
         int duracao = (int) ChronoUnit.SECONDS.between(sessao.getStartedAt(), sessao.getEndedAt());
 
-        // Marca o módulo como concluído se taxa de acerto >= 50%
+        // Maestria: o módulo conclui quando TODOS os alvos foram dominados (acertados em alguma tentativa).
+        boolean todosDominados = !todos.isEmpty()
+                && todos.stream().allMatch(e -> Boolean.TRUE.equals(e.getMastered()));
         boolean moduloConcluido = false;
-        if (sessao.getModulo() != null && taxaAcerto >= 50) {
+        if (sessao.getModulo() != null && todosDominados) {
             UserProgress progresso = userProgressRepository
                     .findByUsuarioAndModulo(usuario, sessao.getModulo())
                     .orElseGet(() -> UserProgress.builder()
@@ -240,30 +317,43 @@ public class SessaoAtividadeService {
         vidasService.aplicarRecarga(stats);
         userStatsRepository.save(stats);
 
-        if (sessao.getModulo() != null) {
+        // Notifica só na PRIMEIRA conclusão do módulo (não em replays nem em sessões que não concluem).
+        boolean primeiraConclusao = moduloConcluido && !replay;
+        if (sessao.getModulo() != null && primeiraConclusao) {
             notificationService.criarNotificacaoSistema(
                     usuario,
-                    "Exercícios concluídos",
-                    "Voce ganhou %d XP no módulo \"%s\" com %d%% de acerto.".formatted(
-                            xpGanho,
+                    "Módulo concluído",
+                    "Voce concluiu o módulo \"%s\" pela primeira vez com %d%% de acerto.".formatted(
                             sessao.getModulo().getTitle(),
                             taxaAcerto
                     ),
-                    NotificationKind.EXERCICIO
+                    NotificationKind.TRILHA
             );
+        }
 
-            if (moduloConcluido) {
-                notificationService.criarNotificacaoSistema(
-                        usuario,
-                        "Módulo concluído",
-                        "Voce concluiu o módulo \"%s\" com %d%% de acerto.".formatted(
-                                sessao.getModulo().getTitle(),
-                                taxaAcerto
-                        ),
-                        NotificationKind.TRILHA
-                );
+        // Progresso das missões diárias. EARN_XP usa só XP real (replay = 0, sem farm).
+        Map<String, Integer> incMissoes = new LinkedHashMap<>();
+        if (xpGanho > 0) incMissoes.put(MissaoDiariaService.EARN_XP, xpGanho);
+        if (corretos > 0) incMissoes.put(MissaoDiariaService.CORRECT_ANSWERS, (int) corretos);
+        if (moduloConcluido) incMissoes.put(MissaoDiariaService.COMPLETE_MODULES, 1);
+        if (!todos.isEmpty() && taxaAcerto == 100) incMissoes.put(MissaoDiariaService.PERFECT_SESSION, 1);
+        if (sessao.getSessionType() == SessionType.ERRORS) incMissoes.put(MissaoDiariaService.PRACTICE_ERRORS, 1);
+        List<String> missoesConcluidas = missaoDiariaService.registrarProgresso(usuario, incMissoes);
+
+        // Review por assunto (Root): acertos/erros por tag, com base na 1ª tentativa.
+        Map<String, int[]> porAssunto = new LinkedHashMap<>();
+        for (PracticeSessionExercise pse : todos) {
+            if (pse.getIsCorrect() == null) continue;
+            boolean acertou = Boolean.TRUE.equals(pse.getIsCorrect());
+            for (String tag : parseTags(pse.getExercise().getTags())) {
+                int[] c = porAssunto.computeIfAbsent(tag, k -> new int[2]);
+                if (acertou) c[0]++; else c[1]++;
             }
         }
+        List<SessaoDto.SubjectReview> subjectReview = porAssunto.entrySet().stream()
+                .map(e -> SessaoDto.SubjectReview.builder()
+                        .assunto(e.getKey()).acertos(e.getValue()[0]).erros(e.getValue()[1]).build())
+                .collect(Collectors.toList());
 
         return SessaoDto.ConclusaoResponse.builder()
                 .xpEarned(xpGanho)
@@ -271,7 +361,40 @@ public class SessaoAtividadeService {
                 .durationSeconds(duracao)
                 .remainingLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .moduleCompleted(moduloConcluido)
+                .firstCompletion(primeiraConclusao)
+                .completedMissions(missoesConcluidas)
+                .subjectReview(subjectReview)
                 .build();
+    }
+
+    /** Maestria: ao errar, busca um exercício de reforço do mesmo módulo com assunto (tag) em comum. */
+    @Transactional(readOnly = true)
+    public SessaoDto.ExercicioSessao buscarReforco(Long sessaoId, Long exercicioId,
+            List<Long> excluir, String username) {
+        Usuario usuario = buscarUsuario(username);
+        PracticeSession sessao = practiceSessionRepository.findByIdAndUsuario(sessaoId, usuario)
+                .orElseThrow(() -> new ResourceNotFoundException("Sessão", sessaoId));
+        if (sessao.getModulo() == null) {
+            return null; // práticas (sem módulo) não têm reforço por tema
+        }
+        Exercise base = exerciseRepository.findById(exercicioId)
+                .orElseThrow(() -> new BadRequestException("Exercício não encontrado."));
+        Set<String> tagsBase = new HashSet<>(parseTags(base.getTags()));
+        if (tagsBase.isEmpty()) {
+            return null;
+        }
+        Set<Long> excluirSet = new HashSet<>(excluir != null ? excluir : List.of());
+        excluirSet.add(exercicioId);
+
+        List<Exercise> candidatos = exerciseRepository.findByModuloOrderByIdAsc(sessao.getModulo()).stream()
+                .filter(e -> !excluirSet.contains(e.getId()))
+                .filter(e -> parseTags(e.getTags()).stream().anyMatch(tagsBase::contains))
+                .collect(Collectors.toList());
+        if (candidatos.isEmpty()) {
+            return null;
+        }
+        Collections.shuffle(candidatos);
+        return toExercicioSessao(candidatos.get(0), 0, sessao.getSessionType());
     }
 
     // ── Práticas (esqueleto para Hyorran) ───────────────────────────────────────
@@ -299,6 +422,29 @@ public class SessaoAtividadeService {
             throw new BadRequestException("Você ainda não tem erros para praticar.");
         }
         return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Prática: Erros");
+    }
+
+    /** Root: pratica os exercícios que o usuário errou em um assunto (tag) específico. */
+    @Transactional
+    public SessaoDto.InicioResponse iniciarPraticaErrosPorAssunto(String assunto, String username) {
+        Usuario usuario = buscarUsuario(username);
+        if (!vidasService.isRootAtivo(usuario)) {
+            throw new BadRequestException("Revisar erros por assunto é exclusivo para assinantes Root.");
+        }
+        if (assunto == null || assunto.isBlank()) {
+            throw new BadRequestException("Assunto inválido.");
+        }
+        String alvo = assunto.trim();
+        List<Exercise> exercicios = practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario)
+                .stream()
+                .distinct()
+                .filter(ex -> parseTags(ex.getTags()).stream().anyMatch(tag -> tag.equalsIgnoreCase(alvo)))
+                .limit(QUANTIDADE_EXERCICIOS)
+                .collect(Collectors.toList());
+        if (exercicios.isEmpty()) {
+            throw new BadRequestException("Você não tem erros nesse assunto para revisar.");
+        }
+        return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Revisar: " + alvo);
     }
 
     private SessaoDto.InicioResponse iniciarPraticaFixacao(Usuario usuario) {
@@ -377,6 +523,7 @@ public class SessaoAtividadeService {
                 .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
                 .totalExercises(dtos.size())
                 .timeLimitSeconds(timeLimitSeconds)
+                .masteredIds(List.of())
                 .exercises(dtos)
                 .build();
     }
@@ -533,6 +680,7 @@ public class SessaoAtividadeService {
                     clean.remove("correct");
                     return clean;
                 }).collect(Collectors.toList());
+                Collections.shuffle(displayOptions); // posição da correta varia a cada sessão
                 return objectMapper.writeValueAsString(Map.of("options", displayOptions));
             }
         } catch (Exception e) {

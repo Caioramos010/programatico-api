@@ -1,0 +1,932 @@
+{
+  "modules": [
+    {
+      "title": "Leitura de fluxogramas — seguindo as setas do começo ao fim",
+      "moduleType": "STUDY",
+      "displayOrder": 25,
+      "description": "Um fluxograma é um mapa de passos. Aprenda a achar o início, seguir as setas e tomar decisões nos losangos sim/não.",
+      "pages": [
+        {
+          "title": "O que é um fluxograma",
+          "description": "Um desenho que mostra os passos na ordem certa.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Um fluxograma é um desenho que mostra os passos de uma tarefa, um atrás do outro.\n\nCada caixa é um passo. As setas ligam uma caixa à próxima e mostram para onde ir. Ler um fluxograma é só seguir as setas."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e15.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Todo fluxograma tem um ponto de INÍCIO e um ponto de FIM. Você começa no início, anda passo a passo seguindo as setas, e para no fim.\n\nA coruja Olívia gosta de dizer: \"comece no começo, ande na direção da seta, e só pare quando chegar no fim\"."
+            }
+          ]
+        },
+        {
+          "title": "Seguindo as setas",
+          "description": "As setas mandam para onde você vai.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "A seta tem uma ponta. Você sempre anda no sentido da ponta da seta, nunca contra ela.\n\nQuando termina um passo, olhe a seta que sai dele: ela aponta para o próximo passo. É como pegar uma estrada de mão única."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m1-e17.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "O gato Pixel segue as setas pintadas no chão: pisa numa, olha para onde aponta, vai para a próxima. Sempre uma de cada vez.\n\nSe você seguir as setas fora de ordem ou contra a ponta, vai fazer a tarefa errada."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Dica: coloque o dedo no INÍCIO e vá deslizando pela seta até a próxima caixa. Repita até chegar no FIM."
+            }
+          ]
+        },
+        {
+          "title": "O losango de decisão",
+          "description": "A caixa em forma de losango faz uma pergunta de sim ou não.",
+          "blocks": [
+            {
+              "layout": "TEXT",
+              "text": "Nem todo passo é uma ação. Quando o fluxograma precisa escolher um caminho, ele usa um losango (caixa em forma de pipa).\n\nDentro do losango tem uma PERGUNTA que só pode ser respondida com SIM ou NÃO."
+            },
+            {
+              "layout": "IMAGE",
+              "image": "m2-e15.png"
+            },
+            {
+              "layout": "TEXT",
+              "text": "Do losango saem DUAS setas: uma com a saída \"sim\" e outra com a saída \"não\". Você responde a pergunta e segue só a seta que combina com a sua resposta.\n\nExemplo: o jacaré Dado chega no losango \"O sinal está verde?\". Se SIM, segue a seta que leva a \"atravessar\". Se NÃO, segue a seta que leva a \"esperar\"."
+            },
+            {
+              "layout": "TEXT",
+              "text": "Nas atividades a seguir você vai praticar: achar o início e o fim, seguir as setas na ordem e escolher o caminho certo em cada losango de decisão."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Leitura de fluxogramas — siga as setas e decida o caminho",
+      "moduleType": "ACTIVITY",
+      "displayOrder": 26,
+      "description": "Encontre o início e o fim, ande no sentido das setas e responda os losangos de decisão sim/não com os mascotes.",
+      "exercises": [
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Por onde a coruja Olívia deve COMEÇAR a ler um fluxograma?",
+          "data": {
+            "options": [
+              {
+                "description": "Pela caixa de INÍCIO.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Pela caixa de FIM.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pelo losango do meio.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Por qualquer caixa, tanto faz.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "fluxograma, início e fim, interpretação textual, setas (fluxo)",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O gato Pixel está num passo do fluxograma. Como ele descobre qual é o PRÓXIMO passo?",
+          "data": {
+            "options": [
+              {
+                "description": "Seguindo a seta que sai do passo, no sentido da ponta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Voltando para o passo anterior.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Pulando direto para o FIM.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Andando contra a ponta da seta.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "fluxograma, setas (fluxo), sequenciamento de passos",
+          "img": "m1-e17.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Qual forma é usada para uma DECISÃO de sim ou não no fluxograma?",
+          "data": {
+            "options": [
+              {
+                "description": "O losango (caixa em forma de pipa).",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O círculo de início.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A seta reta.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "A caixa retangular de ação.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "fluxograma, condicional (se/então)",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O jacaré Dado chega no losango \"O sinal está verde?\". A resposta é SIM. Que seta ele segue?",
+          "data": {
+            "options": [
+              {
+                "description": "A seta marcada com \"sim\".",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "A seta marcada com \"não\".",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "As duas setas ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhuma seta, ele para ali.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "fluxograma, condicional (se/então)",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Quantas setas SAEM de um losango de decisão?",
+          "data": {
+            "options": [
+              {
+                "description": "Duas: uma para \"sim\" e uma para \"não\".",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Uma só, sempre.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Nenhuma, o losango é o fim.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Quatro, uma para cada lado.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, condicional (se/então), setas (fluxo)",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O lobo Rex chega na caixa de FIM do fluxograma. O que ele faz?",
+          "data": {
+            "options": [
+              {
+                "description": "Para: a tarefa do fluxograma terminou.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Volta correndo para o início.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Procura outra seta para continuar.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Responde mais uma pergunta de decisão.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "fluxograma, início e fim, condição de parada, interpretação textual",
+          "img": "m1-e17.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "A coruja Olívia vê uma seta apontando da caixa A para a caixa B. Em que sentido ela anda?",
+          "data": {
+            "options": [
+              {
+                "description": "De A para B, seguindo a ponta da seta.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "De B para A, contra a ponta.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Fica parada entre A e B.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Vai de A direto para o FIM.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 3,
+          "tags": "fluxograma, setas (fluxo)",
+          "img": "m2-e67.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "No losango \"Está chovendo?\" a coruja Olívia responde NÃO. O fluxograma manda para \"pegar boné\" no caminho do não. Para onde ela vai?",
+          "data": {
+            "options": [
+              {
+                "description": "Para \"pegar boné\", seguindo a seta do \"não\".",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "Para \"pegar guarda-chuva\", do caminho do \"sim\".",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Para o INÍCIO de novo.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Para os dois caminhos ao mesmo tempo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, condicional (se/então), negação, caminho no fluxograma",
+          "img": "m2-e06.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "Qual destas perguntas PODE ficar dentro de um losango de decisão?",
+          "data": {
+            "options": [
+              {
+                "description": "\"A bateria está cheia?\" — responde com sim ou não.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "\"Qual a sua cor favorita?\" — tem muitas respostas.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "\"Conte uma história.\" — não é pergunta.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "\"Ande até a porta.\" — é uma ação, não decisão.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, condicional (se/então), pergunta e resposta",
+          "img": "m2-e68.png"
+        },
+        {
+          "type": "MULTIPLE_CHOICE",
+          "statement": "O urso Téo seguiu as setas e nunca chegou no FIM, voltando sempre ao mesmo ponto. O que aconteceu?",
+          "data": {
+            "options": [
+              {
+                "description": "Ele ficou preso num caminho que volta para trás (laço), em vez de seguir até o fim.",
+                "image": "",
+                "correct": true
+              },
+              {
+                "description": "O fluxograma não tem início.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "As setas não existem.",
+                "image": "",
+                "correct": false
+              },
+              {
+                "description": "Todo fluxograma é assim mesmo.",
+                "image": "",
+                "correct": false
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, setas (fluxo), repetição (laços), início e fim, interpretação textual",
+          "img": "m2-e70.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada forma do fluxograma ao que ela significa.",
+          "data": {
+            "lefts": [
+              "Caixa de início",
+              "Losango",
+              "Seta",
+              "Caixa de fim"
+            ],
+            "rights": [
+              "Pergunta de sim ou não",
+              "Por onde você começa",
+              "Onde a tarefa termina",
+              "Mostra para onde ir"
+            ],
+            "pairs": [
+              {
+                "left": "Caixa de início",
+                "right": "Por onde você começa"
+              },
+              {
+                "left": "Losango",
+                "right": "Pergunta de sim ou não"
+              },
+              {
+                "left": "Seta",
+                "right": "Mostra para onde ir"
+              },
+              {
+                "left": "Caixa de fim",
+                "right": "Onde a tarefa termina"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, início e fim, setas (fluxo)",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Cada losango faz uma pergunta. Ligue a pergunta à resposta SIM e ao caminho certo.",
+          "data": {
+            "lefts": [
+              "O sinal está verde?",
+              "Está chovendo?",
+              "A bateria está cheia?",
+              "A vida acabou?"
+            ],
+            "rights": [
+              "Sim → ligar o robô",
+              "Sim → atravessar a rua",
+              "Sim → mostrar tela de derrota",
+              "Sim → pegar guarda-chuva"
+            ],
+            "pairs": [
+              {
+                "left": "O sinal está verde?",
+                "right": "Sim → atravessar a rua"
+              },
+              {
+                "left": "Está chovendo?",
+                "right": "Sim → pegar guarda-chuva"
+              },
+              {
+                "left": "A bateria está cheia?",
+                "right": "Sim → ligar o robô"
+              },
+              {
+                "left": "A vida acabou?",
+                "right": "Sim → mostrar tela de derrota"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, condicional (se/então), caminho no fluxograma",
+          "img": "m2-e05.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada mascote ao losango de decisão que ele está respondendo.",
+          "data": {
+            "lefts": [
+              "Jacaré Dado na faixa",
+              "Coruja Olívia saindo de casa",
+              "Urso Téo com o robô",
+              "Girafa Gina jogando"
+            ],
+            "rights": [
+              "Ainda tenho vidas?",
+              "O sinal está verde?",
+              "A bateria está cheia?",
+              "Está chovendo?"
+            ],
+            "pairs": [
+              {
+                "left": "Jacaré Dado na faixa",
+                "right": "O sinal está verde?"
+              },
+              {
+                "left": "Coruja Olívia saindo de casa",
+                "right": "Está chovendo?"
+              },
+              {
+                "left": "Urso Téo com o robô",
+                "right": "A bateria está cheia?"
+              },
+              {
+                "left": "Girafa Gina jogando",
+                "right": "Ainda tenho vidas?"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, condicional (se/então), pergunta e resposta",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada parte do fluxograma à pergunta que ela responde.",
+          "data": {
+            "lefts": [
+              "Início",
+              "Fim",
+              "Seta",
+              "Losango"
+            ],
+            "rights": [
+              "Para onde eu vou agora?",
+              "Onde eu paro?",
+              "Onde eu começo?",
+              "Sim ou não?"
+            ],
+            "pairs": [
+              {
+                "left": "Início",
+                "right": "Onde eu começo?"
+              },
+              {
+                "left": "Fim",
+                "right": "Onde eu paro?"
+              },
+              {
+                "left": "Seta",
+                "right": "Para onde eu vou agora?"
+              },
+              {
+                "left": "Losango",
+                "right": "Sim ou não?"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, início e fim, setas (fluxo)",
+          "img": "m1-e11.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "No losango, a resposta NÃO leva a um caminho. Ligue cada pergunta ao caminho do \"não\".",
+          "data": {
+            "lefts": [
+              "O sinal está verde?",
+              "Está chovendo?",
+              "A bateria está cheia?",
+              "A vida acabou?"
+            ],
+            "rights": [
+              "Não → carregar a bateria",
+              "Não → esperar no meio-fio",
+              "Não → continuar jogando",
+              "Não → pegar boné"
+            ],
+            "pairs": [
+              {
+                "left": "O sinal está verde?",
+                "right": "Não → esperar no meio-fio"
+              },
+              {
+                "left": "Está chovendo?",
+                "right": "Não → pegar boné"
+              },
+              {
+                "left": "A bateria está cheia?",
+                "right": "Não → carregar a bateria"
+              },
+              {
+                "left": "A vida acabou?",
+                "right": "Não → continuar jogando"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, condicional (se/então), negação, caminho no fluxograma",
+          "img": "m1-e16.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada símbolo ao seu nome no fluxograma.",
+          "data": {
+            "lefts": [
+              "Caixa redonda",
+              "Caixa em forma de pipa",
+              "Reta com ponta",
+              "Caixa retangular"
+            ],
+            "rights": [
+              "Ação a fazer",
+              "Início ou fim",
+              "Decisão (losango)",
+              "Seta"
+            ],
+            "pairs": [
+              {
+                "left": "Caixa redonda",
+                "right": "Início ou fim"
+              },
+              {
+                "left": "Caixa em forma de pipa",
+                "right": "Decisão (losango)"
+              },
+              {
+                "left": "Reta com ponta",
+                "right": "Seta"
+              },
+              {
+                "left": "Caixa retangular",
+                "right": "Ação a fazer"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, setas (fluxo), rotinas do dia a dia",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada resposta do mascote ao próximo passo que o fluxograma manda fazer.",
+          "data": {
+            "lefts": [
+              "Dado: sinal verde, sim",
+              "Olívia: chovendo, sim",
+              "Téo: bateria vazia, não",
+              "Gina: sem vidas, sim"
+            ],
+            "rights": [
+              "Mostrar tela de derrota",
+              "Atravessar a rua",
+              "Carregar a bateria",
+              "Pegar guarda-chuva"
+            ],
+            "pairs": [
+              {
+                "left": "Dado: sinal verde, sim",
+                "right": "Atravessar a rua"
+              },
+              {
+                "left": "Olívia: chovendo, sim",
+                "right": "Pegar guarda-chuva"
+              },
+              {
+                "left": "Téo: bateria vazia, não",
+                "right": "Carregar a bateria"
+              },
+              {
+                "left": "Gina: sem vidas, sim",
+                "right": "Mostrar tela de derrota"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, condicional (se/então), conclusão, sequenciamento de passos",
+          "img": "m1-e14.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue a frase do fluxograma à forma que a representa.",
+          "data": {
+            "lefts": [
+              "\"Comece aqui\"",
+              "\"O número é maior que 10?\"",
+              "\"Acenda a luz\"",
+              "\"Pronto, acabou\""
+            ],
+            "rights": [
+              "Caixa de fim",
+              "Caixa de início",
+              "Caixa de ação",
+              "Losango de decisão"
+            ],
+            "pairs": [
+              {
+                "left": "\"Comece aqui\"",
+                "right": "Caixa de início"
+              },
+              {
+                "left": "\"O número é maior que 10?\"",
+                "right": "Losango de decisão"
+              },
+              {
+                "left": "\"Acenda a luz\"",
+                "right": "Caixa de ação"
+              },
+              {
+                "left": "\"Pronto, acabou\"",
+                "right": "Caixa de fim"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, início e fim, condicional (se/então), rotinas do dia a dia",
+          "img": "m2-e67.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada passo do fluxograma do gato Pixel ao seu tipo.",
+          "data": {
+            "lefts": [
+              "Entrar na cozinha",
+              "A panela está quente?",
+              "Servir o prato",
+              "Início da receita"
+            ],
+            "rights": [
+              "Ponto de partida",
+              "Ação",
+              "Ação final",
+              "Decisão"
+            ],
+            "pairs": [
+              {
+                "left": "Entrar na cozinha",
+                "right": "Ação"
+              },
+              {
+                "left": "A panela está quente?",
+                "right": "Decisão"
+              },
+              {
+                "left": "Servir o prato",
+                "right": "Ação final"
+              },
+              {
+                "left": "Início da receita",
+                "right": "Ponto de partida"
+              }
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, algoritmo (passo a passo), rotinas do dia a dia, condicional (se/então), início e fim",
+          "img": "m1-e03.png"
+        },
+        {
+          "type": "PAIRS",
+          "statement": "Ligue cada pergunta de decisão ao mascote certo na cena.",
+          "data": {
+            "lefts": [
+              "O caminho é o mais curto?",
+              "A lista está completa?",
+              "Os dois números são iguais?",
+              "A planta precisa de água?"
+            ],
+            "rights": [
+              "Dálmata Pongo com a lista",
+              "Jacaré Dado no mapa",
+              "Girafa Gina na horta",
+              "Lobo Rex comparando"
+            ],
+            "pairs": [
+              {
+                "left": "O caminho é o mais curto?",
+                "right": "Jacaré Dado no mapa"
+              },
+              {
+                "left": "A lista está completa?",
+                "right": "Dálmata Pongo com a lista"
+              },
+              {
+                "left": "Os dois números são iguais?",
+                "right": "Lobo Rex comparando"
+              },
+              {
+                "left": "A planta precisa de água?",
+                "right": "Girafa Gina na horta"
+              }
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, condicional (se/então), pergunta e resposta",
+          "img": "m2-e68.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Coloque na ordem certa os passos para LER qualquer fluxograma.",
+          "data": {
+            "items": [
+              "Achar a caixa de início",
+              "Seguir a seta para o próximo passo",
+              "Fazer o que cada caixa pede",
+              "Parar na caixa de fim"
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, interpretação textual, ordenação, início e fim, setas (fluxo)",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O jacaré Dado vai atravessar a rua. Ordene o fluxograma do início ao fim.",
+          "data": {
+            "items": [
+              "Chegar na faixa de pedestre",
+              "Perguntar: o sinal está verde?",
+              "Se sim, atravessar a rua",
+              "Chegar do outro lado"
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, condicional (se/então), ordenação",
+          "img": "m1-e04.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A coruja Olívia vai sair de casa. Ordene os passos do fluxograma dela.",
+          "data": {
+            "items": [
+              "Olhar pela janela",
+              "Perguntar: está chovendo?",
+              "Se sim, pegar o guarda-chuva",
+              "Sair de casa"
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, condicional (se/então), ordenação",
+          "img": "m2-e06.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O urso Téo vai ligar o robô. Coloque o fluxograma na ordem certa.",
+          "data": {
+            "items": [
+              "Pegar o robô",
+              "Perguntar: a bateria está cheia?",
+              "Se não, carregar a bateria",
+              "Ligar o robô"
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, condicional (se/então), ordenação, negação",
+          "img": "m2-e70.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene o fluxograma do gato Pixel seguindo as setas no chão.",
+          "data": {
+            "items": [
+              "Pisar na seta do início",
+              "Seguir a seta que aponta para frente",
+              "Virar para onde a próxima seta aponta",
+              "Chegar na seta do fim"
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, setas (fluxo), ordenação, interpretação textual",
+          "img": "m1-e17.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "A girafa Gina está jogando. Ordene o fluxograma que decide se ela continua.",
+          "data": {
+            "items": [
+              "Começar a fase",
+              "Perguntar: ainda tenho vidas?",
+              "Se sim, continuar jogando",
+              "Chegar no fim da fase"
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, condicional (se/então), ordenação",
+          "img": "m1-e11.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O dálmata Pongo tem uma lista de tarefas. Ordene o fluxograma dele.",
+          "data": {
+            "items": [
+              "Pegar a lista",
+              "Perguntar: ainda falta tarefa?",
+              "Se sim, fazer a próxima tarefa",
+              "Terminar quando não faltar nenhuma"
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, condicional (se/então), algoritmo (passo a passo), repetição (laços), ordenação",
+          "img": "m1-e07.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O lobo Rex compara dois números. Ordene o fluxograma da decisão.",
+          "data": {
+            "items": [
+              "Olhar os dois números",
+              "Perguntar: o primeiro é maior?",
+              "Seguir a seta do sim ou do não",
+              "Mostrar o resultado"
+            ]
+          },
+          "xp": 5,
+          "tags": "fluxograma, condicional (se/então), comparação, noção de número, ordenação",
+          "img": "m2-e15.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "O jacaré Dado segue um mapa do tesouro feito de fluxograma. Ordene os passos.",
+          "data": {
+            "items": [
+              "Começar no X do mapa",
+              "Seguir a seta até o losango",
+              "Decidir o caminho no losango",
+              "Chegar no tesouro (fim)"
+            ]
+          },
+          "xp": 7,
+          "tags": "fluxograma, caminho no fluxograma, setas (fluxo), ordenação, início e fim",
+          "img": "m2-e13.png"
+        },
+        {
+          "type": "DRAG_DROP",
+          "statement": "Ordene as formas do fluxograma na sequência em que aparecem do começo ao fim.",
+          "data": {
+            "items": [
+              "Caixa de início",
+              "Caixa de ação",
+              "Losango de decisão",
+              "Caixa de fim"
+            ]
+          },
+          "xp": 3,
+          "tags": "fluxograma, início e fim, rotinas do dia a dia, condicional (se/então)",
+          "img": "m2-e67.png"
+        }
+      ]
+    }
+  ]
+}

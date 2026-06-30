@@ -47,10 +47,9 @@ public class LearnController {
     }
 
     @PostMapping("/modulos/{moduloId}/teorico/concluir")
-    public ResponseEntity<Void> concluirTeorico(
+    public ResponseEntity<TheoryDto.ConclusaoResponse> concluirTeorico(
             @PathVariable Long moduloId,
             @AuthenticationPrincipal UserDetails userDetails) {
-        learnService.concluirTeorico(moduloId, userDetails.getUsername());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(learnService.concluirTeorico(moduloId, userDetails.getUsername()));
     }
 }

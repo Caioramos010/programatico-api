@@ -7,7 +7,7 @@ import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.PracticeSession;
 import com.programatico.api.domain.PracticeSessionExercise;
 import com.programatico.api.domain.Track;
-import com.programatico.api.domain.UserMission;
+import com.programatico.api.domain.UserDailyMission;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
@@ -19,7 +19,7 @@ import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TrackRepository;
-import com.programatico.api.repository.UserMissionRepository;
+import com.programatico.api.repository.UserDailyMissionRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ class ReviewServiceTest {
     @Mock private TrackRepository trackRepository;
     @Mock private UserStatsRepository userStatsRepository;
     @Mock private MissionRepository missionRepository;
-    @Mock private UserMissionRepository userMissionRepository;
+    @Mock private UserDailyMissionRepository userDailyMissionRepository;
     @Mock private PracticeSessionRepository practiceSessionRepository;
     @Mock private PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     @Spy private ObjectMapper objectMapper = new ObjectMapper();
@@ -64,11 +64,12 @@ class ReviewServiceTest {
                 .title("Treinar logica")
                 .quantidade(3)
                 .build();
-        UserMission userMission = UserMission.builder()
+        UserDailyMission daily = UserDailyMission.builder()
                 .usuario(usuario)
                 .mission(mission)
                 .currentProgress(2)
-                .isCompleted(false)
+                .goal(3)
+                .completed(false)
                 .build();
         UserStats stats = UserStats.builder()
                 .usuario(usuario)
@@ -108,7 +109,7 @@ class ReviewServiceTest {
                 any(), any(), any())).thenReturn(List.of(session));
         when(practiceSessionExerciseRepository.findByPracticeSessionIn(List.of(session))).thenReturn(List.of(answer1, answer2));
         when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(stats));
-        when(userMissionRepository.findByUsuario(usuario)).thenReturn(List.of(userMission));
+        when(userDailyMissionRepository.findByUsuarioAndMissionDate(any(), any())).thenReturn(List.of(daily));
         when(missionRepository.findAll()).thenReturn(List.of(mission));
 
         ReviewDto.Response response = reviewService.getReview("user", 1L, 7);

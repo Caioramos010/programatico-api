@@ -21,7 +21,9 @@ public final class TrackDto {
             int order,
             String status,
             String description,
-            long totalXp
+            long totalXp,
+            List<String> topAssuntos,
+            boolean emAndamento
     ) {}
 
     @Data
