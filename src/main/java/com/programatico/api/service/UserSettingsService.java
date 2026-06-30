@@ -125,6 +125,7 @@ public class UserSettingsService {
                         .disableEmailNotifications(false)
                         .disableAllNotifications(false)
                         .twoFactorEnabled(true)
+                        .totpEnabled(false)
                         .build()));
     }
 }

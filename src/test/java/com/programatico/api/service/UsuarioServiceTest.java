@@ -51,6 +51,9 @@ class UsuarioServiceTest {
     @Mock
     private VerificationCodeGuardService verificationCodeGuardService;
 
+    @Mock
+    private TotpSettingsService totpSettingsService;
+
     @InjectMocks
     private UsuarioService usuarioService;
 
@@ -66,6 +69,7 @@ class UsuarioServiceTest {
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
         when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
         doNothing().when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -119,6 +123,7 @@ class UsuarioServiceTest {
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
         when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
         doNothing().when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         doNothing().when(verificationCodeGuardService)

@@ -1,6 +1,7 @@
 package com.programatico.api.dto;
 
 import com.programatico.api.domain.UserSettings;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -65,10 +66,12 @@ public final class SettingsDto {
     @AllArgsConstructor
     public static class SecurityPreferencesResponse {
         private boolean twoFactorEnabled;
+        private boolean totpEnabled;
 
         public static SecurityPreferencesResponse fromEntity(UserSettings settings) {
             return SecurityPreferencesResponse.builder()
                     .twoFactorEnabled(Boolean.TRUE.equals(settings.getTwoFactorEnabled()))
+                    .totpEnabled(Boolean.TRUE.equals(settings.getTotpEnabled()))
                     .build();
         }
     }
@@ -80,5 +83,33 @@ public final class SettingsDto {
     public static class SecurityPreferencesRequest {
         @NotNull
         private Boolean twoFactorEnabled;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpStatusResponse {
+        private boolean totpEnabled;
+        private boolean setupPendente;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpSetupResponse {
+        private String secret;
+        private String otpauthUrl;
+        private String qrCodeDataUrl;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpCodeRequest {
+        @NotBlank
+        private String codigo;
     }
 }

@@ -42,6 +42,7 @@ public class UsuarioService {
     private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     private final UserSettingsService userSettingsService;
     private final VerificationCodeGuardService verificationCodeGuardService;
+    private final TotpSettingsService totpSettingsService;
 
     private Usuario validarCredenciaisLogin(String emailOuUsername, String senha) {
         Usuario usuario = usuarioRepository.findByEmailOrUsername(emailOuUsername, emailOuUsername)
@@ -62,13 +63,19 @@ public class UsuarioService {
             return UsuarioDto.LoginIniciarResponse.loginDireto(finalizarLogin(usuario));
         }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+        if (totpSettingsService.isTotpAtivo(usuario)) {
+            return UsuarioDto.LoginIniciarResponse.comVerificacao(
+                    "Use o código de 6 dígitos do seu aplicativo autenticador.",
+                    "TOTP");
+        }
         String codigo = gerarCodigo();
         usuario.setCodigoVerificacaoLogin(codigo);
         usuario.setDataExpiracaoCodigoLogin(Instant.now().plus(EXPIRACAO_CODIGO_LOGIN_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
         emailService.enviarCodigoVerificacaoLogin(usuario.getEmail(), usuario.getUsername(), codigo);
         return UsuarioDto.LoginIniciarResponse.comVerificacao(
-                "Enviamos um código de verificação para o seu e-mail.");
+                "Enviamos um código de verificação para o seu e-mail.",
+                "EMAIL");
     }
 
     @Transactional
@@ -78,6 +85,13 @@ public class UsuarioService {
             throw new BadRequestException("Verificação em duas etapas desativada para esta conta.");
         }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+        if (totpSettingsService.isTotpAtivo(usuario)) {
+            if (!totpSettingsService.validarCodigoLogin(usuario, request.getCodigo())) {
+                verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);
+            }
+            verificationCodeGuardService.resetAttempts(usuario, VerificationCodeContext.LOGIN);
+            return finalizarLogin(usuario);
+        }
         if (usuario.getCodigoVerificacaoLogin() == null
                 || !usuario.getCodigoVerificacaoLogin().equals(request.getCodigo())) {
             verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);

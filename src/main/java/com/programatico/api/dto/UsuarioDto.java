@@ -234,16 +234,22 @@ public final class UsuarioDto {
     @AllArgsConstructor
     public static class LoginIniciarResponse {
         private boolean requiresVerification;
+        private String verificationMethod;
         private String mensagem;
         private String token;
         private String tipo;
         private Response usuario;
 
-        public static LoginIniciarResponse comVerificacao(String mensagem) {
+        public static LoginIniciarResponse comVerificacao(String mensagem, String verificationMethod) {
             return LoginIniciarResponse.builder()
                     .requiresVerification(true)
                     .mensagem(mensagem)
+                    .verificationMethod(verificationMethod)
                     .build();
+        }
+
+        public static LoginIniciarResponse comVerificacao(String mensagem) {
+            return comVerificacao(mensagem, "EMAIL");
         }
 
         public static LoginIniciarResponse loginDireto(LoginResponse login) {
