@@ -3,7 +3,9 @@ package com.programatico.api.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import com.programatico.api.service.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,12 +37,15 @@ class AuthFlowIntegrationTest {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private UserSettingsRepository userSettingsRepository;
+
     @MockitoBean
     private EmailService emailService;
 
     @BeforeEach
     void setup() {
-        usuarioRepository.deleteAll();
+        IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
         doNothing().when(emailService).enviarCodigoAtivacao(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
         doNothing().when(emailService).enviarCodigoRedefinicaoSenha(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
         doNothing().when(emailService).enviarCodigoExclusaoConta(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
@@ -96,6 +101,7 @@ class AuthFlowIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginIniciarJson))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.requiresVerification").value(true))
                 .andExpect(jsonPath("$.mensagem").isNotEmpty());
 
         Usuario usuarioAtivo = usuarioRepository.findByEmail(email).orElseThrow();

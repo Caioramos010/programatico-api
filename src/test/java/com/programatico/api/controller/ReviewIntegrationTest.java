@@ -21,14 +21,17 @@ import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserDailyMissionRepository;
 import com.programatico.api.repository.UserStatsRepository;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.security.JwtUtil;
 import com.programatico.api.service.EmailService;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +51,7 @@ class ReviewIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private UserStatsRepository userStatsRepository;
     @Autowired private TrackRepository trackRepository;
     @Autowired private ModuloRepository moduloRepository;
@@ -56,10 +60,10 @@ class ReviewIntegrationTest {
     @Autowired private PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     @Autowired private MissionRepository missionRepository;
     @Autowired private UserDailyMissionRepository userDailyMissionRepository;
+    @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
 
-    @MockitoBean
-    private EmailService emailService;
+    @MockitoBean private EmailService emailService;
 
     private String token;
     private Long trackId;
@@ -75,12 +79,12 @@ class ReviewIntegrationTest {
         moduloRepository.deleteAll();
         trackRepository.deleteAll();
         userStatsRepository.deleteAll();
-        usuarioRepository.deleteAll();
+        IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
 
         Usuario usuario = usuarioRepository.save(Usuario.builder()
                 .username("review-user")
                 .email("review@email.com")
-                .senha("hash")
+                .senha(passwordEncoder.encode("Senha@123"))
                 .idade(20)
                 .ativo(true)
                 .role(TipoUsuario.USER)

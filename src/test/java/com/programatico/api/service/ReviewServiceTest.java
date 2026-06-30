@@ -13,6 +13,8 @@ import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
 import com.programatico.api.domain.enums.ModuleType;
 import com.programatico.api.dto.ReviewDto;
+import com.programatico.api.exception.BadRequestException;
+import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.MissionRepository;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import com.programatico.api.repository.PracticeSessionRepository;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -123,6 +126,43 @@ class ReviewServiceTest {
         assertEquals("Treinar logica", response.getRecentMissions().get(0).getLabel());
         assertEquals("Em progresso (2/3)", response.getRecentMissions().get(0).getStatus());
         assertEquals("30s", response.getStats().get(3).getValue());
+    }
+
+    @Test
+    void getReviewDeveFalharQuandoUsuarioNaoExiste() {
+        when(usuarioRepository.findByUsername("inexistente")).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> reviewService.getReview("inexistente", null, 7));
+    }
+
+    @Test
+    void getReviewDeveFalharQuandoTrilhaInvalida() {
+        Usuario usuario = usuarioBase();
+        Track track = trackBase();
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(trackRepository.findAllByOrderByDisplayOrderAsc()).thenReturn(List.of(track));
+
+        assertThrows(BadRequestException.class,
+                () -> reviewService.getReview("user", 999L, 7));
+    }
+
+    @Test
+    void getReviewDeveNormalizarDiasInvalidosParaSete() {
+        Usuario usuario = usuarioBase();
+        Track track = trackBase();
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(trackRepository.findAllByOrderByDisplayOrderAsc()).thenReturn(List.of(track));
+        when(practiceSessionRepository.findByUsuarioAndModulo_TrackAndStartedAtGreaterThanEqualOrderByStartedAtAsc(
+                any(), any(), any())).thenReturn(List.of());
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.empty());
+        when(userMissionRepository.findByUsuario(usuario)).thenReturn(List.of());
+        when(missionRepository.findAll()).thenReturn(List.of());
+
+        ReviewDto.Response response = reviewService.getReview("user", 1L, 45);
+
+        assertEquals(7, response.getSelectedDays());
+        assertEquals("0", response.getStats().get(0).getValue());
     }
 
     private Usuario usuarioBase() {

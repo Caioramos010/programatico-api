@@ -49,7 +49,10 @@ public class SchemaMigrationRunner implements ApplicationRunner {
 
         ensureUsersColumnsInEnglish();
         backfillRootSubscriptionExpiresAt();
+        ensureSubscriptionAutoRenewColumn();
+        ensureVerificationCodeAttemptColumns();
         ensureUserSettingsColumns();
+        ensureTwoFactorBackupCodesTable();
 
         if (legacyTable != null) {
             mergeLegacyData(legacyTable);
@@ -145,6 +148,26 @@ public class SchemaMigrationRunner implements ApplicationRunner {
         }
     }
 
+    private void ensureSubscriptionAutoRenewColumn() {
+        addColumnIfMissing("users", "subscription_auto_renew",
+                "ALTER TABLE users ADD COLUMN subscription_auto_renew BIT(1) NOT NULL DEFAULT 1");
+    }
+
+    private void ensureVerificationCodeAttemptColumns() {
+        addColumnIfMissing("users", "login_code_failed_attempts",
+                "ALTER TABLE users ADD COLUMN login_code_failed_attempts INT NOT NULL DEFAULT 0");
+        addColumnIfMissing("users", "login_code_blocked_until",
+                "ALTER TABLE users ADD COLUMN login_code_blocked_until DATETIME(6) NULL");
+        addColumnIfMissing("users", "activation_code_failed_attempts",
+                "ALTER TABLE users ADD COLUMN activation_code_failed_attempts INT NOT NULL DEFAULT 0");
+        addColumnIfMissing("users", "activation_code_blocked_until",
+                "ALTER TABLE users ADD COLUMN activation_code_blocked_until DATETIME(6) NULL");
+        addColumnIfMissing("users", "password_reset_code_failed_attempts",
+                "ALTER TABLE users ADD COLUMN password_reset_code_failed_attempts INT NOT NULL DEFAULT 0");
+        addColumnIfMissing("users", "password_reset_code_blocked_until",
+                "ALTER TABLE users ADD COLUMN password_reset_code_blocked_until DATETIME(6) NULL");
+    }
+
     private void ensureUserSettingsColumns() {
         if (!tableExists("user_settings")) {
             return;
@@ -161,6 +184,32 @@ public class SchemaMigrationRunner implements ApplicationRunner {
                 "ALTER TABLE user_settings ADD COLUMN disable_email_notifications BIT(1) NOT NULL DEFAULT 0");
         addColumnIfMissing("user_settings", "disable_all_notifications",
                 "ALTER TABLE user_settings ADD COLUMN disable_all_notifications BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "two_factor_enabled",
+                "ALTER TABLE user_settings ADD COLUMN two_factor_enabled BIT(1) NOT NULL DEFAULT 1");
+        addColumnIfMissing("user_settings", "totp_enabled",
+                "ALTER TABLE user_settings ADD COLUMN totp_enabled BIT(1) NOT NULL DEFAULT 0");
+        addColumnIfMissing("user_settings", "totp_secret",
+                "ALTER TABLE user_settings ADD COLUMN totp_secret VARCHAR(128) NULL");
+        addColumnIfMissing("user_settings", "totp_pending_secret",
+                "ALTER TABLE user_settings ADD COLUMN totp_pending_secret VARCHAR(128) NULL");
+    }
+
+    private void ensureTwoFactorBackupCodesTable() {
+        if (tableExists("two_factor_backup_codes")) {
+            return;
+        }
+        execute("""
+                CREATE TABLE two_factor_backup_codes (
+                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                    user_id BIGINT NOT NULL,
+                    code_hash VARCHAR(255) NOT NULL,
+                    used_at DATETIME(6) NULL,
+                    created_at DATETIME(6) NOT NULL,
+                    CONSTRAINT fk_backup_codes_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                    INDEX idx_backup_codes_user_id (user_id)
+                )
+                """);
+        log.info("Tabela 'two_factor_backup_codes' criada.");
     }
 
     private void addColumnIfMissing(String table, String column, String ddl) {

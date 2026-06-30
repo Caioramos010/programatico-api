@@ -1,11 +1,14 @@
 package com.programatico.api.dto;
 
 import com.programatico.api.domain.UserSettings;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 public final class SettingsDto {
 
@@ -57,5 +60,80 @@ public final class SettingsDto {
 
         @NotNull
         private Boolean disableAllNotifications;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SecurityPreferencesResponse {
+        private boolean twoFactorEnabled;
+        private boolean totpEnabled;
+        private int backupCodesRemaining;
+        private List<String> backupCodes;
+
+        public static SecurityPreferencesResponse fromEntity(UserSettings settings) {
+            return fromEntity(settings, null, 0);
+        }
+
+        public static SecurityPreferencesResponse fromEntity(
+                UserSettings settings,
+                List<String> backupCodes,
+                int backupCodesRemaining
+        ) {
+            return SecurityPreferencesResponse.builder()
+                    .twoFactorEnabled(Boolean.TRUE.equals(settings.getTwoFactorEnabled()))
+                    .totpEnabled(Boolean.TRUE.equals(settings.getTotpEnabled()))
+                    .backupCodesRemaining(backupCodesRemaining)
+                    .backupCodes(backupCodes)
+                    .build();
+        }
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SecurityPreferencesRequest {
+        @NotNull
+        private Boolean twoFactorEnabled;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpStatusResponse {
+        private boolean totpEnabled;
+        private boolean setupPendente;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpSetupResponse {
+        private String secret;
+        private String otpauthUrl;
+        private String qrCodeDataUrl;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpActivationResponse {
+        private boolean totpEnabled;
+        private boolean setupPendente;
+        private List<String> backupCodes;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpCodeRequest {
+        @NotBlank
+        private String codigo;
     }
 }

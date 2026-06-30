@@ -5,14 +5,17 @@ import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.repository.NotificationRepository;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.security.JwtUtil;
 import com.programatico.api.service.EmailService;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,11 +38,12 @@ class NotificationIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private NotificationRepository notificationRepository;
+    @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
 
-    @MockitoBean
-    private EmailService emailService;
+    @MockitoBean private EmailService emailService;
 
     private String token;
     private Long unreadNotificationId;
@@ -48,12 +52,12 @@ class NotificationIntegrationTest {
     @BeforeEach
     void setUp() {
         notificationRepository.deleteAll();
-        usuarioRepository.deleteAll();
+        IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
 
         Usuario usuario = usuarioRepository.save(Usuario.builder()
                 .username("notification-user")
                 .email("notification@email.com")
-                .senha("hash")
+                .senha(passwordEncoder.encode("Senha@123"))
                 .idade(20)
                 .ativo(true)
                 .role(TipoUsuario.USER)

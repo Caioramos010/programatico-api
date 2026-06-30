@@ -43,4 +43,18 @@ public class UserSettings {
     @Column(name = "disable_all_notifications", nullable = false)
     @Builder.Default
     private Boolean disableAllNotifications = false;
+
+    @Column(name = "two_factor_enabled", nullable = false)
+    @Builder.Default
+    private Boolean twoFactorEnabled = true;
+
+    @Column(name = "totp_enabled", nullable = false)
+    @Builder.Default
+    private Boolean totpEnabled = false;
+
+    @Column(name = "totp_secret", length = 128)
+    private String totpSecret;
+
+    @Column(name = "totp_pending_secret", length = 128)
+    private String totpPendingSecret;
 }
