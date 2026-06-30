@@ -12,6 +12,8 @@ import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.sun.net.httpserver.HttpServer;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,12 +25,17 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,6 +52,8 @@ class PaymentServiceTest {
     @InjectMocks
     private PaymentService paymentService;
 
+    private HttpServer mockAbacatePay;
+
     @BeforeEach
     void configurarPropriedades() {
         ReflectionTestUtils.setField(paymentService, "apiKey", "");
@@ -52,6 +61,94 @@ class PaymentServiceTest {
         ReflectionTestUtils.setField(paymentService, "staticCheckoutUrl", "https://checkout.exemplo.com/pagar");
         ReflectionTestUtils.setField(paymentService, "frontendUrl", "http://localhost:5173");
         ReflectionTestUtils.setField(paymentService, "apiBaseUrl", "https://api.abacatepay.com/v2");
+    }
+
+    @AfterEach
+    void pararMockAbacatePay() {
+        if (mockAbacatePay != null) {
+            mockAbacatePay.stop(0);
+            mockAbacatePay = null;
+        }
+    }
+
+    @Test
+    void resolveCheckoutUrlComApiConfiguradaDeveCriarCheckout() throws Exception {
+        iniciarMockAbacatePay("""
+                {
+                  "success": true,
+                  "data": {
+                    "id": "chk_novo",
+                    "url": "https://pay.abacatepay.com/checkout/chk_novo"
+                  }
+                }
+                """, "/v2/checkouts/create");
+
+        ReflectionTestUtils.setField(paymentService, "apiKey", "api-key-teste");
+        ReflectionTestUtils.setField(paymentService, "productId", "prod_teste");
+        ReflectionTestUtils.setField(paymentService, "staticCheckoutUrl", "");
+        ReflectionTestUtils.setField(paymentService, "apiBaseUrl",
+                "http://localhost:" + mockAbacatePay.getAddress().getPort() + "/v2");
+
+        Usuario usuario = usuarioBase(10L);
+        when(usuarioRepository.findByUsername("payer")).thenReturn(Optional.of(usuario));
+
+        PaymentService.CheckoutResult result = paymentService.resolveCheckoutUrl("payer");
+
+        assertEquals("https://pay.abacatepay.com/checkout/chk_novo", result.url());
+        assertEquals("chk_novo", result.billId());
+    }
+
+    @Test
+    void sincronizarAssinaturaComBillPagoDeveAtivarRoot() throws Exception {
+        iniciarMockAbacatePay("""
+                {
+                  "success": true,
+                  "data": {
+                    "id": "chk_pago",
+                    "status": "PAID",
+                    "externalId": "11"
+                  }
+                }
+                """, "/v2/checkouts/get");
+
+        ReflectionTestUtils.setField(paymentService, "apiKey", "api-key-teste");
+        ReflectionTestUtils.setField(paymentService, "apiBaseUrl",
+                "http://localhost:" + mockAbacatePay.getAddress().getPort() + "/v2");
+
+        Usuario usuario = usuarioBase(11L);
+        when(usuarioRepository.findByUsername("payer")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findById(11L)).thenReturn(Optional.of(usuario));
+
+        paymentService.sincronizarAssinatura("payer", "chk_pago");
+
+        verify(abacatePayWebhookService).ativarPlanoRoot(11L);
+    }
+
+    @Test
+    void sincronizarAssinaturaComBillInvalidoDeveLancarBadRequest() throws Exception {
+        iniciarMockAbacatePay("""
+                {
+                  "success": true,
+                  "data": {
+                    "id": "chk_pendente",
+                    "status": "PENDING",
+                    "externalId": "12"
+                  }
+                }
+                """, "/v2/checkouts/get");
+
+        ReflectionTestUtils.setField(paymentService, "apiKey", "api-key-teste");
+        ReflectionTestUtils.setField(paymentService, "apiBaseUrl",
+                "http://localhost:" + mockAbacatePay.getAddress().getPort() + "/v2");
+
+        Usuario usuario = usuarioBase(12L);
+        when(usuarioRepository.findByUsername("payer")).thenReturn(Optional.of(usuario));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> paymentService.sincronizarAssinatura("payer", "chk_pendente"));
+
+        assertEquals("Pagamento não encontrado ou ainda não confirmado para o billId informado.", ex.getMessage());
+        verify(abacatePayWebhookService, never()).ativarPlanoRoot(anyLong());
     }
 
     @Test
@@ -220,5 +317,18 @@ class PaymentServiceTest {
                 .role(TipoUsuario.USER)
                 .subscriptionType(SubscriptionType.FREE)
                 .build();
+    }
+
+    private void iniciarMockAbacatePay(String jsonResponse, String path) throws IOException {
+        mockAbacatePay = HttpServer.create(new InetSocketAddress(0), 0);
+        mockAbacatePay.createContext(path, exchange -> {
+            byte[] bytes = jsonResponse.getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, bytes.length);
+            try (OutputStream out = exchange.getResponseBody()) {
+                out.write(bytes);
+            }
+        });
+        mockAbacatePay.start();
     }
 }

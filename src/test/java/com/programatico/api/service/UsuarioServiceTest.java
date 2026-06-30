@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -62,6 +63,128 @@ class UsuarioServiceTest {
 
     @InjectMocks
     private UsuarioService usuarioService;
+
+    @Test
+    void confirmarLoginDeveFalharQuando2faDesativado() {
+        UsuarioDto.LoginConfirmarRequest request = UsuarioDto.LoginConfirmarRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .codigo("123456")
+                .build();
+        Usuario usuario = usuarioBase();
+        usuario.setAtivo(true);
+
+        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(false);
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> usuarioService.confirmarLogin(request));
+
+        assertEquals("Verificação em duas etapas desativada para esta conta.", ex.getMessage());
+        verify(verificationCodeGuardService, never()).ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+    }
+
+    @Test
+    void confirmarLoginDeveFalharQuandoCodigoLoginExpirado() {
+        UsuarioDto.LoginConfirmarRequest request = UsuarioDto.LoginConfirmarRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .codigo("123456")
+                .build();
+        Usuario usuario = usuarioBase();
+        usuario.setAtivo(true);
+        usuario.setCodigoVerificacaoLogin("123456");
+        usuario.setDataExpiracaoCodigoLogin(Instant.now().minusSeconds(60));
+
+        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
+        when(backupCodeService.temCodigosDisponiveis(usuario)).thenReturn(false);
+        doNothing().when(verificationCodeGuardService)
+                .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> usuarioService.confirmarLogin(request));
+
+        assertEquals("Código expirado. Volte à tela de login e tente novamente.", ex.getMessage());
+        verify(verificationCodeGuardService, never()).resetAttempts(usuario, VerificationCodeContext.LOGIN);
+    }
+
+    @Test
+    void confirmarLoginDeveRegistrarTentativaQuandoCodigoInvalido() {
+        UsuarioDto.LoginConfirmarRequest request = UsuarioDto.LoginConfirmarRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .codigo("000000")
+                .build();
+        Usuario usuario = usuarioBase();
+        usuario.setAtivo(true);
+        usuario.setCodigoVerificacaoLogin("123456");
+        usuario.setDataExpiracaoCodigoLogin(Instant.now().plusSeconds(3600));
+
+        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
+        when(backupCodeService.temCodigosDisponiveis(usuario)).thenReturn(false);
+        doNothing().when(verificationCodeGuardService)
+                .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+        doThrow(new BadRequestException("Código inválido. Restam 4 tentativa(s) antes do bloqueio temporário."))
+                .when(verificationCodeGuardService)
+                .recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> usuarioService.confirmarLogin(request));
+
+        assertTrue(ex.getMessage().contains("Código inválido"));
+        verify(verificationCodeGuardService).recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);
+    }
+
+    @Test
+    void iniciarLoginDevePular2faQuandoDispositivoConfiavel() {
+        UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .build();
+        Usuario usuario = usuarioBase();
+        usuario.setAtivo(true);
+
+        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        when(trustedDeviceService.isConfiavel(1L, "device-token")).thenReturn(true);
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
+
+        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request, "device-token");
+
+        assertFalse(response.isRequiresVerification());
+        assertEquals("jwt-token", response.getToken());
+        verify(emailService, never()).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
+        verify(verificationCodeGuardService, never()).ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+    }
+
+    @Test
+    void iniciarLoginDeveRespeitarBloqueioPorTentativas() {
+        UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .build();
+        Usuario usuario = usuarioBase();
+        usuario.setAtivo(true);
+
+        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
+        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
+        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        doThrow(new BadRequestException("Muitas tentativas inválidas. Tente novamente em 30 minutos."))
+                .when(verificationCodeGuardService)
+                .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+
+        assertThrows(BadRequestException.class, () -> usuarioService.iniciarLogin(request, null));
+        verify(emailService, never()).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
+    }
 
     @Test
     void iniciarLoginDeveEnviarCodigoQuandoCredenciaisForemValidas() {
@@ -130,6 +253,7 @@ class UsuarioServiceTest {
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
         when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
         when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
+        when(backupCodeService.temCodigosDisponiveis(usuario)).thenReturn(false);
         doNothing().when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         doNothing().when(verificationCodeGuardService)

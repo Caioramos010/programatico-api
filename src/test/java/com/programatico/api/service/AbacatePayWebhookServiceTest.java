@@ -141,7 +141,14 @@ class AbacatePayWebhookServiceTest {
     }
 
     @Test
-    void processarEventoDuplicadoNaoDeveReativarPlano() throws Exception {
+    void assinaturaValidaDeveRejeitarHmacComCorpoAlterado() throws Exception {
+        String body = "{\"event\":\"checkout.completed\"}";
+        String assinatura = calcularHmac(body, HMAC_KEY);
+        assertFalse(webhookService.assinaturaValida(body + " ", assinatura));
+    }
+
+    @Test
+    void processarEventoDuplicadoNaoDeveAlterarPagamento() throws Exception {
         when(processedRepository.existsById("evt-dup")).thenReturn(true);
 
         String body = """
