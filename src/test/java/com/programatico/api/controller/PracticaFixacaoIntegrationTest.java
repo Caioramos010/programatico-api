@@ -19,7 +19,9 @@ import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import com.programatico.api.security.JwtUtil;
 import com.programatico.api.service.EmailService;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,6 +48,7 @@ class PracticaFixacaoIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private TrackRepository trackRepository;
     @Autowired private ModuloRepository moduloRepository;
     @Autowired private ExerciseRepository exerciseRepository;
@@ -70,7 +73,7 @@ class PracticaFixacaoIntegrationTest {
         moduloRepository.deleteAll();
         trackRepository.deleteAll();
         userStatsRepository.deleteAll();
-        usuarioRepository.deleteAll();
+        IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
 
         Usuario usuario = usuarioRepository.save(Usuario.builder()
                 .username("fixacao-user")

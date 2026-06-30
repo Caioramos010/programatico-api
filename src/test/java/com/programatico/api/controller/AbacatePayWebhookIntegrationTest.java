@@ -6,7 +6,9 @@ import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.ProcessedAbacateWebhookRepository;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import com.programatico.api.service.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,6 +39,7 @@ class AbacatePayWebhookIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private ProcessedAbacateWebhookRepository processedRepository;
     @Autowired private PaymentRepository paymentRepository;
     @Autowired private PasswordEncoder passwordEncoder;
@@ -49,8 +52,8 @@ class AbacatePayWebhookIntegrationTest {
     @BeforeEach
     void setUp() {
         processedRepository.deleteAll();
-        paymentRepository.deleteAll();
-        usuarioRepository.deleteAll();
+        IntegrationTestDbCleaner.limparUsuarios(
+                usuarioRepository, userSettingsRepository, paymentRepository, null);
 
         usuario = usuarioRepository.save(Usuario.builder()
                 .username("webhook-user")

@@ -3,7 +3,9 @@ package com.programatico.api.controller;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import com.programatico.api.security.JwtUtil;
 import com.programatico.api.service.EmailService;
 import com.sun.net.httpserver.HttpServer;
@@ -65,6 +67,7 @@ class PaymentSyncBillIdIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
 
@@ -82,7 +85,7 @@ class PaymentSyncBillIdIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        usuarioRepository.deleteAll();
+        IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
 
         Usuario usuario = usuarioRepository.save(Usuario.builder()
                 .username("sync-bill-user")
