@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -47,6 +48,9 @@ class UsuarioServiceTest {
     @Mock
     private UserSettingsService userSettingsService;
 
+    @Mock
+    private VerificationCodeGuardService verificationCodeGuardService;
+
     @InjectMocks
     private UsuarioService usuarioService;
 
@@ -62,6 +66,8 @@ class UsuarioServiceTest {
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
         when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        doNothing().when(verificationCodeGuardService)
+                .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request);
@@ -113,6 +119,10 @@ class UsuarioServiceTest {
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
         when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
+        doNothing().when(verificationCodeGuardService)
+                .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+        doNothing().when(verificationCodeGuardService)
+                .resetAttempts(usuario, VerificationCodeContext.LOGIN);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
 

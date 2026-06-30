@@ -81,6 +81,9 @@ public final class UsuarioDto {
     public static class AtivacaoRequest {
         @NotBlank(message = "Código de ativação é obrigatório")
         private String codigo;
+
+        @Email(message = "E-mail inválido")
+        private String email;
     }
 
     @Data
@@ -110,6 +113,9 @@ public final class UsuarioDto {
     public static class NovaSenhaRequest {
         @NotBlank(message = "Código é obrigatório")
         private String codigo;
+
+        @Email(message = "E-mail inválido")
+        private String email;
 
         @NotBlank(message = "Nova senha é obrigatória")
         @Size(min = 8, message = "Senha deve ter no mínimo 8 caracteres")

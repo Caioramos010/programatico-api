@@ -50,6 +50,7 @@ public class SchemaMigrationRunner implements ApplicationRunner {
         ensureUsersColumnsInEnglish();
         backfillRootSubscriptionExpiresAt();
         ensureSubscriptionAutoRenewColumn();
+        ensureVerificationCodeAttemptColumns();
         ensureUserSettingsColumns();
 
         if (legacyTable != null) {
@@ -149,6 +150,21 @@ public class SchemaMigrationRunner implements ApplicationRunner {
     private void ensureSubscriptionAutoRenewColumn() {
         addColumnIfMissing("users", "subscription_auto_renew",
                 "ALTER TABLE users ADD COLUMN subscription_auto_renew BIT(1) NOT NULL DEFAULT 1");
+    }
+
+    private void ensureVerificationCodeAttemptColumns() {
+        addColumnIfMissing("users", "login_code_failed_attempts",
+                "ALTER TABLE users ADD COLUMN login_code_failed_attempts INT NOT NULL DEFAULT 0");
+        addColumnIfMissing("users", "login_code_blocked_until",
+                "ALTER TABLE users ADD COLUMN login_code_blocked_until DATETIME(6) NULL");
+        addColumnIfMissing("users", "activation_code_failed_attempts",
+                "ALTER TABLE users ADD COLUMN activation_code_failed_attempts INT NOT NULL DEFAULT 0");
+        addColumnIfMissing("users", "activation_code_blocked_until",
+                "ALTER TABLE users ADD COLUMN activation_code_blocked_until DATETIME(6) NULL");
+        addColumnIfMissing("users", "password_reset_code_failed_attempts",
+                "ALTER TABLE users ADD COLUMN password_reset_code_failed_attempts INT NOT NULL DEFAULT 0");
+        addColumnIfMissing("users", "password_reset_code_blocked_until",
+                "ALTER TABLE users ADD COLUMN password_reset_code_blocked_until DATETIME(6) NULL");
     }
 
     private void ensureUserSettingsColumns() {
