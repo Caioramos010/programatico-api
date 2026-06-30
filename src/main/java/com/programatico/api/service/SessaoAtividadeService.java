@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -231,7 +232,7 @@ public class SessaoAtividadeService {
                 );
             }
         }
-        stats.setLastActivityDate(LocalDateTime.now());
+        aplicarStreakDiario(stats);
         userStatsRepository.save(stats);
 
         return SessaoDto.RespostaResponse.builder()
@@ -240,6 +241,30 @@ public class SessaoAtividadeService {
                 .remainingLives(stats.getCurrentLives())
                 .relatedTopics(parseTags(exercise.getTags()))
                 .build();
+    }
+
+    /**
+     * Atualiza o daystreak na primeira atividade do dia: +1 se a última atividade
+     * foi no dia anterior, reinicia em 1 se houve um dia sem atividade (ou é a
+     * primeira), e mantém se já contou hoje. Atualiza também o recorde.
+     */
+    private void aplicarStreakDiario(UserStats stats) {
+        LocalDate hoje = LocalDate.now();
+        LocalDate ultima = stats.getLastActivityDate() != null
+                ? stats.getLastActivityDate().toLocalDate()
+                : null;
+        int atual = stats.getCurrentStreak() != null ? stats.getCurrentStreak() : 0;
+        if (ultima == null || ultima.isBefore(hoje.minusDays(1))) {
+            atual = 1;
+        } else if (ultima.equals(hoje.minusDays(1))) {
+            atual = atual + 1;
+        } else {
+            atual = Math.max(atual, 1);
+        }
+        stats.setCurrentStreak(atual);
+        int recorde = stats.getHighestStreak() != null ? stats.getHighestStreak() : 0;
+        stats.setHighestStreak(Math.max(recorde, atual));
+        stats.setLastActivityDate(LocalDateTime.now());
     }
 
     @Transactional
