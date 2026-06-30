@@ -35,4 +35,24 @@ class SecurityConfigIntegrationTest {
                     assertTrue(status == 401 || status == 403);
                 });
     }
+
+    @Test
+    void endpointAdminDeveExigirAutenticacao() throws Exception {
+        mockMvc.perform(get("/api/admin/trilhas"))
+                .andExpect(result -> {
+                    int status = result.getResponse().getStatus();
+                    assertTrue(status == 401 || status == 403);
+                });
+    }
+
+    @Test
+    void webhookAbacatePayDeveSerPublico() throws Exception {
+        mockMvc.perform(post("/api/webhooks/abacatepay")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(result -> {
+                    int status = result.getResponse().getStatus();
+                    assertTrue(status != 401 && status != 403);
+                });
+    }
 }

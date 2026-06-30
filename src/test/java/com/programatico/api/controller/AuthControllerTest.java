@@ -83,6 +83,34 @@ class AuthControllerTest {
     }
 
     @Test
+    void reenviarCodigoDeveRetornar200() throws Exception {
+        UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
+                .emailOuUsername("user")
+                .senha("Senha@123")
+                .build();
+        when(usuarioService.iniciarLogin(any(UsuarioDto.LoginRequest.class), any()))
+                .thenReturn(UsuarioDto.LoginIniciarResponse.comVerificacao("Código reenviado."));
+
+        mockMvc.perform(post("/api/auth/login/reenviar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.requiresVerification").value(true));
+    }
+
+    @Test
+    void solicitarRedefinicaoSenhaDeveRetornar200() throws Exception {
+        when(usuarioService.solicitarRedefinicaoSenha(any()))
+                .thenReturn(UsuarioDto.MessageResponse.of("E-mail enviado."));
+
+        mockMvc.perform(post("/api/auth/redefinir-senha/solicitar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"email\":\"user@email.com\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.mensagem").value("E-mail enviado."));
+    }
+
+    @Test
     void registroDeveRetornar400QuandoPayloadInvalido() throws Exception {
         String jsonInvalido = """
                 {

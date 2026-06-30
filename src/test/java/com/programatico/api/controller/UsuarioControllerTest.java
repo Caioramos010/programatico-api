@@ -20,6 +20,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,5 +100,25 @@ class UsuarioControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username").value("novo-user"))
                 .andExpect(jsonPath("$.email").value("novo@email.com"));
+    }
+
+    @Test
+    void solicitarExclusaoDeveRetornar200() throws Exception {
+        when(usuarioService.solicitarExclusaoConta(1L))
+                .thenReturn(UsuarioDto.MessageResponse.of("Código enviado."));
+
+        mockMvc.perform(post("/api/usuarios/1/solicitar-exclusao"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.mensagem").value("Código enviado."));
+    }
+
+    @Test
+    void confirmarExclusaoDeveRetornar204() throws Exception {
+        doNothing().when(usuarioService).confirmarExclusaoConta(eq(1L), any());
+
+        mockMvc.perform(post("/api/usuarios/1/confirmar-exclusao")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"codigo\":\"123456\"}"))
+                .andExpect(status().isNoContent());
     }
 }
