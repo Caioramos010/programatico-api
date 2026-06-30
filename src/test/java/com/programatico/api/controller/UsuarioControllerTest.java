@@ -58,6 +58,21 @@ class UsuarioControllerTest {
     }
 
     @Test
+    void buscarPorIdDeveRetornar200() throws Exception {
+        UsuarioDto.Response usuario = UsuarioDto.Response.builder()
+                .id(1L)
+                .username("user")
+                .email("user@email.com")
+                .ativo(true)
+                .build();
+        when(usuarioService.buscarPorId(1L)).thenReturn(usuario);
+
+        mockMvc.perform(get("/api/usuarios/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username").value("user"));
+    }
+
+    @Test
     void excluirDeveRetornar204() throws Exception {
         doNothing().when(usuarioService).excluir(1L);
 

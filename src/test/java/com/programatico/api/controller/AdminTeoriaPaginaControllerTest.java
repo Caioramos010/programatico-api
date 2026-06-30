@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,6 +55,20 @@ class AdminTeoriaPaginaControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("Nova página"));
+    }
+
+    @Test
+    void atualizarDeveRetornar200() throws Exception {
+        TeoriaPaginaDto.Request request = TeoriaPaginaDto.Request.builder()
+                .title("Atualizada").description("Desc").build();
+        when(adminTeoriaPaginaService.atualizar(org.mockito.ArgumentMatchers.eq(1L), any()))
+                .thenReturn(TeoriaPaginaDto.Response.builder().id(1L).title("Atualizada").build());
+
+        mockMvc.perform(put("/api/admin/paginas/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Atualizada"));
     }
 
     @Test

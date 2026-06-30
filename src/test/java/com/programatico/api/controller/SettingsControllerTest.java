@@ -57,6 +57,30 @@ class SettingsControllerTest {
 
     @Test
     @WithMockUser(username = "user")
+    void atualizarNotificacoesDeveRetornar200() throws Exception {
+        when(userSettingsService.atualizarPreferenciasNotificacao(eq("user"), any()))
+                .thenReturn(SettingsDto.NotificationPreferencesResponse.builder()
+                        .disableAllNotifications(true)
+                        .build());
+
+        mockMvc.perform(put("/api/configuracoes/notificacoes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "disableUpdateNotifications": false,
+                                  "disableDaystreakNotifications": false,
+                                  "disableMissionNotifications": false,
+                                  "disableSubscriptionNotifications": false,
+                                  "disableEmailNotifications": false,
+                                  "disableAllNotifications": true
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.disableAllNotifications").value(true));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
     void atualizarSegurancaDeveRetornar200() throws Exception {
         when(userSettingsService.atualizarPreferenciasSeguranca(eq("user"), any()))
                 .thenReturn(SettingsDto.SecurityPreferencesResponse.builder()

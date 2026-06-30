@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -55,6 +56,20 @@ class AdminContentBlockControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.textContent").value("Bloco"));
+    }
+
+    @Test
+    void atualizarDeveRetornar200() throws Exception {
+        ContentBlockDto.Request request = ContentBlockDto.Request.builder()
+                .layoutType(LayoutType.TEXT).textContent("Atualizado").displayOrder(1).build();
+        when(adminContentBlockService.atualizar(org.mockito.ArgumentMatchers.eq(1L), any()))
+                .thenReturn(ContentBlockDto.Response.builder().id(1L).textContent("Atualizado").build());
+
+        mockMvc.perform(put("/api/admin/content-blocks/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.textContent").value("Atualizado"));
     }
 
     @Test

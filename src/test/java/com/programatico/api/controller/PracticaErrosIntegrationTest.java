@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Exercise;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.PracticeSession;
+import com.programatico.api.domain.PracticeSessionExercise;
 import com.programatico.api.domain.Track;
 import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
@@ -23,9 +24,9 @@ import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
-import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import com.programatico.api.security.JwtUtil;
 import com.programatico.api.service.EmailService;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.time.LocalDateTime;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,9 +47,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-class PracticaFixacaoIntegrationTest {
+class PracticaErrosIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper objectMapper;
     @Autowired private UsuarioRepository usuarioRepository;
     @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private TrackRepository trackRepository;
@@ -60,12 +62,11 @@ class PracticaFixacaoIntegrationTest {
     @Autowired private PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
-    @Autowired private ObjectMapper objectMapper;
 
-    @MockitoBean
-    private EmailService emailService;
+    @MockitoBean private EmailService emailService;
 
     private String token;
+    private Usuario usuario;
 
     @BeforeEach
     void setUp() {
@@ -78,9 +79,9 @@ class PracticaFixacaoIntegrationTest {
         userStatsRepository.deleteAll();
         IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
 
-        Usuario usuario = usuarioRepository.save(Usuario.builder()
-                .username("fixacao-user")
-                .email("fixacao@email.com")
+        usuario = usuarioRepository.save(Usuario.builder()
+                .username("erros-user")
+                .email("erros@test.com")
                 .senha(passwordEncoder.encode("Senha@123"))
                 .idade(20)
                 .ativo(true)
@@ -96,99 +97,67 @@ class PracticaFixacaoIntegrationTest {
                 .build());
 
         Track track = trackRepository.save(Track.builder()
-                .title("Lógica Básica")
-                .description("Trilha de teste")
+                .title("Trilha")
+                .description("Desc")
                 .displayOrder(1)
                 .build());
 
-        Modulo moduloConcluido = moduloRepository.save(Modulo.builder()
+        Modulo modulo = moduloRepository.save(Modulo.builder()
                 .track(track)
-                .title("Módulo concluído")
+                .title("Módulo")
                 .moduleType(ModuleType.ACTIVITY)
                 .displayOrder(1)
                 .description("Atividade")
                 .build());
 
-        Modulo moduloLiberado = moduloRepository.save(Modulo.builder()
-                .track(track)
-                .title("Módulo liberado")
-                .moduleType(ModuleType.ACTIVITY)
-                .displayOrder(2)
-                .description("Atividade")
+        Exercise exercise = exerciseRepository.save(Exercise.builder()
+                .modulo(modulo)
+                .statement("Questão errada")
+                .exerciseType(ExerciseType.MULTIPLE_CHOICE)
+                .exerciseData("""
+                        {"options":[{"description":"A","correct":true},{"description":"B","correct":false}]}
+                        """)
+                .xpReward(3)
                 .build());
-
-        for (int i = 1; i <= 6; i++) {
-            exerciseRepository.save(Exercise.builder()
-                    .modulo(moduloConcluido)
-                    .statement("Exercício " + i)
-                    .exerciseType(ExerciseType.MULTIPLE_CHOICE)
-                    .exerciseData("""
-                            {"options":[{"description":"A","correct":true},{"description":"B","correct":false}]}
-                            """)
-                    .xpReward(3)
-                    .build());
-        }
 
         userProgressRepository.save(UserProgress.builder()
                 .usuario(usuario)
-                .modulo(moduloConcluido)
+                .modulo(modulo)
                 .status(ProgressStatus.COMPLETED)
                 .build());
-        userProgressRepository.save(UserProgress.builder()
+
+        PracticeSession sessaoAnterior = practiceSessionRepository.save(PracticeSession.builder()
                 .usuario(usuario)
-                .modulo(moduloLiberado)
-                .status(ProgressStatus.UNLOCKED)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now().minusDays(1))
+                .endedAt(LocalDateTime.now().minusDays(1).plusMinutes(5))
+                .build());
+
+        practiceSessionExerciseRepository.save(PracticeSessionExercise.builder()
+                .practiceSession(sessaoAnterior)
+                .exercise(exercise)
+                .displayOrder(1)
+                .isCorrect(false)
+                .userAnswer("B")
                 .build());
 
         token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
     }
 
     @Test
-    void deveIniciarPraticaFixacaoComExerciciosDeModulosConcluidos() throws Exception {
-        mockMvc.perform(post("/api/aprender/pratica/fixacao/iniciar")
+    void deveIniciarPraticaErrosComExerciciosErrados() throws Exception {
+        mockMvc.perform(post("/api/aprender/pratica/erros/iniciar")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.moduleTitle").value("Prática: Fixação"))
-                .andExpect(jsonPath("$.totalExercises").value(5))
-                .andExpect(jsonPath("$.initialLives").value(5))
-                .andExpect(jsonPath("$.exercises.length()").value(5))
-                .andExpect(jsonPath("$.exercises[0].statement").isNotEmpty());
-
-        PracticeSession sessao = practiceSessionRepository.findAll().get(0);
-        assertEquals(SessionType.QUICK_FIX, sessao.getSessionType());
-        assertEquals(5, practiceSessionExerciseRepository.findAll().size());
+                .andExpect(jsonPath("$.moduleTitle").value("Prática: Erros"))
+                .andExpect(jsonPath("$.totalExercises").value(1));
     }
 
     @Test
-    void deveRetornar400QuandoUsuarioNaoTemModulosConcluidos() throws Exception {
-        userProgressRepository.deleteAll();
-        userProgressRepository.save(UserProgress.builder()
-                .usuario(usuarioRepository.findByUsername("fixacao-user").orElseThrow())
-                .modulo(moduloRepository.findAll().get(1))
-                .status(ProgressStatus.UNLOCKED)
-                .build());
-
-        mockMvc.perform(post("/api/aprender/pratica/fixacao/iniciar")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.mensagem").value("Conclua um módulo antes de praticar."));
-    }
-
-    @Test
-    void deveExigirAutenticacaoParaIniciarFixacao() throws Exception {
-        mockMvc.perform(post("/api/aprender/pratica/fixacao/iniciar")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(result -> {
-                    int status = result.getResponse().getStatus();
-                    assertTrue(status == 401 || status == 403);
-                });
-    }
-
-    @Test
-    void fluxoFixacaoResponderConcluirDeveCompletar() throws Exception {
-        var inicio = mockMvc.perform(post("/api/aprender/pratica/fixacao/iniciar")
+    void fluxoErrosResponderConcluirDeveCompletar() throws Exception {
+        var inicio = mockMvc.perform(post("/api/aprender/pratica/erros/iniciar")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -196,21 +165,31 @@ class PracticaFixacaoIntegrationTest {
 
         JsonNode body = objectMapper.readTree(inicio.getResponse().getContentAsString());
         long sessionId = body.get("sessionId").asLong();
+        long exercicioId = body.get("exercises").get(0).get("id").asLong();
 
-        for (JsonNode exercicio : body.get("exercises")) {
-            mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/responder")
-                            .header("Authorization", "Bearer " + token)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content("""
-                                    {"exercicioId":%d,"resposta":"A"}
-                                    """.formatted(exercicio.get("id").asLong())))
-                    .andExpect(status().isOk())
-                    .andExpect(jsonPath("$.correct").value(true));
-        }
+        mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/responder")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"exercicioId":%d,"resposta":"A"}
+                                """.formatted(exercicioId)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.correct").value(true));
 
         mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/concluir")
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accuracy").value(100));
+    }
+
+    @Test
+    void deveRetornar400QuandoNaoHaErros() throws Exception {
+        practiceSessionExerciseRepository.deleteAll();
+
+        mockMvc.perform(post("/api/aprender/pratica/erros/iniciar")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.mensagem").value("Você ainda não tem erros para praticar."));
     }
 }

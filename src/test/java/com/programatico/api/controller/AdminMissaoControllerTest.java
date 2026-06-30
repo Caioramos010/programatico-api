@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -54,6 +55,20 @@ class AdminMissaoControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("Nova"));
+    }
+
+    @Test
+    void atualizarDeveRetornar200() throws Exception {
+        MissaoDto.Request request = MissaoDto.Request.builder()
+                .title("Atualizada").objectiveType("XP").xpReward(10).quantity(5).build();
+        when(adminMissaoService.atualizar(org.mockito.ArgumentMatchers.eq(1L), any()))
+                .thenReturn(MissaoDto.Response.builder().id(1L).title("Atualizada").build());
+
+        mockMvc.perform(put("/api/admin/missoes/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Atualizada"));
     }
 
     @Test

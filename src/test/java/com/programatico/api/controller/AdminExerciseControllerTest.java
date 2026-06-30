@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,6 +57,21 @@ class AdminExerciseControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.statement").value("Novo"));
+    }
+
+    @Test
+    void atualizarDeveRetornar200() throws Exception {
+        ExerciseDto.Request request = ExerciseDto.Request.builder()
+                .statement("Atualizado").exerciseType(ExerciseType.MULTIPLE_CHOICE)
+                .exerciseData("{}").xpReward(5).build();
+        when(adminExerciseService.atualizar(org.mockito.ArgumentMatchers.eq(1L), any()))
+                .thenReturn(ExerciseDto.Response.builder().id(1L).statement("Atualizado").build());
+
+        mockMvc.perform(put("/api/admin/exercises/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.statement").value("Atualizado"));
     }
 
     @Test
