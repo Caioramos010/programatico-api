@@ -43,6 +43,7 @@ public class UsuarioService {
     private final UserSettingsService userSettingsService;
     private final VerificationCodeGuardService verificationCodeGuardService;
     private final TotpSettingsService totpSettingsService;
+    private final BackupCodeService backupCodeService;
 
     private Usuario validarCredenciaisLogin(String emailOuUsername, String senha) {
         Usuario usuario = usuarioRepository.findByEmailOrUsername(emailOuUsername, emailOuUsername)
@@ -85,6 +86,15 @@ public class UsuarioService {
             throw new BadRequestException("Verificação em duas etapas desativada para esta conta.");
         }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
+        if (backupCodeService.temCodigosDisponiveis(usuario)
+                && backupCodeService.tentarConsumir(usuario, request.getCodigo())) {
+            verificationCodeGuardService.resetAttempts(usuario, VerificationCodeContext.LOGIN);
+            return finalizarLogin(usuario);
+        }
+        if (backupCodeService.temCodigosDisponiveis(usuario)
+                && BackupCodeService.pareceCodigoBackup(request.getCodigo())) {
+            verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);
+        }
         if (totpSettingsService.isTotpAtivo(usuario)) {
             if (!totpSettingsService.validarCodigoLogin(usuario, request.getCodigo())) {
                 verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);

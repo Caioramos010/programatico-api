@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TotpSettingsService {
@@ -19,6 +21,7 @@ public class TotpSettingsService {
     private final UserSettingsRepository userSettingsRepository;
     private final UsuarioRepository usuarioRepository;
     private final TotpService totpService;
+    private final BackupCodeService backupCodeService;
 
     @Transactional(readOnly = true)
     public SettingsDto.TotpStatusResponse obterStatus(String username) {
@@ -48,7 +51,7 @@ public class TotpSettingsService {
     }
 
     @Transactional
-    public SettingsDto.TotpStatusResponse ativar(String username, String codigo) {
+    public SettingsDto.TotpActivationResponse ativar(String username, String codigo) {
         Usuario usuario = buscarUsuario(username);
         UserSettings settings = obterSettings(usuario);
         if (!StringUtils.hasText(settings.getTotpPendingSecret())) {
@@ -62,7 +65,13 @@ public class TotpSettingsService {
         settings.setTotpEnabled(true);
         settings.setTwoFactorEnabled(true);
         userSettingsRepository.save(settings);
-        return obterStatus(username);
+        List<String> backupCodes = backupCodeService.gerarParaUsuario(usuario);
+        SettingsDto.TotpStatusResponse status = obterStatus(username);
+        return SettingsDto.TotpActivationResponse.builder()
+                .totpEnabled(status.isTotpEnabled())
+                .setupPendente(status.isSetupPendente())
+                .backupCodes(backupCodes)
+                .build();
     }
 
     @Transactional

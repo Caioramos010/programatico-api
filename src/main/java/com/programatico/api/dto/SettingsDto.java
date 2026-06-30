@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 public final class SettingsDto {
 
     private SettingsDto() {}
@@ -67,11 +69,23 @@ public final class SettingsDto {
     public static class SecurityPreferencesResponse {
         private boolean twoFactorEnabled;
         private boolean totpEnabled;
+        private int backupCodesRemaining;
+        private List<String> backupCodes;
 
         public static SecurityPreferencesResponse fromEntity(UserSettings settings) {
+            return fromEntity(settings, null, 0);
+        }
+
+        public static SecurityPreferencesResponse fromEntity(
+                UserSettings settings,
+                List<String> backupCodes,
+                int backupCodesRemaining
+        ) {
             return SecurityPreferencesResponse.builder()
                     .twoFactorEnabled(Boolean.TRUE.equals(settings.getTwoFactorEnabled()))
                     .totpEnabled(Boolean.TRUE.equals(settings.getTotpEnabled()))
+                    .backupCodesRemaining(backupCodesRemaining)
+                    .backupCodes(backupCodes)
                     .build();
         }
     }
@@ -102,6 +116,16 @@ public final class SettingsDto {
         private String secret;
         private String otpauthUrl;
         private String qrCodeDataUrl;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class TotpActivationResponse {
+        private boolean totpEnabled;
+        private boolean setupPendente;
+        private List<String> backupCodes;
     }
 
     @Data

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserSettingsService {
@@ -24,6 +26,7 @@ public class UserSettingsService {
 
     private final UserSettingsRepository userSettingsRepository;
     private final UsuarioRepository usuarioRepository;
+    private final BackupCodeService backupCodeService;
 
     @Transactional(readOnly = true)
     public SettingsDto.NotificationPreferencesResponse obterPreferenciasNotificacao(String username) {
@@ -60,7 +63,12 @@ public class UserSettingsService {
     public SettingsDto.SecurityPreferencesResponse obterPreferenciasSeguranca(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
-        return SettingsDto.SecurityPreferencesResponse.fromEntity(obterOuCriar(usuario));
+        UserSettings settings = obterOuCriar(usuario);
+        return SettingsDto.SecurityPreferencesResponse.fromEntity(
+                settings,
+                null,
+                backupCodeService.contarDisponiveis(usuario)
+        );
     }
 
     @Transactional
@@ -71,8 +79,23 @@ public class UserSettingsService {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
         UserSettings settings = obterOuCriar(usuario);
-        settings.setTwoFactorEnabled(Boolean.TRUE.equals(request.getTwoFactorEnabled()));
-        return SettingsDto.SecurityPreferencesResponse.fromEntity(userSettingsRepository.save(settings));
+        boolean estavaAtivo = Boolean.TRUE.equals(settings.getTwoFactorEnabled());
+        boolean ativar = Boolean.TRUE.equals(request.getTwoFactorEnabled());
+        settings.setTwoFactorEnabled(ativar);
+        userSettingsRepository.save(settings);
+
+        List<String> backupCodes = null;
+        if (ativar && !estavaAtivo) {
+            backupCodes = backupCodeService.gerarParaUsuario(usuario);
+        } else if (!ativar && estavaAtivo) {
+            backupCodeService.invalidarTodos(usuario);
+        }
+
+        return SettingsDto.SecurityPreferencesResponse.fromEntity(
+                settings,
+                backupCodes,
+                backupCodeService.contarDisponiveis(usuario)
+        );
     }
 
     @Transactional(readOnly = true)

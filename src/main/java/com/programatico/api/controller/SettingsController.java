@@ -91,7 +91,7 @@ public class SettingsController {
     }
 
     @PostMapping("/totp/ativar")
-    public ResponseEntity<SettingsDto.TotpStatusResponse> ativarTotp(
+    public ResponseEntity<SettingsDto.TotpActivationResponse> ativarTotp(
             @AuthenticationPrincipal UserDetails userDetails,
             @Valid @RequestBody SettingsDto.TotpCodeRequest request
     ) {

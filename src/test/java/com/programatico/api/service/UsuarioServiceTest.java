@@ -54,6 +54,9 @@ class UsuarioServiceTest {
     @Mock
     private TotpSettingsService totpSettingsService;
 
+    @Mock
+    private BackupCodeService backupCodeService;
+
     @InjectMocks
     private UsuarioService usuarioService;
 
