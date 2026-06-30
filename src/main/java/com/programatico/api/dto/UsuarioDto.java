@@ -46,6 +46,8 @@ public final class UsuarioDto {
 
         @NotBlank(message = "Código é obrigatório")
         private String codigo;
+
+        private Boolean lembrarDispositivo;
     }
 
     @Data

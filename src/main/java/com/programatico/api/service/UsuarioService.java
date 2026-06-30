@@ -44,6 +44,7 @@ public class UsuarioService {
     private final VerificationCodeGuardService verificationCodeGuardService;
     private final TotpSettingsService totpSettingsService;
     private final BackupCodeService backupCodeService;
+    private final TrustedDeviceService trustedDeviceService;
 
     private Usuario validarCredenciaisLogin(String emailOuUsername, String senha) {
         Usuario usuario = usuarioRepository.findByEmailOrUsername(emailOuUsername, emailOuUsername)
@@ -58,9 +59,12 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioDto.LoginIniciarResponse iniciarLogin(UsuarioDto.LoginRequest request) {
+    public UsuarioDto.LoginIniciarResponse iniciarLogin(UsuarioDto.LoginRequest request, String trustedDeviceToken) {
         Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
         if (!userSettingsService.isTwoFactorEnabled(usuario)) {
+            return UsuarioDto.LoginIniciarResponse.loginDireto(finalizarLogin(usuario));
+        }
+        if (trustedDeviceService.isConfiavel(usuario.getId(), trustedDeviceToken)) {
             return UsuarioDto.LoginIniciarResponse.loginDireto(finalizarLogin(usuario));
         }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);

@@ -3,6 +3,7 @@ package com.programatico.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.security.JwtAuthFilter;
+import com.programatico.api.service.TrustedDeviceService;
 import com.programatico.api.service.UsuarioService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ class AuthControllerTest {
     private UsuarioService usuarioService;
 
     @MockitoBean
+    private TrustedDeviceService trustedDeviceService;
+
+    @MockitoBean
     private JwtAuthFilter jwtAuthFilter;
 
     @Test
@@ -41,7 +45,7 @@ class AuthControllerTest {
                 .senha("Senha@123")
                 .build();
 
-        when(usuarioService.iniciarLogin(any(UsuarioDto.LoginRequest.class)))
+        when(usuarioService.iniciarLogin(any(UsuarioDto.LoginRequest.class), any()))
                 .thenReturn(UsuarioDto.LoginIniciarResponse.comVerificacao("Código enviado."));
 
         mockMvc.perform(post("/api/auth/login/iniciar")

@@ -57,6 +57,9 @@ class UsuarioServiceTest {
     @Mock
     private BackupCodeService backupCodeService;
 
+    @Mock
+    private TrustedDeviceService trustedDeviceService;
+
     @InjectMocks
     private UsuarioService usuarioService;
 
@@ -77,7 +80,7 @@ class UsuarioServiceTest {
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request);
+        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request, null);
 
         assertTrue(response.isRequiresVerification());
         assertNotNull(response.getMensagem());
@@ -102,7 +105,7 @@ class UsuarioServiceTest {
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
 
-        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request);
+        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request, null);
 
         assertFalse(response.isRequiresVerification());
         assertEquals("jwt-token", response.getToken());
@@ -152,7 +155,7 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
 
-        assertThrows(BadRequestException.class, () -> usuarioService.iniciarLogin(request));
+        assertThrows(BadRequestException.class, () -> usuarioService.iniciarLogin(request, null));
         verify(passwordEncoder, never()).matches(anyString(), anyString());
     }
 
