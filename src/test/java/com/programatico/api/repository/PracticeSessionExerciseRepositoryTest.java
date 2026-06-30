@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 class PracticeSessionExerciseRepositoryTest {
@@ -113,5 +114,25 @@ class PracticeSessionExerciseRepositoryTest {
 
         assertFalse(found.isEmpty());
         assertEquals(false, found.get().getIsCorrect());
+    }
+
+    @Test
+    void findByPracticeSessionIn() {
+        PracticeSession sessao = sessionRepository.findAll().get(0);
+        List<PracticeSessionExercise> itens = repository.findByPracticeSessionIn(List.of(sessao));
+        assertEquals(2, itens.size());
+    }
+
+    @Test
+    void findByExercise() {
+        List<PracticeSessionExercise> itens = repository.findByExercise(exerciseErrado);
+        assertEquals(1, itens.size());
+        assertEquals(exerciseErrado.getId(), itens.get(0).getExercise().getId());
+    }
+
+    @Test
+    void deleteByPracticeSessionUsuarioId() {
+        repository.deleteByPracticeSessionUsuarioId(usuario.getId());
+        assertTrue(repository.findAll().isEmpty());
     }
 }

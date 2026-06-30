@@ -2,6 +2,7 @@ package com.programatico.api.repository;
 
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.SubscriptionType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -20,6 +21,11 @@ class UsuarioRepositoryTest {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @BeforeEach
+    void limpar() {
+        usuarioRepository.deleteAll();
+    }
 
     @Test
     void deveEncontrarPorEmailOuUsernameEValidarExists() {
@@ -76,6 +82,21 @@ class UsuarioRepositoryTest {
 
         assertEquals(1, result.size());
         assertEquals("root-expirado", result.get(0).getUsername());
+    }
+
+    @Test
+    void countByDataCriacaoAfterDeveContarUsuariosRecentes() {
+        Instant limite = Instant.now().minus(1, ChronoUnit.DAYS);
+
+        Usuario recente = new Usuario();
+        recente.setUsername("recente");
+        recente.setEmail("recente@email.com");
+        recente.setSenha("hash");
+        recente.setAtivo(true);
+        usuarioRepository.save(recente);
+
+        assertEquals(1L, usuarioRepository.countByDataCriacaoAfter(limite));
+        assertEquals(0L, usuarioRepository.countByDataCriacaoAfter(Instant.now().plus(1, ChronoUnit.DAYS)));
     }
 
     private static Usuario usuarioComAssinatura(String username, SubscriptionType type, Instant expiresAt) {

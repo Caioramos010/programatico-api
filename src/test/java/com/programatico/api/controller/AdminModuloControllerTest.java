@@ -8,10 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import org.springframework.http.MediaType;
 
 import java.util.List;
 
@@ -21,6 +20,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -42,6 +42,20 @@ class AdminModuloControllerTest {
         mockMvc.perform(get("/api/admin/trilhas/1/modulos"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value("M1"));
+    }
+
+    @Test
+    void criarDeveRetornar201() throws Exception {
+        ModuloDto.Request request = ModuloDto.Request.builder()
+                .title("Novo").description("Desc").moduleType(ModuleType.ACTIVITY).build();
+        when(adminModuloService.criar(org.mockito.ArgumentMatchers.eq(1L), any()))
+                .thenReturn(ModuloDto.Response.builder().id(2L).title("Novo").build());
+
+        mockMvc.perform(post("/api/admin/trilhas/1/modulos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.title").value("Novo"));
     }
 
     @Test

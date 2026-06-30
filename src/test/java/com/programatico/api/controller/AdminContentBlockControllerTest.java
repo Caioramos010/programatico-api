@@ -45,6 +45,16 @@ class AdminContentBlockControllerTest {
     }
 
     @Test
+    void listarPorPaginaDeveRetornar200() throws Exception {
+        when(adminContentBlockService.listarPorPagina(5L)).thenReturn(List.of(
+                ContentBlockDto.Response.builder().id(3L).layoutType(LayoutType.TEXT).textContent("Página").build()));
+
+        mockMvc.perform(get("/api/admin/paginas/5/content-blocks"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].textContent").value("Página"));
+    }
+
+    @Test
     void criarDeveRetornar201() throws Exception {
         ContentBlockDto.Request request = ContentBlockDto.Request.builder()
                 .layoutType(LayoutType.TEXT).textContent("Bloco").displayOrder(1).build();
@@ -56,6 +66,20 @@ class AdminContentBlockControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.textContent").value("Bloco"));
+    }
+
+    @Test
+    void criarParaPaginaDeveRetornar201() throws Exception {
+        ContentBlockDto.Request request = ContentBlockDto.Request.builder()
+                .layoutType(LayoutType.TEXT).textContent("Bloco pag").displayOrder(1).build();
+        when(adminContentBlockService.criarParaPagina(org.mockito.ArgumentMatchers.eq(5L), any()))
+                .thenReturn(ContentBlockDto.Response.builder().id(4L).textContent("Bloco pag").build());
+
+        mockMvc.perform(post("/api/admin/paginas/5/content-blocks")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.textContent").value("Bloco pag"));
     }
 
     @Test

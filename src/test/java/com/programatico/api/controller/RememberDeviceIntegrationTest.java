@@ -109,4 +109,24 @@ class RememberDeviceIntegrationTest {
                 org.mockito.ArgumentMatchers.anyString(),
                 org.mockito.ArgumentMatchers.anyString());
     }
+
+    @Test
+    void cookieTamperadoDeveExigirVerificacao() throws Exception {
+        String iniciar = """
+                {
+                  "emailOuUsername": "remember@test.com",
+                  "senha": "%s"
+                }
+                """.formatted(SENHA);
+
+        jakarta.servlet.http.Cookie cookieInvalido =
+                new jakarta.servlet.http.Cookie(TrustedDeviceService.COOKIE_NAME, "token-invalido");
+
+        mockMvc.perform(post("/api/auth/login/iniciar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(iniciar)
+                        .cookie(cookieInvalido))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.requiresVerification").value(true));
+    }
 }

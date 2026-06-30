@@ -81,6 +81,22 @@ class SettingsControllerTest {
 
     @Test
     @WithMockUser(username = "user")
+    void obterSegurancaDeveRetornar200() throws Exception {
+        when(userSettingsService.obterPreferenciasSeguranca("user"))
+                .thenReturn(SettingsDto.SecurityPreferencesResponse.builder()
+                        .twoFactorEnabled(true)
+                        .totpEnabled(false)
+                        .backupCodesRemaining(3)
+                        .build());
+
+        mockMvc.perform(get("/api/configuracoes/seguranca"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.twoFactorEnabled").value(true))
+                .andExpect(jsonPath("$.backupCodesRemaining").value(3));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
     void atualizarSegurancaDeveRetornar200() throws Exception {
         when(userSettingsService.atualizarPreferenciasSeguranca(eq("user"), any()))
                 .thenReturn(SettingsDto.SecurityPreferencesResponse.builder()
