@@ -33,6 +33,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -204,5 +206,116 @@ class AdminCrudIntegrationTest {
         mockMvc.perform(delete("/api/admin/trilhas/" + trilhaId)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void atualizarTrilhaEModulo() throws Exception {
+        MvcResult trilhaResult = mockMvc.perform(post("/api/admin/trilhas")
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Original","description":"Desc"}
+                                """))
+                .andExpect(status().isCreated())
+                .andReturn();
+        long trilhaId = objectMapper.readTree(trilhaResult.getResponse().getContentAsString()).get("id").asLong();
+
+        mockMvc.perform(put("/api/admin/trilhas/" + trilhaId)
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Trilha Atualizada","description":"Nova desc"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Trilha Atualizada"));
+
+        MvcResult moduloResult = mockMvc.perform(post("/api/admin/trilhas/" + trilhaId + "/modulos")
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Mod Original","moduleType":"STUDY","description":"Teoria"}
+                                """))
+                .andExpect(status().isCreated())
+                .andReturn();
+        long moduloId = objectMapper.readTree(moduloResult.getResponse().getContentAsString()).get("id").asLong();
+
+        mockMvc.perform(put("/api/admin/modulos/" + moduloId)
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Mod Atualizado","moduleType":"STUDY","description":"Atualizado"}
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("Mod Atualizado"));
+    }
+
+    @Test
+    void reordenarModulos() throws Exception {
+        MvcResult trilhaResult = mockMvc.perform(post("/api/admin/trilhas")
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Trilha ordem","description":"Desc"}
+                                """))
+                .andExpect(status().isCreated())
+                .andReturn();
+        long trilhaId = objectMapper.readTree(trilhaResult.getResponse().getContentAsString()).get("id").asLong();
+
+        MvcResult mod1 = mockMvc.perform(post("/api/admin/trilhas/" + trilhaId + "/modulos")
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Primeiro","moduleType":"ACTIVITY"}
+                                """))
+                .andExpect(status().isCreated())
+                .andReturn();
+        long mod1Id = objectMapper.readTree(mod1.getResponse().getContentAsString()).get("id").asLong();
+
+        MvcResult mod2 = mockMvc.perform(post("/api/admin/trilhas/" + trilhaId + "/modulos")
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"title":"Segundo","moduleType":"ACTIVITY"}
+                                """))
+                .andExpect(status().isCreated())
+                .andReturn();
+        long mod2Id = objectMapper.readTree(mod2.getResponse().getContentAsString()).get("id").asLong();
+
+        mockMvc.perform(put("/api/admin/trilhas/" + trilhaId + "/modulos/reordenar")
+                        .header("Authorization", "Bearer " + adminToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"ids\":[" + mod2Id + "," + mod1Id + "]}"))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/api/admin/trilhas/" + trilhaId + "/modulos")
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value("Segundo"))
+                .andExpect(jsonPath("$[1].title").value("Primeiro"));
+    }
+
+    @Test
+    void deletarUsuarioAplicaExclusaoLogica() throws Exception {
+        Usuario descartavel = usuarioRepository.save(Usuario.builder()
+                .username("descartavel")
+                .email("descartavel@test.com")
+                .senha(passwordEncoder.encode("Senha@123"))
+                .idade(25)
+                .ativo(true)
+                .role(TipoUsuario.USER)
+                .build());
+
+        mockMvc.perform(delete("/api/admin/usuarios/" + descartavel.getId())
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isNoContent());
+
+        Usuario noBanco = usuarioRepository.findById(descartavel.getId()).orElseThrow();
+        assertTrue(noBanco.getDeletedAt() != null);
+
+        mockMvc.perform(get("/api/admin/usuarios")
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[?(@.username=='descartavel')]").doesNotExist())
+                .andExpect(jsonPath("$[?(@.username=='user-crud')]").exists());
     }
 }

@@ -1,6 +1,8 @@
 package com.programatico.api.service;
 
+import jakarta.mail.Session;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +12,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.Properties;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -77,5 +83,38 @@ class EmailServiceTest {
         when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
         emailService.enviarCodigoVerificacaoLogin("user@test.com", "user", "111111");
         verify(mailSender).send(mimeMessage);
+    }
+
+    @Test
+    void enviarCodigoAtivacaoDeveEscaparHtmlNoUsername() throws Exception {
+        Session session = Session.getInstance(new Properties());
+        MimeMessage realMessage = new MimeMessage(session);
+        when(mailSender.createMimeMessage()).thenReturn(realMessage);
+
+        emailService.enviarCodigoAtivacao("user@test.com", "<script>", "123456");
+
+        String html = extractHtml(realMessage);
+        assertTrue(html.contains("&lt;script&gt;"));
+        assertFalse(html.contains("<script>"));
+        verify(mailSender).send(realMessage);
+    }
+
+    private static String extractHtml(MimeMessage message) throws Exception {
+        return extractHtmlFromContent(message.getContent());
+    }
+
+    private static String extractHtmlFromContent(Object content) throws Exception {
+        if (content instanceof String text) {
+            return text;
+        }
+        if (content instanceof MimeMultipart multipart) {
+            for (int i = 0; i < multipart.getCount(); i++) {
+                String part = extractHtmlFromContent(multipart.getBodyPart(i).getContent());
+                if (part.contains("<html") || part.contains("Programático")) {
+                    return part;
+                }
+            }
+        }
+        return content.toString();
     }
 }
