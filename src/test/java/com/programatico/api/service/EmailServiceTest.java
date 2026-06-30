@@ -9,14 +9,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Properties;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -97,6 +100,15 @@ class EmailServiceTest {
         assertTrue(html.contains("&lt;script&gt;"));
         assertFalse(html.contains("<script>"));
         verify(mailSender).send(realMessage);
+    }
+
+    @Test
+    void enviarCodigoAtivacaoNaoDevePropagarExcecaoQuandoEnvioFalha() {
+        when(mailSender.createMimeMessage()).thenReturn(mimeMessage);
+        doThrow(new MailSendException("smtp indisponível")).when(mailSender).send(mimeMessage);
+
+        assertDoesNotThrow(() ->
+                emailService.enviarCodigoAtivacao("user@test.com", "user", "123456"));
     }
 
     private static String extractHtml(MimeMessage message) throws Exception {
