@@ -36,7 +36,6 @@ class UserSettingsRepositoryTest {
         repository.save(UserSettings.builder()
                 .usuario(usuario)
                 .disableAllNotifications(true)
-                .twoFactorEnabled(false)
                 .build());
 
         assertTrue(repository.findByUsuarioId(usuario.getId()).isPresent());

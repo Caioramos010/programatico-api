@@ -14,15 +14,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,7 +28,6 @@ class UserSettingsServiceTest {
 
     @Mock private UserSettingsRepository userSettingsRepository;
     @Mock private UsuarioRepository usuarioRepository;
-    @Mock private BackupCodeService backupCodeService;
 
     @InjectMocks
     private UserSettingsService userSettingsService;
@@ -49,7 +45,6 @@ class UserSettingsServiceTest {
                 .build();
         settings = UserSettings.builder()
                 .usuario(usuario)
-                .twoFactorEnabled(false)
                 .disableAllNotifications(false)
                 .build();
     }
@@ -83,41 +78,6 @@ class UserSettingsServiceTest {
         assertTrue(response.isDisableAllNotifications());
         assertTrue(settings.getDisableUpdateNotifications());
         assertTrue(settings.getDisableEmailNotifications());
-    }
-
-    @Test
-    void atualizarPreferenciasSegurancaDeveGerarBackupCodesAoAtivar2fa() {
-        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(userSettingsRepository.findByUsuarioId(1L)).thenReturn(Optional.of(settings));
-        when(userSettingsRepository.save(any(UserSettings.class))).thenAnswer(inv -> inv.getArgument(0));
-        when(backupCodeService.gerarParaUsuario(usuario)).thenReturn(List.of("ABCD-2345"));
-        when(backupCodeService.contarDisponiveis(usuario)).thenReturn(1);
-
-        SettingsDto.SecurityPreferencesRequest request = SettingsDto.SecurityPreferencesRequest.builder()
-                .twoFactorEnabled(true)
-                .build();
-
-        SettingsDto.SecurityPreferencesResponse response =
-                userSettingsService.atualizarPreferenciasSeguranca("user", request);
-
-        assertTrue(response.isTwoFactorEnabled());
-        assertEquals(1, response.getBackupCodes().size());
-        verify(backupCodeService).gerarParaUsuario(usuario);
-    }
-
-    @Test
-    void atualizarPreferenciasSegurancaDeveInvalidarBackupCodesAoDesativar2fa() {
-        settings.setTwoFactorEnabled(true);
-        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(userSettingsRepository.findByUsuarioId(1L)).thenReturn(Optional.of(settings));
-        when(userSettingsRepository.save(any(UserSettings.class))).thenAnswer(inv -> inv.getArgument(0));
-        when(backupCodeService.contarDisponiveis(usuario)).thenReturn(0);
-
-        userSettingsService.atualizarPreferenciasSeguranca("user",
-                SettingsDto.SecurityPreferencesRequest.builder().twoFactorEnabled(false).build());
-
-        verify(backupCodeService).invalidarTodos(usuario);
-        verify(backupCodeService, never()).gerarParaUsuario(usuario);
     }
 
     @Test

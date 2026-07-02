@@ -66,7 +66,6 @@ class SchemaMigrationRunnerTest {
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("usuario"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("ususario"), any())).thenReturn(tableAbsent);
-        when(databaseMetaData.getTables(any(), any(), eq("two_factor_backup_codes"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(usersExists);
 
         when(jdbcTemplate.queryForObject(contains("information_schema.columns"), eq(Integer.class), any(), any()))
@@ -74,7 +73,7 @@ class SchemaMigrationRunnerTest {
 
         schemaMigrationRunner.run(new DefaultApplicationArguments());
 
-        verify(jdbcTemplate, atLeastOnce()).execute(contains("CREATE TABLE two_factor_backup_codes"));
+        verify(jdbcTemplate, atLeastOnce()).execute(contains("two_factor_enabled"));
     }
 
     @Test
@@ -93,7 +92,6 @@ class SchemaMigrationRunnerTest {
 
         when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(usersExists);
-        when(databaseMetaData.getTables(any(), any(), eq("two_factor_backup_codes"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(tableAbsent);
 
         when(jdbcTemplate.queryForObject(contains("information_schema.columns"), eq(Integer.class), any(), any()))
@@ -120,7 +118,6 @@ class SchemaMigrationRunnerTest {
 
         when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(usersExists);
-        when(databaseMetaData.getTables(any(), any(), eq("two_factor_backup_codes"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(tableAbsent);
 
         when(jdbcTemplate.queryForObject(contains("information_schema.columns"), eq(Integer.class), any(), any()))
@@ -150,7 +147,6 @@ class SchemaMigrationRunnerTest {
 
         when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(usersExists);
-        when(databaseMetaData.getTables(any(), any(), eq("two_factor_backup_codes"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(tableAbsent);
 
         when(jdbcTemplate.queryForObject(contains("information_schema.columns"), eq(Integer.class), any(), any()))

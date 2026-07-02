@@ -26,7 +26,6 @@ import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,7 +39,6 @@ class TwoFactorLoginIntegrationTest {
     @Autowired private UsuarioRepository usuarioRepository;
     @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private PasswordEncoder passwordEncoder;
-    @Autowired private JwtUtil jwtUtil;
 
     @MockitoBean
     private EmailService emailService;
@@ -64,12 +62,11 @@ class TwoFactorLoginIntegrationTest {
 
         userSettingsRepository.save(UserSettings.builder()
                 .usuario(usuario)
-                .twoFactorEnabled(false)
                 .build());
     }
 
     @Test
-    void loginDeveRetornarTokenDiretoQuando2faDesativado() throws Exception {
+    void loginDeveExigirCodigoPorEmail() throws Exception {
         String json = """
                 {
                   "emailOuUsername": "2fa@test.com",
@@ -81,33 +78,12 @@ class TwoFactorLoginIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.requiresVerification").value(false))
-                .andExpect(jsonPath("$.token").isNotEmpty())
-                .andExpect(jsonPath("$.usuario.username").value("2fa-user"));
-    }
-
-    @Test
-    void usuarioAutenticadoDeveAtualizarPreferencia2fa() throws Exception {
-        String token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
-
-        mockMvc.perform(put("/api/configuracoes/seguranca")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"twoFactorEnabled\":true}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.twoFactorEnabled").value(true));
+                .andExpect(jsonPath("$.requiresVerification").value(true))
+                .andExpect(jsonPath("$.verificationMethod").value("EMAIL"));
     }
 
     @Test
     void fluxoLogin2faPontaAPontaDeveExigirCodigoEConfirmar() throws Exception {
-        String token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
-
-        mockMvc.perform(put("/api/configuracoes/seguranca")
-                        .header("Authorization", "Bearer " + token)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"twoFactorEnabled\":true}"))
-                .andExpect(status().isOk());
-
         String iniciarJson = """
                 {
                   "emailOuUsername": "2fa@test.com",
@@ -147,8 +123,6 @@ class TwoFactorLoginIntegrationTest {
 
     @Test
     void confirmarLoginDeveFalharQuandoCodigoExpirado() throws Exception {
-        habilitar2fa();
-
         usuario.setCodigoVerificacaoLogin("654321");
         usuario.setDataExpiracaoCodigoLogin(Instant.now().minus(1, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
@@ -171,8 +145,6 @@ class TwoFactorLoginIntegrationTest {
 
     @Test
     void confirmarLoginDeveRejeitarCodigoInvalido() throws Exception {
-        habilitar2fa();
-
         usuario.setCodigoVerificacaoLogin("111111");
         usuario.setDataExpiracaoCodigoLogin(Instant.now().plus(1, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
@@ -191,11 +163,5 @@ class TwoFactorLoginIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.mensagem").value(
                         "Código inválido. Restam 4 tentativa(s) antes do bloqueio temporário."));
-    }
-
-    private void habilitar2fa() {
-        UserSettings settings = userSettingsRepository.findByUsuarioId(usuario.getId()).orElseThrow();
-        settings.setTwoFactorEnabled(true);
-        userSettingsRepository.save(settings);
     }
 }

@@ -7,7 +7,6 @@ import com.programatico.api.domain.enums.PaymentStatus;
 import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.repository.PaymentRepository;
-import com.programatico.api.repository.TwoFactorBackupCodeRepository;
 import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.testsupport.IntegrationTestDbCleaner;
@@ -48,7 +47,6 @@ class PaymentIntegrationTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
     @Autowired private UserSettingsRepository userSettingsRepository;
-    @Autowired private TwoFactorBackupCodeRepository backupCodeRepository;
     @Autowired private PaymentRepository paymentRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
@@ -61,7 +59,7 @@ class PaymentIntegrationTest {
     @BeforeEach
     void setUp() {
         IntegrationTestDbCleaner.limparUsuarios(
-                usuarioRepository, userSettingsRepository, paymentRepository, backupCodeRepository);
+                usuarioRepository, userSettingsRepository, paymentRepository);
 
         Usuario usuario = usuarioRepository.save(Usuario.builder()
                 .username("payment-user")
