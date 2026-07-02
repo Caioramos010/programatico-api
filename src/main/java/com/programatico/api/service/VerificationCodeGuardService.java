@@ -6,6 +6,8 @@ import com.programatico.api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -34,20 +36,23 @@ public class VerificationCodeGuardService {
         resetAttempts(usuario, context);
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, noRollbackFor = BadRequestException.class)
     public void recordFailedAttempt(Usuario usuario, VerificationCodeContext context) {
-        int attempts = getFailedAttempts(usuario, context) + 1;
+        Usuario managed = usuarioRepository.findById(usuario.getId())
+                .orElseThrow(() -> new BadRequestException("Usuário não encontrado."));
+        int attempts = getFailedAttempts(managed, context) + 1;
         String mensagem;
         if (attempts >= maxAttempts) {
             Instant blockedUntil = Instant.now().plus(blockMinutes, ChronoUnit.MINUTES);
-            setBlockedUntil(usuario, context, blockedUntil);
-            setFailedAttempts(usuario, context, 0);
+            setBlockedUntil(managed, context, blockedUntil);
+            setFailedAttempts(managed, context, 0);
             mensagem = "Muitas tentativas inválidas. Tente novamente em " + blockMinutes + " minutos.";
         } else {
-            setFailedAttempts(usuario, context, attempts);
+            setFailedAttempts(managed, context, attempts);
             int restantes = maxAttempts - attempts;
             mensagem = "Código inválido. Restam " + restantes + " tentativa(s) antes do bloqueio temporário.";
         }
-        usuarioRepository.save(usuario);
+        usuarioRepository.save(managed);
         throw new BadRequestException(mensagem);
     }
 
