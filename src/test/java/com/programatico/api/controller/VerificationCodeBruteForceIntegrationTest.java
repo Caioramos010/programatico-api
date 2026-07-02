@@ -4,7 +4,6 @@ import com.programatico.api.domain.Usuario;
 import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.service.EmailService;
-import com.programatico.api.service.UserSettingsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,6 @@ class VerificationCodeBruteForceIntegrationTest {
     @Autowired private PasswordEncoder passwordEncoder;
 
     @MockitoBean private EmailService emailService;
-    @MockitoBean private UserSettingsService userSettingsService;
 
     private static final String SENHA = "Senha@123";
 
@@ -47,8 +45,6 @@ class VerificationCodeBruteForceIntegrationTest {
     void setUp() {
         userSettingsRepository.deleteAll();
         usuarioRepository.deleteAll();
-        org.mockito.Mockito.when(userSettingsService.isTwoFactorEnabled(org.mockito.ArgumentMatchers.any()))
-                .thenReturn(true);
     }
 
     @Test

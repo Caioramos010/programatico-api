@@ -55,16 +55,7 @@ class UsuarioServiceTest {
     private EmailService emailService;
 
     @Mock
-    private UserSettingsService userSettingsService;
-
-    @Mock
     private VerificationCodeGuardService verificationCodeGuardService;
-
-    @Mock
-    private TotpSettingsService totpSettingsService;
-
-    @Mock
-    private BackupCodeService backupCodeService;
 
     @Mock
     private TrustedDeviceService trustedDeviceService;
@@ -88,27 +79,6 @@ class UsuarioServiceTest {
     private UsuarioService usuarioService;
 
     @Test
-    void confirmarLoginDeveFalharQuando2faDesativado() {
-        UsuarioDto.LoginConfirmarRequest request = UsuarioDto.LoginConfirmarRequest.builder()
-                .emailOuUsername("user")
-                .senha("Senha@123")
-                .codigo("123456")
-                .build();
-        Usuario usuario = usuarioBase();
-        usuario.setAtivo(true);
-
-        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(false);
-
-        BadRequestException ex = assertThrows(BadRequestException.class,
-                () -> usuarioService.confirmarLogin(request));
-
-        assertEquals("Verificação em duas etapas desativada para esta conta.", ex.getMessage());
-        verify(verificationCodeGuardService, never()).ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
-    }
-
-    @Test
     void confirmarLoginDeveFalharQuandoCodigoLoginExpirado() {
         UsuarioDto.LoginConfirmarRequest request = UsuarioDto.LoginConfirmarRequest.builder()
                 .emailOuUsername("user")
@@ -122,9 +92,6 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
-        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
-        when(backupCodeService.temCodigosDisponiveis(usuario)).thenReturn(false);
         doNothing().when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
 
@@ -149,9 +116,6 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
-        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
-        when(backupCodeService.temCodigosDisponiveis(usuario)).thenReturn(false);
         doNothing().when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         doThrow(new BadRequestException("Código inválido. Restam 4 tentativa(s) antes do bloqueio temporário."))
@@ -176,7 +140,6 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
         when(trustedDeviceService.isConfiavel(1L, "device-token")).thenReturn(true);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
         when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
@@ -200,7 +163,6 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
         doThrow(new BadRequestException("Muitas tentativas inválidas. Tente novamente em 30 minutos."))
                 .when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
@@ -220,8 +182,6 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
-        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
         doNothing().when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -234,30 +194,6 @@ class UsuarioServiceTest {
         verify(usuarioRepository).save(captor.capture());
         assertNotNull(captor.getValue().getCodigoVerificacaoLogin());
         verify(emailService).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
-    }
-
-    @Test
-    void iniciarLoginDeveRetornarTokenDiretoQuando2faDesativado() {
-        UsuarioDto.LoginRequest request = UsuarioDto.LoginRequest.builder()
-                .emailOuUsername("user")
-                .senha("Senha@123")
-                .build();
-        Usuario usuario = usuarioBase();
-        usuario.setAtivo(true);
-
-        when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(false);
-        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
-        when(jwtUtil.gerarToken("user", 1L)).thenReturn("jwt-token");
-
-        UsuarioDto.LoginIniciarResponse response = usuarioService.iniciarLogin(request, null);
-
-        assertFalse(response.isRequiresVerification());
-        assertEquals("jwt-token", response.getToken());
-        assertEquals("Bearer", response.getTipo());
-        assertNotNull(response.getUsuario());
-        verify(emailService, never()).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
     }
 
     @Test
@@ -274,9 +210,6 @@ class UsuarioServiceTest {
 
         when(usuarioRepository.findByEmailOrUsername("user", "user")).thenReturn(Optional.of(usuario));
         when(passwordEncoder.matches("Senha@123", "senha-hash")).thenReturn(true);
-        when(userSettingsService.isTwoFactorEnabled(usuario)).thenReturn(true);
-        when(totpSettingsService.isTotpAtivo(usuario)).thenReturn(false);
-        when(backupCodeService.temCodigosDisponiveis(usuario)).thenReturn(false);
         doNothing().when(verificationCodeGuardService)
                 .ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         doNothing().when(verificationCodeGuardService)
