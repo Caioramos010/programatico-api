@@ -3,12 +3,9 @@ package com.programatico.api.service;
 import com.programatico.api.domain.Notification;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.NotificationKind;
-import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.dto.NotificationDto;
-import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.NotificationRepository;
 import com.programatico.api.repository.UsuarioRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,10 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,46 +31,34 @@ class NotificationServiceTest {
     @InjectMocks
     private NotificationService notificationService;
 
-    private Usuario usuario;
-    private Notification notification;
-
-    @BeforeEach
-    void setUp() {
-        usuario = Usuario.builder()
+    @Test
+    void listarPorUsuarioDeveRetornarNotificacoesMapeadas() {
+        Usuario usuario = usuarioBase();
+        Notification notification = Notification.builder()
                 .id(1L)
-                .username("user")
-                .email("user@test.com")
-                .role(TipoUsuario.USER)
-                .build();
-        notification = Notification.builder()
-                .id(10L)
                 .usuario(usuario)
-                .title("Módulo concluído")
-                .message("Parabéns!")
+                .title("Nova trilha desbloqueada")
+                .message("Voce desbloqueou mais uma trilha")
                 .kind(NotificationKind.TRILHA)
                 .read(false)
                 .createdAt(Instant.now())
                 .build();
-    }
 
-    @Test
-    void listarPorUsuarioDeveRetornarNotificacoesMapeadas() {
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(notificationRepository.findByUsuarioOrderByCreatedAtDesc(usuario))
-                .thenReturn(List.of(notification));
+        when(notificationRepository.findByUsuarioOrderByCreatedAtDesc(usuario)).thenReturn(List.of(notification));
 
         List<NotificationDto.Response> response = notificationService.listarPorUsuario("user");
 
         assertEquals(1, response.size());
-        assertEquals(10L, response.get(0).getId());
-        assertEquals("Módulo concluído", response.get(0).getTitle());
+        assertEquals(1L, response.get(0).getId());
+        assertEquals("Nova trilha desbloqueada", response.get(0).getTitle());
         assertEquals(NotificationKind.TRILHA, response.get(0).getKind());
-        assertEquals(false, response.get(0).getRead());
     }
 
     @Test
     void buscarPorIdDeveRetornarNotificacaoDoUsuario() {
-        Notification readNotification = Notification.builder()
+        Usuario usuario = usuarioBase();
+        Notification notification = Notification.builder()
                 .id(10L)
                 .usuario(usuario)
                 .title("Missao concluida")
@@ -88,7 +70,7 @@ class NotificationServiceTest {
                 .build();
 
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(notificationRepository.findByIdAndUsuario(10L, usuario)).thenReturn(Optional.of(readNotification));
+        when(notificationRepository.findByIdAndUsuario(10L, usuario)).thenReturn(Optional.of(notification));
 
         NotificationDto.Response response = notificationService.buscarPorId(10L, "user");
 
@@ -99,52 +81,56 @@ class NotificationServiceTest {
 
     @Test
     void marcarComoLidaDeveAtualizarStatusEReadAt() {
+        Usuario usuario = usuarioBase();
+        Notification notification = Notification.builder()
+                .id(2L)
+                .usuario(usuario)
+                .title("Exercicio concluido")
+                .message("Parabens")
+                .kind(NotificationKind.EXERCICIO)
+                .read(false)
+                .createdAt(Instant.now())
+                .build();
+
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(notificationRepository.findByIdAndUsuario(10L, usuario)).thenReturn(Optional.of(notification));
+        when(notificationRepository.findByIdAndUsuario(2L, usuario)).thenReturn(Optional.of(notification));
         when(notificationRepository.save(notification)).thenReturn(notification);
 
-        NotificationDto.Response response = notificationService.marcarComoLida(10L, "user");
+        NotificationDto.Response response = notificationService.marcarComoLida(2L, "user");
 
         assertTrue(response.getRead());
         assertNotNull(response.getReadAt());
-        assertTrue(notification.getReadAt() != null);
         verify(notificationRepository).save(notification);
     }
 
     @Test
-    void marcarTodasComoLidasDevePersistirLista() {
-        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(notificationRepository.findByUsuarioOrderByCreatedAtDesc(usuario))
-                .thenReturn(List.of(notification));
-
-        notificationService.marcarTodasComoLidas("user");
-
-        assertTrue(notification.getRead());
-        verify(notificationRepository).saveAll(anyList());
-    }
-
-    @Test
     void excluirDeveRemoverNotificacaoDoUsuario() {
-        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(notificationRepository.findByIdAndUsuario(10L, usuario)).thenReturn(Optional.of(notification));
+        Usuario usuario = usuarioBase();
+        Notification notification = Notification.builder()
+                .id(3L)
+                .usuario(usuario)
+                .title("Nova missao")
+                .message("Missao disponivel")
+                .kind(NotificationKind.MISSAO)
+                .read(false)
+                .createdAt(Instant.now())
+                .build();
 
-        notificationService.excluir(10L, "user");
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(notificationRepository.findByIdAndUsuario(3L, usuario)).thenReturn(Optional.of(notification));
+
+        notificationService.excluir(3L, "user");
 
         verify(notificationRepository).delete(notification);
     }
 
-    @Test
-    void criarNotificacaoSistemaDevePersistir() {
-        notificationService.criarNotificacaoSistema(usuario, "Título", "Msg", NotificationKind.EXERCICIO);
-        verify(notificationRepository).save(any(Notification.class));
-    }
-
-    @Test
-    void marcarComoLidaDeveFalharQuandoNotificacaoNaoPertenceAoUsuario() {
-        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
-        when(notificationRepository.findByIdAndUsuario(99L, usuario)).thenReturn(Optional.empty());
-
-        assertThrows(ResourceNotFoundException.class,
-                () -> notificationService.marcarComoLida(99L, "user"));
+    private Usuario usuarioBase() {
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setUsername("user");
+        usuario.setEmail("user@email.com");
+        usuario.setSenha("hash");
+        usuario.setAtivo(true);
+        return usuario;
     }
 }

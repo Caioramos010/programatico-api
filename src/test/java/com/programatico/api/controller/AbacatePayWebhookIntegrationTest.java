@@ -53,7 +53,7 @@ class AbacatePayWebhookIntegrationTest {
     void setUp() {
         processedRepository.deleteAll();
         IntegrationTestDbCleaner.limparUsuarios(
-                usuarioRepository, userSettingsRepository, paymentRepository, null);
+                usuarioRepository, userSettingsRepository, paymentRepository);
 
         usuario = usuarioRepository.save(Usuario.builder()
                 .username("webhook-user")

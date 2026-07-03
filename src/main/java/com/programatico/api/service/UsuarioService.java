@@ -40,10 +40,7 @@ public class UsuarioService {
     private final UserStatsRepository userStatsRepository;
     private final PracticeSessionRepository practiceSessionRepository;
     private final PracticeSessionExerciseRepository practiceSessionExerciseRepository;
-    private final UserSettingsService userSettingsService;
     private final VerificationCodeGuardService verificationCodeGuardService;
-    private final TotpSettingsService totpSettingsService;
-    private final BackupCodeService backupCodeService;
     private final TrustedDeviceService trustedDeviceService;
 
     private Usuario validarCredenciaisLogin(String emailOuUsername, String senha) {
@@ -61,51 +58,23 @@ public class UsuarioService {
     @Transactional
     public UsuarioDto.LoginIniciarResponse iniciarLogin(UsuarioDto.LoginRequest request, String trustedDeviceToken) {
         Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
-        if (!userSettingsService.isTwoFactorEnabled(usuario)) {
-            return UsuarioDto.LoginIniciarResponse.loginDireto(finalizarLogin(usuario));
-        }
         if (trustedDeviceService.isConfiavel(usuario.getId(), trustedDeviceToken)) {
             return UsuarioDto.LoginIniciarResponse.loginDireto(finalizarLogin(usuario));
         }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
-        if (totpSettingsService.isTotpAtivo(usuario)) {
-            return UsuarioDto.LoginIniciarResponse.comVerificacao(
-                    "Use o código de 6 dígitos do seu aplicativo autenticador.",
-                    "TOTP");
-        }
         String codigo = gerarCodigo();
         usuario.setCodigoVerificacaoLogin(codigo);
         usuario.setDataExpiracaoCodigoLogin(Instant.now().plus(EXPIRACAO_CODIGO_LOGIN_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
         emailService.enviarCodigoVerificacaoLogin(usuario.getEmail(), usuario.getUsername(), codigo);
         return UsuarioDto.LoginIniciarResponse.comVerificacao(
-                "Enviamos um código de verificação para o seu e-mail.",
-                "EMAIL");
+                "Enviamos um código de verificação para o seu e-mail.");
     }
 
     @Transactional
     public UsuarioDto.LoginResponse confirmarLogin(UsuarioDto.LoginConfirmarRequest request) {
         Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
-        if (!userSettingsService.isTwoFactorEnabled(usuario)) {
-            throw new BadRequestException("Verificação em duas etapas desativada para esta conta.");
-        }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
-        if (backupCodeService.temCodigosDisponiveis(usuario)
-                && backupCodeService.tentarConsumir(usuario, request.getCodigo())) {
-            verificationCodeGuardService.resetAttempts(usuario, VerificationCodeContext.LOGIN);
-            return finalizarLogin(usuario);
-        }
-        if (backupCodeService.temCodigosDisponiveis(usuario)
-                && BackupCodeService.pareceCodigoBackup(request.getCodigo())) {
-            verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);
-        }
-        if (totpSettingsService.isTotpAtivo(usuario)) {
-            if (!totpSettingsService.validarCodigoLogin(usuario, request.getCodigo())) {
-                verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);
-            }
-            verificationCodeGuardService.resetAttempts(usuario, VerificationCodeContext.LOGIN);
-            return finalizarLogin(usuario);
-        }
         if (usuario.getCodigoVerificacaoLogin() == null
                 || !usuario.getCodigoVerificacaoLogin().equals(request.getCodigo())) {
             verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);

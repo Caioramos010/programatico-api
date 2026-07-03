@@ -60,7 +60,6 @@ class RememberDeviceIntegrationTest {
 
         userSettingsRepository.save(UserSettings.builder()
                 .usuario(usuario)
-                .twoFactorEnabled(true)
                 .build());
     }
 

@@ -18,6 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class VerificationCodeGuardServiceTest {
@@ -38,6 +41,7 @@ class VerificationCodeGuardServiceTest {
     void deveBloquearAposQuintaTentativaInvalida() {
         Usuario usuario = usuarioBase();
         usuario.setLoginCodeFailedAttempts(4);
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
 
         BadRequestException ex = assertThrows(BadRequestException.class,
                 () -> guardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN));
@@ -52,6 +56,7 @@ class VerificationCodeGuardServiceTest {
     void deveInformarTentativasRestantesAntesDoBloqueio() {
         Usuario usuario = usuarioBase();
         usuario.setLoginCodeFailedAttempts(2);
+        when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuario));
 
         BadRequestException ex = assertThrows(BadRequestException.class,
                 () -> guardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN));

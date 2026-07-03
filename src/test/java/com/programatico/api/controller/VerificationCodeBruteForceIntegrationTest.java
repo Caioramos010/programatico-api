@@ -4,7 +4,6 @@ import com.programatico.api.domain.Usuario;
 import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.service.EmailService;
-import com.programatico.api.service.UserSettingsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +14,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
 @TestPropertySource(properties = {
         "app.verification-code.max-attempts=5",
         "app.verification-code.block-minutes=30"
@@ -39,7 +38,6 @@ class VerificationCodeBruteForceIntegrationTest {
     @Autowired private PasswordEncoder passwordEncoder;
 
     @MockitoBean private EmailService emailService;
-    @MockitoBean private UserSettingsService userSettingsService;
 
     private static final String SENHA = "Senha@123";
 
@@ -47,8 +45,6 @@ class VerificationCodeBruteForceIntegrationTest {
     void setUp() {
         userSettingsRepository.deleteAll();
         usuarioRepository.deleteAll();
-        org.mockito.Mockito.when(userSettingsService.isTwoFactorEnabled(org.mockito.ArgumentMatchers.any()))
-                .thenReturn(true);
     }
 
     @Test
@@ -78,6 +74,9 @@ class VerificationCodeBruteForceIntegrationTest {
                     .andExpect(status().isBadRequest())
                     .andExpect(jsonPath("$.mensagem").value(
                             "Código inválido. Restam " + (4 - i) + " tentativa(s) antes do bloqueio temporário."));
+
+            Usuario reloaded = usuarioRepository.findById(usuario.getId()).orElseThrow();
+            assertEquals(i + 1, reloaded.getLoginCodeFailedAttempts());
         }
 
         mockMvc.perform(post("/api/auth/login/confirmar")
@@ -86,6 +85,10 @@ class VerificationCodeBruteForceIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.mensagem").value(
                         "Muitas tentativas inválidas. Tente novamente em 30 minutos."));
+
+        Usuario blocked = usuarioRepository.findById(usuario.getId()).orElseThrow();
+        assertNotNull(blocked.getLoginCodeBlockedUntil());
+        assertEquals(true, blocked.getLoginCodeBlockedUntil().isAfter(Instant.now()));
 
         mockMvc.perform(post("/api/auth/login/confirmar")
                         .contentType(MediaType.APPLICATION_JSON)
