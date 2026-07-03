@@ -6,7 +6,12 @@ import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.util.ReflectionTestUtils;
 
+import com.sun.net.httpserver.HttpServer;
+
+import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,6 +59,38 @@ class OpenAiOrganizacaoServiceTest {
                 .stream().map(Exercise::getId).toList();
 
         assertEquals(List.of(2L, 1L), ids);
+    }
+
+    @Test
+    void organizarComRespostaValidaDaOpenAi() throws Exception {
+        String openAiBody = "{\"choices\":[{\"message\":{\"content\":\"{\\\"ordem\\\":[2,1]}\"}}]}";
+        HttpServer server = HttpServer.create(new InetSocketAddress(0), 0);
+        server.createContext("/v1/chat/completions", exchange -> {
+            byte[] bytes = openAiBody.getBytes(StandardCharsets.UTF_8);
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, bytes.length);
+            exchange.getResponseBody().write(bytes);
+            exchange.close();
+        });
+        server.start();
+        try {
+            int port = server.getAddress().getPort();
+            OpenAiOrganizacaoService serviceComChave = new OpenAiOrganizacaoService(new ObjectMapper());
+            ReflectionTestUtils.setField(serviceComChave, "apiKey", "sk-test");
+            ReflectionTestUtils.setField(serviceComChave, "apiBaseUrl", "http://localhost:" + port + "/v1");
+            ReflectionTestUtils.setField(serviceComChave, "model", "gpt-4o-mini");
+
+            assertTrue(serviceComChave.isHabilitado());
+
+            List<Long> ids = serviceComChave.organizar(List.of(ex(1L), ex(2L), ex(3L)), usuario(), stats(), 2)
+                    .stream()
+                    .map(Exercise::getId)
+                    .toList();
+
+            assertEquals(List.of(2L, 1L), ids);
+        } finally {
+            server.stop(0);
+        }
     }
 
     private Exercise ex(long id) {

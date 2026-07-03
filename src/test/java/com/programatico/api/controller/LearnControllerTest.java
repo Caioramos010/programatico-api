@@ -1,5 +1,6 @@
 package com.programatico.api.controller;
 
+import com.programatico.api.dto.TheoryDto;
 import com.programatico.api.dto.TrackDto;
 import com.programatico.api.dto.UserMissionDto;
 import com.programatico.api.dto.UserStatsDto;
@@ -15,9 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -93,5 +97,29 @@ class LearnControllerTest {
                 .andExpect(jsonPath("$[0].title").value("Complete 3 módulos"))
                 .andExpect(jsonPath("$[0].currentProgress").value(1))
                 .andExpect(jsonPath("$[0].xpReward").value(10));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    void getTeoricoDeveRetornar200() throws Exception {
+        TheoryDto.Response response = TheoryDto.Response.builder()
+                .moduleId(1L)
+                .moduleTitle("Teoria")
+                .pages(List.of())
+                .build();
+        when(learnService.getTeorico(anyLong(), anyString())).thenReturn(response);
+
+        mockMvc.perform(get("/api/aprender/modulos/1/teorico"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.moduleTitle").value("Teoria"));
+    }
+
+    @Test
+    @WithMockUser(username = "user")
+    void concluirTeoricoDeveRetornar204() throws Exception {
+        doNothing().when(learnService).concluirTeorico(anyLong(), anyString());
+
+        mockMvc.perform(post("/api/aprender/modulos/1/teorico/concluir"))
+                .andExpect(status().isNoContent());
     }
 }

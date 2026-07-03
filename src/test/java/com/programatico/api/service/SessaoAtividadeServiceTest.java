@@ -35,6 +35,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -238,7 +240,7 @@ class SessaoAtividadeServiceTest {
 
     @Test
     void iniciarPraticaErrosPorAssuntoDeveLancarExcecaoParaNaoRoot() {
-        Usuario usuario = usuarioBase(); // FREE por padrão
+        Usuario usuario = usuarioBase();
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
 
         BadRequestException ex = assertThrows(BadRequestException.class,
@@ -269,7 +271,7 @@ class SessaoAtividadeServiceTest {
         SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user");
 
         assertEquals("Revisar: decisão", response.getModuleTitle());
-        assertEquals(2, response.getTotalExercises()); // só e1 e e3 têm a tag
+        assertEquals(2, response.getTotalExercises());
     }
 
     @Test
@@ -298,12 +300,12 @@ class SessaoAtividadeServiceTest {
                 .build();
         PracticeSessionExercise i1 = PracticeSessionExercise.builder()
                 .practiceSession(aberta).exercise(exercicioComTags(1L, "x")).displayOrder(1)
-                .isCorrect(true).mastered(true).build();  // dominado -> sai da fila
+                .isCorrect(true).mastered(true).build();
         PracticeSessionExercise i2 = PracticeSessionExercise.builder()
                 .practiceSession(aberta).exercise(exercicioComTags(2L, "y")).displayOrder(2)
-                .isCorrect(false).mastered(false).build(); // errado -> ainda pendente
+                .isCorrect(false).mastered(false).build();
         PracticeSessionExercise i3 = PracticeSessionExercise.builder()
-                .practiceSession(aberta).exercise(exercicioComTags(3L, "z")).displayOrder(3).build(); // não respondido
+                .practiceSession(aberta).exercise(exercicioComTags(3L, "z")).displayOrder(3).build();
 
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
         when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
@@ -315,9 +317,347 @@ class SessaoAtividadeServiceTest {
 
         SessaoDto.InicioResponse resp = sessaoAtividadeService.iniciarSessao(1L, "user");
 
-        assertEquals(55L, resp.getSessionId());        // mesma sessão (retomada)
-        assertEquals(3, resp.getTotalExercises());      // mantém o total (todos os alvos)
-        assertEquals(List.of(1L), resp.getMasteredIds()); // i1 dominado -> fora da fila no front
+        assertEquals(55L, resp.getSessionId());
+        assertEquals(3, resp.getTotalExercises());
+        assertEquals(List.of(1L), resp.getMasteredIds());
+    }
+
+    @Test
+    void iniciarSessaoDeveRetornarExerciciosDoModulo() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        List<Exercise> exercicios = exerciciosDoModulo(modulo, 1L, 3);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(moduloRepository.findById(1L)).thenReturn(Optional.of(modulo));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.findFirstByUsuarioAndModuloAndEndedAtIsNullOrderByStartedAtDesc(usuario, modulo))
+                .thenReturn(Optional.empty());
+        when(exerciseRepository.findByModuloOrderByIdAsc(modulo)).thenReturn(exercicios);
+        when(openAiOrganizacaoService.organizar(any(), any(), any(), anyInt())).thenReturn(exercicios);
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(20L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarSessao(1L, "user");
+
+        assertEquals(20L, response.getSessionId());
+        assertEquals("Módulo 1", response.getModuleTitle());
+        assertEquals(3, response.getTotalExercises());
+    }
+
+    @Test
+    void responderDeveMarcarRespostaCorretaEAplicarXp() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = exerciciosDoModulo(modulo, 1L, 1).get(0);
+        PracticeSession sessao = PracticeSession.builder()
+                .id(5L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now())
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(5L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionExerciseRepository.findByPracticeSessionAndExerciseId(sessao, 1L))
+                .thenReturn(Optional.of(sessionExercise));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionExerciseRepository.save(any(PracticeSessionExercise.class)))
+                .thenAnswer(inv -> inv.getArgument(0));
+        when(userStatsRepository.save(any(UserStats.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.RespostaRequest request = new SessaoDto.RespostaRequest(1L, "A");
+        SessaoDto.RespostaResponse response = sessaoAtividadeService.responder(5L, request, "user");
+
+        assertTrue(response.isCorrect());
+        assertEquals(5, response.getRemainingLives());
+        verify(practiceSessionExerciseRepository).save(sessionExercise);
+    }
+
+    @Test
+    void concluirDeveCalcularRelatorioEMarcarModuloConcluido() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = exerciciosDoModulo(modulo, 1L, 1).get(0);
+        PracticeSession sessao = PracticeSession.builder()
+                .id(7L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now().minusMinutes(2))
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .isCorrect(true)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(7L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(practiceSessionExerciseRepository.findByPracticeSessionOrderByDisplayOrderAsc(sessao))
+                .thenReturn(List.of(sessionExercise));
+        when(userProgressRepository.findByUsuarioAndModulo(usuario, modulo)).thenReturn(Optional.empty());
+        when(userProgressRepository.save(any(UserProgress.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(userStatsRepository.save(any(UserStats.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.ConclusaoResponse response = sessaoAtividadeService.concluir(7L, "user");
+
+        assertEquals(100, response.getAccuracy());
+        assertTrue(response.isModuleCompleted());
+        assertEquals(3, response.getXpEarned());
+        verify(userProgressRepository).save(any(UserProgress.class));
+    }
+
+    @Test
+    void iniciarPraticaErrosDeveRetornarExerciciosErrados() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = exerciciosDoModulo(modulo, 1L, 1).get(0);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
+                .thenReturn(List.of(exercise));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(30L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarPratica("erros", "user");
+
+        assertEquals("Prática: Erros", response.getModuleTitle());
+        assertEquals(1, response.getTotalExercises());
+    }
+
+    @Test
+    void iniciarPraticaErrosDeveFalharQuandoNaoHaErros() {
+        Usuario usuario = usuarioBase();
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
+                .thenReturn(List.of());
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.iniciarPratica("erros", "user"));
+
+        assertEquals("Você ainda não tem erros para praticar.", ex.getMessage());
+    }
+
+    @Test
+    void responderIncorretoDeveReduzirVidas() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = exerciciosDoModulo(modulo, 1L, 1).get(0);
+        PracticeSession sessao = PracticeSession.builder()
+                .id(5L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now())
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(5L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionExerciseRepository.findByPracticeSessionAndExerciseId(sessao, 1L))
+                .thenReturn(Optional.of(sessionExercise));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionExerciseRepository.save(any(PracticeSessionExercise.class)))
+                .thenAnswer(inv -> inv.getArgument(0));
+        when(userStatsRepository.save(any(UserStats.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.RespostaResponse response = sessaoAtividadeService.responder(
+                5L, new SessaoDto.RespostaRequest(1L, "B"), "user");
+
+        assertTrue(!response.isCorrect());
+        assertEquals(4, response.getRemainingLives());
+    }
+
+    @Test
+    void responderDeveFalharQuandoSessaoEncerrada() {
+        Usuario usuario = usuarioBase();
+        PracticeSession sessao = PracticeSession.builder()
+                .id(5L)
+                .usuario(usuario)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now())
+                .endedAt(LocalDateTime.now())
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(5L, usuario)).thenReturn(Optional.of(sessao));
+
+        assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.responder(5L, new SessaoDto.RespostaRequest(1L, "A"), "user"));
+    }
+
+    @Test
+    void responderDragDropCorretoDeveValidarOrdem() throws Exception {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = Exercise.builder()
+                .id(1L)
+                .modulo(modulo)
+                .statement("Ordene")
+                .exerciseType(ExerciseType.DRAG_DROP)
+                .exerciseData("{\"items\":[\"primeiro\",\"segundo\"]}")
+                .xpReward(5)
+                .build();
+        PracticeSession sessao = PracticeSession.builder()
+                .id(8L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now())
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(8L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionExerciseRepository.findByPracticeSessionAndExerciseId(sessao, 1L))
+                .thenReturn(Optional.of(sessionExercise));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionExerciseRepository.save(any(PracticeSessionExercise.class)))
+                .thenAnswer(inv -> inv.getArgument(0));
+        when(userStatsRepository.save(any(UserStats.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(userProgressRepository.findByUsuarioAndModulo(usuario, modulo)).thenReturn(Optional.empty());
+
+        String resposta = objectMapper.writeValueAsString(List.of("primeiro", "segundo"));
+        SessaoDto.RespostaResponse response = sessaoAtividadeService.responder(
+                8L, new SessaoDto.RespostaRequest(1L, resposta), "user");
+
+        assertTrue(response.isCorrect());
+    }
+
+    @Test
+    void responderDeveFalharQuandoExercicioJaRespondido() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = exerciciosDoModulo(modulo, 1L, 1).get(0);
+        PracticeSession sessao = PracticeSession.builder()
+                .id(5L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now())
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .isCorrect(true)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(5L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionExerciseRepository.findByPracticeSessionAndExerciseId(sessao, 1L))
+                .thenReturn(Optional.of(sessionExercise));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.responder(5L, new SessaoDto.RespostaRequest(1L, "A"), "user"));
+
+        assertEquals("Este exercício já foi respondido.", ex.getMessage());
+    }
+
+    @Test
+    void concluirReplayModuloConcluidoNaoDeveSomarXp() {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = exerciciosDoModulo(modulo, 1L, 1).get(0);
+        PracticeSession sessao = PracticeSession.builder()
+                .id(7L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now().minusMinutes(2))
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .isCorrect(true)
+                .build();
+        UserProgress progresso = UserProgress.builder()
+                .usuario(usuario)
+                .modulo(modulo)
+                .status(ProgressStatus.COMPLETED)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(7L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> inv.getArgument(0));
+        when(practiceSessionExerciseRepository.findByPracticeSessionOrderByDisplayOrderAsc(sessao))
+                .thenReturn(List.of(sessionExercise));
+        when(userProgressRepository.findByUsuarioAndModulo(usuario, modulo)).thenReturn(Optional.of(progresso));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(userStatsRepository.save(any(UserStats.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.ConclusaoResponse response = sessaoAtividadeService.concluir(7L, "user");
+
+        assertEquals(0, response.getXpEarned());
+        assertTrue(response.isModuleCompleted());
+    }
+
+    @Test
+    void responderPairsParcialNaoDevePersistirResposta() throws Exception {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        Exercise exercise = Exercise.builder()
+                .id(1L)
+                .modulo(modulo)
+                .statement("Pares")
+                .exerciseType(ExerciseType.PAIRS)
+                .exerciseData("{\"pairs\":[{\"left\":\"7\",\"right\":\"inteiro\"},{\"left\":\"2.5\",\"right\":\"decimal\"}]}")
+                .xpReward(5)
+                .build();
+        PracticeSession sessao = PracticeSession.builder()
+                .id(9L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now())
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(9L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionExerciseRepository.findByPracticeSessionAndExerciseId(sessao, 1L))
+                .thenReturn(Optional.of(sessionExercise));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+
+        String respostaParcial = objectMapper.writeValueAsString(
+                List.of(Map.of("left", "7", "right", "inteiro")));
+        SessaoDto.RespostaResponse response = sessaoAtividadeService.responder(
+                9L, new SessaoDto.RespostaRequest(1L, respostaParcial), "user");
+
+        assertTrue(response.isCorrect());
+        assertEquals(null, sessionExercise.getIsCorrect());
     }
 
     private Usuario usuarioBase() {

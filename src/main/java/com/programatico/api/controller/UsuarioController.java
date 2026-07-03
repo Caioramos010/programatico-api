@@ -5,9 +5,9 @@ import com.programatico.api.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -16,40 +16,37 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
 
-    @GetMapping
-    public ResponseEntity<List<UsuarioDto.Response>> listar() {
-        return ResponseEntity.ok(usuarioService.listar());
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDto.Response> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDto.Response> buscarPorId(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        usuarioService.verificarProprioRecurso(id, userDetails.getUsername());
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDto.Response> atualizar(
             @PathVariable Long id,
-            @Valid @RequestBody UsuarioDto.UpdateRequest request
-    ) {
+            @Valid @RequestBody UsuarioDto.UpdateRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        usuarioService.verificarProprioRecurso(id, userDetails.getUsername());
         return ResponseEntity.ok(usuarioService.atualizar(id, request));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        usuarioService.excluir(id);
-        return ResponseEntity.noContent().build();
-    }
-
     @PostMapping("/{id}/solicitar-exclusao")
-    public ResponseEntity<UsuarioDto.MessageResponse> solicitarExclusao(@PathVariable Long id) {
+    public ResponseEntity<UsuarioDto.MessageResponse> solicitarExclusao(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        usuarioService.verificarProprioRecurso(id, userDetails.getUsername());
         return ResponseEntity.ok(usuarioService.solicitarExclusaoConta(id));
     }
 
     @PostMapping("/{id}/confirmar-exclusao")
     public ResponseEntity<Void> confirmarExclusao(
             @PathVariable Long id,
-            @Valid @RequestBody UsuarioDto.ConfirmarExclusaoRequest request
-    ) {
+            @Valid @RequestBody UsuarioDto.ConfirmarExclusaoRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        usuarioService.verificarProprioRecurso(id, userDetails.getUsername());
         usuarioService.confirmarExclusaoConta(id, request);
         return ResponseEntity.noContent().build();
     }

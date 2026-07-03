@@ -33,6 +33,12 @@ public class NotificationService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public NotificationDto.Response buscarPorId(Long id, String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
+        return NotificationDto.Response.fromEntity(buscarNotificacao(id, usuario));
+    }
+
     @Transactional
     public NotificationDto.Response marcarComoLida(Long id, String username) {
         Usuario usuario = buscarUsuarioPorUsername(username);
@@ -70,6 +76,12 @@ public class NotificationService {
                 .kind(kind)
                 .build();
         notificationRepository.save(notification);
+    }
+
+    @Transactional
+    public void excluir(Long id, String username) {
+        Usuario usuario = buscarUsuarioPorUsername(username);
+        notificationRepository.delete(buscarNotificacao(id, usuario));
     }
 
     private Usuario buscarUsuarioPorUsername(String username) {

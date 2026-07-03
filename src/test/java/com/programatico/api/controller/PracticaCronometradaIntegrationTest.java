@@ -1,5 +1,7 @@
 package com.programatico.api.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Exercise;
 import com.programatico.api.domain.Modulo;
 import com.programatico.api.domain.PracticeSession;
@@ -19,7 +21,9 @@ import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import com.programatico.api.security.JwtUtil;
 import com.programatico.api.service.EmailService;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,6 +49,7 @@ class PracticaCronometradaIntegrationTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private UsuarioRepository usuarioRepository;
+    @Autowired private UserSettingsRepository userSettingsRepository;
     @Autowired private TrackRepository trackRepository;
     @Autowired private ModuloRepository moduloRepository;
     @Autowired private ExerciseRepository exerciseRepository;
@@ -54,6 +59,7 @@ class PracticaCronometradaIntegrationTest {
     @Autowired private PracticeSessionExerciseRepository practiceSessionExerciseRepository;
     @Autowired private PasswordEncoder passwordEncoder;
     @Autowired private JwtUtil jwtUtil;
+    @Autowired private ObjectMapper objectMapper;
 
     @MockitoBean
     private EmailService emailService;
@@ -69,7 +75,7 @@ class PracticaCronometradaIntegrationTest {
         moduloRepository.deleteAll();
         trackRepository.deleteAll();
         userStatsRepository.deleteAll();
-        usuarioRepository.deleteAll();
+        IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
 
         Usuario usuario = usuarioRepository.save(Usuario.builder()
                 .username("cronometrado-user")
@@ -136,5 +142,33 @@ class PracticaCronometradaIntegrationTest {
 
         PracticeSession sessao = practiceSessionRepository.findAll().get(0);
         assertEquals(SessionType.TIMED, sessao.getSessionType());
+    }
+
+    @Test
+    void fluxoCronometradoResponderConcluirDeveCompletar() throws Exception {
+        var inicio = mockMvc.perform(post("/api/aprender/pratica/cronometrado/iniciar")
+                        .header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JsonNode body = objectMapper.readTree(inicio.getResponse().getContentAsString());
+        long sessionId = body.get("sessionId").asLong();
+
+        for (JsonNode exercicio : body.get("exercises")) {
+            mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/responder")
+                            .header("Authorization", "Bearer " + token)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content("""
+                                    {"exercicioId":%d,"resposta":"A"}
+                                    """.formatted(exercicio.get("id").asLong())))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.correct").value(true));
+        }
+
+        mockMvc.perform(post("/api/aprender/sessoes/" + sessionId + "/concluir")
+                        .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accuracy").value(100));
     }
 }

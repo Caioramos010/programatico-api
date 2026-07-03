@@ -80,4 +80,25 @@ class ReviewControllerTest {
                 .andExpect(jsonPath("$.stats[0].title").value("Exercicios feitos"))
                 .andExpect(jsonPath("$.recentMissions[0].label").value("Treinar logica"));
     }
+
+    @Test
+    @WithMockUser(username = "user")
+    void getReviewSemParametrosDeveRetornar200() throws Exception {
+        when(reviewService.getReview(anyString(), any(), any())).thenReturn(
+                ReviewDto.Response.builder()
+                        .selectedDays(7)
+                        .currentXp(0)
+                        .stats(List.of())
+                        .performanceData(List.of())
+                        .availableTracks(List.of())
+                        .subjectAccuracy(List.of())
+                        .errorsBySubject(List.of())
+                        .reviewNow(List.of())
+                        .recentMissions(List.of())
+                        .build());
+
+        mockMvc.perform(get("/api/review"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.selectedDays").value(7));
+    }
 }

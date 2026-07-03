@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.SubscriptionType;
+import com.programatico.api.dto.PaymentDto;
 import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
+import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
@@ -32,6 +35,7 @@ public class PaymentService {
     public record CheckoutResult(String url, String billId) {}
 
     private final UsuarioRepository usuarioRepository;
+    private final PaymentRepository paymentRepository;
     private final ObjectMapper objectMapper;
     private final AbacatePayWebhookService abacatePayWebhookService;
 
@@ -92,6 +96,33 @@ public class PaymentService {
         return UsuarioDto.Response.fromEntity(usuario);
     }
 
+    public UsuarioDto.Response cancelarAssinatura(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+
+        if (usuario.getSubscriptionType() != SubscriptionType.ROOT || !assinaturaRootAtiva(usuario)) {
+            throw new BadRequestException("Você não possui uma assinatura Root ativa para cancelar.");
+        }
+        if (Boolean.FALSE.equals(usuario.getSubscriptionAutoRenew())) {
+            throw new BadRequestException("A renovação automática já está cancelada.");
+        }
+
+        usuario.setSubscriptionAutoRenew(false);
+        usuarioRepository.save(usuario);
+        log.info("Renovação automática cancelada: userId={}, expiraEm={}", usuario.getId(), usuario.getSubscriptionExpiresAt());
+
+        return UsuarioDto.Response.fromEntity(usuario);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PaymentDto.Response> listarHistorico(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
+        return paymentRepository.findByUsuarioOrderByCreatedAtDesc(usuario).stream()
+                .map(PaymentDto.Response::fromEntity)
+                .toList();
+    }
+
     private void tentarAtivarPorCheckoutsPagos(Usuario usuario) {
         String userId = String.valueOf(usuario.getId());
         try {
@@ -120,12 +151,17 @@ public class PaymentService {
         String userId = String.valueOf(usuario.getId());
         try {
             JsonNode checkout = abacatePayGet("/checkouts/get?id=" + billId).path("data");
-            if (checkoutPagoDoUsuario(checkout, userId)) {
-                abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
-                log.info("Plano ROOT ativado via sync bill {} para usuário id={}", billId, userId);
+            if (!checkoutPagoDoUsuario(checkout, userId)) {
+                throw new BadRequestException(
+                        "Pagamento não encontrado ou ainda não confirmado para o billId informado.");
             }
+            abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
+            log.info("Plano ROOT ativado via sync bill {} para usuário id={}", billId, userId);
+        } catch (BadRequestException e) {
+            throw e;
         } catch (Exception e) {
             log.warn("Falha ao sincronizar bill {} para userId={}: {}", billId, usuario.getId(), e.getMessage());
+            throw new BadRequestException("Não foi possível validar o pagamento informado. Tente novamente.");
         }
     }
 

@@ -66,6 +66,27 @@ public class Usuario {
     @Column(name = "login_verification_code_expires_at")
     private Instant dataExpiracaoCodigoLogin;
 
+    @Column(name = "login_code_failed_attempts", nullable = false)
+    @Builder.Default
+    private Integer loginCodeFailedAttempts = 0;
+
+    @Column(name = "login_code_blocked_until")
+    private Instant loginCodeBlockedUntil;
+
+    @Column(name = "activation_code_failed_attempts", nullable = false)
+    @Builder.Default
+    private Integer activationCodeFailedAttempts = 0;
+
+    @Column(name = "activation_code_blocked_until")
+    private Instant activationCodeBlockedUntil;
+
+    @Column(name = "password_reset_code_failed_attempts", nullable = false)
+    @Builder.Default
+    private Integer passwordResetCodeFailedAttempts = 0;
+
+    @Column(name = "password_reset_code_blocked_until")
+    private Instant passwordResetCodeBlockedUntil;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant dataCriacao;
 
@@ -89,6 +110,10 @@ public class Usuario {
 
     @Column(name = "subscription_expires_at")
     private Instant subscriptionExpiresAt;
+
+    @Column(name = "subscription_auto_renew", nullable = false)
+    @Builder.Default
+    private Boolean subscriptionAutoRenew = true;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 10)

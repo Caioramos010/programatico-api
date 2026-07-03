@@ -23,6 +23,13 @@ public class NotificationController {
         return ResponseEntity.ok(notificationService.listarPorUsuario(userDetails.getUsername()));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<NotificationDto.Response> buscarPorId(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(notificationService.buscarPorId(id, userDetails.getUsername()));
+    }
+
     @PatchMapping("/{id}/marcar-como-lida")
     public ResponseEntity<NotificationDto.Response> marcarComoLida(
             @PathVariable Long id,
@@ -33,6 +40,14 @@ public class NotificationController {
     @PatchMapping("/marcar-todas-como-lidas")
     public ResponseEntity<Void> marcarTodasComoLidas(@AuthenticationPrincipal UserDetails userDetails) {
         notificationService.marcarTodasComoLidas(userDetails.getUsername());
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(
+            @PathVariable Long id,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        notificationService.excluir(id, userDetails.getUsername());
         return ResponseEntity.noContent().build();
     }
 }
