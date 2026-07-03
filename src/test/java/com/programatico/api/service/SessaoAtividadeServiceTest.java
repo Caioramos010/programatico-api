@@ -385,6 +385,50 @@ class SessaoAtividadeServiceTest {
     }
 
     @Test
+    void responderDeveAceitarOpcaoCorretaComAspasNoTexto() throws Exception {
+        Usuario usuario = usuarioBase();
+        Modulo modulo = moduloBase(1L);
+        String exerciseData = objectMapper.writeValueAsString(Map.of("options", List.of(
+                Map.of("description", "\"A coruja Olívia NÃO dorme.\"", "correct", true),
+                Map.of("description", "\"A coruja Olívia dorme.\"", "correct", false))));
+        Exercise exercise = Exercise.builder()
+                .id(1L)
+                .modulo(modulo)
+                .statement("Enunciado 1")
+                .exerciseType(ExerciseType.MULTIPLE_CHOICE)
+                .exerciseData(exerciseData)
+                .xpReward(3)
+                .build();
+        PracticeSession sessao = PracticeSession.builder()
+                .id(5L)
+                .usuario(usuario)
+                .modulo(modulo)
+                .sessionType(SessionType.ACTIVITY)
+                .startedAt(LocalDateTime.now())
+                .build();
+        PracticeSessionExercise sessionExercise = PracticeSessionExercise.builder()
+                .practiceSession(sessao)
+                .exercise(exercise)
+                .displayOrder(1)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionRepository.findByIdAndUsuario(5L, usuario)).thenReturn(Optional.of(sessao));
+        when(practiceSessionExerciseRepository.findByPracticeSessionAndExerciseId(sessao, 1L))
+                .thenReturn(Optional.of(sessionExercise));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionExerciseRepository.save(any(PracticeSessionExercise.class)))
+                .thenAnswer(inv -> inv.getArgument(0));
+        when(userStatsRepository.save(any(UserStats.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.RespostaRequest request =
+                new SessaoDto.RespostaRequest(1L, "\"A coruja Olívia NÃO dorme.\"");
+        SessaoDto.RespostaResponse response = sessaoAtividadeService.responder(5L, request, "user");
+
+        assertTrue(response.isCorrect());
+    }
+
+    @Test
     void concluirDeveCalcularRelatorioEMarcarModuloConcluido() {
         Usuario usuario = usuarioBase();
         Modulo modulo = moduloBase(1L);

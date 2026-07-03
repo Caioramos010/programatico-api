@@ -702,8 +702,12 @@ public class SessaoAtividadeService {
                         .filter(o -> Boolean.TRUE.equals(o.get("correct")))
                         .map(o -> String.valueOf(o.get("description")))
                         .findFirst().orElse("");
+                // Normaliza os DOIS lados: o texto da opção pode conter aspas literais
+                // (ex.: frases citadas em exercícios de lógica) e a resposta pode chegar
+                // crua ou JSON-encoded — remover aspas só de um lado nunca casa.
                 String respostaLimpa = respostaJson.replace("\"", "").trim();
-                return descricaoCorreta.equalsIgnoreCase(respostaLimpa);
+                String corretaLimpa = descricaoCorreta.replace("\"", "").trim();
+                return corretaLimpa.equalsIgnoreCase(respostaLimpa);
             }
 
             if (exercise.getExerciseType() == ExerciseType.DRAG_DROP) {

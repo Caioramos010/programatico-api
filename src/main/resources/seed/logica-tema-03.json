@@ -403,8 +403,8 @@
             "rights": [
               "Verdadeira",
               "Falsa",
-              "Outra verdadeira",
-              "Outra falsa"
+              "Verdadeira",
+              "Falsa"
             ],
             "pairs": [
               {
@@ -417,11 +417,11 @@
               },
               {
                 "left": "\"Há 5 árvores no pátio.\"",
-                "right": "Outra verdadeira"
+                "right": "Verdadeira"
               },
               {
                 "left": "\"Há 10 árvores no pátio.\"",
-                "right": "Outra falsa"
+                "right": "Falsa"
               }
             ]
           },
@@ -481,8 +481,8 @@
             "rights": [
               "Verdadeira",
               "Falsa",
-              "Outra verdadeira",
-              "Outra falsa"
+              "Verdadeira",
+              "Falsa"
             ],
             "pairs": [
               {
@@ -495,11 +495,11 @@
               },
               {
                 "left": "\"O livro pesa mais que a maçã.\"",
-                "right": "Outra verdadeira"
+                "right": "Verdadeira"
               },
               {
                 "left": "\"A maçã pesa mais que o livro.\"",
-                "right": "Outra falsa"
+                "right": "Falsa"
               }
             ]
           },
@@ -676,8 +676,8 @@
             "rights": [
               "Verdadeira",
               "Falsa",
-              "Outra verdadeira",
-              "Outra falsa"
+              "Verdadeira",
+              "Falsa"
             ],
             "pairs": [
               {
@@ -690,11 +690,11 @@
               },
               {
                 "left": "\"O Rex tem exatamente 5 peças.\"",
-                "right": "Outra verdadeira"
+                "right": "Verdadeira"
               },
               {
                 "left": "\"O Rex tem mais de 5 peças.\"",
-                "right": "Outra falsa"
+                "right": "Falsa"
               }
             ]
           },
