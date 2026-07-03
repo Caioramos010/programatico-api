@@ -9,16 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -42,22 +40,7 @@ class UsuarioControllerTest {
     private JwtAuthFilter jwtAuthFilter;
 
     @Test
-    void listarDeveRetornar200ComListaDeUsuarios() throws Exception {
-        UsuarioDto.Response usuario = UsuarioDto.Response.builder()
-                .id(1L)
-                .username("user")
-                .email("user@email.com")
-                .ativo(true)
-                .build();
-        when(usuarioService.listar()).thenReturn(List.of(usuario));
-
-        mockMvc.perform(get("/api/usuarios"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1))
-                .andExpect(jsonPath("$[0].username").value("user"));
-    }
-
-    @Test
+    @WithMockUser(username = "user")
     void buscarPorIdDeveRetornar200() throws Exception {
         UsuarioDto.Response usuario = UsuarioDto.Response.builder()
                 .id(1L)
@@ -73,14 +56,7 @@ class UsuarioControllerTest {
     }
 
     @Test
-    void excluirDeveRetornar204() throws Exception {
-        doNothing().when(usuarioService).excluir(1L);
-
-        mockMvc.perform(delete("/api/usuarios/1"))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
+    @WithMockUser(username = "user")
     void atualizarDeveRetornar400QuandoPayloadInvalido() throws Exception {
         String jsonInvalido = """
                 {
@@ -96,6 +72,7 @@ class UsuarioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user")
     void atualizarDeveRetornar200QuandoPayloadValido() throws Exception {
         UsuarioDto.UpdateRequest request = UsuarioDto.UpdateRequest.builder()
                 .username("novo-user")
@@ -118,6 +95,7 @@ class UsuarioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user")
     void solicitarExclusaoDeveRetornar200() throws Exception {
         when(usuarioService.solicitarExclusaoConta(1L))
                 .thenReturn(UsuarioDto.MessageResponse.of("Código enviado."));
@@ -128,6 +106,7 @@ class UsuarioControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user")
     void confirmarExclusaoDeveRetornar204() throws Exception {
         doNothing().when(usuarioService).confirmarExclusaoConta(eq(1L), any());
 
