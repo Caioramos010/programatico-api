@@ -55,7 +55,7 @@ public class AuthController {
     }
 
     @PostMapping("/ativar")
-    public ResponseEntity<UsuarioDto.MessageResponse> ativar(@Valid @RequestBody UsuarioDto.AtivacaoRequest request) {
+    public ResponseEntity<UsuarioDto.LoginResponse> ativar(@Valid @RequestBody UsuarioDto.AtivacaoRequest request) {
         return ResponseEntity.ok(usuarioService.ativar(request));
     }
 

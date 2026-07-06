@@ -123,7 +123,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public UsuarioDto.MessageResponse ativar(UsuarioDto.AtivacaoRequest request) {
+    public UsuarioDto.LoginResponse ativar(UsuarioDto.AtivacaoRequest request) {
         if (StringUtils.hasText(request.getEmail())) {
             return ativarComEmail(request.getEmail().trim(), request.getCodigo().trim());
         }
@@ -132,7 +132,7 @@ public class UsuarioService {
         return concluirAtivacao(usuario);
     }
 
-    private UsuarioDto.MessageResponse ativarComEmail(String email, String codigo) {
+    private UsuarioDto.LoginResponse ativarComEmail(String email, String codigo) {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new BadRequestException("Código de ativação inválido"));
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.ACTIVATION);
@@ -145,12 +145,15 @@ public class UsuarioService {
         return concluirAtivacao(usuario);
     }
 
-    private UsuarioDto.MessageResponse concluirAtivacao(Usuario usuario) {
+    private UsuarioDto.LoginResponse concluirAtivacao(Usuario usuario) {
         verificationCodeGuardService.resetAttempts(usuario, VerificationCodeContext.ACTIVATION);
         usuario.setAtivo(true);
         usuario.setCodigoAtivacao(null);
         usuarioRepository.save(usuario);
-        return UsuarioDto.MessageResponse.of("Conta ativada com sucesso. Faça login.");
+        // O código de ativação prova posse do e-mail — mesmo nível de confiança da
+        // verificação de login, então a conta já sai logada (sem pedir outro código).
+        String token = jwtUtil.gerarToken(usuario.getUsername(), usuario.getId());
+        return new UsuarioDto.LoginResponse(token, UsuarioDto.Response.fromEntity(usuario));
     }
 
     @Transactional

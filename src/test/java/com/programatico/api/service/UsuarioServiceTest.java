@@ -369,14 +369,16 @@ class UsuarioServiceTest {
         doNothing().when(verificationCodeGuardService)
                 .resetAttempts(usuario, VerificationCodeContext.ACTIVATION);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(jwtUtil.gerarToken(usuario.getUsername(), usuario.getId())).thenReturn("jwt-ativacao");
 
         UsuarioDto.AtivacaoRequest request = UsuarioDto.AtivacaoRequest.builder()
                 .codigo("123456")
                 .build();
 
-        UsuarioDto.MessageResponse response = usuarioService.ativar(request);
+        UsuarioDto.LoginResponse response = usuarioService.ativar(request);
 
-        assertEquals("Conta ativada com sucesso. Faça login.", response.getMensagem());
+        assertEquals("jwt-ativacao", response.getToken());
+        assertEquals("user", response.getUsuario().getUsername());
         verify(usuarioRepository).save(argThat(u -> Boolean.TRUE.equals(u.getAtivo()) && u.getCodigoAtivacao() == null));
     }
 
