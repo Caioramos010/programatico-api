@@ -49,6 +49,7 @@ class AbacatePayWebhookServiceTest {
     @Mock private ProcessedAbacateWebhookRepository processedRepository;
     @Mock private UsuarioRepository usuarioRepository;
     @Mock private PaymentRepository paymentRepository;
+    @Mock private NotificationService notificationService;
     @Spy private ObjectMapper objectMapper = new ObjectMapper();
 
     @InjectMocks
