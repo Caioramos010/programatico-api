@@ -68,7 +68,7 @@ class SessaoAtividadeServiceTest {
 
     @Test
     void iniciarPraticaFixacaoDeveRetornarAteCincoExerciciosDeModulosConcluidos() {
-        Usuario usuario = usuarioBase();
+        Usuario usuario = usuarioRoot();
         Modulo modulo1 = moduloBase(1L);
         Modulo modulo2 = moduloBase(2L);
         List<Exercise> exerciciosModulo1 = exerciciosDoModulo(modulo1, 1L, 4);
@@ -106,7 +106,7 @@ class SessaoAtividadeServiceTest {
 
     @Test
     void iniciarPraticaFixacaoDeveRetornarTodosQuandoPoolTemMenosDeCincoExercicios() {
-        Usuario usuario = usuarioBase();
+        Usuario usuario = usuarioRoot();
         Modulo modulo = moduloBase(1L);
         List<Exercise> exercicios = exerciciosDoModulo(modulo, 1L, 3);
 
@@ -130,7 +130,7 @@ class SessaoAtividadeServiceTest {
 
     @Test
     void iniciarPraticaFixacaoDeveLancarExcecaoQuandoNaoHaModulosConcluidos() {
-        Usuario usuario = usuarioBase();
+        Usuario usuario = usuarioRoot();
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
         when(userProgressRepository.findByUsuarioAndStatus(usuario, ProgressStatus.COMPLETED))
                 .thenReturn(List.of());
@@ -143,7 +143,7 @@ class SessaoAtividadeServiceTest {
 
     @Test
     void iniciarPraticaFixacaoDeveLancarExcecaoQuandoModulosConcluidosNaoTemExercicios() {
-        Usuario usuario = usuarioBase();
+        Usuario usuario = usuarioRoot();
         Modulo modulo = moduloBase(1L);
 
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
@@ -167,7 +167,7 @@ class SessaoAtividadeServiceTest {
 
     @Test
     void iniciarPraticaFixacaoDeveAceitarModoComMaiusculas() {
-        Usuario usuario = usuarioBase();
+        Usuario usuario = usuarioRoot();
         Modulo modulo = moduloBase(1L);
         List<Exercise> exercicios = exerciciosDoModulo(modulo, 1L, 2);
 
@@ -467,7 +467,7 @@ class SessaoAtividadeServiceTest {
 
     @Test
     void iniciarPraticaErrosDeveRetornarExerciciosErrados() {
-        Usuario usuario = usuarioBase();
+        Usuario usuario = usuarioRoot();
         Modulo modulo = moduloBase(1L);
         Exercise exercise = exerciciosDoModulo(modulo, 1L, 1).get(0);
 
@@ -489,8 +489,30 @@ class SessaoAtividadeServiceTest {
     }
 
     @Test
-    void iniciarPraticaErrosDeveFalharQuandoNaoHaErros() {
+    void iniciarPraticaErrosDeveExigirAssinaturaRoot() {
         Usuario usuario = usuarioBase();
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.iniciarPratica("erros", "user"));
+
+        assertEquals("A prática de erros é exclusiva para assinantes Root.", ex.getMessage());
+    }
+
+    @Test
+    void iniciarPraticaFixacaoDeveExigirAssinaturaRoot() {
+        Usuario usuario = usuarioBase();
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+
+        BadRequestException ex = assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.iniciarPratica("fixacao", "user"));
+
+        assertEquals("A prática de fixação é exclusiva para assinantes Root.", ex.getMessage());
+    }
+
+    @Test
+    void iniciarPraticaErrosDeveFalharQuandoNaoHaErros() {
+        Usuario usuario = usuarioRoot();
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
         when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
                 .thenReturn(List.of());
@@ -711,6 +733,12 @@ class SessaoAtividadeServiceTest {
         usuario.setEmail("user@email.com");
         usuario.setSenha("hash");
         usuario.setAtivo(true);
+        return usuario;
+    }
+
+    private Usuario usuarioRoot() {
+        Usuario usuario = usuarioBase();
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
         return usuario;
     }
 
