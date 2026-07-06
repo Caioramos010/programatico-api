@@ -98,8 +98,11 @@ final class AbacatePayPayloadParser {
     }
 
     static BigDecimal extrairValor(String event, JsonNode data) {
-        JsonNode node = noPrincipal(event, data);
-        if (node.isMissingNode()) {
+        return extrairValorDoNode(noPrincipal(event, data));
+    }
+
+    static BigDecimal extrairValorDoNode(JsonNode node) {
+        if (node == null || node.isMissingNode()) {
             return BigDecimal.ZERO;
         }
         if (node.has("amount") && !node.path("amount").isNull()) {
@@ -112,8 +115,11 @@ final class AbacatePayPayloadParser {
     }
 
     static PaymentMethod extrairMetodo(String event, JsonNode data) {
-        JsonNode node = noPrincipal(event, data);
-        if (node.isMissingNode()) {
+        return extrairMetodoDoNode(noPrincipal(event, data));
+    }
+
+    static PaymentMethod extrairMetodoDoNode(JsonNode node) {
+        if (node == null || node.isMissingNode()) {
             return PaymentMethod.UNKNOWN;
         }
         String raw = node.path("method").asText("").trim();

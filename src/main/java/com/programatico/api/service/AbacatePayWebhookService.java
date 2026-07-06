@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programatico.api.domain.Payment;
 import com.programatico.api.domain.ProcessedAbacateWebhook;
 import com.programatico.api.domain.Usuario;
+import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.PaymentMethod;
 import com.programatico.api.domain.enums.PaymentStatus;
 import com.programatico.api.domain.enums.SubscriptionType;
@@ -39,6 +40,7 @@ public class AbacatePayWebhookService {
     private final ProcessedAbacateWebhookRepository processedRepository;
     private final UsuarioRepository usuarioRepository;
     private final PaymentRepository paymentRepository;
+    private final NotificationService notificationService;
 
     @Value("${abacatepay.webhook.secret:}")
     private String webhookSecretConfig;
@@ -273,11 +275,50 @@ public class AbacatePayWebhookService {
             log.warn("Webhook: usuário id={} não encontrado; plano não atualizado", userId);
             return;
         }
+        boolean jaEraRoot = usuario.getSubscriptionType() == SubscriptionType.ROOT
+                && assinaturaRootAtiva(usuario);
         usuario.setSubscriptionType(SubscriptionType.ROOT);
         usuario.setSubscriptionAutoRenew(true);
         usuario.setSubscriptionExpiresAt(Instant.now().plus(rootDurationDays, ChronoUnit.DAYS));
         usuarioRepository.save(usuario);
         log.info("Plano ROOT ativado via AbacatePay para usuário id={}", userId);
+        // Notifica só na virada FREE→ROOT; renovação automática não gera notificação.
+        if (!jaEraRoot) {
+            notificationService.criarNotificacaoSistema(
+                    usuario,
+                    "Você agora é Root!",
+                    "Sua assinatura Root está ativa. Aproveite as vidas infinitas e as práticas exclusivas.",
+                    NotificationKind.SUBSCRIPTION
+            );
+        }
+    }
+
+    /**
+     * Registra o comprovante quando a ativação veio pelo sync (o webhook do
+     * AbacatePay pode não estar configurado/alcançável) — sem isso o histórico
+     * de pagamentos fica vazio mesmo com a assinatura ativa. Idempotente por billId.
+     */
+    @Transactional
+    public void registrarPagamentoSync(Long userId, JsonNode checkout) {
+        Usuario usuario = usuarioRepository.findById(userId).orElse(null);
+        if (usuario == null || checkout == null || checkout.isMissingNode()) {
+            return;
+        }
+        String billId = checkout.path("id").asText("");
+        if (!StringUtils.hasText(billId)) {
+            billId = "sync:user:" + userId;
+        }
+        if (paymentRepository.findByBillId(billId).isPresent()) {
+            return;
+        }
+        paymentRepository.save(Payment.builder()
+                .usuario(usuario)
+                .amount(AbacatePayPayloadParser.extrairValorDoNode(checkout))
+                .status(PaymentStatus.PAID)
+                .method(AbacatePayPayloadParser.extrairMetodoDoNode(checkout))
+                .billId(billId)
+                .build());
+        log.info("Comprovante registrado via sync: userId={}, billId={}", userId, billId);
     }
 
     private String syntheticEventId(JsonNode root) {
