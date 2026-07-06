@@ -406,11 +406,23 @@ public class SessaoAtividadeService {
     public SessaoDto.InicioResponse iniciarPratica(String modo, String username) {
         Usuario usuario = buscarUsuario(username);
         return switch (modo == null ? "" : modo.toLowerCase()) {
-            case "erros" -> iniciarPraticaErros(usuario);
-            case "fixacao" -> iniciarPraticaFixacao(usuario);
+            case "erros" -> {
+                exigirRoot(usuario, "A prática de erros é exclusiva para assinantes Root.");
+                yield iniciarPraticaErros(usuario);
+            }
+            case "fixacao" -> {
+                exigirRoot(usuario, "A prática de fixação é exclusiva para assinantes Root.");
+                yield iniciarPraticaFixacao(usuario);
+            }
             case "cronometrado" -> iniciarPraticaCronometrada(usuario);
             default -> throw new BadRequestException("Modo de prática inválido: " + modo);
         };
+    }
+
+    private void exigirRoot(Usuario usuario, String mensagem) {
+        if (!vidasService.isRootAtivo(usuario)) {
+            throw new BadRequestException(mensagem);
+        }
     }
 
     /** Referência: pratica os exercícios que o usuário errou. */
