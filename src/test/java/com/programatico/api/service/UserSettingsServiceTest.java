@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -50,16 +51,16 @@ class UserSettingsServiceTest {
     }
 
     @Test
-    void obterPreferenciasNotificacaoDeveCriarSettingsQuandoInexistentes() {
+    void obterPreferenciasNotificacaoDeveRetornarPadroesSemGravarQuandoInexistentes() {
+        // Leitura roda em transação readOnly: gravar aqui estoura "Connection is read-only" no MySQL.
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
         when(userSettingsRepository.findByUsuarioId(1L)).thenReturn(Optional.empty());
-        when(userSettingsRepository.save(any(UserSettings.class))).thenAnswer(inv -> inv.getArgument(0));
 
         SettingsDto.NotificationPreferencesResponse response =
                 userSettingsService.obterPreferenciasNotificacao("user");
 
         assertFalse(response.isDisableAllNotifications());
-        verify(userSettingsRepository).save(any(UserSettings.class));
+        verify(userSettingsRepository, never()).save(any(UserSettings.class));
     }
 
     @Test
