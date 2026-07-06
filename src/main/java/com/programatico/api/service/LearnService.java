@@ -9,6 +9,7 @@ import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ModuleType;
+import com.programatico.api.domain.enums.NivelHabilidade;
 import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.dto.TheoryDto;
@@ -61,6 +62,50 @@ public class LearnService {
     private final VidasService vidasService;
     private final MissaoDiariaService missaoDiariaService;
     private final PracticeSessionRepository practiceSessionRepository;
+
+    /**
+     * Nivelamento do onboarding: iniciante começa no nível 0, intermediário no 10
+     * e avançado no 20 — os N primeiros módulos da trilha entram como COMPLETED
+     * (sem XP; replay continua possível). Só aplica se o usuário ainda não tem
+     * progresso na trilha; em qualquer caso grava o nível de habilidade no perfil.
+     */
+    @Transactional
+    public TrackDto.NivelamentoResponse aplicarNivelamento(String username, NivelHabilidade nivel) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado para o token informado."));
+
+        Track track = trackRepository.findFirstByOrderByDisplayOrderAsc()
+                .orElseThrow(() -> new BadRequestException("Nenhuma trilha cadastrada."));
+        List<Modulo> modulos = moduloRepository.findByTrackOrderByDisplayOrderAsc(track);
+
+        int nivelInicial = switch (nivel) {
+            case BEGINNER -> 0;
+            case INTERMEDIATE -> 10;
+            case ADVANCED -> 20;
+        };
+
+        boolean jaComecou = !modulos.isEmpty()
+                && !userProgressRepository.findByUsuarioAndModuloIn(usuario, modulos).isEmpty();
+
+        int concluidos = 0;
+        if (!jaComecou) {
+            LocalDateTime agora = LocalDateTime.now();
+            for (int i = 0; i < Math.min(nivelInicial, modulos.size()); i++) {
+                userProgressRepository.save(UserProgress.builder()
+                        .usuario(usuario)
+                        .modulo(modulos.get(i))
+                        .status(ProgressStatus.COMPLETED)
+                        .completedAt(agora)
+                        .build());
+                concluidos++;
+            }
+        }
+
+        usuario.setNivelHabilidade(nivel);
+        usuarioRepository.save(usuario);
+
+        return new TrackDto.NivelamentoResponse(nivelInicial, concluidos);
+    }
 
     /**
      * Retorna a primeira trilha (por displayOrder) com o status de cada módulo

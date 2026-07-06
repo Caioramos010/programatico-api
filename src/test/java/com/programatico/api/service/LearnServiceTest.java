@@ -11,6 +11,7 @@ import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.LayoutType;
 import com.programatico.api.domain.enums.ModuleType;
+import com.programatico.api.domain.enums.NivelHabilidade;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.dto.TheoryDto;
 import com.programatico.api.dto.TrackDto;
@@ -35,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +45,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -402,6 +406,102 @@ class LearnServiceTest {
     // ──────────────────────────────────────────────────────────────────
     // helpers
     // ──────────────────────────────────────────────────────────────────
+
+    // ──────────────────────────────────────────────────────────────────
+    // aplicarNivelamento
+    // ──────────────────────────────────────────────────────────────────
+
+    @Test
+    void nivelamentoIntermediarioDeveConcluirDezPrimeirosModulos() {
+        Usuario usuario = usuarioBase();
+        Track track = trackBase();
+        List<Modulo> modulos = modulosBase(track, 30);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(trackRepository.findFirstByOrderByDisplayOrderAsc()).thenReturn(Optional.of(track));
+        when(moduloRepository.findByTrackOrderByDisplayOrderAsc(track)).thenReturn(modulos);
+        when(userProgressRepository.findByUsuarioAndModuloIn(any(), anyList())).thenReturn(List.of());
+
+        TrackDto.NivelamentoResponse response =
+                learnService.aplicarNivelamento("user", NivelHabilidade.INTERMEDIATE);
+
+        assertEquals(10, response.nivelInicial());
+        assertEquals(10, response.modulosConcluidos());
+        assertEquals(NivelHabilidade.INTERMEDIATE, usuario.getNivelHabilidade());
+        verify(userProgressRepository, times(10)).save(any(UserProgress.class));
+        verify(usuarioRepository).save(usuario);
+    }
+
+    @Test
+    void nivelamentoInicianteComecaDoZeroSemConcluirModulos() {
+        Usuario usuario = usuarioBase();
+        Track track = trackBase();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(trackRepository.findFirstByOrderByDisplayOrderAsc()).thenReturn(Optional.of(track));
+        when(moduloRepository.findByTrackOrderByDisplayOrderAsc(track)).thenReturn(modulosBase(track, 30));
+        when(userProgressRepository.findByUsuarioAndModuloIn(any(), anyList())).thenReturn(List.of());
+
+        TrackDto.NivelamentoResponse response =
+                learnService.aplicarNivelamento("user", NivelHabilidade.BEGINNER);
+
+        assertEquals(0, response.nivelInicial());
+        assertEquals(0, response.modulosConcluidos());
+        assertEquals(NivelHabilidade.BEGINNER, usuario.getNivelHabilidade());
+        verify(userProgressRepository, never()).save(any(UserProgress.class));
+    }
+
+    @Test
+    void nivelamentoNaoMexeNoProgressoQuandoUsuarioJaComecou() {
+        Usuario usuario = usuarioBase();
+        Track track = trackBase();
+        List<Modulo> modulos = modulosBase(track, 30);
+        UserProgress progressoExistente = UserProgress.builder()
+                .usuario(usuario)
+                .modulo(modulos.get(0))
+                .status(ProgressStatus.COMPLETED)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(trackRepository.findFirstByOrderByDisplayOrderAsc()).thenReturn(Optional.of(track));
+        when(moduloRepository.findByTrackOrderByDisplayOrderAsc(track)).thenReturn(modulos);
+        when(userProgressRepository.findByUsuarioAndModuloIn(any(), anyList()))
+                .thenReturn(List.of(progressoExistente));
+
+        TrackDto.NivelamentoResponse response =
+                learnService.aplicarNivelamento("user", NivelHabilidade.ADVANCED);
+
+        assertEquals(20, response.nivelInicial());
+        assertEquals(0, response.modulosConcluidos());
+        assertEquals(NivelHabilidade.ADVANCED, usuario.getNivelHabilidade());
+        verify(userProgressRepository, never()).save(any(UserProgress.class));
+    }
+
+    @Test
+    void nivelamentoAvancadoRespeitaTamanhoDaTrilha() {
+        Usuario usuario = usuarioBase();
+        Track track = trackBase();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(trackRepository.findFirstByOrderByDisplayOrderAsc()).thenReturn(Optional.of(track));
+        when(moduloRepository.findByTrackOrderByDisplayOrderAsc(track)).thenReturn(modulosBase(track, 12));
+        when(userProgressRepository.findByUsuarioAndModuloIn(any(), anyList())).thenReturn(List.of());
+
+        TrackDto.NivelamentoResponse response =
+                learnService.aplicarNivelamento("user", NivelHabilidade.ADVANCED);
+
+        assertEquals(20, response.nivelInicial());
+        assertEquals(12, response.modulosConcluidos());
+        verify(userProgressRepository, times(12)).save(any(UserProgress.class));
+    }
+
+    private List<Modulo> modulosBase(Track track, int quantidade) {
+        List<Modulo> modulos = new ArrayList<>();
+        for (int i = 1; i <= quantidade; i++) {
+            modulos.add(moduloBase(track, ModuleType.ACTIVITY, i));
+        }
+        return modulos;
+    }
 
     private Usuario usuarioBase() {
         Usuario u = new Usuario();

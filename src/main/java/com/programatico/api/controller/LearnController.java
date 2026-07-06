@@ -5,6 +5,7 @@ import com.programatico.api.dto.TrackDto;
 import com.programatico.api.dto.UserMissionDto;
 import com.programatico.api.dto.UserStatsDto;
 import com.programatico.api.service.LearnService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,13 @@ public class LearnController {
     @GetMapping("/trilha")
     public ResponseEntity<TrackDto.Response> getTrilha(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(learnService.getTrilhaComProgresso(userDetails.getUsername()));
+    }
+
+    @PostMapping("/nivelamento")
+    public ResponseEntity<TrackDto.NivelamentoResponse> aplicarNivelamento(
+            @Valid @RequestBody TrackDto.NivelamentoRequest request,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(learnService.aplicarNivelamento(userDetails.getUsername(), request.nivel()));
     }
 
     @GetMapping("/stats")
