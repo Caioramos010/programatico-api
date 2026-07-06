@@ -125,7 +125,7 @@ public class SessaoAtividadeService {
         return SessaoDto.InicioResponse.builder()
                 .sessionId(sessao.getId())
                 .moduleTitle(modulo.getTitle())
-                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .initialLives(vidasVisiveis(usuario, stats))
                 .totalExercises(exerciciosDtos.size())
                 .masteredIds(List.of())
                 .exercises(exerciciosDtos)
@@ -146,7 +146,7 @@ public class SessaoAtividadeService {
         return SessaoDto.InicioResponse.builder()
                 .sessionId(sessao.getId())
                 .moduleTitle(sessao.getModulo() != null ? sessao.getModulo().getTitle() : null)
-                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .initialLives(vidasVisiveis(sessao.getUsuario(), stats))
                 .totalExercises(dtos.size())
                 .resumedFrom(0)
                 .masteredIds(masteredIds)
@@ -238,7 +238,7 @@ public class SessaoAtividadeService {
         return SessaoDto.RespostaResponse.builder()
                 .correct(correto)
                 .correctAnswer(respostaCorreta)
-                .remainingLives(stats.getCurrentLives())
+                .remainingLives(vidasVisiveis(usuario, stats))
                 .relatedTopics(parseTags(exercise.getTags()))
                 .build();
     }
@@ -532,7 +532,7 @@ public class SessaoAtividadeService {
         return SessaoDto.InicioResponse.builder()
                 .sessionId(sessao.getId())
                 .moduleTitle(titulo)
-                .initialLives(stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS)
+                .initialLives(vidasVisiveis(usuario, stats))
                 .totalExercises(dtos.size())
                 .timeLimitSeconds(timeLimitSeconds)
                 .masteredIds(List.of())
@@ -541,6 +541,17 @@ public class SessaoAtividadeService {
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────────
+
+    /**
+     * Vidas exibidas ao usuário: Root ativo sempre vê o máximo — o front trata 0
+     * como "sem vidas" e bloquearia um assinante que zerou as vidas antes de assinar.
+     */
+    private int vidasVisiveis(Usuario usuario, UserStats stats) {
+        if (vidasService.temVidasIlimitadas(usuario)) {
+            return MAX_VIDAS;
+        }
+        return stats.getCurrentLives() != null ? stats.getCurrentLives() : MAX_VIDAS;
+    }
 
     private boolean moduloJaConcluido(Usuario usuario, PracticeSession sessao) {
         return sessao.getModulo() != null && userProgressRepository
