@@ -155,15 +155,22 @@ class AuthControllerTest {
     }
 
     @Test
-    void ativarDeveRetornar200() throws Exception {
+    void ativarDeveRetornar200ComTokenDeLogin() throws Exception {
+        UsuarioDto.Response usuario = UsuarioDto.Response.builder()
+                .id(1L)
+                .username("user")
+                .email("user@email.com")
+                .ativo(true)
+                .build();
         when(usuarioService.ativar(any()))
-                .thenReturn(UsuarioDto.MessageResponse.of("Conta ativada com sucesso. Faça login."));
+                .thenReturn(new UsuarioDto.LoginResponse("jwt-ativacao", usuario));
 
         mockMvc.perform(post("/api/auth/ativar")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"codigo\":\"123456\"}"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.mensagem").value("Conta ativada com sucesso. Faça login."));
+                .andExpect(jsonPath("$.token").value("jwt-ativacao"))
+                .andExpect(jsonPath("$.usuario.username").value("user"));
     }
 
     @Test

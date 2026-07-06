@@ -88,7 +88,7 @@ class AuthFlowIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(ativacaoJson))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.mensagem").isNotEmpty());
+                .andExpect(jsonPath("$.token").isNotEmpty());
 
         String loginIniciarJson = """
                 {
