@@ -29,7 +29,7 @@ public class UserSettingsService {
     public SettingsDto.NotificationPreferencesResponse obterPreferenciasNotificacao(String username) {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado."));
-        return SettingsDto.NotificationPreferencesResponse.fromEntity(obterOuCriar(usuario));
+        return SettingsDto.NotificationPreferencesResponse.fromEntity(obterOuDefault(usuario));
     }
 
     @Transactional
@@ -62,7 +62,7 @@ public class UserSettingsService {
         if (usuario == null) {
             return true;
         }
-        UserSettings settings = obterOuCriar(usuario);
+        UserSettings settings = obterOuDefault(usuario);
         if (Boolean.TRUE.equals(settings.getDisableAllNotifications())) {
             return false;
         }
@@ -90,16 +90,28 @@ public class UserSettingsService {
         settings.setDisableEmailNotifications(disabled);
     }
 
+    // Leituras (transações readOnly) não podem gravar: no MySQL o INSERT lazy em
+    // conexão read-only estoura "Connection is read-only" e derruba a página de
+    // configurações. GET devolve defaults em memória; só o update persiste.
+    private UserSettings obterOuDefault(Usuario usuario) {
+        return userSettingsRepository.findByUsuarioId(usuario.getId())
+                .orElseGet(() -> settingsPadrao(usuario));
+    }
+
     private UserSettings obterOuCriar(Usuario usuario) {
         return userSettingsRepository.findByUsuarioId(usuario.getId())
-                .orElseGet(() -> userSettingsRepository.save(UserSettings.builder()
-                        .usuario(usuario)
-                        .disableUpdateNotifications(false)
-                        .disableDaystreakNotifications(false)
-                        .disableMissionNotifications(false)
-                        .disableSubscriptionNotifications(false)
-                        .disableEmailNotifications(false)
-                        .disableAllNotifications(false)
-                        .build()));
+                .orElseGet(() -> userSettingsRepository.save(settingsPadrao(usuario)));
+    }
+
+    private static UserSettings settingsPadrao(Usuario usuario) {
+        return UserSettings.builder()
+                .usuario(usuario)
+                .disableUpdateNotifications(false)
+                .disableDaystreakNotifications(false)
+                .disableMissionNotifications(false)
+                .disableSubscriptionNotifications(false)
+                .disableEmailNotifications(false)
+                .disableAllNotifications(false)
+                .build();
     }
 }
