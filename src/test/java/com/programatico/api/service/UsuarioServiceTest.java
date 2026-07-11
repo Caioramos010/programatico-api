@@ -11,6 +11,7 @@ import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.security.JwtUtil;
+import com.programatico.api.util.CodigoAcesso;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -275,14 +276,17 @@ class UsuarioServiceTest {
         assertFalse(salvo.getCodigoRedefinicaoSenha().isBlank());
         assertNotNull(salvo.getDataExpiracaoCodigoRedefinicao());
         assertTrue(salvo.getDataExpiracaoCodigoRedefinicao().isAfter(Instant.now()));
-        verify(emailService).enviarCodigoRedefinicaoSenha("user@email.com", "user", salvo.getCodigoRedefinicaoSenha());
+        // O e-mail leva o código em claro; o banco guarda o SHA-256 dele.
+        ArgumentCaptor<String> codigoEmail = ArgumentCaptor.forClass(String.class);
+        verify(emailService).enviarCodigoRedefinicaoSenha(eq("user@email.com"), eq("user"), codigoEmail.capture());
+        assertEquals(CodigoAcesso.hash(codigoEmail.getValue()), salvo.getCodigoRedefinicaoSenha());
         assertNotNull(response);
     }
 
     @Test
     void redefinirSenhaDeveFalharQuandoCodigoExpirado() {
         Usuario usuario = usuarioBase();
-        usuario.setCodigoRedefinicaoSenha("123456");
+        usuario.setCodigoRedefinicaoSenha(CodigoAcesso.hash("123456"));
         usuario.setDataExpiracaoCodigoRedefinicao(Instant.now().minusSeconds(60));
 
         UsuarioDto.NovaSenhaRequest request = UsuarioDto.NovaSenhaRequest.builder()
@@ -290,7 +294,8 @@ class UsuarioServiceTest {
                 .novaSenha("NovaSenha@123")
                 .build();
 
-        when(usuarioRepository.findByCodigoRedefinicaoSenha("123456")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findByCodigoRedefinicaoSenha(CodigoAcesso.hash("123456")))
+                .thenReturn(Optional.of(usuario));
 
         assertThrows(BadRequestException.class, () -> usuarioService.redefinirSenha(request));
         verify(usuarioRepository, never()).save(any(Usuario.class));
@@ -363,9 +368,10 @@ class UsuarioServiceTest {
     void ativarDeveAtivarContaQuandoCodigoValido() {
         Usuario usuario = usuarioBase();
         usuario.setAtivo(false);
-        usuario.setCodigoAtivacao("123456");
+        usuario.setCodigoAtivacao(CodigoAcesso.hash("123456"));
 
-        when(usuarioRepository.findByCodigoAtivacao("123456")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findByCodigoAtivacao(CodigoAcesso.hash("123456")))
+                .thenReturn(Optional.of(usuario));
         doNothing().when(verificationCodeGuardService)
                 .resetAttempts(usuario, VerificationCodeContext.ACTIVATION);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -405,7 +411,7 @@ class UsuarioServiceTest {
     @Test
     void redefinirSenhaDeveAtualizarSenhaQuandoCodigoValido() {
         Usuario usuario = usuarioBase();
-        usuario.setCodigoRedefinicaoSenha("123456");
+        usuario.setCodigoRedefinicaoSenha(CodigoAcesso.hash("123456"));
         usuario.setDataExpiracaoCodigoRedefinicao(Instant.now().plusSeconds(3600));
 
         UsuarioDto.NovaSenhaRequest request = UsuarioDto.NovaSenhaRequest.builder()
@@ -413,7 +419,8 @@ class UsuarioServiceTest {
                 .novaSenha("NovaSenha@123")
                 .build();
 
-        when(usuarioRepository.findByCodigoRedefinicaoSenha("123456")).thenReturn(Optional.of(usuario));
+        when(usuarioRepository.findByCodigoRedefinicaoSenha(CodigoAcesso.hash("123456")))
+                .thenReturn(Optional.of(usuario));
         when(passwordEncoder.encode("NovaSenha@123")).thenReturn("nova-hash");
         doNothing().when(verificationCodeGuardService)
                 .resetAttempts(usuario, VerificationCodeContext.PASSWORD_RESET);
@@ -480,7 +487,7 @@ class UsuarioServiceTest {
     @Test
     void confirmarExclusaoContaDeveRemoverUsuarioQuandoCodigoValido() {
         Usuario usuario = usuarioBase();
-        usuario.setCodigoExclusaoConta("123456");
+        usuario.setCodigoExclusaoConta(CodigoAcesso.hash("123456"));
         usuario.setDataExpiracaoCodigoExclusao(Instant.now().plusSeconds(3600));
 
         UsuarioDto.ConfirmarExclusaoRequest request = UsuarioDto.ConfirmarExclusaoRequest.builder()

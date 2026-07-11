@@ -45,22 +45,26 @@ public class Usuario {
     @Builder.Default
     private Boolean ativo = false;
 
-    @Column(name = "activation_code", length = 20)
+    // Os códigos são armazenados como SHA-256 (hex, 64 chars) — nunca em texto puro.
+    @Column(name = "activation_code", length = 64)
     private String codigoAtivacao;
 
-    @Column(name = "password_reset_code", length = 20)
+    @Column(name = "activation_code_expires_at")
+    private Instant dataExpiracaoCodigoAtivacao;
+
+    @Column(name = "password_reset_code", length = 64)
     private String codigoRedefinicaoSenha;
 
     @Column(name = "password_reset_code_expires_at")
     private Instant dataExpiracaoCodigoRedefinicao;
 
-    @Column(name = "account_deletion_code", length = 20)
+    @Column(name = "account_deletion_code", length = 64)
     private String codigoExclusaoConta;
 
     @Column(name = "account_deletion_code_expires_at")
     private Instant dataExpiracaoCodigoExclusao;
 
-    @Column(name = "login_verification_code", length = 20)
+    @Column(name = "login_verification_code", length = 64)
     private String codigoVerificacaoLogin;
 
     @Column(name = "login_verification_code_expires_at")

@@ -7,6 +7,7 @@ import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.service.EmailService;
 import com.programatico.api.service.TrustedDeviceService;
+import com.programatico.api.util.CodigoAcesso;
 import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,7 +67,7 @@ class RememberDeviceIntegrationTest {
     @Test
     void dispositivoConfiavelDevePular2faNoProximoLogin() throws Exception {
         Usuario usuario = usuarioRepository.findByEmail("remember@test.com").orElseThrow();
-        usuario.setCodigoVerificacaoLogin("123456");
+        usuario.setCodigoVerificacaoLogin(CodigoAcesso.hash("123456"));
         usuario.setDataExpiracaoCodigoLogin(Instant.now().plus(1, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
 

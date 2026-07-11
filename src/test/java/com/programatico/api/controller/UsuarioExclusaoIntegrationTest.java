@@ -9,6 +9,7 @@ import com.programatico.api.service.EmailService;
 import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,10 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,8 +68,10 @@ class UsuarioExclusaoIntegrationTest {
                         .header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
-        Usuario atualizado = usuarioRepository.findById(usuario.getId()).orElseThrow();
-        String codigo = atualizado.getCodigoExclusaoConta();
+        // O código chega pelo e-mail (mock); o banco guarda apenas o hash.
+        ArgumentCaptor<String> codigoCaptor = ArgumentCaptor.forClass(String.class);
+        verify(emailService).enviarCodigoExclusaoConta(eq("excluir@test.com"), anyString(), codigoCaptor.capture());
+        String codigo = codigoCaptor.getValue();
 
         mockMvc.perform(post("/api/usuarios/" + usuario.getId() + "/confirmar-exclusao")
                         .header("Authorization", "Bearer " + token)

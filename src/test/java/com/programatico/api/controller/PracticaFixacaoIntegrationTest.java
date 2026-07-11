@@ -13,6 +13,7 @@ import com.programatico.api.domain.enums.ExerciseType;
 import com.programatico.api.domain.enums.ModuleType;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.domain.enums.SessionType;
+import com.programatico.api.domain.enums.SubscriptionType;
 import com.programatico.api.domain.enums.TipoUsuario;
 import com.programatico.api.repository.ExerciseRepository;
 import com.programatico.api.repository.ModuloRepository;
@@ -85,6 +86,8 @@ class PracticaFixacaoIntegrationTest {
                 .idade(20)
                 .ativo(true)
                 .role(TipoUsuario.USER)
+                // Prática de fixação é exclusiva de assinantes Root.
+                .subscriptionType(SubscriptionType.ROOT)
                 .build());
 
         userStatsRepository.save(UserStats.builder()

@@ -9,8 +9,10 @@ import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UsuarioRepository;
 import com.programatico.api.security.JwtUtil;
 import com.programatico.api.service.EmailService;
+import com.programatico.api.util.CodigoAcesso;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +26,9 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,13 +104,17 @@ class TwoFactorLoginIntegrationTest {
         Usuario atualizado = usuarioRepository.findByEmail("2fa@test.com").orElseThrow();
         assertNotNull(atualizado.getCodigoVerificacaoLogin());
 
+        // O código chega pelo e-mail (mock); o banco guarda apenas o hash.
+        ArgumentCaptor<String> codigoLogin = ArgumentCaptor.forClass(String.class);
+        verify(emailService).enviarCodigoVerificacaoLogin(eq("2fa@test.com"), anyString(), codigoLogin.capture());
+
         String confirmarJson = """
                 {
                   "emailOuUsername": "2fa@test.com",
                   "senha": "%s",
                   "codigo": "%s"
                 }
-                """.formatted(SENHA, atualizado.getCodigoVerificacaoLogin());
+                """.formatted(SENHA, codigoLogin.getValue());
 
         MvcResult result = mockMvc.perform(post("/api/auth/login/confirmar")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +130,7 @@ class TwoFactorLoginIntegrationTest {
 
     @Test
     void confirmarLoginDeveFalharQuandoCodigoExpirado() throws Exception {
-        usuario.setCodigoVerificacaoLogin("654321");
+        usuario.setCodigoVerificacaoLogin(CodigoAcesso.hash("654321"));
         usuario.setDataExpiracaoCodigoLogin(Instant.now().minus(1, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
 
