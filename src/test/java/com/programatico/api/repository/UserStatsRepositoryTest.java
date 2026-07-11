@@ -1,7 +1,6 @@
 package com.programatico.api.repository;
 
 import com.programatico.api.domain.Mission;
-import com.programatico.api.domain.UserMission;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.TipoUsuario;
 import jakarta.persistence.EntityManager;

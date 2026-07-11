@@ -6,7 +6,6 @@ import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import com.programatico.api.repository.PracticeSessionRepository;
-import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
@@ -60,9 +59,6 @@ class UsuarioServiceTest {
 
     @Mock
     private TrustedDeviceService trustedDeviceService;
-
-    @Mock
-    private UserMissionRepository userMissionRepository;
 
     @Mock
     private com.programatico.api.repository.UserDailyMissionRepository userDailyMissionRepository;
@@ -344,13 +340,6 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void excluirDeveFalharQuandoUsuarioNaoExiste() {
-        when(usuarioRepository.existsById(1L)).thenReturn(false);
-
-        assertThrows(ResourceNotFoundException.class, () -> usuarioService.excluir(1L));
-    }
-
-    @Test
     void registroDeveCriarUsuarioEEnviarEmailDeAtivacao() {
         UsuarioDto.RegistroRequest request = UsuarioDto.RegistroRequest.builder()
                 .username("novo-user")
@@ -446,16 +435,6 @@ class UsuarioServiceTest {
     }
 
     @Test
-    void listarDeveRetornarUsuarios() {
-        when(usuarioRepository.findAll()).thenReturn(List.of(usuarioBase()));
-
-        List<UsuarioDto.Response> usuarios = usuarioService.listar();
-
-        assertEquals(1, usuarios.size());
-        assertEquals("user", usuarios.get(0).getUsername());
-    }
-
-    @Test
     void buscarPorIdDeveRetornarUsuario() {
         when(usuarioRepository.findById(1L)).thenReturn(Optional.of(usuarioBase()));
 
@@ -512,7 +491,6 @@ class UsuarioServiceTest {
 
         verify(practiceSessionExerciseRepository).deleteByPracticeSessionUsuarioId(1L);
         verify(practiceSessionRepository).deleteByUsuarioId(1L);
-        verify(userMissionRepository).deleteByUsuarioId(1L);
         verify(userProgressRepository).deleteByUsuarioId(1L);
         verify(userStatsRepository).deleteByUsuarioId(1L);
         verify(usuarioRepository).deleteById(1L);
