@@ -11,6 +11,7 @@ import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
 import com.programatico.api.domain.enums.ModuleType;
+import com.programatico.api.domain.enums.NivelHabilidade;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.domain.enums.SessionType;
 import com.programatico.api.domain.enums.SubscriptionType;
@@ -193,6 +194,7 @@ class SessaoAtividadeServiceTest {
     @Test
     void iniciarPraticaCronometradaDeveRetornarTempoLimitePorXp() {
         Usuario usuario = usuarioBase();
+        usuario.setNivelHabilidade(NivelHabilidade.ADVANCED); // fator ×1,0 → tempos base
         Modulo modulo = moduloBase(1L);
         List<Exercise> exercicios = List.of(
                 exercicioComXp(modulo, 1L, 3),
@@ -224,6 +226,36 @@ class SessaoAtividadeServiceTest {
         ArgumentCaptor<PracticeSession> sessaoCaptor = ArgumentCaptor.forClass(PracticeSession.class);
         verify(practiceSessionRepository).save(sessaoCaptor.capture());
         assertEquals(SessionType.TIMED, sessaoCaptor.getValue().getSessionType());
+    }
+
+    @Test
+    void tempoDoCronometradoDeveConsiderarNivelDoUsuario() {
+        Usuario usuario = usuarioBase();
+        usuario.setNivelHabilidade(NivelHabilidade.BEGINNER); // fator ×1,5
+        Modulo modulo = moduloBase(1L);
+        List<Exercise> exercicios = List.of(
+                exercicioComXp(modulo, 1L, 3),
+                exercicioComXp(modulo, 2L, 5),
+                exercicioComXp(modulo, 3L, 7)
+        );
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(userProgressRepository.findByUsuarioAndStatus(usuario, ProgressStatus.COMPLETED))
+                .thenReturn(List.of(progressoConcluido(usuario, modulo)));
+        when(exerciseRepository.findByModuloOrderByIdAsc(modulo)).thenReturn(exercicios);
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(51L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarPratica("cronometrado", "user");
+
+        assertEquals(90, response.getExercises().stream().filter(e -> e.getXpReward() == 3).findFirst().orElseThrow().getTimeLimitSeconds());
+        assertEquals(135, response.getExercises().stream().filter(e -> e.getXpReward() == 5).findFirst().orElseThrow().getTimeLimitSeconds());
+        assertEquals(180, response.getExercises().stream().filter(e -> e.getXpReward() == 7).findFirst().orElseThrow().getTimeLimitSeconds());
     }
 
     @Test
