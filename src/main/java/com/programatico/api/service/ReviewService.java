@@ -23,17 +23,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,8 +39,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ReviewService {
 
-    private static final Locale LOCALE_PT_BR = new Locale("pt", "BR");
     private static final List<Integer> ALLOWED_DAYS = List.of(7, 15, 30, 90);
+    /** Teto p/ duração de sessões legadas (sem activeSeconds): evita médias infladas. */
+    private static final long CAP_DURACAO_LEGADA_SEGUNDOS = 300L;
 
     private final UsuarioRepository usuarioRepository;
     private final TrackRepository trackRepository;
@@ -188,10 +186,18 @@ public class ReviewService {
     }
 
     private long getSessionDurationSeconds(PracticeSession session) {
+        // Tempo efetivo de prática quando disponível (sessões pós-activeSeconds):
+        // cobre sessões ainda abertas (antes: 0s → média zerada) e não infla
+        // sessões retomadas dias depois.
+        if (session.getActiveSeconds() != null && session.getActiveSeconds() > 0) {
+            return session.getActiveSeconds();
+        }
         if (session.getStartedAt() == null || session.getEndedAt() == null || session.getEndedAt().isBefore(session.getStartedAt())) {
             return 0L;
         }
-        return Duration.between(session.getStartedAt(), session.getEndedAt()).getSeconds();
+        return Math.min(
+                Duration.between(session.getStartedAt(), session.getEndedAt()).getSeconds(),
+                CAP_DURACAO_LEGADA_SEGUNDOS);
     }
 
     private void registerSubjects(Map<String, SubjectCounters> subjectCounters, PracticeSessionExercise answer, boolean isCorrect) {
@@ -267,19 +273,16 @@ public class ReviewService {
     }
 
     private List<ReviewDto.PerformancePoint> toPerformanceData(Map<LocalDate, DailyCounters> dailyCounters) {
+        // Data ISO (yyyy-MM-dd): o front agrupa a série pela DATA e gera o rótulo
+        // ("Dom", "Semana 1"...) sozinho. Mandar o rótulo pronto fazia o parse do
+        // front descartar todos os pontos — gráfico zerado.
         return dailyCounters.values().stream()
                 .map(counter -> ReviewDto.PerformancePoint.builder()
-                        .day(formatDayLabel(counter.day))
+                        .day(counter.day.toString())
                         .acertos(counter.acertos)
                         .erros(counter.erros)
                         .build())
                 .toList();
-    }
-
-    private String formatDayLabel(LocalDate date) {
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        String label = dayOfWeek.getDisplayName(TextStyle.SHORT, LOCALE_PT_BR).replace(".", "");
-        return label.isEmpty() ? "" : label.substring(0, 1).toUpperCase(LOCALE_PT_BR) + label.substring(1);
     }
 
     private List<ReviewDto.SubjectAccuracyItem> toSubjectAccuracy(Map<String, SubjectCounters> subjectCounters) {
