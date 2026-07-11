@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface UserSettingsRepository extends JpaRepository<UserSettings, Long> {
 
     Optional<UserSettings> findByUsuarioId(Long usuarioId);
+
+    void deleteByUsuarioId(Long usuarioId);
 }

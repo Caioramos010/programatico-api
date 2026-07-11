@@ -65,6 +65,18 @@ class UsuarioServiceTest {
     private UserMissionRepository userMissionRepository;
 
     @Mock
+    private com.programatico.api.repository.UserDailyMissionRepository userDailyMissionRepository;
+
+    @Mock
+    private com.programatico.api.repository.NotificationRepository notificationRepository;
+
+    @Mock
+    private com.programatico.api.repository.PaymentRepository paymentRepository;
+
+    @Mock
+    private com.programatico.api.repository.UserSettingsRepository userSettingsRepository;
+
+    @Mock
     private UserProgressRepository userProgressRepository;
 
     @Mock

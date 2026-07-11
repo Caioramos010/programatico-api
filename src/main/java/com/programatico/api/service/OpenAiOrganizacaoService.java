@@ -77,7 +77,7 @@ public class OpenAiOrganizacaoService {
             item.put("id", e.getId());
             item.put("tipo", e.getExerciseType() != null ? e.getExerciseType().name() : "");
             item.put("xp", e.getXpReward());
-            item.put("assuntos", e.getTags() == null ? "" : e.getTags());
+            item.put("assuntos", String.join(", ", com.programatico.api.util.Tags.parse(e.getTags())));
             item.put("enunciado", abreviar(e.getStatement(), 140));
             itens.add(item);
         }

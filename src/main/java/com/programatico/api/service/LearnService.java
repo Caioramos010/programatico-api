@@ -27,6 +27,7 @@ import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.util.Tags;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -359,12 +360,6 @@ public class LearnService {
     }
 
     private List<String> parseTags(String tags) {
-        if (tags == null || tags.isBlank()) {
-            return List.of();
-        }
-        return Arrays.stream(tags.split(","))
-                .map(String::trim)
-                .filter(tag -> !tag.isEmpty())
-                .toList();
+        return Tags.parse(tags);
     }
 }

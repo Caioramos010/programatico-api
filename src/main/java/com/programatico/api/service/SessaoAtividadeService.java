@@ -24,6 +24,7 @@ import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.util.Tags;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -226,8 +227,10 @@ public class SessaoAtividadeService {
         vidasService.aplicarRecarga(stats);
 
         if (correto) {
-            // XP só na 1ª tentativa de um alvo (sem farm), fora de replay.
-            if (primeiraTentativa && !moduloJaConcluido(usuario, sessao)) {
+            // XP só em sessão de MÓDULO, na 1ª tentativa do alvo e fora de replay.
+            // Práticas (fixação/erros/cronometrado, modulo=null) não dão XP: cada
+            // sessão nova recriava os alvos e virava farm infinito de XP.
+            if (primeiraTentativa && sessao.getModulo() != null && !moduloJaConcluido(usuario, sessao)) {
                 int xpAtual = stats.getTotalXp() != null ? stats.getTotalXp() : 0;
                 stats.setTotalXp(xpAtual + exercise.getXpReward());
             }
@@ -297,9 +300,11 @@ public class SessaoAtividadeService {
 
         long corretos = todos.stream().filter(e -> Boolean.TRUE.equals(e.getIsCorrect())).count();
         int taxaAcerto = todos.isEmpty() ? 0 : (int) (corretos * 100L / todos.size());
-        // Replay de módulo já concluído não pontuou em responder(); o relatório reflete isso.
+        // Replay de módulo concluído e PRÁTICAS (modulo=null) não pontuaram em
+        // responder(); o relatório reflete o XP realmente creditado.
         boolean replay = moduloJaConcluido(usuario, sessao);
-        int xpGanho = replay ? 0 : todos.stream()
+        boolean sessaoPontua = sessao.getModulo() != null && !replay;
+        int xpGanho = !sessaoPontua ? 0 : todos.stream()
                 .filter(e -> Boolean.TRUE.equals(e.getIsCorrect()))
                 .mapToInt(e -> e.getExercise().getXpReward())
                 .sum();
@@ -848,12 +853,6 @@ public class SessaoAtividadeService {
     }
 
     private List<String> parseTags(String tags) {
-        if (tags == null || tags.isBlank()) return List.of();
-        try {
-            return objectMapper.readValue(tags, new TypeReference<>() {});
-        } catch (Exception e) {
-            // Fallback: trata como CSV
-            return Arrays.stream(tags.split(",")).map(String::trim).filter(s -> !s.isEmpty()).toList();
-        }
+        return Tags.parse(tags);
     }
 }
