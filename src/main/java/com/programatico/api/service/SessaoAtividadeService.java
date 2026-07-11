@@ -40,6 +40,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -119,7 +120,7 @@ public class SessaoAtividadeService {
         practiceSessionExerciseRepository.saveAll(sessionExercises);
 
         List<SessaoDto.ExercicioSessao> exerciciosDtos = selecionados.stream()
-                .map(ex -> toExercicioSessao(ex, selecionados.indexOf(ex) + 1, SessionType.ACTIVITY))
+                .map(ex -> toExercicioSessao(ex, selecionados.indexOf(ex) + 1, sessao))
                 .collect(Collectors.toList());
 
         return SessaoDto.InicioResponse.builder()
@@ -137,7 +138,7 @@ public class SessaoAtividadeService {
             List<PracticeSessionExercise> itens, UserStats stats) {
         List<SessaoDto.ExercicioSessao> dtos = new ArrayList<>();
         for (int i = 0; i < itens.size(); i++) {
-            dtos.add(toExercicioSessao(itens.get(i).getExercise(), i + 1, sessao.getSessionType()));
+            dtos.add(toExercicioSessao(itens.get(i).getExercise(), i + 1, sessao));
         }
         List<Long> masteredIds = itens.stream()
                 .filter(i -> Boolean.TRUE.equals(i.getMastered()))
@@ -394,7 +395,7 @@ public class SessaoAtividadeService {
             return null;
         }
         Collections.shuffle(candidatos);
-        return toExercicioSessao(candidatos.get(0), 0, sessao.getSessionType());
+        return toExercicioSessao(candidatos.get(0), 0, sessao);
     }
 
     // ── Práticas (esqueleto para Hyorran) ───────────────────────────────────────
@@ -526,7 +527,7 @@ public class SessaoAtividadeService {
 
         List<SessaoDto.ExercicioSessao> dtos = new ArrayList<>();
         for (int i = 0; i < ordenados.size(); i++) {
-            dtos.add(toExercicioSessao(ordenados.get(i), i + 1, tipo));
+            dtos.add(toExercicioSessao(ordenados.get(i), i + 1, sessao));
         }
 
         return SessaoDto.InicioResponse.builder()
@@ -642,9 +643,11 @@ public class SessaoAtividadeService {
      * Converte um Exercise para DTO de exibição.
      * Para DRAG_DROP, embaralha os itens antes de enviar ao frontend.
      * Para PAIRS, embaralha a coluna direita.
+     * A rotação é determinística por sessão+exercício: retomar a sessão (ou pedir
+     * reforço) mantém as posições; sessões diferentes rotacionam diferente.
      */
-    private SessaoDto.ExercicioSessao toExercicioSessao(Exercise exercise, int ordem, SessionType sessionType) {
-        String dadosExibicao = prepararDadosExibicao(exercise);
+    private SessaoDto.ExercicioSessao toExercicioSessao(Exercise exercise, int ordem, PracticeSession sessao) {
+        String dadosExibicao = prepararDadosExibicao(exercise, seedRotacao(sessao, exercise));
 
         return SessaoDto.ExercicioSessao.builder()
                 .id(exercise.getId())
@@ -655,10 +658,16 @@ public class SessaoAtividadeService {
                 .xpReward(exercise.getXpReward())
                 .relatedTopics(parseTags(exercise.getTags()))
                 .imageData(exercise.getImageData())
-                .timeLimitSeconds(sessionType == SessionType.TIMED
+                .timeLimitSeconds(sessao.getSessionType() == SessionType.TIMED
                         ? tempoLimiteSegundosPorXp(exercise.getXpReward())
                         : null)
                 .build();
+    }
+
+    private static long seedRotacao(PracticeSession sessao, Exercise exercise) {
+        long sessaoId = sessao.getId() != null ? sessao.getId() : 0L;
+        long exercicioId = exercise.getId() != null ? exercise.getId() : 0L;
+        return sessaoId * 31L + exercicioId;
     }
 
     /** 3 XP → 1 min, 5 XP → 1,5 min, 7 XP → 2 min. */
@@ -674,15 +683,19 @@ public class SessaoAtividadeService {
      * Para DRAG_DROP, retorna os itens embaralhados (a ordem correta é o exerciseData original).
      * Para PAIRS, retorna os pares com a coluna direita embaralhada.
      * Para MULTIPLE_CHOICE, retorna as opções sem indicar qual é correta.
+     * O embaralhamento usa o seed recebido (determinístico por sessão+exercício).
+     * NUNCA devolve o exerciseData cru: ele contém o gabarito (flag correct,
+     * ordem correta do drag-drop e pares corretos) — em erro de parse, falha explícito.
      */
     @SuppressWarnings("unchecked")
-    private String prepararDadosExibicao(Exercise exercise) {
+    private String prepararDadosExibicao(Exercise exercise, long seed) {
+        Random random = new Random(seed);
         try {
             if (exercise.getExerciseType() == ExerciseType.DRAG_DROP) {
                 Map<String, Object> data = objectMapper.readValue(exercise.getExerciseData(), new TypeReference<>() {});
                 List<String> items = (List<String>) data.get("items");
                 List<String> embaralhados = new ArrayList<>(items);
-                Collections.shuffle(embaralhados);
+                Collections.shuffle(embaralhados, random);
                 return objectMapper.writeValueAsString(Map.of("items", embaralhados));
             }
             if (exercise.getExerciseType() == ExerciseType.PAIRS) {
@@ -690,8 +703,8 @@ public class SessaoAtividadeService {
                 List<Map<String, String>> pairs = (List<Map<String, String>>) data.get("pairs");
                 List<String> lefts = new ArrayList<>(pairs.stream().map(p -> p.get("left")).collect(Collectors.toList()));
                 List<String> rights = new ArrayList<>(pairs.stream().map(p -> p.get("right")).collect(Collectors.toList()));
-                Collections.shuffle(lefts);
-                Collections.shuffle(rights);
+                Collections.shuffle(lefts, random);
+                Collections.shuffle(rights, random);
                 return objectMapper.writeValueAsString(Map.of("lefts", lefts, "rights", rights));
             }
             if (exercise.getExerciseType() == ExerciseType.MULTIPLE_CHOICE) {
@@ -703,13 +716,14 @@ public class SessaoAtividadeService {
                     clean.remove("correct");
                     return clean;
                 }).collect(Collectors.toList());
-                Collections.shuffle(displayOptions); // posição da correta varia a cada sessão
+                Collections.shuffle(displayOptions, random); // posição da correta varia por sessão
                 return objectMapper.writeValueAsString(Map.of("options", displayOptions));
             }
+            throw new IllegalStateException("Tipo de exercício não suportado: " + exercise.getExerciseType());
         } catch (Exception e) {
-            log.warn("Erro ao preparar dados de exibição para exercício id={}: {}", exercise.getId(), e.getMessage());
+            log.error("Erro ao preparar dados de exibição para exercício id={}: {}", exercise.getId(), e.getMessage());
+            throw new BadRequestException("Exercício com dados inválidos. Contate o suporte.");
         }
-        return exercise.getExerciseData();
     }
 
     /**
