@@ -9,6 +9,7 @@ import com.programatico.api.testsupport.IntegrationTestDbCleaner;
 import com.programatico.api.service.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,9 +18,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,10 +50,10 @@ class AuthFlowIntegrationTest {
     @BeforeEach
     void setup() {
         IntegrationTestDbCleaner.limparUsuarios(usuarioRepository, userSettingsRepository);
-        doNothing().when(emailService).enviarCodigoAtivacao(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
-        doNothing().when(emailService).enviarCodigoRedefinicaoSenha(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
-        doNothing().when(emailService).enviarCodigoExclusaoConta(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
-        doNothing().when(emailService).enviarCodigoVerificacaoLogin(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.anyString());
+        doNothing().when(emailService).enviarCodigoAtivacao(anyString(), anyString(), anyString());
+        doNothing().when(emailService).enviarCodigoRedefinicaoSenha(anyString(), anyString(), anyString());
+        doNothing().when(emailService).enviarCodigoExclusaoConta(anyString(), anyString(), anyString());
+        doNothing().when(emailService).enviarCodigoVerificacaoLogin(anyString(), anyString(), anyString());
     }
 
     @Test
@@ -74,15 +78,18 @@ class AuthFlowIntegrationTest {
                 .andExpect(jsonPath("$.email").value(email))
                 .andExpect(jsonPath("$.ativo").value(false));
 
+        // O código chega pelo e-mail (capturado do mock); o banco guarda só o hash.
+        ArgumentCaptor<String> codigoAtivacao = ArgumentCaptor.forClass(String.class);
+        verify(emailService).enviarCodigoAtivacao(eq(email), anyString(), codigoAtivacao.capture());
         Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow();
         assertNotNull(usuario.getCodigoAtivacao());
-        assertTrue(usuario.getCodigoAtivacao().length() >= 6);
+        assertNotEquals(codigoAtivacao.getValue(), usuario.getCodigoAtivacao());
 
         String ativacaoJson = """
                 {
                   "codigo": "%s"
                 }
-                """.formatted(usuario.getCodigoAtivacao());
+                """.formatted(codigoAtivacao.getValue());
 
         mockMvc.perform(post("/api/auth/ativar")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -104,8 +111,8 @@ class AuthFlowIntegrationTest {
                 .andExpect(jsonPath("$.requiresVerification").value(true))
                 .andExpect(jsonPath("$.mensagem").isNotEmpty());
 
-        Usuario usuarioAtivo = usuarioRepository.findByEmail(email).orElseThrow();
-        assertNotNull(usuarioAtivo.getCodigoVerificacaoLogin());
+        ArgumentCaptor<String> codigoLogin = ArgumentCaptor.forClass(String.class);
+        verify(emailService).enviarCodigoVerificacaoLogin(eq(email), anyString(), codigoLogin.capture());
 
         String loginConfirmarJson = """
                 {
@@ -113,7 +120,7 @@ class AuthFlowIntegrationTest {
                   "senha": "%s",
                   "codigo": "%s"
                 }
-                """.formatted(email, senha, usuarioAtivo.getCodigoVerificacaoLogin());
+                """.formatted(email, senha, codigoLogin.getValue());
 
         MvcResult loginResult = mockMvc.perform(post("/api/auth/login/confirmar")
                         .contentType(MediaType.APPLICATION_JSON)

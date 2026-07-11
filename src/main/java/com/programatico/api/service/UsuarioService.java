@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.security.SecureRandom;
+import com.programatico.api.util.CodigoAcesso;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -63,7 +63,7 @@ public class UsuarioService {
         }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         String codigo = gerarCodigo();
-        usuario.setCodigoVerificacaoLogin(codigo);
+        usuario.setCodigoVerificacaoLogin(CodigoAcesso.hash(codigo));
         usuario.setDataExpiracaoCodigoLogin(Instant.now().plus(EXPIRACAO_CODIGO_LOGIN_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
         emailService.enviarCodigoVerificacaoLogin(usuario.getEmail(), usuario.getUsername(), codigo);
@@ -76,7 +76,7 @@ public class UsuarioService {
         Usuario usuario = validarCredenciaisLogin(request.getEmailOuUsername(), request.getSenha());
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.LOGIN);
         if (usuario.getCodigoVerificacaoLogin() == null
-                || !usuario.getCodigoVerificacaoLogin().equals(request.getCodigo())) {
+                || !usuario.getCodigoVerificacaoLogin().equals(CodigoAcesso.hash(request.getCodigo()))) {
             verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.LOGIN);
         }
         if (usuario.getDataExpiracaoCodigoLogin() == null
@@ -113,7 +113,8 @@ public class UsuarioService {
                 .senha(passwordEncoder.encode(request.getSenha()))
                 .idade(request.getIdade())
                 .ativo(false)
-                .codigoAtivacao(codigoAtivacao)
+                .codigoAtivacao(CodigoAcesso.hash(codigoAtivacao))
+                .dataExpiracaoCodigoAtivacao(agora.plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS))
                 .dataCriacao(agora)
                 .dataAtualizacao(agora)
                 .build();
@@ -127,7 +128,7 @@ public class UsuarioService {
         if (StringUtils.hasText(request.getEmail())) {
             return ativarComEmail(request.getEmail().trim(), request.getCodigo().trim());
         }
-        Usuario usuario = usuarioRepository.findByCodigoAtivacao(request.getCodigo())
+        Usuario usuario = usuarioRepository.findByCodigoAtivacao(CodigoAcesso.hash(request.getCodigo()))
                 .orElseThrow(() -> new BadRequestException("Código de ativação inválido"));
         return concluirAtivacao(usuario);
     }
@@ -139,16 +140,23 @@ public class UsuarioService {
         if (Boolean.TRUE.equals(usuario.getAtivo())) {
             throw new BadRequestException("Conta já ativada. Faça login.");
         }
-        if (usuario.getCodigoAtivacao() == null || !usuario.getCodigoAtivacao().equals(codigo)) {
+        if (usuario.getCodigoAtivacao() == null
+                || !usuario.getCodigoAtivacao().equals(CodigoAcesso.hash(codigo))) {
             verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.ACTIVATION);
         }
         return concluirAtivacao(usuario);
     }
 
     private UsuarioDto.LoginResponse concluirAtivacao(Usuario usuario) {
+        // null = código emitido antes da política de expiração (compatibilidade).
+        if (usuario.getDataExpiracaoCodigoAtivacao() != null
+                && usuario.getDataExpiracaoCodigoAtivacao().isBefore(Instant.now())) {
+            throw new BadRequestException("Código expirado. Solicite um novo código de ativação.");
+        }
         verificationCodeGuardService.resetAttempts(usuario, VerificationCodeContext.ACTIVATION);
         usuario.setAtivo(true);
         usuario.setCodigoAtivacao(null);
+        usuario.setDataExpiracaoCodigoAtivacao(null);
         usuarioRepository.save(usuario);
         // O código de ativação prova posse do e-mail — mesmo nível de confiança da
         // verificação de login, então a conta já sai logada (sem pedir outro código).
@@ -165,7 +173,8 @@ public class UsuarioService {
         }
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.ACTIVATION);
         String codigoAtivacao = gerarCodigo();
-        usuario.setCodigoAtivacao(codigoAtivacao);
+        usuario.setCodigoAtivacao(CodigoAcesso.hash(codigoAtivacao));
+        usuario.setDataExpiracaoCodigoAtivacao(Instant.now().plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
         emailService.enviarCodigoAtivacao(usuario.getEmail(), usuario.getUsername(), codigoAtivacao);
         return UsuarioDto.MessageResponse.of("Se o e-mail existir, você receberá um novo código de ativação.");
@@ -177,7 +186,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new BadRequestException("Se o e-mail existir, você receberá um código para redefinir a senha."));
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.PASSWORD_RESET);
         String codigo = gerarCodigo();
-        usuario.setCodigoRedefinicaoSenha(codigo);
+        usuario.setCodigoRedefinicaoSenha(CodigoAcesso.hash(codigo));
         usuario.setDataExpiracaoCodigoRedefinicao(Instant.now().plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
         emailService.enviarCodigoRedefinicaoSenha(usuario.getEmail(), usuario.getUsername(), codigo);
@@ -189,7 +198,7 @@ public class UsuarioService {
         if (StringUtils.hasText(request.getEmail())) {
             return redefinirSenhaComEmail(request.getEmail().trim(), request.getCodigo().trim(), request.getNovaSenha());
         }
-        Usuario usuario = usuarioRepository.findByCodigoRedefinicaoSenha(request.getCodigo())
+        Usuario usuario = usuarioRepository.findByCodigoRedefinicaoSenha(CodigoAcesso.hash(request.getCodigo()))
                 .orElseThrow(() -> new BadRequestException("Código inválido ou expirado"));
         return concluirRedefinicaoSenha(usuario, request.getNovaSenha());
     }
@@ -198,7 +207,8 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new BadRequestException("Código inválido ou expirado"));
         verificationCodeGuardService.ensureNotBlocked(usuario, VerificationCodeContext.PASSWORD_RESET);
-        if (usuario.getCodigoRedefinicaoSenha() == null || !usuario.getCodigoRedefinicaoSenha().equals(codigo)) {
+        if (usuario.getCodigoRedefinicaoSenha() == null
+                || !usuario.getCodigoRedefinicaoSenha().equals(CodigoAcesso.hash(codigo))) {
             verificationCodeGuardService.recordFailedAttempt(usuario, VerificationCodeContext.PASSWORD_RESET);
         }
         if (usuario.getDataExpiracaoCodigoRedefinicao() == null
@@ -294,7 +304,7 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário", id));
         String codigo = gerarCodigo();
-        usuario.setCodigoExclusaoConta(codigo);
+        usuario.setCodigoExclusaoConta(CodigoAcesso.hash(codigo));
         usuario.setDataExpiracaoCodigoExclusao(Instant.now().plus(EXPIRACAO_CODIGO_HORAS, ChronoUnit.HOURS));
         usuarioRepository.save(usuario);
         emailService.enviarCodigoExclusaoConta(usuario.getEmail(), usuario.getUsername(), codigo);
@@ -306,7 +316,7 @@ public class UsuarioService {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário", id));
         if (usuario.getCodigoExclusaoConta() == null
-                || !usuario.getCodigoExclusaoConta().equals(request.getCodigo())) {
+                || !usuario.getCodigoExclusaoConta().equals(CodigoAcesso.hash(request.getCodigo()))) {
             throw new BadRequestException("Código inválido");
         }
         if (usuario.getDataExpiracaoCodigoExclusao() == null
@@ -326,11 +336,6 @@ public class UsuarioService {
     }
 
     private static String gerarCodigo() {
-        SecureRandom random = new SecureRandom();
-        StringBuilder sb = new StringBuilder(TAMANHO_CODIGO);
-        for (int i = 0; i < TAMANHO_CODIGO; i++) {
-            sb.append(random.nextInt(10));
-        }
-        return sb.toString();
+        return CodigoAcesso.gerar(TAMANHO_CODIGO);
     }
 }

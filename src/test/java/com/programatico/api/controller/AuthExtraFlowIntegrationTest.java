@@ -15,8 +15,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import org.mockito.ArgumentCaptor;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -107,12 +112,16 @@ class AuthExtraFlowIntegrationTest {
         Usuario usuario = usuarioRepository.findByEmail("reset@test.com").orElseThrow();
         assertNotNull(usuario.getCodigoRedefinicaoSenha());
 
+        // O código chega pelo e-mail (mock); o banco guarda apenas o hash.
+        ArgumentCaptor<String> codigoReset = ArgumentCaptor.forClass(String.class);
+        verify(emailService).enviarCodigoRedefinicaoSenha(eq("reset@test.com"), anyString(), codigoReset.capture());
+
         String novaSenhaJson = """
                 {
                   "codigo": "%s",
                   "novaSenha": "NovaSenha@456"
                 }
-                """.formatted(usuario.getCodigoRedefinicaoSenha());
+                """.formatted(codigoReset.getValue());
 
         mockMvc.perform(post("/api/auth/redefinir-senha/nova")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -146,10 +155,12 @@ class AuthExtraFlowIntegrationTest {
                         .content(registroJson))
                 .andExpect(status().isCreated());
 
-        Usuario usuario = usuarioRepository.findByEmail(email).orElseThrow();
+        // O código chega pelo e-mail (mock); o banco guarda apenas o hash.
+        ArgumentCaptor<String> codigo = ArgumentCaptor.forClass(String.class);
+        verify(emailService).enviarCodigoAtivacao(eq(email), anyString(), codigo.capture());
         mockMvc.perform(post("/api/auth/ativar")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"codigo\":\"" + usuario.getCodigoAtivacao() + "\"}"))
+                        .content("{\"codigo\":\"" + codigo.getValue() + "\"}"))
                 .andExpect(status().isOk());
     }
 
