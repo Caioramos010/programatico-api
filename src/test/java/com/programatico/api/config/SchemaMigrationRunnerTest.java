@@ -62,6 +62,8 @@ class SchemaMigrationRunnerTest {
         ResultSet tableAbsent = mock(ResultSet.class);
         when(tableAbsent.next()).thenReturn(false);
 
+        // Default: qualquer tabela não stubada abaixo não existe (cobre o dropDeadSchema).
+        when(databaseMetaData.getTables(any(), any(), anyString(), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("usuario"), any())).thenReturn(tableAbsent);
@@ -73,7 +75,9 @@ class SchemaMigrationRunnerTest {
 
         schemaMigrationRunner.run(new DefaultApplicationArguments());
 
-        verify(jdbcTemplate, atLeastOnce()).execute(contains("two_factor_enabled"));
+        verify(jdbcTemplate, atLeastOnce()).execute(contains("disable_all_notifications"));
+        // O ADD de two_factor_enabled foi removido junto com o TOTP; sem a coluna, nada a dropar.
+        verify(jdbcTemplate, never()).execute(contains("two_factor_enabled"));
     }
 
     @Test
@@ -90,6 +94,8 @@ class SchemaMigrationRunnerTest {
         ResultSet tableAbsent = mock(ResultSet.class);
         when(tableAbsent.next()).thenReturn(false);
 
+        // Default: qualquer tabela não stubada abaixo não existe (cobre o dropDeadSchema).
+        when(databaseMetaData.getTables(any(), any(), anyString(), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(tableAbsent);
@@ -116,6 +122,8 @@ class SchemaMigrationRunnerTest {
         ResultSet tableAbsent = mock(ResultSet.class);
         when(tableAbsent.next()).thenReturn(false);
 
+        // Default: qualquer tabela não stubada abaixo não existe (cobre o dropDeadSchema).
+        when(databaseMetaData.getTables(any(), any(), anyString(), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(tableAbsent);
@@ -145,6 +153,8 @@ class SchemaMigrationRunnerTest {
         ResultSet tableAbsent = mock(ResultSet.class);
         when(tableAbsent.next()).thenReturn(false);
 
+        // Default: qualquer tabela não stubada abaixo não existe (cobre o dropDeadSchema).
+        when(databaseMetaData.getTables(any(), any(), anyString(), any())).thenReturn(tableAbsent);
         when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("usuarios"), any())).thenReturn(usersExists);
         when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(tableAbsent);
@@ -167,5 +177,37 @@ class SchemaMigrationRunnerTest {
         verify(jdbcTemplate).execute(contains("DROP FOREIGN KEY `fk_payments_user`"));
         verify(jdbcTemplate).execute(contains("REFERENCES `users`(`id`)"));
         verify(jdbcTemplate).execute("DROP TABLE usuarios");
+    }
+
+    @Test
+    void runDeveDroparTabelasEColunasMortas() throws Exception {
+        Connection connection = mock(Connection.class);
+        DatabaseMetaData databaseMetaData = mock(DatabaseMetaData.class);
+        when(dataSource.getConnection()).thenReturn(connection);
+        when(connection.getMetaData()).thenReturn(databaseMetaData);
+        when(connection.getCatalog()).thenReturn("programatico");
+        when(databaseMetaData.getDatabaseProductName()).thenReturn("MySQL");
+
+        ResultSet exists = mock(ResultSet.class);
+        when(exists.next()).thenReturn(true);
+        ResultSet tableAbsent = mock(ResultSet.class);
+        when(tableAbsent.next()).thenReturn(false);
+
+        when(databaseMetaData.getTables(any(), any(), anyString(), any())).thenReturn(tableAbsent);
+        when(databaseMetaData.getTables(any(), any(), eq("users"), any())).thenReturn(exists);
+        when(databaseMetaData.getTables(any(), any(), eq("user_settings"), any())).thenReturn(exists);
+        when(databaseMetaData.getTables(any(), any(), eq("user_missions"), any())).thenReturn(exists);
+        when(databaseMetaData.getTables(any(), any(), eq("two_factor_backup_codes"), any())).thenReturn(exists);
+
+        // Todas as colunas "existem": ADDs não rodam e o DROP da coluna morta roda.
+        when(jdbcTemplate.queryForObject(contains("information_schema.columns"), eq(Integer.class), any(), any()))
+                .thenReturn(1);
+
+        schemaMigrationRunner.run(new DefaultApplicationArguments());
+
+        verify(jdbcTemplate).execute("DROP TABLE user_missions");
+        verify(jdbcTemplate).execute("DROP TABLE two_factor_backup_codes");
+        verify(jdbcTemplate).execute(contains("DROP COLUMN two_factor_enabled"));
+        verify(jdbcTemplate).execute(contains("DROP COLUMN totp_secret"));
     }
 }

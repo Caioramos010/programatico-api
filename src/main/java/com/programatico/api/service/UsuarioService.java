@@ -9,7 +9,6 @@ import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import com.programatico.api.repository.PracticeSessionRepository;
 import com.programatico.api.repository.UserDailyMissionRepository;
-import com.programatico.api.repository.UserMissionRepository;
 import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
@@ -25,7 +24,6 @@ import com.programatico.api.util.CodigoAcesso;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +37,6 @@ public class UsuarioService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final EmailService emailService;
-    private final UserMissionRepository userMissionRepository;
     private final UserDailyMissionRepository userDailyMissionRepository;
     private final NotificationRepository notificationRepository;
     private final PaymentRepository paymentRepository;
@@ -239,13 +236,6 @@ public class UsuarioService {
         return UsuarioDto.MessageResponse.of("Senha alterada com sucesso. Faça login.");
     }
 
-    @Transactional(readOnly = true)
-    public List<UsuarioDto.Response> listar() {
-        return usuarioRepository.findAll().stream()
-                .map(UsuarioDto.Response::fromEntity)
-                .collect(Collectors.toList());
-    }
-
     /**
      * Garante que o recurso {id} pertence ao usuário autenticado (do token).
      * Em divergência, responde como "não encontrado" para não revelar a existência de contas de terceiros.
@@ -299,15 +289,6 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void excluir(Long id) {
-        if (!usuarioRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Usuário", id);
-        }
-        excluirRegistrosVinculados(id);
-        usuarioRepository.deleteById(id);
-    }
-
-    @Transactional
     public UsuarioDto.MessageResponse solicitarExclusaoConta(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário", id));
@@ -343,7 +324,6 @@ public class UsuarioService {
     private void excluirRegistrosVinculados(Long userId) {
         practiceSessionExerciseRepository.deleteByPracticeSessionUsuarioId(userId);
         practiceSessionRepository.deleteByUsuarioId(userId);
-        userMissionRepository.deleteByUsuarioId(userId);
         userDailyMissionRepository.deleteByUsuarioId(userId);
         notificationRepository.deleteByUsuarioId(userId);
         paymentRepository.deleteByUsuarioId(userId);

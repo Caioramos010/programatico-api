@@ -52,6 +52,7 @@ public class SchemaMigrationRunner implements ApplicationRunner {
         ensureSubscriptionAutoRenewColumn();
         ensureVerificationCodeAttemptColumns();
         ensureUserSettingsColumns();
+        dropDeadSchema();
 
         if (legacyTable != null) {
             mergeLegacyData(legacyTable);
@@ -183,8 +184,42 @@ public class SchemaMigrationRunner implements ApplicationRunner {
                 "ALTER TABLE user_settings ADD COLUMN disable_email_notifications BIT(1) NOT NULL DEFAULT 0");
         addColumnIfMissing("user_settings", "disable_all_notifications",
                 "ALTER TABLE user_settings ADD COLUMN disable_all_notifications BIT(1) NOT NULL DEFAULT 0");
-        addColumnIfMissing("user_settings", "two_factor_enabled",
-                "ALTER TABLE user_settings ADD COLUMN two_factor_enabled BIT(1) NOT NULL DEFAULT 1");
+    }
+
+    /**
+     * Remove tabelas e colunas mortas identificadas na auditoria de schema de
+     * 2026-07-11 (docs/auditoria-schema-2026-07-11.md): features natimortas
+     * (skills), fóssil pré-motor diário (user_missions) e restos do TOTP
+     * removido — incluindo segredos TOTP residuais em user_settings. Ordem dos
+     * drops respeita as FKs. ddl-auto=update nunca dropa nada, então este é o
+     * único mecanismo que limpa deploys existentes; idempotente por checagem
+     * de existência.
+     */
+    private void dropDeadSchema() {
+        dropTableIfExists("user_skill_performance");
+        dropTableIfExists("exercise_skills");
+        dropTableIfExists("skills");
+        dropTableIfExists("verification_tokens");
+        dropTableIfExists("two_factor_backup_codes");
+        dropTableIfExists("user_missions");
+        dropColumnIfExists("user_settings", "two_factor_enabled");
+        dropColumnIfExists("user_settings", "totp_enabled");
+        dropColumnIfExists("user_settings", "totp_secret");
+        dropColumnIfExists("user_settings", "totp_pending_secret");
+    }
+
+    private void dropTableIfExists(String table) {
+        if (tableExists(table)) {
+            execute("DROP TABLE " + table);
+            log.info("Tabela morta '{}' removida.", table);
+        }
+    }
+
+    private void dropColumnIfExists(String table, String column) {
+        if (tableExists(table) && columnExists(table, column)) {
+            execute("ALTER TABLE " + table + " DROP COLUMN " + column);
+            log.info("Coluna morta '{}.{}' removida.", table, column);
+        }
     }
 
     private void addColumnIfMissing(String table, String column, String ddl) {
