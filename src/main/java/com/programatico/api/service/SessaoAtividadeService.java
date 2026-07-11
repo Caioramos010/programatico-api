@@ -487,16 +487,45 @@ public class SessaoAtividadeService {
             throw new BadRequestException("Assunto inválido.");
         }
         String alvo = assunto.trim();
-        List<Exercise> exercicios = practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario)
+
+        // Revisar é praticar o TEMA, não decorar a questão: seleciona exercícios do
+        // mesmo assunto priorizando (1) a dificuldade em que o usuário errou e
+        // (2) questões diferentes das que ele errou; completa com o restante do
+        // assunto (incluindo as erradas) quando o tema tem poucos exercícios.
+        List<Exercise> errados = practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario)
                 .stream()
                 .distinct()
-                .filter(ex -> parseTags(ex.getTags()).stream().anyMatch(tag -> tag.equalsIgnoreCase(alvo)))
-                .limit(QUANTIDADE_EXERCICIOS)
+                .filter(ex -> temAssunto(ex, alvo))
+                .toList();
+        Set<Long> idsErrados = errados.stream().map(Exercise::getId).collect(Collectors.toSet());
+        Set<Integer> dificuldadesErradas = errados.stream().map(Exercise::getXpReward).collect(Collectors.toSet());
+
+        List<Exercise> doAssunto = exerciseRepository.findAll().stream()
+                .filter(ex -> temAssunto(ex, alvo))
                 .collect(Collectors.toList());
-        if (exercicios.isEmpty()) {
-            throw new BadRequestException("Você não tem erros nesse assunto para revisar.");
+        if (doAssunto.isEmpty()) {
+            throw new BadRequestException("Não há exercícios deste assunto para revisar.");
         }
-        return montarSessaoPratica(usuario, exercicios, SessionType.ERRORS, null, "Revisar: " + alvo);
+
+        List<Exercise> prioritarios = shuffleList(doAssunto.stream()
+                .filter(ex -> !idsErrados.contains(ex.getId()))
+                .filter(ex -> dificuldadesErradas.isEmpty() || dificuldadesErradas.contains(ex.getXpReward()))
+                .collect(Collectors.toList()));
+        List<Exercise> selecionados = new ArrayList<>(
+                prioritarios.stream().limit(QUANTIDADE_EXERCICIOS_FIXACAO).toList());
+        if (selecionados.size() < QUANTIDADE_EXERCICIOS_FIXACAO) {
+            List<Exercise> restantes = shuffleList(doAssunto.stream()
+                    .filter(ex -> !selecionados.contains(ex))
+                    .collect(Collectors.toList()));
+            selecionados.addAll(restantes.stream()
+                    .limit(QUANTIDADE_EXERCICIOS_FIXACAO - selecionados.size())
+                    .toList());
+        }
+        return montarSessaoPratica(usuario, selecionados, SessionType.ERRORS, null, "Revisar: " + alvo);
+    }
+
+    private boolean temAssunto(Exercise exercise, String assunto) {
+        return parseTags(exercise.getTags()).stream().anyMatch(tag -> tag.equalsIgnoreCase(assunto));
     }
 
     private SessaoDto.InicioResponse iniciarPraticaFixacao(Usuario usuario) {
