@@ -39,6 +39,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -486,6 +487,65 @@ class SessaoAtividadeServiceTest {
 
         assertEquals("Prática: Erros", response.getModuleTitle());
         assertEquals(1, response.getTotalExercises());
+    }
+
+    @Test
+    void rotacaoDeveSerEstavelNaMesmaSessaoESemVazarGabarito() {
+        Usuario usuario = usuarioRoot();
+        Modulo modulo = moduloBase(1L);
+        List<Exercise> exercicios = exerciciosDoModulo(modulo, 1L, 4);
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(userProgressRepository.findByUsuarioAndStatus(usuario, ProgressStatus.COMPLETED))
+                .thenReturn(List.of(progressoConcluido(usuario, modulo)));
+        when(exerciseRepository.findByModuloOrderByIdAsc(modulo)).thenReturn(exercicios);
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(99L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.InicioResponse primeira = sessaoAtividadeService.iniciarPratica("fixacao", "user");
+        SessaoDto.InicioResponse segunda = sessaoAtividadeService.iniciarPratica("fixacao", "user");
+
+        Map<Long, String> displayPorId = new java.util.HashMap<>();
+        primeira.getExercises().forEach(e -> displayPorId.put(e.getId(), e.getDisplayData()));
+        // Mesmo id de sessão (99) → mesma rotação por exercício, mesmo re-montando os DTOs.
+        segunda.getExercises().forEach(e ->
+                assertEquals(displayPorId.get(e.getId()), e.getDisplayData()));
+        // O gabarito jamais aparece nos dados de exibição.
+        primeira.getExercises().forEach(e -> assertFalse(e.getDisplayData().contains("correct")));
+    }
+
+    @Test
+    void exercicioComDadosCorrompidosDeveFalharSemVazarGabarito() {
+        Usuario usuario = usuarioRoot();
+        Modulo modulo = moduloBase(1L);
+        Exercise corrompido = Exercise.builder()
+                .id(9L)
+                .modulo(modulo)
+                .statement("Enunciado 9")
+                .exerciseType(ExerciseType.MULTIPLE_CHOICE)
+                .exerciseData("{json-invalido")
+                .xpReward(3)
+                .build();
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(userProgressRepository.findByUsuarioAndStatus(usuario, ProgressStatus.COMPLETED))
+                .thenReturn(List.of(progressoConcluido(usuario, modulo)));
+        when(exerciseRepository.findByModuloOrderByIdAsc(modulo)).thenReturn(List.of(corrompido));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(99L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        assertThrows(BadRequestException.class,
+                () -> sessaoAtividadeService.iniciarPratica("fixacao", "user"));
     }
 
     @Test
