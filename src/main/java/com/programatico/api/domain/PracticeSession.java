@@ -36,4 +36,13 @@ public class PracticeSession {
     private LocalDateTime endedAt;
 
     private Integer timeLimitSeconds;
+
+    /**
+     * Tempo efetivo de prática (segundos), somado a cada interação com teto por
+     * intervalo — ausências (fechou e retomou dias depois) não contam na duração.
+     */
+    private Integer activeSeconds;
+
+    /** Última interação da sessão; âncora do cálculo do tempo ativo. */
+    private LocalDateTime lastInteractionAt;
 }

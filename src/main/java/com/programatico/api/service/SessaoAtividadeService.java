@@ -56,6 +56,8 @@ public class SessaoAtividadeService {
     private static final int QUANTIDADE_XP_5 = 3;
     private static final int QUANTIDADE_XP_3 = 4;
     private static final int MAX_VIDAS = VidasService.MAX_VIDAS;
+    /** Teto por intervalo entre interações no cômputo do tempo ativo da sessão. */
+    private static final int CAP_INTERVALO_SEGUNDOS = 300;
 
     private final UsuarioRepository usuarioRepository;
     private final ModuloRepository moduloRepository;
@@ -90,6 +92,10 @@ public class SessaoAtividadeService {
                     .findByPracticeSessionOrderByDisplayOrderAsc(aberta.get());
             long pendentes = itens.stream().filter(i -> !Boolean.TRUE.equals(i.getMastered())).count();
             if (!itens.isEmpty() && pendentes > 0) {
+                // Retomada: reancora o relógio do tempo ativo — o período em que o
+                // usuário ficou fora não deve contar na duração da sessão.
+                aberta.get().setLastInteractionAt(LocalDateTime.now());
+                practiceSessionRepository.save(aberta.get());
                 return montarResume(aberta.get(), itens, stats);
             }
             // Sessão aberta mas tudo dominado (ou vazia): encerra e segue criando uma nova.
@@ -165,6 +171,8 @@ public class SessaoAtividadeService {
         if (sessao.getEndedAt() != null) {
             throw new BadRequestException("Esta sessão já foi encerrada.");
         }
+
+        registrarTempoAtivo(sessao);
 
         // Alvo da sessão (PSE) ou exercício de reforço (fora da sessão, na maestria).
         PracticeSessionExercise sessionExercise = practiceSessionExerciseRepository
@@ -279,6 +287,8 @@ public class SessaoAtividadeService {
             throw new BadRequestException("Esta sessão já foi encerrada.");
         }
 
+        // Fecha o cômputo do tempo ativo antes de encerrar (última interação → agora).
+        registrarTempoAtivo(sessao);
         sessao.setEndedAt(LocalDateTime.now());
         practiceSessionRepository.save(sessao);
 
@@ -293,7 +303,13 @@ public class SessaoAtividadeService {
                 .filter(e -> Boolean.TRUE.equals(e.getIsCorrect()))
                 .mapToInt(e -> e.getExercise().getXpReward())
                 .sum();
-        int duracao = (int) ChronoUnit.SECONDS.between(sessao.getStartedAt(), sessao.getEndedAt());
+        // Tempo efetivo de prática (ausências não contam) — não o intervalo bruto
+        // startedAt→endedAt, que inflava a duração em sessões retomadas dias depois.
+        int duracao = sessao.getActiveSeconds() != null
+                ? sessao.getActiveSeconds()
+                : (int) Math.min(
+                        ChronoUnit.SECONDS.between(sessao.getStartedAt(), sessao.getEndedAt()),
+                        CAP_INTERVALO_SEGUNDOS);
 
         // Maestria: o módulo conclui quando TODOS os alvos foram dominados (acertados em alguma tentativa).
         boolean todosDominados = !todos.isEmpty()
@@ -425,6 +441,23 @@ public class SessaoAtividadeService {
         if (!vidasService.isRootAtivo(usuario)) {
             throw new BadRequestException(mensagem);
         }
+    }
+
+    /**
+     * Acumula o tempo efetivo de prática: soma o intervalo desde a última
+     * interação com teto de {@link #CAP_INTERVALO_SEGUNDOS} — pausas longas
+     * (fechou o site e voltou depois) não inflam a duração da sessão.
+     */
+    private void registrarTempoAtivo(PracticeSession sessao) {
+        LocalDateTime agora = LocalDateTime.now();
+        LocalDateTime ancora = sessao.getLastInteractionAt() != null
+                ? sessao.getLastInteractionAt()
+                : sessao.getStartedAt();
+        long delta = ancora != null ? ChronoUnit.SECONDS.between(ancora, agora) : 0;
+        int acumulado = sessao.getActiveSeconds() != null ? sessao.getActiveSeconds() : 0;
+        sessao.setActiveSeconds(acumulado + (int) Math.max(0, Math.min(delta, CAP_INTERVALO_SEGUNDOS)));
+        sessao.setLastInteractionAt(agora);
+        practiceSessionRepository.save(sessao);
     }
 
     /** Referência: pratica os exercícios que o usuário errou. */
