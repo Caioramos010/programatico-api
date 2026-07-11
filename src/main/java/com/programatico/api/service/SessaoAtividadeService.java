@@ -10,6 +10,7 @@ import com.programatico.api.domain.UserProgress;
 import com.programatico.api.domain.UserStats;
 import com.programatico.api.domain.Usuario;
 import com.programatico.api.domain.enums.ExerciseType;
+import com.programatico.api.domain.enums.NivelHabilidade;
 import com.programatico.api.domain.enums.NotificationKind;
 import com.programatico.api.domain.enums.ProgressStatus;
 import com.programatico.api.domain.enums.SessionType;
@@ -659,7 +660,7 @@ public class SessaoAtividadeService {
                 .relatedTopics(parseTags(exercise.getTags()))
                 .imageData(exercise.getImageData())
                 .timeLimitSeconds(sessao.getSessionType() == SessionType.TIMED
-                        ? tempoLimiteSegundosPorXp(exercise.getXpReward())
+                        ? tempoLimiteSegundos(exercise.getXpReward(), sessao.getUsuario())
                         : null)
                 .build();
     }
@@ -670,13 +671,24 @@ public class SessaoAtividadeService {
         return sessaoId * 31L + exercicioId;
     }
 
-    /** 3 XP → 1 min, 5 XP → 1,5 min, 7 XP → 2 min. */
-    private static int tempoLimiteSegundosPorXp(int xpReward) {
-        return switch (xpReward) {
+    /**
+     * Tempo do modo cronometrado: base por dificuldade (3 XP → 60s, 5 → 90s, 7 → 120s)
+     * ajustada pelo nível do aluno — iniciante ×1,5, intermediário ×1,25, avançado ×1,0
+     * (feedback da banca: considerar o nível de conhecimento do usuário).
+     */
+    private static int tempoLimiteSegundos(int xpReward, Usuario usuario) {
+        int base = switch (xpReward) {
             case 5 -> 90;
             case 7 -> 120;
             default -> 60;
         };
+        NivelHabilidade nivel = usuario != null ? usuario.getNivelHabilidade() : null;
+        double fator = nivel == null ? 1.5 : switch (nivel) {
+            case BEGINNER -> 1.5;
+            case INTERMEDIATE -> 1.25;
+            case ADVANCED -> 1.0;
+        };
+        return (int) Math.round(base * fator);
     }
 
     /**
