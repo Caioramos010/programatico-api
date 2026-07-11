@@ -283,16 +283,18 @@ class SessaoAtividadeServiceTest {
     }
 
     @Test
-    void iniciarPraticaErrosPorAssuntoDeveMontarSessaoSomenteComErrosDoAssunto() {
+    void revisarPorAssuntoDeveTrazerExerciciosDoTemaEvitandoRepetirOsErrados() {
         Usuario usuario = usuarioBase();
         usuario.setSubscriptionType(SubscriptionType.ROOT);
-        Exercise e1 = exercicioComTags(1L, "decisão, condição");
-        Exercise e2 = exercicioComTags(2L, "sequência");
-        Exercise e3 = exercicioComTags(3L, "decisão");
+        Exercise errado = exercicioComTags(1L, "decisão, condição");
+        Exercise relacionado1 = exercicioComTags(3L, "decisão");
+        Exercise relacionado2 = exercicioComTags(4L, "decisão");
+        Exercise outroTema = exercicioComTags(2L, "sequência");
 
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
         when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
-                .thenReturn(List.of(e1, e2, e3));
+                .thenReturn(List.of(errado));
+        when(exerciseRepository.findAll()).thenReturn(List.of(errado, relacionado1, relacionado2, outroTema));
         when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
         when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
             PracticeSession sessao = inv.getArgument(0);
@@ -304,22 +306,53 @@ class SessaoAtividadeServiceTest {
         SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user");
 
         assertEquals("Revisar: decisão", response.getModuleTitle());
-        assertEquals(2, response.getTotalExercises());
+        // Todos do tema entram (3 de "decisão"); o de outro tema, nunca.
+        assertEquals(3, response.getTotalExercises());
+        assertTrue(response.getExercises().stream().noneMatch(e -> e.getId() == 2L));
+        // Os relacionados (não errados, mesma dificuldade) têm prioridade sobre o exato errado.
+        assertTrue(response.getExercises().stream().anyMatch(e -> e.getId() == 3L));
+        assertTrue(response.getExercises().stream().anyMatch(e -> e.getId() == 4L));
     }
 
     @Test
-    void iniciarPraticaErrosPorAssuntoDeveLancarExcecaoQuandoNaoHaErrosNoAssunto() {
+    void revisarPorAssuntoDeveFuncionarMesmoSemErrosPendentesNoAssunto() {
+        // "O que revisar agora" precisa estar sempre clicável: mesmo que o usuário
+        // já tenha dominado os exercícios errados, revisar traz outros do tema.
+        Usuario usuario = usuarioBase();
+        usuario.setSubscriptionType(SubscriptionType.ROOT);
+        Exercise relacionado = exercicioComTags(3L, "decisão");
+
+        when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
+        when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
+                .thenReturn(List.of());
+        when(exerciseRepository.findAll()).thenReturn(List.of(relacionado, exercicioComTags(2L, "sequência")));
+        when(userStatsRepository.findByUsuario(usuario)).thenReturn(Optional.of(statsBase(usuario)));
+        when(practiceSessionRepository.save(any(PracticeSession.class))).thenAnswer(inv -> {
+            PracticeSession sessao = inv.getArgument(0);
+            sessao.setId(78L);
+            return sessao;
+        });
+        when(practiceSessionExerciseRepository.saveAll(anyList())).thenAnswer(inv -> inv.getArgument(0));
+
+        SessaoDto.InicioResponse response = sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user");
+
+        assertEquals(1, response.getTotalExercises());
+    }
+
+    @Test
+    void revisarPorAssuntoDeveLancarExcecaoQuandoAssuntoNaoTemExercicios() {
         Usuario usuario = usuarioBase();
         usuario.setSubscriptionType(SubscriptionType.ROOT);
 
         when(usuarioRepository.findByUsername("user")).thenReturn(Optional.of(usuario));
         when(practiceSessionExerciseRepository.findExerciciosErradosDoUsuario(usuario))
-                .thenReturn(List.of(exercicioComTags(1L, "sequência")));
+                .thenReturn(List.of());
+        when(exerciseRepository.findAll()).thenReturn(List.of(exercicioComTags(2L, "sequência")));
 
         BadRequestException ex = assertThrows(BadRequestException.class,
                 () -> sessaoAtividadeService.iniciarPraticaErrosPorAssunto("decisão", "user"));
 
-        assertEquals("Você não tem erros nesse assunto para revisar.", ex.getMessage());
+        assertEquals("Não há exercícios deste assunto para revisar.", ex.getMessage());
     }
 
     @Test
