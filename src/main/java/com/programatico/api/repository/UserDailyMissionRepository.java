@@ -10,4 +10,6 @@ import java.util.List;
 public interface UserDailyMissionRepository extends JpaRepository<UserDailyMission, Long> {
 
     List<UserDailyMission> findByUsuarioAndMissionDate(Usuario usuario, LocalDate missionDate);
+
+    void deleteByUsuarioId(Long usuarioId);
 }

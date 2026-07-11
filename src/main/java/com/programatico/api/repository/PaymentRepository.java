@@ -14,4 +14,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     Optional<Payment> findByBillId(String billId);
 
     boolean existsByBillId(String billId);
+
+    void deleteByUsuarioId(Long usuarioId);
 }

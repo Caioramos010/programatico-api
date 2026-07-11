@@ -4,9 +4,13 @@ import com.programatico.api.domain.Usuario;
 import com.programatico.api.dto.UsuarioDto;
 import com.programatico.api.exception.BadRequestException;
 import com.programatico.api.exception.ResourceNotFoundException;
+import com.programatico.api.repository.NotificationRepository;
+import com.programatico.api.repository.PaymentRepository;
 import com.programatico.api.repository.PracticeSessionExerciseRepository;
 import com.programatico.api.repository.PracticeSessionRepository;
+import com.programatico.api.repository.UserDailyMissionRepository;
 import com.programatico.api.repository.UserMissionRepository;
+import com.programatico.api.repository.UserSettingsRepository;
 import com.programatico.api.repository.UserProgressRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
@@ -36,6 +40,10 @@ public class UsuarioService {
     private final JwtUtil jwtUtil;
     private final EmailService emailService;
     private final UserMissionRepository userMissionRepository;
+    private final UserDailyMissionRepository userDailyMissionRepository;
+    private final NotificationRepository notificationRepository;
+    private final PaymentRepository paymentRepository;
+    private final UserSettingsRepository userSettingsRepository;
     private final UserProgressRepository userProgressRepository;
     private final UserStatsRepository userStatsRepository;
     private final PracticeSessionRepository practiceSessionRepository;
@@ -327,10 +335,19 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    /**
+     * Remove TODOS os registros com FK para o usuário antes do hard delete —
+     * qualquer tabela esquecida aqui bloqueia a exclusão de conta com violação
+     * de integridade (FKs geradas pelo Hibernate não têm ON DELETE CASCADE).
+     */
     private void excluirRegistrosVinculados(Long userId) {
         practiceSessionExerciseRepository.deleteByPracticeSessionUsuarioId(userId);
         practiceSessionRepository.deleteByUsuarioId(userId);
         userMissionRepository.deleteByUsuarioId(userId);
+        userDailyMissionRepository.deleteByUsuarioId(userId);
+        notificationRepository.deleteByUsuarioId(userId);
+        paymentRepository.deleteByUsuarioId(userId);
+        userSettingsRepository.deleteByUsuarioId(userId);
         userProgressRepository.deleteByUsuarioId(userId);
         userStatsRepository.deleteByUsuarioId(userId);
     }

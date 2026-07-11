@@ -136,7 +136,7 @@ public class PaymentService {
                 return;
             }
             for (JsonNode checkout : data) {
-                if (checkoutPagoDoUsuario(checkout, userId)) {
+                if (checkoutPagoDoUsuario(checkout, userId) && !checkoutJaConsumido(checkout)) {
                     abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
                     abacatePayWebhookService.registrarPagamentoSync(usuario.getId(), checkout);
                     log.info("Plano ROOT ativado via sync AbacatePay para usuário id={}", userId);
@@ -156,6 +156,10 @@ public class PaymentService {
                 throw new BadRequestException(
                         "Pagamento não encontrado ou ainda não confirmado para o billId informado.");
             }
+            if (checkoutJaConsumido(checkout)) {
+                throw new BadRequestException(
+                        "Este pagamento já foi utilizado para ativar uma assinatura.");
+            }
             abacatePayWebhookService.ativarPlanoRoot(usuario.getId());
             abacatePayWebhookService.registrarPagamentoSync(usuario.getId(), checkout);
             log.info("Plano ROOT ativado via sync bill {} para usuário id={}", billId, userId);
@@ -165,6 +169,15 @@ public class PaymentService {
             log.warn("Falha ao sincronizar bill {} para userId={}: {}", billId, usuario.getId(), e.getMessage());
             throw new BadRequestException("Não foi possível validar o pagamento informado. Tente novamente.");
         }
+    }
+
+    /**
+     * Um checkout PAID só ativa a assinatura UMA vez: sem este guard, qualquer
+     * pagamento histórico renderia +30 dias de ROOT a cada chamada do sync.
+     */
+    private boolean checkoutJaConsumido(JsonNode checkout) {
+        String billId = checkout != null ? checkout.path("id").asText("") : "";
+        return StringUtils.hasText(billId) && paymentRepository.existsByBillId(billId);
     }
 
     private boolean checkoutPagoDoUsuario(JsonNode checkout, String userId) {

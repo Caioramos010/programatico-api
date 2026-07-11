@@ -19,6 +19,7 @@ import com.programatico.api.repository.TrackRepository;
 import com.programatico.api.repository.UserDailyMissionRepository;
 import com.programatico.api.repository.UserStatsRepository;
 import com.programatico.api.repository.UsuarioRepository;
+import com.programatico.api.util.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -217,18 +218,7 @@ public class ReviewService {
     }
 
     private List<String> parseTags(String tags) {
-        if (tags == null || tags.isBlank()) {
-            return List.of();
-        }
-
-        try {
-            return objectMapper.readValue(tags, new TypeReference<>() {});
-        } catch (Exception ignored) {
-            return Arrays.stream(tags.split(","))
-                    .map(String::trim)
-                    .filter(tag -> !tag.isEmpty())
-                    .toList();
-        }
+        return Tags.parse(tags);
     }
 
     private List<ReviewDto.TrackOption> toTrackOptions(List<Track> availableTracks) {
